@@ -37,7 +37,7 @@ const LoginFormik = () => {
       .then((data) => {
         alert(data.data.Authorization)
         Cookies.set('token',data.data.Authorization,{ expires: 1 })
-        navigate('/');
+        navigate('/dashboards/dashboard1');
       })
       .catch((error) => {
         console.error('로그인 에러:', error);
