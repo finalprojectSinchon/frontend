@@ -1,11 +1,15 @@
 import { Outlet } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Container } from 'reactstrap';
 import Header from './header/Header';
 import Customizer from './customizer/Customizer';
 import Sidebar from './sidebars/vertical/Sidebar';
 import HorizontalHeader from './header/HorizontalHeader';
 import HorizontalSidebar from './sidebars/horizontal/HorizontalSidebar';
+import { useEffect } from 'react';
+import axios from 'axios';
+import Cookies from 'js-cookie';
+import { addUser } from '../store/apps/login/userSlice';
 
 const FullLayout = () => {
   const customizerToggle = useSelector((state) => state.customizer.customizerSidebar);
@@ -15,7 +19,29 @@ const FullLayout = () => {
   const LayoutHorizontal = useSelector((state) => state.customizer.isLayoutHorizontal);
   const isFixedSidebar = useSelector((state) => state.customizer.isSidebarFixed);
 
-  
+  const dispatch = useDispatch();
+
+  const userInfo = useSelector((state) => state.userInfo);
+
+  console.log('redux', userInfo);
+
+  useEffect(() => {
+    axios.get('http://localhost:8080/user-info', {
+      headers: {
+        Authorization: Cookies.get('token')
+      }
+    })
+    .then(res => res.data)
+    .then(data => {
+      alert(JSON.stringify(data.data));
+      dispatch(addUser(data.data));
+    })
+    .catch(error => {
+      console.error('Error fetching user info:', error);
+    });
+  }, [dispatch]);
+
+
 
   return (
     <main>
