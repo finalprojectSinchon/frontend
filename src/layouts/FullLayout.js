@@ -1,4 +1,4 @@
-import { Outlet } from 'react-router-dom';
+import { Outlet, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { Container } from 'reactstrap';
 import Header from './header/Header';
@@ -18,6 +18,7 @@ const FullLayout = () => {
   const topbarFixed = useSelector((state) => state.customizer.isTopbarFixed);
   const LayoutHorizontal = useSelector((state) => state.customizer.isLayoutHorizontal);
   const isFixedSidebar = useSelector((state) => state.customizer.isSidebarFixed);
+  const navigate = useNavigate();
 
   const dispatch = useDispatch();
 
@@ -26,20 +27,24 @@ const FullLayout = () => {
   console.log('redux', userInfo);
 
   useEffect(() => {
-    axios.get('http://localhost:8080/user-info', {
-      headers: {
-        Authorization: Cookies.get('token')
-      }
-    })
-    .then(res => res.data)
-    .then(data => {
-      alert(JSON.stringify(data.data));
-      dispatch(addUser(data.data));
-    })
-    .catch(error => {
-      console.error('Error fetching user info:', error);
-    });
-  }, [dispatch]);
+    // Check if userInfo is empty
+    if (!userInfo.userId) {
+      axios.get('http://localhost:8080/user-info', {
+        headers: {
+          Authorization: Cookies.get('token')
+        }
+      })
+      .then(res => res.data)
+      .then(data => {
+        alert(JSON.stringify(data.data));
+        dispatch(addUser(data.data));
+      })
+      .catch(error => {
+        console.error('Error fetching user info:', error);
+        navigate('/')
+      });
+    }
+  }, [dispatch, userInfo]);
 
 
 

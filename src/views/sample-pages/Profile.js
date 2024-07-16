@@ -30,6 +30,7 @@ import time1 from '../../assets/images/bg/bg1.jpg';
 import time2 from '../../assets/images/bg/bg2.jpg';
 import time3 from '../../assets/images/bg/bg3.jpg';
 import time4 from '../../assets/images/bg/bg4.jpg';
+import { useSelector } from 'react-redux';
 
 const Profile = () => {
   const [activeTab, setActiveTab] = useState('1');
@@ -38,6 +39,18 @@ const Profile = () => {
     if (activeTab !== tab) {
       setActiveTab(tab);
     }
+  };
+
+  const userInfo = useSelector((state) => state.userInfo);
+
+  const formatPhoneNumber = (phoneNumber) => {
+    // 정규 표현식을 사용하여 전화번호를 원하는 형식으로 변환
+    const cleaned = ('' + phoneNumber).replace(/\D/g, '');
+    const match = cleaned.match(/^(\d{3})(\d{4})(\d{4})$/);
+    if (match) {
+      return match[1] + '-' + match[2] + '-' + match[3];
+    }
+    return phoneNumber; // 변환이 실패한 경우 그대로 반환
   };
 
   return (
@@ -50,9 +63,11 @@ const Profile = () => {
               <div className="text-center mt-4">
                 <img src={img1} className="rounded-circle" width="150" alt="" />
                 <CardTitle tag="h4" className="mt-2 mb-0">
-                  Hanna Gover
+                  {userInfo.userName}
                 </CardTitle>
-                <CardSubtitle className="text-muted">Accounts Manager</CardSubtitle>
+                <CardSubtitle className="text-muted">{
+                userInfo.userRole == "ROLE_USER" ? '일반회원' : '관리자'
+                }</CardSubtitle>
                 <Row className="text-center justify-content-md-center mt-3">
                   <Col xs="4">
                     <a href="/" className="text-dark fw-bold text-decoration-none">
@@ -72,17 +87,17 @@ const Profile = () => {
             <CardBody className="border-top p-4">
               <div>
                 <CardSubtitle className="text-muted fs-5">Email address</CardSubtitle>
-                <CardTitle tag="h5">hannagover@gmail.com</CardTitle>
+                <CardTitle tag="h5">{userInfo.userEmail}</CardTitle>
 
                 <CardSubtitle className="text-muted fs-5 mt-3">Phone</CardSubtitle>
-                <CardTitle tag="h5">+91 654 784 547</CardTitle>
+                <CardTitle tag="h5">{formatPhoneNumber(userInfo.userPhone)}</CardTitle>
 
                 <CardSubtitle className="text-muted fs-5 mt-3">Address</CardSubtitle>
-                <CardTitle tag="h5">71 Pilgrim Avenue Chevy Chase, MD 20815</CardTitle>
+                <CardTitle tag="h5">{userInfo.userAddress}</CardTitle>
                 <div>
                   <Iframe
                     className="position-relative"
-                    url="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d470029.1604841957!2d72.29955005258641!3d23.019996818380896!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x395e848aba5bd449%3A0x4fcedd11614f6516!2sAhmedabad%2C+Gujarat!5e0!3m2!1sen!2sin!4v1493204785508"
+                    url="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3162.9478695734483!2d126.93466157662166!3d37.55629197204114!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x357ca2e75d4a7c41%3A0x4916c3cc69cb6c2f!2z7ZWY7J2066-465SU7Ja07Lu07ZOo7YSw7ZWZ7JuQ7Iug7LSM7KCQ!5e0!3m2!1sko!2skr!4v1721114979780!5m2!1sko!2skr"
                     width="280"
                     height="150"
                     frameborder="0"
