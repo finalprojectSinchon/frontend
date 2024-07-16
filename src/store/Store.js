@@ -5,6 +5,7 @@ import ChatsReducer from './apps/chat/ChatSlice';
 import ContactsReducer from './apps/contacts/ContactSlice';
 import EmailReducer from './apps/email/EmailSlice';
 import TicketReducer from './apps/ticket/TicketSlice';
+import UserTokenReducer from './apps/login/userSlice';
 
 export const store = configureStore({
   reducer: {
@@ -14,6 +15,7 @@ export const store = configureStore({
     contactsReducer: ContactsReducer,
     emailReducer: EmailReducer,
     ticketReducer: TicketReducer,
+    userTokenReducer : UserTokenReducer
   },
 });
 
