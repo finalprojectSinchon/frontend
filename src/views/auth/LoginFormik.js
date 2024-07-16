@@ -6,21 +6,45 @@ import { Link, useNavigate } from 'react-router-dom';
 import AuthLogo from "../../layouts/logo/AuthLogo";
 import { ReactComponent as LeftBg } from '../../assets/images/bg/login-bgleft.svg';
 import { ReactComponent as RightBg } from '../../assets/images/bg/login-bg-right.svg';
+import axios from 'axios';
+import { useDispatch } from 'react-redux';
+import Cookies from 'js-cookie';
 
 const LoginFormik = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const initialValues = {
-    email: '',
-    password: '',
+    userId: '', // Changed from 'email' to 'userId'
+    userPassword: '', // Changed from 'password' to 'userPassword'
   };
 
   const validationSchema = Yup.object().shape({
-    email: Yup.string().email('Email is invalid').required('Email is required'),
-    password: Yup.string()
-      .min(6, 'Password must be at least 6 characters')
-      .required('Password is required'),
+    userId: Yup.string().required('아이디는 반드시 입력해야합니다.'), // Changed from 'email' to 'userId'
+    userPassword: Yup.string()
+      .min(8, '비밀번호는 8글자 이상을 입력해야합니다.')
+      .required('비밀번호는 반드시 입력해야합니다.'), // Changed from 'password' to 'userPassword'
   });
+
+  const submitHandler = (fields) => {
+    console.log(fields)
+    axios.post('http://localhost:8080/login', fields, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      }
+    })
+      .then(res => res.data)
+      .then((data) => {
+        alert(data.data.Authorization)
+        Cookies.set('token',data.data.Authorization,{ expires: 1 })
+        navigate('/');
+      })
+      .catch((error) => {
+        console.error('로그인 에러:', error);
+        alert('로그인에 실패하였습니다. 다시 시도해주세요');
+      });
+  };
+
 
   return (
     <div className="loginBox">
@@ -39,38 +63,26 @@ const LoginFormik = () => {
                 <Formik
                   initialValues={initialValues}
                   validationSchema={validationSchema}
-                  onSubmit={(fields) => {
-                    // eslint-disable-next-line no-alert
-                    alert(`SUCCESS!! :-)\n\n${JSON.stringify(fields, null, 4)}`);
-                    navigate('/');
-                  }}
+                  onSubmit={submitHandler}
                   render={({ errors, touched }) => (
                     <Form>
                       <FormGroup>
-                        <Label htmlFor="email">Email</Label>
+                        <Label htmlFor="userId">ID</Label> {/* Changed from 'Email' to 'User ID' */}
                         <Field
-                          name="email"
+                          name="userId" // Changed from 'email' to 'userId'
                           type="text"
-                          className={`form-control${
-                            errors.email && touched.email ? ' is-invalid' : ''
-                          }`}
+                          className={`form-control${errors.userId && touched.userId ? ' is-invalid' : ''}`}
                         />
-                        <ErrorMessage name="email" component="div" className="invalid-feedback" />
+                        <ErrorMessage name="userId" component="div" className="invalid-feedback" />
                       </FormGroup>
                       <FormGroup>
-                        <Label htmlFor="password">Password</Label>
+                        <Label htmlFor="userPassword">Password</Label> {/* Changed from 'Password' to 'User Password' */}
                         <Field
-                          name="password"
+                          name="userPassword" // Changed from 'password' to 'userPassword'
                           type="password"
-                          className={`form-control${
-                            errors.password && touched.password ? ' is-invalid' : ''
-                          }`}
+                          className={`form-control${errors.userPassword && touched.userPassword ? ' is-invalid' : ''}`}
                         />
-                        <ErrorMessage
-                          name="password"
-                          component="div"
-                          className="invalid-feedback"
-                        />
+                        <ErrorMessage name="userPassword" component="div" className="invalid-feedback" />
                       </FormGroup>
                       <FormGroup className="form-check d-flex" inline>
                         <Label check>

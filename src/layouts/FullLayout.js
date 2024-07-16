@@ -14,6 +14,9 @@ const FullLayout = () => {
   const topbarFixed = useSelector((state) => state.customizer.isTopbarFixed);
   const LayoutHorizontal = useSelector((state) => state.customizer.isLayoutHorizontal);
   const isFixedSidebar = useSelector((state) => state.customizer.isSidebarFixed);
+
+  
+
   return (
     <main>
       <div
