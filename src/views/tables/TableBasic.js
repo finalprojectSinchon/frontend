@@ -3,6 +3,7 @@ import { Table } from 'reactstrap';
 import BreadCrumbs from '../../layouts/breadcrumbs/BreadCrumbs';
 import ComponentCard from '../../components/ComponentCard';
 import ProjectTables from '../../components/dashboard/ProjectTable';
+import Datatables from './ReactBootstrapTable';
 
 const BasicTable = () => {
   return (
@@ -13,6 +14,7 @@ const BasicTable = () => {
       {/*--------------------------------------------------------------------------------*/}
 
       <ProjectTables />
+      <Datatables/>
 
       {/*--------------------------------------------------------------------------------*/}
       {/* Default Table                                                                  */}
