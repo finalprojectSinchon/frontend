@@ -33,14 +33,14 @@ const SidebarData = [
     collapisble: false,
   },
   {
-    title: '사원조회',
+    title: '사원 조회',
     href: '/apps/calendar',
     icon: <MaterialIcon icon="calendar_today" />,
     id: 2.4,
     collapisble: false,
   },
   {
-    title: '안전점검',
+    title: '안전 점검',
     href: '/apps/email',
     icon: <MaterialIcon icon="mail_outline" />,
     suffix: 'New',
@@ -58,7 +58,7 @@ const SidebarData = [
   { caption: '시설물' },
 
   {
-    title: '이동수단',
+    title: '이동 수단',
     href: '/ecom',
     icon: <MaterialIcon icon="shopping_cart" />,
     id: 2.7,
