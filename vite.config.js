@@ -12,9 +12,9 @@ export default defineConfig({
         },
     },
     esbuild: {
-        loader: 'jsx',
-        include: /src\/.*\.jsx?$/,
-        exclude: [],
+        loader: 'jsx', // JSX 구문을 파싱할 로더 설정
+        include: /src\/.*\.jsx?$/, // 파싱할 파일 경로 패턴
+        exclude: [], // 제외할 파일 경로 패턴
     },
     optimizeDeps: {
         esbuildOptions: {
@@ -23,7 +23,7 @@ export default defineConfig({
                     name: 'load-js-files-as-jsx',
                     setup(build) {
                         build.onLoad(
-                            { filter: /src\\.*\.js$/ },
+                            { filter: /src\/.*\.js$/ }, // 경로 구분자를 슬래시로 변경
                             async (args) => ({
                                 loader: 'jsx',
                                 contents: await fs.readFile(args.path, 'utf8'),
@@ -34,12 +34,5 @@ export default defineConfig({
             ],
         },
     },
-
-
-    
-    // plugins: [react(),svgr({
-    //   exportAsDefault: true
-    // })],
-
     plugins: [svgr(), react()],
 });
