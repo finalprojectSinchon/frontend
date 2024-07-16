@@ -51,9 +51,9 @@ const Sidebar = () => {
                     items={navi.children}
                     suffix={navi.suffix}
                     suffixColor={navi.suffixColor}
-                    // toggle={() => toggle(navi.id)}
+                    toggle={() => toggle(navi.id)}
                     // collapsed={collapsed === navi.id}
-                    isUrl={currentURL === navi.href}
+                    // isUrl={currentURL === navi.href}
                   />
                 );
               }

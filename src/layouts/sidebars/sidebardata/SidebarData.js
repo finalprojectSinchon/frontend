@@ -10,7 +10,7 @@ const SidebarData = [
     collapisble: true,
   
   },
-  { caption: 'Menu' },
+  { caption: 'Menu1' },
   {
     title: '사용 승인',
     href: '/apps/notes',
@@ -55,7 +55,7 @@ const SidebarData = [
     id: 2.6,
     collapisble: false,
   },
-  { caption: 'Menu' },
+  { caption: 'Menu2' },
 
   {
     title: '이동수단',
@@ -99,7 +99,7 @@ const SidebarData = [
   {
     title: '창고',
     href: '/ui',
-    id: 2,
+    id: 3,
     suffix: '22',
     suffixColor: 'bg-info',
     icon: <MaterialIcon icon="grid_view" />,
@@ -296,6 +296,7 @@ const SidebarData = [
     children: [
       {
         title: 'Simple dd 1',
+        id : 7.1,
         href: '/',
         icon: <MaterialIcon icon="radio_button_checked" />,
       },
