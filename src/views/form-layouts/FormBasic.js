@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 
+
 import {
   Card,
   CardBody,
@@ -291,6 +292,33 @@ const BasicForm = () => {
           </Card>
         </Col>
      
+      </Row>
+
+      <Row>
+        <Col md="12">
+            <BootstrapTable
+              hover
+              condensed
+              search
+              data={data.JsonData}
+              deleteRow
+              selectRow={selectRowProp}
+              pagination
+              options={options}
+              cellEdit={cellEditProp}
+              tableHeaderClass="mb-0"
+            >
+              <TableHeaderColumn width="100" dataField="name" isKey>
+                Name
+              </TableHeaderColumn>
+              <TableHeaderColumn width="100" dataField="gender">
+                Gender
+              </TableHeaderColumn>
+              <TableHeaderColumn width="100" dataField="company">
+                Company
+              </TableHeaderColumn>
+            </BootstrapTable>
+        </Col>
       </Row>
       {/*--------------------------------------------------------------------------------*/}
       {/*End Inner Div*/}
