@@ -18,7 +18,7 @@ const BasicTable = () => {
       {/* Default Table                                                                  */}
       {/*--------------------------------------------------------------------------------*/}
 
-      <ComponentCard
+      {/* <ComponentCard
         title="Default Table"
         subtitle={
           <p>
@@ -58,13 +58,13 @@ const BasicTable = () => {
             </tr>
           </tbody>
         </Table>
-      </ComponentCard>
+      </ComponentCard> */}
 
       {/*--------------------------------------------------------------------------------*/}
       {/* Table Header                                                                   */}
       {/*--------------------------------------------------------------------------------*/}
 
-      <ComponentCard
+      {/* <ComponentCard
         title="Table Header"
         subtitle={
           <p>
@@ -103,13 +103,13 @@ const BasicTable = () => {
             </tr>
           </tbody>
         </Table>
-      </ComponentCard>
+      </ComponentCard> */}
 
       {/*--------------------------------------------------------------------------------*/}
       {/* Striped rows                                                                   */}
       {/*--------------------------------------------------------------------------------*/}
 
-      <ComponentCard
+      {/* <ComponentCard
         title="Striped rows"
         subtitle={
           <p>
@@ -148,13 +148,13 @@ const BasicTable = () => {
             </tr>
           </tbody>
         </Table>
-      </ComponentCard>
+      </ComponentCard> */}
 
       {/*--------------------------------------------------------------------------------*/}
       {/* Bordered Table                                                                 */}
       {/*--------------------------------------------------------------------------------*/}
 
-      <ComponentCard
+      {/* <ComponentCard
         title="Bordered Table"
         subtitle={
           <p>
@@ -193,14 +193,14 @@ const BasicTable = () => {
             </tr>
           </tbody>
         </Table>
-      </ComponentCard>
+      </ComponentCard> */}
 
 
        {/*--------------------------------------------------------------------------------*/}
       {/* Bordered less Table                                                                 */}
       {/*--------------------------------------------------------------------------------*/}
 
-      <ComponentCard
+      {/* <ComponentCard
         title="Borderless Table"
       >
         <Table borderless>
@@ -233,14 +233,14 @@ const BasicTable = () => {
             </tr>
           </tbody>
         </Table>
-      </ComponentCard>
+      </ComponentCard> */}
 
 
        {/*--------------------------------------------------------------------------------*/}
       {/* Bordered less Table                                                                 */}
       {/*--------------------------------------------------------------------------------*/}
 
-      <ComponentCard
+      {/* <ComponentCard
         title="Dark Table"
       >
         <Table bordered responsive dark>
@@ -273,13 +273,13 @@ const BasicTable = () => {
             </tr>
           </tbody>
         </Table>
-      </ComponentCard>
+      </ComponentCard> */}
 
       {/*--------------------------------------------------------------------------------*/}
       {/* Hoverable Rows                                                                 */}
       {/*--------------------------------------------------------------------------------*/}
 
-      <ComponentCard
+      {/* <ComponentCard
         title="Hoverable Rows"
         subtitle={
           <p>
@@ -318,13 +318,13 @@ const BasicTable = () => {
             </tr>
           </tbody>
         </Table>
-      </ComponentCard>
+      </ComponentCard> */}
 
       {/*--------------------------------------------------------------------------------*/}
       {/* Responsive Table                                                               */}
       {/*--------------------------------------------------------------------------------*/}
 
-      <ComponentCard
+      {/* <ComponentCard
         title="Responsive Table"
         subtitle={
           <p>
@@ -375,7 +375,7 @@ const BasicTable = () => {
             </tr>
           </tbody>
         </Table>
-      </ComponentCard>
+      </ComponentCard> */}
 
       {/*--------------------------------------------------------------------------------*/}
       {/*End Inner Div*/}

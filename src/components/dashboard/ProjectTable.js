@@ -8,48 +8,43 @@ import user5 from '../../assets/images/users/user5.jpg';
 const tableData = [
   {
     avatar: user1,
-    name: 'Hanna Gover',
-    email: 'hgover@gmail.com',
-    project: 'Flexy React',
-    status: 'pending',
-    weeks: '35',
-    budget: '95K',
+    status: '고장',
+    location: "2층 C구역",
+    type : "체크인 카운터 - B",
+    airline : "대한항공",
+    scheduleDateTime : "2024-07-15"
   },
   {
     avatar: user2,
-    name: 'Jonathan Gover',
-    email: 'hgover@gmail.com',
-    project: 'Lading pro React',
-    status: 'done',
-    weeks: '35',
-    budget: '95K',
+    status: '정상',
+    location: "1층 C구역",
+    type : "체크인 카운터 - F",
+    airline : "대한항공",
+    scheduleDateTime : "2024-07-15"
   },
   {
     avatar: user3,
-    name: 'Steave',
-    email: 'hgover@gmail.com',
-    project: 'Elite React',
-    status: 'holt',
-    weeks: '35',
-    budget: '95K',
+    status: '점검중',
+    location: "2층 B구역",
+    type : "체크인 카운터 - C",
+    airline : "대한항공",
+    scheduleDateTime : "2024-07-15"
   },
   {
     avatar: user4,
-    name: 'Mukesh chava',
-    email: 'hgover@gmail.com',
-    project: 'Flexy React',
-    status: 'pending',
-    weeks: '35',
-    budget: '95K',
+    status: '점검중',
+    location: "3층 C구역",
+    type : "체크인 카운터 - F",
+    airline : "대한항공",
+    scheduleDateTime : "2024-07-15"
   },
   {
     avatar: user5,
-    name: 'Thuklk luu',
-    email: 'hgover@gmail.com',
-    project: 'Ample React',
-    status: 'done',
-    weeks: '35',
-    budget: '95K',
+    status: '정상',
+    location: "2층 F구역",
+    type : "체크인 카운터 - A",
+    airline : "대한항공",
+    scheduleDateTime : "2024-07-15"
   },
 ];
 
@@ -58,20 +53,20 @@ const ProjectTables = () => {
     <div>
       <Card>
         <CardBody>
-          <CardTitle tag="h5">Project Listing</CardTitle>
+          <CardTitle tag="h5">비행기</CardTitle>
           <CardSubtitle className="mb-2 text-muted" tag="h6">
-            Overview of the projects
+            체크인 카운터
           </CardSubtitle>
 
-          <Table className="no-wrap mt-3 align-middle" responsive borderless>
+          <Table className="no-wrap mt-3 align-middle" responsive borderless hover>
             <thead>
               <tr>
-                <th>Team Lead</th>
-                <th>Project</th>
+                <th>Location</th>
+                <th>Type</th>
 
                 <th>Status</th>
-                <th>Weeks</th>
-                <th>Budget</th>
+                <th>Airline</th>
+                <th>ScheduleDate</th>
               </tr>
             </thead>
             <tbody>
@@ -87,23 +82,23 @@ const ProjectTables = () => {
                         height="45"
                       />
                       <div className="ms-3">
-                        <h6 className="mb-0">{tdata.name}</h6>
-                        <span className="text-muted">{tdata.email}</span>
+                        <h6 className="mb-0">{tdata.location}</h6>
+                        {/* <span className="text-muted">{tdata.email}</span> */}
                       </div>
                     </div>
                   </td>
-                  <td>{tdata.project}</td>
+                  <td>{tdata.airline}</td>
                   <td>
-                    {tdata.status === 'pending' ? (
+                    {tdata.status === '고장' ? (
                       <span className="p-2 bg-danger rounded-circle d-inline-block ms-3"></span>
-                    ) : tdata.status === 'holt' ? (
+                    ) : tdata.status === '점검중' ? (
                       <span className="p-2 bg-warning rounded-circle d-inline-block ms-3"></span>
                     ) : (
                       <span className="p-2 bg-success rounded-circle d-inline-block ms-3"></span>
                     )}
                   </td>
-                  <td>{tdata.weeks}</td>
-                  <td>{tdata.budget}</td>
+                  <td>{tdata.type}</td>
+                  <td>{tdata.scheduleDateTime}</td>
                 </tr>
               ))}
             </tbody>
