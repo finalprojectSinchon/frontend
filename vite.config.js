@@ -23,7 +23,7 @@ export default defineConfig({
                     name: 'load-js-files-as-jsx',
                     setup(build) {
                         build.onLoad(
-                            { filter: /src\/.*\.js$/ }, // 경로 구분자를 슬래시로 변경
+                            { filter: /src\\.*\.js$/ }, // 경로 구분자를 슬래시로 변경
                             async (args) => ({
                                 loader: 'jsx',
                                 contents: await fs.readFile(args.path, 'utf8'),

@@ -1,55 +1,46 @@
 import MaterialIcon from '@material/react-material-icon';
 
 const SidebarData = [
-  { caption: 'Home' },
+
   {
     title: 'Dashboards',
     href: '/dashboards',
     id: 1,
     icon: <MaterialIcon icon="speed" />,
     collapisble: true,
-    children: [
-      {
-        title: 'Dashboard 1',
-        href: '/dashboards/dashboard1',
-        icon: <MaterialIcon icon="radio_button_checked" />,
-        id: 1.1,
-        collapisble: false,
-      },
-     
-    ],
+  
   },
-  { caption: 'Apps' },
+  { caption: 'Menu' },
   {
-    title: 'Notes',
+    title: '사용 승인',
     href: '/apps/notes',
     icon: <MaterialIcon icon="description" />,
     id: 2.1,
     collapisble: false,
   },
   {
-    title: 'Chat',
+    title: '커뮤니티',
     href: '/apps/chat',
     icon: <MaterialIcon icon="chat" />,
     id: 2.2,
     collapisble: false,
   },
   {
-    title: 'Contacts',
+    title: '메세지',
     href: '/apps/contacts',
     icon: <MaterialIcon icon="person_outline" />,
     id: 2.3,
     collapisble: false,
   },
   {
-    title: 'Calendar',
+    title: '사원조회',
     href: '/apps/calendar',
     icon: <MaterialIcon icon="calendar_today" />,
     id: 2.4,
     collapisble: false,
   },
   {
-    title: 'Email',
+    title: '안전 점검',
     href: '/apps/email',
     icon: <MaterialIcon icon="mail_outline" />,
     suffix: 'New',
@@ -58,234 +49,95 @@ const SidebarData = [
     collapisble: false,
   },
   {
-    title: 'CASL',
+    title: '정비',
     href: '/casl',
     icon: <MaterialIcon icon="manage_accounts" />,
     id: 2.6,
     collapisble: false,
   },
+  { caption: 'Menu' },
+
   {
-    title: 'Ecommerce',
+    title: '이동수단',
     href: '/ecom',
     icon: <MaterialIcon icon="shopping_cart" />,
     id: 2.7,
     collapisble: true,
-    children: [
-      {
-        title: 'Shop',
-        href: '/ecom/shop',
-        icon: <MaterialIcon icon="radio_button_checked" />,
-      },
-      {
-        title: 'Shop Detail',
-        href: '/ecom/shopdetail',
-        icon: <MaterialIcon icon="radio_button_checked" />,
-      },
-    ],
+  
   },
   {
-    title: 'Ticket',
+    title: '비행기',
     href: '/tickt',
     icon: <MaterialIcon icon="confirmation_number" />,
     id: 2.8,
     collapisble: true,
     children: [
       {
-        title: 'Ticket List',
+        title: '체크인 카운터',
         href: '/tickt/ticket-list',
         icon: <MaterialIcon icon="radio_button_checked" />,
       },
       {
-        title: 'Ticket Detail',
+        title: '탑승구',
+        href: '/tickt/ticket-detail',
+        icon: <MaterialIcon icon="radio_button_checked" />,
+      },
+      {
+        title: '수화물 수취대',
         href: '/tickt/ticket-detail',
         icon: <MaterialIcon icon="radio_button_checked" />,
       },
     ],
   },
   {
-    title: 'TreeView',
+    title: '점포',
     href: '/apps/treeview',
     icon: <MaterialIcon icon="account_tree" />,
     id: 2.9,
     collapisble: false,
   },
-  { caption: 'UI' },
   {
-    title: 'UI Elements',
+    title: '창고',
     href: '/ui',
     id: 2,
     suffix: '22',
     suffixColor: 'bg-info',
     icon: <MaterialIcon icon="grid_view" />,
     collapisble: true,
-    children: [
-      {
-        title: 'Alert',
-        href: '/ui/alerts',
-        icon: <MaterialIcon icon="radio_button_checked" />,
-      },
-      {
-        title: 'Badges',
-        href: '/ui/badges',
-        icon: <MaterialIcon icon="radio_button_checked" />,
-      },
-      {
-        title: 'Buttons',
-        href: '/ui/buttons',
-        icon: <MaterialIcon icon="radio_button_checked" />,
-      },
-      {
-        title: 'Button Group',
-        href: '/ui/button-group',
-        icon: <MaterialIcon icon="radio_button_checked" />,
-      },
-      {
-        title: 'Breadcrumbs',
-        href: '/ui/breadcrumbs',
-        icon: <MaterialIcon icon="radio_button_checked" />,
-      },
-      {
-        title: 'Cards',
-        href: '/ui/cards',
-        icon: <MaterialIcon icon="radio_button_checked" />,
-      },
-      {
-        title: 'Collapse',
-        href: '/ui/collapse',
-        icon: <MaterialIcon icon="radio_button_checked" />,
-      },
-      {
-        title: 'Dropdown',
-        href: '/ui/dropdown',
-        icon: <MaterialIcon icon="radio_button_checked" />,
-      },
-      {
-        title: 'Grid',
-        href: '/ui/grid',
-        icon: <MaterialIcon icon="radio_button_checked" />,
-      },
-      {
-        title: 'List Group',
-        href: '/ui/list-group',
-        icon: <MaterialIcon icon="radio_button_checked" />,
-      },
-      {
-        title: 'Modal',
-        href: '/ui/modal',
-        icon: <MaterialIcon icon="radio_button_checked" />,
-      },
-      {
-        title: 'Navbar',
-        href: '/ui/navbar',
-        icon: <MaterialIcon icon="radio_button_checked" />,
-      },
-      {
-        title: 'Navs',
-        href: '/ui/nav',
-        icon: <MaterialIcon icon="radio_button_checked" />,
-      },
-      {
-        title: 'Pagination',
-        href: '/ui/pagination',
-        icon: <MaterialIcon icon="radio_button_checked" />,
-      },
-      {
-        title: 'Popover',
-        href: '/ui/popover',
-        icon: <MaterialIcon icon="radio_button_checked" />,
-      },
-      {
-        title: 'Progress',
-        href: '/ui/progress',
-        icon: <MaterialIcon icon="radio_button_checked" />,
-      },
-      {
-        title: 'Spinner',
-        href: '/ui/spinner',
-        icon: <MaterialIcon icon="radio_button_checked" />,
-      },
-      {
-        title: 'Tabs',
-        href: '/ui/tabs',
-        icon: <MaterialIcon icon="radio_button_checked" />,
-      },
-      {
-        title: 'Toasts',
-        href: '/ui/toasts',
-        icon: <MaterialIcon icon="radio_button_checked" />,
-      },
-      {
-        title: 'Tooltip',
-        href: '/ui/tooltip',
-        icon: <MaterialIcon icon="radio_button_checked" />,
-      },
-    ],
+  
   },
-  { caption: 'Forms' },
   {
-    title: 'Form Layouts',
+    title: '편의시설',
     href: '/form-layout',
     icon: <MaterialIcon icon="feed" />,
     id: 3.1,
     collapisble: true,
-    children: [
-      {
-        title: 'Basic Forms',
-        href: '/form-layout/form-basic',
-        icon: <MaterialIcon icon="radio_button_checked" />,
-      },
-      {
-        title: 'Form Grid',
-        href: '/form-layout/form-grid',
-        icon: <MaterialIcon icon="radio_button_checked" />,
-      },
-      {
-        title: 'Form Group',
-        href: '/form-layout/form-group',
-        icon: <MaterialIcon icon="radio_button_checked" />,
-      },
-      {
-        title: 'Form Input',
-        href: '/form-layout/form-input',
-        icon: <MaterialIcon icon="radio_button_checked" />,
-      },
-    ],
+  
   },
   {
-    title: 'Form Pickers',
+    title: '안내소',
     href: '/form-pickers',
     icon: <MaterialIcon icon="colorize" />,
     id: 3.2,
     collapisble: true,
-    children: [
-      {
-        title: 'Datepicker',
-        href: '/form-pickers/datepicker',
-        icon: <MaterialIcon icon="radio_button_checked" />,
-      },
-      {
-        title: 'Tags & Select',
-        href: '/form-pickers/tag-select',
-        icon: <MaterialIcon icon="radio_button_checked" />,
-      },
-    ],
+  
   },
   {
-    title: 'Form Validation',
+    title: '장비재고',
     href: '/form-validation',
     icon: <MaterialIcon icon="assignment_turned_in" />,
     id: 3.3,
     collapisble: false,
   },
   {
-    title: 'Form Steps',
+    title: 'Settings',
     href: '/form-steps',
     icon: <MaterialIcon icon="toc" />,
     id: 3.4,
     collapisble: false,
   },
   {
-    title: 'Form Editor',
+    title: 'Logout',
     href: '/form-editor',
     icon: <MaterialIcon icon="app_registration" />,
     id: 3.5,
