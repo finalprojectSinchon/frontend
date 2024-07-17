@@ -18,6 +18,8 @@ const Sidebar = () => {
   //   setCollapsed(collapsed === index ? null : index);
   // };
 
+  const userInfo = useSelector(state => state.userInfo);
+
   const activeBg = useSelector((state) => state.customizer.sidebarBg);
   const isFixed = useSelector((state) => state.customizer.isSidebarFixed);
   // const dispatch = useDispatch();
@@ -29,7 +31,7 @@ const Sidebar = () => {
           <div className="p-3 d-flex">
             <img src={user1} alt="user" width="50" className="rounded-circle" />
           </div>
-          <div className="bg-dark text-dark-white p-2 opacity-75 text-truncate">Steave Rojer</div>
+          <div className="bg-dark text-dark-white p-2 opacity-75 text-truncate">{userInfo.userName}</div>
         </div>
         {/********Sidebar Content*******/}
         <div className="p-3 pt-1 mt-2">

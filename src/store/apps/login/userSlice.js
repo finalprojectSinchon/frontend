@@ -27,10 +27,18 @@ const userInfoSlice = createSlice({
       state.userName = action.payload.userName;
       state.userRole = action.payload.userRole;
       state.userAbout = action.payload.userAbout;
+    },
+    modifyUser: (state,action) => {
+        state.userCode = action.payload.userCode;
+        state.userName = action.payload.userName;
+        state.userEmail = action.payload.userEmail;
+        state.userPhone = action.payload.userPhone;
+        state.userAddress = action.payload.userAddress;
+        state.userAbout = action.payload.userAbout;
     }
   }
 });
 
-export const { addUser } = userInfoSlice.actions;
+export const { addUser, modifyUser } = userInfoSlice.actions;
 
 export default userInfoSlice.reducer;

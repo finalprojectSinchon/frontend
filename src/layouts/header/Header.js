@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import SimpleBar from 'simplebar-react';
 import {
@@ -22,11 +22,19 @@ import user1 from '../../assets/images/users/user4.jpg';
 import Logo from '../logo/Logo';
 import { ToggleMiniSidebar, ToggleMobileSidebar } from '../../store/customizer/CustomizerSlice';
 import ProfileDD from './ProfileDD';
+import Cookies from 'js-cookie'
 
 const Header = () => {
   const isDarkMode = useSelector((state) => state.customizer.isDark);
   const topbarColor = useSelector((state) => state.customizer.topbarBg);
   const dispatch = useDispatch();
+
+  let navigate = useNavigate();
+
+  const logoutHandler = () => {
+    Cookies.remove('token');
+    navigate('auth/loginformik')
+  }
 
   return (
     <>
@@ -152,7 +160,7 @@ const Header = () => {
             <DropdownMenu className="ddWidth profile-dd">
               <ProfileDD />
               <div className="p-2 px-3">
-                <Button color="danger" size="sm">
+                <Button color="danger" size="sm" onClick={logoutHandler}>
                   Logout
                 </Button>
               </div>
