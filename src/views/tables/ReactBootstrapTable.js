@@ -77,6 +77,22 @@ const tableData = [
   },
 ];
 
+
+const statusFormatter = (cell, row) => {
+  let styleClass;
+  if (cell === '고장') {
+    styleClass = 'bg-danger';
+  } else if (cell === '점검중') {
+    styleClass = 'bg-warning';
+  } else {
+    styleClass = 'bg-success';
+  }
+  
+  return (
+    <span className={`p-2 rounded-circle d-inline-block ${styleClass}`}></span>
+  );
+};
+
 const Datatables = () => {
   return (
     <div>
@@ -109,7 +125,8 @@ const Datatables = () => {
               <TableHeaderColumn width="20%" dataField="airline"dataAlign="center" >
               Airline
               </TableHeaderColumn>
-              <TableHeaderColumn width="20%" dataField="Status"dataAlign="center">
+              <TableHeaderColumn width="20%" dataField="status"dataAlign="center"dataFormat={statusFormatter}>
+              
               Status
               </TableHeaderColumn>
               <TableHeaderColumn width="20%" dataField="scheduleDateTime"dataAlign="center">
