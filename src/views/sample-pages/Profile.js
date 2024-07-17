@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import Iframe from 'react-iframe';
 import {
+  Alert,
   Row,
   Col,
   Card,
@@ -48,6 +49,12 @@ const Profile = () => {
     }
   };
 
+  const [passwordForm, setpasswordForm] = useState(false);
+  const [currentPassword, setcurrentPassword] = useState('');
+  const [newPassword, setnewPassword] = useState(null);
+  const [confirmPassword, setconfirmPassword] = useState(null);
+  const [isPasswordValid, setIsPasswordValid] = useState(false);
+
   const userInfo = useSelector((state) => state.userInfo);
 
   const navigate = useNavigate();
@@ -87,6 +94,18 @@ const Profile = () => {
     })
   }
 
+  const handleNewPasswordChange = (e) => {
+    const newPassword = e.target.value;
+    setnewPassword(newPassword);
+    setIsPasswordValid(newPassword.length >= 8 && newPassword === confirmPassword);
+  };
+
+  const handleConfirmPasswordChange = (e) => {
+    const confirmPassword = e.target.value;
+    setconfirmPassword(confirmPassword);
+    setIsPasswordValid(newPassword.length >= 8 && newPassword === confirmPassword);
+  };
+
 
   const formatPhoneNumber = (phoneNumber) => {
     // 정규 표현식을 사용하여 전화번호를 원하는 형식으로 변환
@@ -98,7 +117,56 @@ const Profile = () => {
     return phoneNumber; // 변환이 실패한 경우 그대로 반환
   };
 
+  let passwordCheckForm = {
+    userCode : userInfo.userCode,
+    userPassword : currentPassword,
+  }
+  const passwordCheckHandler = () => {
+    console.log(passwordCheckForm)
+    axios.post('http://localhost:8080/api/v1/account/password-check',passwordCheckForm,{
+      headers:{
+        'Content-Type': 'application/json',
+        'Authorization' : Cookies.get('token'),
+      }
+    })
+    .then(res => res.data)
+    .then(data => {
+      alert(data.message);
+      setpasswordForm(true);
+    })
+    .catch(error => {
+      alert('비밀번호가 일치하지 않습니다. 다시 시도해주세요')
+      console.error('error',error);
+    })
+  }
 
+
+  let ChangePasswordForm = {
+    userCode : userInfo.userCode,
+    newPassword : newPassword,
+    confirmPassword : confirmPassword,
+  }
+
+  const changePasswordHandler = () => {
+    axios.put('http://localhost:8080/api/v1/account/change-password',ChangePasswordForm,{
+      headers:{
+        'Content-Type': 'application/json',
+        'Authorization' : Cookies.get('token'),
+      }
+    })
+    .then(res => res.data)
+    .then(data => {
+      console.log(data.message);
+      alert('비밀번호 변경에 성공하였습니다. 다시 로그인해주세요')
+      navigate("/auth/loginformik")
+    })
+    .catch(error => {
+      alert('비밀번호 변경에 오류가 발생하였습니다. 다시시 도해주세요')
+      console.error('errpr',error)
+    })
+
+
+  }
   return (
     <>
       <BreadCrumbs />
@@ -197,6 +265,16 @@ const Profile = () => {
                   }}
                 >
                   수정하기
+                </NavLink>
+              </NavItem>
+              <NavItem>
+                <NavLink
+                  className={activeTab === '4' ? 'active bg-transparent' : 'cursor-pointer'}
+                  onClick={() => {
+                    toggle('4');
+                  }}
+                >
+                  비밀번호 변경
                 </NavLink>
               </NavItem>
             </Nav>
@@ -416,6 +494,33 @@ const Profile = () => {
                         </FormGroup>
                         <Button color="primary" onClick={onClickHandler}>수정하기</Button>
                       </Form>
+                    </div>
+                  </Col>
+                </Row>
+              </TabPane>
+              <TabPane tabId='4'>
+              <Row>
+                  <Col sm="12">
+                    <div className="p-4">
+                      <Label>현재 비밀번호</Label>
+                      <InputGroup>
+                      <Input className='mt-1' onChange={e => setcurrentPassword(e.target.value)} type='password'/>
+                      <Button color='primary' className='mt-2 d-flex justify-content-center'
+                      onClick={passwordCheckHandler}>확인</Button>                
+                      </InputGroup>
+                      {passwordForm ? (
+                        <>
+                          <Label className='mt-2'>새 비밀번호</Label>
+                          <Input className='mt-1' type='password' onChange={handleNewPasswordChange} />
+                          <Label className='mt-2'>비밀번호 확인</Label>
+                          <Input className='mt-1' type='password' onChange={handleConfirmPasswordChange} />
+                        </>
+                      ) : null}
+                      {isPasswordValid ? <Button onClick={changePasswordHandler}>비밀번호 변경하기</Button> : 
+                      <Alert color="danger" className='mt-3'>
+                      비밀번호는 8자리 이상을 입력해야 합니다.
+                      </Alert>
+                      }
                     </div>
                   </Col>
                 </Row>
