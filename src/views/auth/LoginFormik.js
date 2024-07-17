@@ -27,7 +27,7 @@ const LoginFormik = () => {
   });
 
   const submitHandler = (fields) => {
-    console.log(fields)
+    
     axios.post('http://localhost:8080/login', fields, {
       headers: {
         'Content-Type': 'multipart/form-data',
