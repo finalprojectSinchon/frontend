@@ -18,6 +18,7 @@ import {
   FormGroup,
   Label,
   Input,
+  InputGroup,
 } from 'reactstrap';
 import BreadCrumbs from '../../layouts/breadcrumbs/BreadCrumbs';
 
@@ -31,6 +32,10 @@ import time2 from '../../assets/images/bg/bg2.jpg';
 import time3 from '../../assets/images/bg/bg3.jpg';
 import time4 from '../../assets/images/bg/bg4.jpg';
 import { useSelector } from 'react-redux';
+
+import DaumPostcode from "react-daum-postcode";
+
+
 
 const Profile = () => {
   const [activeTab, setActiveTab] = useState('1');
@@ -52,6 +57,7 @@ const Profile = () => {
     }
     return phoneNumber; // 변환이 실패한 경우 그대로 반환
   };
+
 
   return (
     <>
@@ -291,41 +297,26 @@ const Profile = () => {
                         <Col md="3" xs="6" className="border-end">
                           <strong>Full Name</strong>
                           <br />
-                          <p className="text-muted">Johnathan Deo</p>
+                          <p className="text-muted">{userInfo.userName}</p>
                         </Col>
                         <Col md="3" xs="6" className="border-end">
-                          <strong>Mobile</strong>
+                          <strong>Phone</strong>
                           <br />
-                          <p className="text-muted">(123) 456 7890</p>
+                          <p className="text-muted">{formatPhoneNumber(userInfo.userPhone)}</p>
                         </Col>
                         <Col md="3" xs="6" className="border-end">
                           <strong>Email</strong>
                           <br />
-                          <p className="text-muted">johnathan@admin.com</p>
+                          <p className="text-muted">{userInfo.userEmail}</p>
                         </Col>
                         <Col md="3" xs="6" className="border-end">
-                          <strong>Location</strong>
+                          <strong>Address</strong>
                           <br />
-                          <p className="text-muted">London</p>
+                          <p className="text-muted">{userInfo.userAddress}</p>
                         </Col>
                       </Row>
                       <p className="mt-4">
-                        Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim
-                        justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis
-                        eu pede mollis pretium. Integer tincidunt.Cras dapibus. Vivamus elementum
-                        semper nisi. Aenean vulputate eleifend tellus. Aenean leo ligula, porttitor
-                        eu, consequat vitae, eleifend ac, enim.
-                      </p>
-                      <p>
-                        Lorem Ipsum is simply dummy text of the printing and typesetting industry.
-                        Lorem Ipsum has been the industry&apos;s standard dummy text ever since the
-                        1500s, when an unknown printer took a galley of type and scrambled it to
-                        make a type specimen book. It has survived not only five centuries
-                      </p>
-                      <p>
-                        It was popularised in the 1960s with the release of Letraset sheets
-                        containing Lorem Ipsum passages, and more recently with desktop publishing
-                        software like Aldus PageMaker including versions of Lorem Ipsum.
+                        {userInfo.userAbout}
                       </p>
                       <h4 className="font-medium mt-4">Skill Set</h4>
                       <hr />
@@ -349,38 +340,34 @@ const Profile = () => {
                   </Col>
                 </Row>
               </TabPane>
+              {/* 프로필 수정 */}
               <TabPane tabId="3">
                 <Row>
                   <Col sm="12">
                     <div className="p-4">
                       <Form>
                         <FormGroup>
-                          <Label>Full Name</Label>
-                          <Input type="text" placeholder="Shaina Agrawal" />
+                          <Label>Name</Label>
+                          <Input type="text" placeholder={userInfo.userName}/>
                         </FormGroup>
                         <FormGroup>
                           <Label>Email</Label>
-                          <Input type="email" placeholder="Jognsmith@cool.com" />
+                          <Input type="email" placeholder={userInfo.userEmail} />
                         </FormGroup>
                         <FormGroup>
-                          <Label>Password</Label>
-                          <Input type="password" placeholder="Password" />
+                          <Label>Phone</Label>
+                          <Input type="text" placeholder={formatPhoneNumber(userInfo.userPhone)}/>
                         </FormGroup>
                         <FormGroup>
-                          <Label>Phone No</Label>
-                          <Input type="text" placeholder="123 456 1020" />
+                          <Label>Address</Label>
+                          <InputGroup>
+                          <Input type="text" placeholder={formatPhoneNumber(userInfo.userAddress)}/>
+                          <Button color='success'>주소찾기</Button>
+                          </InputGroup>
                         </FormGroup>
                         <FormGroup>
-                          <Label>Message</Label>
-                          <Input type="textarea" />
-                        </FormGroup>
-                        <FormGroup>
-                          <Label>Select Country</Label>
-                          <Input type="select">
-                            <option>USA</option>
-                            <option>India</option>
-                            <option>America</option>
-                          </Input>
+                          <Label>About</Label>
+                          <Input type="textarea" placeholder={userInfo.userAbout}/>
                         </FormGroup>
                         <Button color="primary">Update Profile</Button>
                       </Form>

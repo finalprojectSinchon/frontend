@@ -9,6 +9,7 @@ const initialState = {
   userAddress: '',
   userName: '',
   userRole: '',
+  userAbout : '',
 };
 
 const userInfoSlice = createSlice({
@@ -25,6 +26,7 @@ const userInfoSlice = createSlice({
       state.userAddress = action.payload.userAddress;
       state.userName = action.payload.userName;
       state.userRole = action.payload.userRole;
+      state.userAbout = action.payload.userAbout;
     }
   }
 });
