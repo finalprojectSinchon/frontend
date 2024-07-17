@@ -31,10 +31,12 @@ import time1 from '../../assets/images/bg/bg1.jpg';
 import time2 from '../../assets/images/bg/bg2.jpg';
 import time3 from '../../assets/images/bg/bg3.jpg';
 import time4 from '../../assets/images/bg/bg4.jpg';
-import { useSelector } from 'react-redux';
-
+import { useDispatch, useSelector } from 'react-redux';
+import Cookies from 'js-cookie'
 import DaumPostcode from "react-daum-postcode";
-
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
+import { modifyUser } from '../../store/apps/login/userSlice';
 
 
 const Profile = () => {
@@ -47,6 +49,44 @@ const Profile = () => {
   };
 
   const userInfo = useSelector((state) => state.userInfo);
+
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  const [changeInfo, setchangeInfo] = useState({
+    userCode : userInfo.userCode,
+    userName : userInfo.userName,
+    userEmail : userInfo.userEmail,
+    userPhone : userInfo.userPhone,
+    userAddress : userInfo.userAddress,
+    userAbout : userInfo.userAbout,
+  });
+
+  const onChangeHandler = (e) => {
+    setchangeInfo({
+      ...changeInfo,
+      [e.target.name] : e.target.value
+    })
+  } 
+
+  const onClickHandler = () => {
+    axios.post("http://localhost:8080/user",changeInfo,{
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization' : Cookies.get('token'),
+      }
+    })
+    .then(res => res.data)
+    .then(data => {
+      alert(data.message)
+      dispatch(modifyUser(changeInfo));
+    })
+    .catch(error => {
+      alert('오류가 발생하였습니다. 다시 시도해주세요')
+      console.error('error',error);
+    })
+  }
+
 
   const formatPhoneNumber = (phoneNumber) => {
     // 정규 표현식을 사용하여 전화번호를 원하는 형식으로 변환
@@ -136,7 +176,7 @@ const Profile = () => {
                     toggle('1');
                   }}
                 >
-                  Timeline
+                  타임라인
                 </NavLink>
               </NavItem>
               <NavItem>
@@ -146,7 +186,7 @@ const Profile = () => {
                     toggle('2');
                   }}
                 >
-                  Profile
+                  내프로필
                 </NavLink>
               </NavItem>
               <NavItem>
@@ -156,7 +196,7 @@ const Profile = () => {
                     toggle('3');
                   }}
                 >
-                  Setting
+                  수정하기
                 </NavLink>
               </NavItem>
             </Nav>
@@ -347,29 +387,34 @@ const Profile = () => {
                     <div className="p-4">
                       <Form>
                         <FormGroup>
-                          <Label>Name</Label>
-                          <Input type="text" placeholder={userInfo.userName}/>
+                          <Label>이름</Label>
+                          <Input type="text" placeholder={userInfo.userName} name='userName'
+                          onChange={onChangeHandler}/>
                         </FormGroup>
                         <FormGroup>
-                          <Label>Email</Label>
-                          <Input type="email" placeholder={userInfo.userEmail} />
+                          <Label>이메일</Label>
+                          <Input type="email" placeholder={userInfo.userEmail} name='userEmail'
+                          onChange={onChangeHandler}/>
                         </FormGroup>
                         <FormGroup>
-                          <Label>Phone</Label>
-                          <Input type="text" placeholder={formatPhoneNumber(userInfo.userPhone)}/>
+                          <Label>휴대폰번호</Label>
+                          <Input type="text" placeholder={userInfo.userPhone} name='userPhone'
+                          onChange={onChangeHandler}/>
                         </FormGroup>
                         <FormGroup>
-                          <Label>Address</Label>
+                          <Label>주소</Label>
                           <InputGroup>
-                          <Input type="text" placeholder={formatPhoneNumber(userInfo.userAddress)}/>
-                          <Button color='success'>주소찾기</Button>
+                          <Input type="text" placeholder={userInfo.userAddress} name='userAddress'
+                          onChange={onChangeHandler}/>
+                          <Button color='success' onClick="">주소찾기</Button>
                           </InputGroup>
                         </FormGroup>
                         <FormGroup>
-                          <Label>About</Label>
-                          <Input type="textarea" placeholder={userInfo.userAbout}/>
+                          <Label>내소개</Label>
+                          <Input type="textarea" placeholder={userInfo.userAbout} name='userAbout'
+                          onChange={onChangeHandler}/>
                         </FormGroup>
-                        <Button color="primary">Update Profile</Button>
+                        <Button color="primary" onClick={onClickHandler}>수정하기</Button>
                       </Form>
                     </div>
                   </Col>
