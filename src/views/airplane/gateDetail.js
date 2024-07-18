@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect } from 'react';
 import {
   Card,
   CardBody,
@@ -15,12 +15,26 @@ import {
 } from 'reactstrap';
 import BreadCrumbs from '../../layouts/breadcrumbs/BreadCrumbs';
 import { useParams } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchGate } from '../../store/apps/airplane/gateSlice';
+
 
 
 const gateDetail = () => {
  
 
   const { gateCode } = useParams();
+  console.log("gateCode detail",gateCode)
+
+  // const gate = useSelector((state) => state.gates.gateList);
+
+  useEffect(() => {
+
+        dispatch(fetchGate({	
+          gateCode:gateCode
+        }));            
+    }
+    ,[dispatch]);
 
   return (
     <div>
