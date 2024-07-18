@@ -68,7 +68,7 @@ const Header = () => {
           >
             <Icon.Menu size={18} />
           </Button>
-          <NavbarBrand href="/" className="d-sm-block d-lg-none">
+          <NavbarBrand href="/dashboards/dashboard1" className="d-sm-block d-lg-none">
             <LogoWhite />
           </NavbarBrand>
           <Button
