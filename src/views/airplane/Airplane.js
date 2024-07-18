@@ -1,12 +1,7 @@
 import React from 'react';
 import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
 import './ReactBootstrapTable.scss';
-import { Card, CardBody, CardTitle, CardSubtitle} from 'reactstrap';
-import user1 from '../../assets/images/users/user1.jpg';
-import user2 from '../../assets/images/users/user2.jpg';
-import user3 from '../../assets/images/users/user3.jpg';
-import user4 from '../../assets/images/users/user4.jpg';
-import user5 from '../../assets/images/users/user5.jpg';
+import { Card, CardBody, CardTitle, CardSubtitle, Table } from 'reactstrap';
 
 //This is for the Delete row
 function onAfterDeleteRow(rowKeys) {
@@ -32,7 +27,6 @@ const cellEditProp = {
 
 const tableData = [
   {
-    avatar: user1,
     status: '고장',
     location: "2층 C구역",
     type : "체크인 카운터 - B",
@@ -40,7 +34,6 @@ const tableData = [
     scheduleDateTime : "2024-07-15"
   },
   {
-    avatar: user2,
     status: '정상',
     location: "1층 C구역",
     type : "체크인 카운터 - F",
@@ -48,7 +41,6 @@ const tableData = [
     scheduleDateTime : "2024-07-15"
   },
   {
-    avatar: user3,
     status: '점검중',
     location: "2층 B구역",
     type : "체크인 카운터 - C",
@@ -56,7 +48,6 @@ const tableData = [
     scheduleDateTime : "2024-07-15"
   },
   {
-    avatar: user4,
     status: '점검중',
     location: "3층 C구역",
     type : "체크인 카운터 - F",
@@ -64,7 +55,6 @@ const tableData = [
     scheduleDateTime : "2024-07-15"
   },
   {
-    avatar: user5,
     status: '정상',
     location: "2층 F구역",
     type : "체크인 카운터 - A",

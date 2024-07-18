@@ -83,7 +83,6 @@ const ProjectTables = () => {
                       />
                       <div className="ms-3">
                         <h6 className="mb-0">{tdata.location}</h6>
-                        {/* <span className="text-muted">{tdata.email}</span> */}
                       </div>
                     </div>
                   </td>

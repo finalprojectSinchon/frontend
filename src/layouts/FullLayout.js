@@ -41,7 +41,7 @@ const FullLayout = () => {
       })
       .catch(error => {
         console.error('Error fetching user info:', error);
-        navigate('/')
+        navigate('/auth/loginformik')
       });
     }
   }, [dispatch, userInfo]);

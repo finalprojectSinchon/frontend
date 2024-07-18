@@ -10,7 +10,6 @@ const SidebarData = [
     collapisble: true,
   
   },
-  { caption: 'Menu1' },
   {
     title: '사용 승인',
     href: '/apps/notes',
@@ -55,7 +54,7 @@ const SidebarData = [
     id: 2.6,
     collapisble: false,
   },
-  { caption: 'Menu2' },
+ 
 
   {
     title: '이동수단',
@@ -67,24 +66,24 @@ const SidebarData = [
   },
   {
     title: '비행기',
-    href: '/tickt',
+    href: '/api/v1/airplane',
     icon: <MaterialIcon icon="confirmation_number" />,
     id: 2.8,
     collapisble: true,
     children: [
       {
         title: '체크인 카운터',
-        href: '/tickt/ticket-list',
+        href: '/api/v1/airplane/checkin-counter',
         icon: <MaterialIcon icon="radio_button_checked" />,
       },
       {
         title: '탑승구',
-        href: '/tickt/ticket-detail',
+        href: '/api/v1/airplane/gate',
         icon: <MaterialIcon icon="radio_button_checked" />,
       },
       {
         title: '수화물 수취대',
-        href: '/tickt/ticket-detail',
+        href: '/api/v1/airplane/baggage-claim',
         icon: <MaterialIcon icon="radio_button_checked" />,
       },
     ],
@@ -143,182 +142,7 @@ const SidebarData = [
     id: 3.5,
     collapisble: false,
   },
-  { caption: 'Tables' },
-  {
-    title: 'Basic Table',
-    href: '/tables/basic-table',
-    icon: <MaterialIcon icon="table_chart" />,
-    id: 4.1,
-    collapisble: false,
-  },
-  {
-    title: 'React Table',
-    href: '/tables/react-table',
-    icon: <MaterialIcon icon="table_rows" />,
-    id: 4.2,
-    collapisble: false,
-  },
-  {
-    title: 'Bootstrap Datatable',
-    href: '/tables/data-table',
-    icon: <MaterialIcon icon="backup_table" />,
-    id: 4.3,
-    collapisble: false,
-  },
-  { caption: 'Charts' },
-  {
-    title: 'Apexchart',
-    href: '/charts/apex',
-    icon: <MaterialIcon icon="scatter_plot" />,
-    id: 5.1,
-    collapisble: false,
-  },
-  {
-    title: 'ChartJs',
-    href: '/charts/chartjs',
-    icon: <MaterialIcon icon="area_chart" />,
-    id: 5.2,
-    collapisble: false,
-  },
-  { caption: 'Extra' },
-  {
-    title: 'Sample Pages',
-    href: '/sample-pages',
-    icon: <MaterialIcon icon="copy_all" />,
-    id: 6.1,
-    collapisble: true,
-    children: [
-      {
-        title: 'Starterkit',
-        href: '/sample-pages/starterkit',
-        icon: <MaterialIcon icon="radio_button_checked" />,
-      },
-      {
-        title: 'Profile',
-        href: '/sample-pages/profile',
-        icon: <MaterialIcon icon="radio_button_checked" />,
-      },
-      {
-        title: 'Search Result',
-        href: '/sample-pages/search-result',
-        icon: <MaterialIcon icon="radio_button_checked" />,
-      },
-      {
-        title: 'Gallery',
-        href: '/sample-pages/gallery',
-        icon: <MaterialIcon icon="radio_button_checked" />,
-      },
-      {
-        title: 'Helper Class',
-        href: '/sample-pages/helper-class',
-        icon: <MaterialIcon icon="radio_button_checked" />,
-      },
-    ],
-  },
-  {
-    title: 'Widget',
-    href: '/widget',
-    icon: <MaterialIcon icon="widgets" />,
-    id: 6.4,
-    collapisble: false,
-  },
-  {
-    title: 'Icons',
-    href: '/icons',
-    icon: <MaterialIcon icon="face" />,
-    id: 6.2,
-    collapisble: true,
-    children: [
-      {
-        title: 'Bootstrap',
-        href: '/icons/bootstrap',
-        icon: <MaterialIcon icon="radio_button_checked" />,
-      },
-      {
-        title: 'Feather',
-        href: '/icons/feather',
-        icon: <MaterialIcon icon="radio_button_checked" />,
-      },
-    ],
-  },
-  {
-    title: 'Vector Map',
-    href: '/map/vector',
-    icon: <MaterialIcon icon="place" />,
-    id: 6.3,
-    collapisble: false,
-  },
-  {
-    title: 'Authentication',
-    href: '/auth',
-    icon: <MaterialIcon icon="lock" />,
-    id: 6.5,
-    collapisble: true,
-    children: [
-      {
-        title: 'Login',
-        href: '/auth/loginformik',
-        icon: <MaterialIcon icon="radio_button_checked" />,
-      },
-      {
-        title: 'Register',
-        href: '/auth/registerformik',
-        icon: <MaterialIcon icon="radio_button_checked" />,
-      },
-      {
-        title: 'Maintanance',
-        href: '/auth/maintanance',
-        icon: <MaterialIcon icon="radio_button_checked" />,
-      },
-      {
-        title: 'Lockscreen',
-        href: '/auth/lockscreen',
-        icon: <MaterialIcon icon="radio_button_checked" />,
-      },
-      {
-        title: 'Recover Password',
-        href: '/auth/recoverpwd',
-        icon: <MaterialIcon icon="radio_button_checked" />,
-      },
-      {
-        title: 'Error',
-        href: '/auth/404',
-        icon: <MaterialIcon icon="radio_button_checked" />,
-      },
-    ],
-  },
-  {
-    title: 'DD Menu',
-    href: '/',
-    id: 7,
-    collapisble: true,
-    icon: <MaterialIcon icon="subject" />,
-    children: [
-      {
-        title: 'Simple dd 1',
-        id : 7.1,
-        href: '/',
-        icon: <MaterialIcon icon="radio_button_checked" />,
-      },
-      {
-        title: 'Simple dd 2',
-        href: '/',
-        icon: <MaterialIcon icon="radio_button_checked" />,
-      },
-      {
-        title: 'Simple dd 3',
-        href: '/',
-        icon: <MaterialIcon icon="radio_button_checked" />,
-        children: [
-          {
-            title: 'Simple dd 1.1',
-            href: '/alerts',
-            icon: <MaterialIcon icon="radio_button_checked" />,
-          },
-        ],
-      },
-    ],
-  },
+
 ];
 
 export default SidebarData;
