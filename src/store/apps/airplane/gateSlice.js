@@ -3,10 +3,17 @@ import api from './api';
 
 
 
-export const fetchGates = createAsyncThunk('airplane/fetchGate', async () => {
+export const fetchGates = createAsyncThunk('airplane/fetchGates', async () => {
     const response = await api.get('/api/v1/airplane/gate');
     return response.data;
 });
+
+
+export const fetchGate = createAsyncThunk('airplane/fetchGate', async ({gateCode}) => {
+    const response = await api.get(`/api/v1/airplane/gate/${gateCode}`);
+    return response.data;
+});
+
 
 
 

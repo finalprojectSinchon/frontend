@@ -4,7 +4,7 @@ import { Card, CardBody, CardTitle, CardSubtitle, Button } from 'reactstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchGates } from '../../store/apps/airplane/gateSlice';
 import { useNavigate } from 'react-router-dom';
-import { Key } from 'react-feather';
+
 
 function onAfterDeleteRow(rowKeys) {
   alert(`The rowkey you drop: ${rowKeys}`);
@@ -14,14 +14,10 @@ function afterSearch(searchText, result) {
   console.log(`Your search text is ${searchText}`);
 }
 
-const options = {
-  afterDeleteRow: onAfterDeleteRow, 
-  afterSearch, 
-};
 
 const selectRowProp = {
   mode: 'checkbox',
-  clickToSelect: true,
+
 };
 
 const cellEditProp = {
@@ -47,25 +43,24 @@ const statusFormatter = (cell, row) => {
 
 const Datatables = () => {
   const dispatch = useDispatch();
-  const gateList = useSelector((state) => state.gates.gateList);
   const navigate = useNavigate();
+  const gateList = useSelector((state) => state.gates.gateList);
+
+  const options = {
+    afterDeleteRow: onAfterDeleteRow, 
+    afterSearch, 
+    onRowClick: (row) => {
+      console.log('Row clicked: ', row);
+      navigate(`/api/v1/airplane/gate/${row.gateCode}`);
+  
+    },
+  };
+
 
   useEffect(() => {
-    console.log('Dispatching fetchGates');
     dispatch(fetchGates());
   }, [dispatch]);
 
-  const buttonFormatter = () => {
-
-    return (
-      <Button
-        color="primary"
-        onClick={ handleDetailClick}
-      >
-        상세보기
-      </Button>
-    );
-  };
   
 
   if (!gateList || !gateList.data || !gateList.data.gateList) {
@@ -78,10 +73,6 @@ const Datatables = () => {
     scheduleDateTime: gate.airplane.scheduleDateTime
   }));
 
-  const handleDetailClick = () => {
-    console.log('key' ,selectRowProp)
-    navigate(`/api/v1/airplane/gate/${selectRowProp}`);
-  };
 
 
   return (
@@ -123,9 +114,7 @@ const Datatables = () => {
             <TableHeaderColumn width="14.28%" dataField="scheduleDateTime" dataAlign="center">
               Schedule DateTime
             </TableHeaderColumn>
-            <TableHeaderColumn width="14.28%" dataField="details" dataAlign="center" dataFormat={buttonFormatter}>
-              Details
-            </TableHeaderColumn>
+            
           </BootstrapTable>
         </CardBody>
       </Card>
