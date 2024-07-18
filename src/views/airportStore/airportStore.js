@@ -19,7 +19,6 @@ const options = {
 };
 const selectRowProp = {
   mode: 'checkbox',
-
 };
 const cellEditProp = {
   mode: 'click',
@@ -32,9 +31,9 @@ const statusFormatter = (cell, row) => {
   let styleClass;
   if (row.storeStatus
     === '운영중') {
-    styleClass = 'bg-danger';
-  } else {
     styleClass = 'bg-success';
+  } else {
+    styleClass = 'bg-danger';
   }
   
   return (
@@ -45,7 +44,6 @@ const statusFormatter = (cell, row) => {
 const AirportStore = () => {
 
   const [Storedata, setStoredata] = useState([]);
-  console.log(Storedata);
 
   useEffect(() => {
     axios.get('http://localhost:8080/api/v1/store',{
