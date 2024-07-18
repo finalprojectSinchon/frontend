@@ -36,7 +36,6 @@ const FullLayout = () => {
       })
       .then(res => res.data)
       .then(data => {
-        alert(JSON.stringify(data.data));
         dispatch(addUser(data.data));
       })
       .catch(error => {
