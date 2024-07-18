@@ -2,6 +2,7 @@ import { lazy } from 'react';
 import { Navigate } from 'react-router-dom';
 import Loadable from '../layouts/loader/Loadable';
 
+
 /****Layouts*****/
 
 const FullLayout = Loadable(lazy(() => import('../layouts/FullLayout')));
@@ -14,7 +15,9 @@ const CheckinCounter = Loadable(lazy(() => import('../views/airplane/CheckinCoun
 const Gate = Loadable(lazy(() => import('../views/airplane/Gate')));
 const GateDetail = Loadable(lazy(() => import('../views/airplane/gateDetail')));
 const Profile = Loadable(lazy(() => import('../views/auth/Profile')));
+
 const Inspection = Loadable(lazy(() => import('../views/inspection/inspection')));
+const AirportStore = Loadable(lazy(() => import('../views/airportStore/airportStore')));
 
 
 /***** CASL Access Control ****/
@@ -37,12 +40,15 @@ const ThemeRoutes = [
       { path: '/api/v1/airplane', name: 'Airplane', exact: true, element: <Airplane /> },
       { path: '/api/v1/airplane/checkin-counter', name: 'CheckinCounter', exact: true, element: <CheckinCounter /> },
       { path: '/api/v1/airplane/gate', name: 'Gate', exact: true, element: <Gate /> },
+
       { path: '/api/v1/airplane/gate/:gateCode', name: 'GateDetail', exact: true, element: <GateDetail /> },
       { path: '/api/v1/inspection', name: 'inspection', exact: true, element: <Inspection/> },
 
       { path: '/dashboards/dashboard1', name: 'Dashboard 1', exact: true, element: <Dashboard1 /> },
   
   
+      { path: '/airport/store', name: 'Dashboard 1', exact: true, element: <AirportStore /> },
+ 
 
       { path: '/profile', name: 'profile', exact: true, element: <Profile /> },
     

@@ -90,7 +90,7 @@ const SidebarData = [
   },
   {
     title: '점포',
-    href: '/apps/treeview',
+    href: '/airport/store',
     icon: <MaterialIcon icon="account_tree" />,
     id: 2.9,
     collapisble: false,
@@ -137,7 +137,7 @@ const SidebarData = [
   },
   {
     title: 'Logout',
-    href: '/form-editor',
+    href: '/logout',
     icon: <MaterialIcon icon="app_registration" />,
     id: 3.5,
     collapisble: false,
