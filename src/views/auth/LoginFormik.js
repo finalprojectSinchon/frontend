@@ -51,7 +51,6 @@ const LoginFormik = () => {
     })
       .then(res => res.data)
       .then((data) => {
-        alert(data.data.Authorization)
         Cookies.set('token',data.data.Authorization,{ expires: 1 })
         navigate('/dashboards/dashboard1');
       })
