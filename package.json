@@ -4,8 +4,8 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
-    "build": "vite build",
+    "dev": "vite --mode local",
+    "build": "vite build --mode prod",
     "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview"
   },
@@ -24,6 +24,7 @@
     "chart.js": "4.4.0",
     "chroma-js": "^2.4.2",
     "draft-js": "^0.11.7",
+    "firebase": "^10.12.3",
     "formik": "^2.4.5",
     "js-cookie": "^3.0.5",
     "moment": "^2.29.4",

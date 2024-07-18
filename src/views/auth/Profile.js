@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Iframe from 'react-iframe';
 import {
   Alert,
@@ -38,8 +38,10 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { modifyUser } from '../../store/apps/login/userSlice';
 
-
 const Profile = () => {
+
+
+
   const [activeTab, setActiveTab] = useState('1');
 
   const toggle = (tab) => {
@@ -174,7 +176,7 @@ const Profile = () => {
           <Card>
             <CardBody className="p-4">
               <div className="text-center mt-4">
-                <img src={img1} className="rounded-circle" width="150" alt="" />
+                <img src={userInfo.userImg} className="rounded-circle" width="150" alt="profile Img" />
                 <CardTitle tag="h4" className="mt-2 mb-0">
                   {userInfo.userName}
                 </CardTitle>

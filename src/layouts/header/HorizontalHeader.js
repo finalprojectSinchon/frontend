@@ -29,6 +29,7 @@ const HorizontalHeader = () => {
   const isDarkMode = useSelector((state) => state.customizer.isDark);
   const topbarColor = useSelector((state) => state.customizer.topbarBg);
   const isMobileSidebar = useSelector((state) => state.customizer.isMobileSidebar);
+  const userInfo = useSelector(state => state.userInfo)
   const dispatch = useDispatch();
 
   return (
@@ -128,7 +129,7 @@ const HorizontalHeader = () => {
           {/******************************/}
           <UncontrolledDropdown>
             <DropdownToggle tag="span" className="p-2 cursor-pointer ">
-              <img src={user1} alt="profile" className="rounded-circle" width="30" />
+              <img src={userInfo.userImg} alt="profile" className="rounded-circle" width="30" />
             </DropdownToggle>
             <DropdownMenu className="ddWidth">
               <ProfileDD />

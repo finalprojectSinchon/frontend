@@ -1,6 +1,7 @@
 import { lazy } from 'react';
 import { Navigate } from 'react-router-dom';
 import Loadable from '../layouts/loader/Loadable';
+import ProfileUploader from '../views/auth/imgUpload';
 
 
 
@@ -58,6 +59,7 @@ const ThemeRoutes = [
  
 
       { path: '/profile', name: 'profile', exact: true, element: <Profile /> },
+      { path: '/upload', name: 'test', exact: true, element: <ProfileUploader /> },
     
       { path: '/casl', name: 'casl', exact: true, element: <CASL /> },
       { path: '*', element: <Navigate to="/auth/404" /> },

@@ -27,6 +27,7 @@ import Cookies from 'js-cookie'
 const Header = () => {
   const isDarkMode = useSelector((state) => state.customizer.isDark);
   const topbarColor = useSelector((state) => state.customizer.topbarBg);
+  const userInfo = useSelector((state) => state.userInfo);
   const dispatch = useDispatch();
 
   let navigate = useNavigate();
@@ -155,7 +156,7 @@ const Header = () => {
           {/******************************/}
           <UncontrolledDropdown>
             <DropdownToggle color="transparent">
-              <img src={user1} alt="profile" className="rounded-circle" width="30" />
+              <img src={userInfo.userImg} alt="profile" className="rounded-circle" width="30" />
             </DropdownToggle>
             <DropdownMenu className="ddWidth profile-dd">
               <ProfileDD />
