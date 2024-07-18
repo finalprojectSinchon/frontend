@@ -1,8 +1,10 @@
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import "./Error.scss";
 import errorBg from '../../assets/images/background/error-bg.jpg';
 
 const Error = () => {
+
+  const navigate = useNavigate();
   return (
     <>
       <div
@@ -19,9 +21,9 @@ const Error = () => {
               </span>
             </div>
 
-            <Link to="/" className="btn btn-danger">
+            <button onClick={() => navigate(-2)} className="btn btn-danger">
               Back to home
-            </Link>
+            </button>
           </div>
         </div>
       </div>

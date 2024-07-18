@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
 import { Card, CardBody, CardTitle, CardSubtitle, Button } from 'reactstrap';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchGates } from '../../store/apps/airplane/gateSlice';
+import { fetchGates  } from '../../store/apps/airplane/gateSlice';
 import { useNavigate } from 'react-router-dom';
 
 
@@ -12,6 +12,7 @@ function onAfterDeleteRow(rowKeys) {
 
 function afterSearch(searchText, result) {
   console.log(`Your search text is ${searchText}`);
+  console.log('result',result)
 }
 
 
@@ -52,7 +53,7 @@ const Datatables = () => {
     onRowClick: (row) => {
       console.log('Row clicked: ', row);
       navigate(`/api/v1/airplane/gate/${row.gateCode}`);
-  
+    
     },
   };
 
@@ -85,7 +86,7 @@ const Datatables = () => {
           </CardSubtitle>
           <BootstrapTable
             hover
-            search
+            search 
             data={flatGateList}
             insertRow
             deleteRow

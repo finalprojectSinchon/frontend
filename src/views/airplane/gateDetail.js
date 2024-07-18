@@ -17,21 +17,26 @@ import BreadCrumbs from '../../layouts/breadcrumbs/BreadCrumbs';
 import { useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchGate } from '../../store/apps/airplane/gateSlice';
+import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
 
 
 
 const gateDetail = () => {
  
-
+  const dispatch = useDispatch();
   const { gateCode } = useParams();
   console.log("gateCode detail",gateCode)
+  const gateDetail = useSelector((state) => state.gates.gateDetail);
 
-  // const gate = useSelector((state) => state.gates.gateList);
+
+  console.log('gateDetail',gateDetail)
+
+ 
 
   useEffect(() => {
 
         dispatch(fetchGate({	
-          gateCode:gateCode
+          gateCode
         }));            
     }
     ,[dispatch]);
@@ -52,17 +57,23 @@ const gateDetail = () => {
                 <Row>
                   <Col md="6">
                     <FormGroup>
-                      <Label>location</Label>
-                      <Input type="text" placeholder="위치를 입력하세요 " valid />
-                      <FormFeedback valid>Success! You&apos;ve done it.</FormFeedback>
+                      <Label>탑승구 코드</Label>
+                      <Input type="text"  value={gateDetail.data.gate.gateCode} />
+                      <Label>type</Label>
+                      <Input type="select"   value={gateDetail.data.gate.gateType}  >
+                        <option>A</option>
+                        <option>B</option>
+                        <option>C</option>
+                        <option>D</option>
+                      </Input>
                     </FormGroup>
                   </Col>
                   <Col md="6">
                     <FormGroup>
                       <Label>Status</Label>
-                      <Input type="select" name="Select Gender">
-                        <option>정상</option>
+                      <Input type="select"   value={gateDetail.data.gate.status} >
                         <option>고장</option>
+                        <option>정상</option>
                         <option>점검중</option>
                       </Input>
                       <FormText className="muted">This field has error.</FormText>
@@ -72,13 +83,7 @@ const gateDetail = () => {
                 <Row>
                   <Col md="6">
                     <FormGroup>
-                      <Label>type</Label>
-                      <Input type="select" placeholder="12n" >
-                        <option>A</option>
-                        <option>B</option>
-                        <option>C</option>
-                        <option>D</option>
-                      </Input>
+                     
                       <FormText className="muted">Select your type</FormText>
                     </FormGroup>
                   </Col>
@@ -150,33 +155,7 @@ const gateDetail = () => {
      
       </Row>
 
-      <Row>
-        <Col md="12">
-            <BootstrapTable
-              hover
-              condensed
-              search
-              data={data.JsonData}
-              deleteRow
-              selectRow={selectRowProp}
-              pagination
-              options={options}
-              cellEdit={cellEditProp}
-              tableHeaderClass="mb-0"
-            >
-              <TableHeaderColumn width="100" dataField="name" isKey>
-                Name
-              </TableHeaderColumn>
-              <TableHeaderColumn width="100" dataField="gender">
-                Gender
-              </TableHeaderColumn>
-              <TableHeaderColumn width="100" dataField="company">
-                Company
-              </TableHeaderColumn>
-            </BootstrapTable>
-        </Col>
-      </Row>
-    
+      
     </div>
   );
 };

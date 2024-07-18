@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
 import { Card, CardBody, CardTitle, CardSubtitle, Table } from 'reactstrap';
 import Cookies from 'js-cookie';
+import { useNavigate } from 'react-router-dom';
 
 //This is for the Delete row
 function onAfterDeleteRow(rowKeys) {
@@ -13,10 +14,7 @@ function onAfterDeleteRow(rowKeys) {
 function afterSearch(searchText, result) {
   console.log(`Your search text is ${searchText}`)
 }
-const options = {
-  afterDeleteRow: onAfterDeleteRow, // A hook for after droping rows.
-  afterSearch, // define a after search hook
-};
+
 const selectRowProp = {
   mode: 'checkbox',
 };
@@ -30,11 +28,14 @@ const cellEditProp = {
 const statusFormatter = (cell, row) => {
   let styleClass;
   if (row.storeStatus
-    === '운영중') {
-    styleClass = 'bg-success';
-  } else {
-    styleClass = 'bg-danger';
-  }
+    === '중단') {
+      styleClass = 'bg-danger'
+    }
+    else if (row.storeStatus === '점검중') {
+      styleClass = 'bg-warning';
+    } else {
+      styleClass = 'bg-success';
+    }
   
   return (
     <span className={`p-2 rounded-circle d-inline-block ${styleClass}`}></span>
@@ -42,6 +43,8 @@ const statusFormatter = (cell, row) => {
 };
 
 const AirportStore = () => {
+
+  const navigate = useNavigate();
 
   const [Storedata, setStoredata] = useState([]);
 
@@ -56,6 +59,16 @@ const AirportStore = () => {
       setStoredata(data.data);
     })
   }, []);
+
+  const options = {
+    afterDeleteRow: onAfterDeleteRow, 
+    afterSearch, 
+    onRowClick: (row) => {
+      console.log('Row clicked: ', row.storeId);
+      navigate(`/airport/store/${row.storeId}`);
+    },
+  };
+
 
   return (
     <div>
