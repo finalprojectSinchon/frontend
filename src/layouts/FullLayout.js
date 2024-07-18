@@ -28,7 +28,7 @@ const FullLayout = () => {
 
   useEffect(() => {
     // Check if userInfo is empty
-    if (!userInfo.userId) {
+    if (userInfo.userCode === null) {
       axios.get('http://localhost:8080/user-info', {
         headers: {
           Authorization: Cookies.get('token')
