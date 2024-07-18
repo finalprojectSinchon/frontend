@@ -3,6 +3,7 @@ import { Navigate } from 'react-router-dom';
 import Loadable from '../layouts/loader/Loadable';
 
 
+
 /****Layouts*****/
 
 const FullLayout = Loadable(lazy(() => import('../layouts/FullLayout')));
@@ -18,6 +19,7 @@ const Profile = Loadable(lazy(() => import('../views/auth/Profile')));
 
 const Inspection = Loadable(lazy(() => import('../views/inspection/inspection')));
 const AirportStore = Loadable(lazy(() => import('../views/airportStore/airportStore')));
+const AirportStoreDetail = Loadable(lazy(() => import('../views/airportStore/airportStoreDetail')));
 
 
 /***** CASL Access Control ****/
@@ -46,8 +48,9 @@ const ThemeRoutes = [
 
       { path: '/dashboards/dashboard1', name: 'Dashboard 1', exact: true, element: <Dashboard1 /> },
   
-  
-      { path: '/airport/store', name: 'Dashboard 1', exact: true, element: <AirportStore /> },
+      { path: '/airport/store', name: 'AirportStore', exact: true, element: <AirportStore /> },
+      { path: '/airport/store/:storeId', name: 'AirportStoreDetail', exact: true, element: <AirportStoreDetail /> },
+
  
 
       { path: '/profile', name: 'profile', exact: true, element: <Profile /> },
