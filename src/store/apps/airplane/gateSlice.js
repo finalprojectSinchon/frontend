@@ -11,11 +11,17 @@ export const fetchGate = createAsyncThunk('gates/fetchGate', async ({ gateCode }
   return response.data;
 });
 
+export const modifyGate = createAsyncThunk('gates/modifyGate', async ({ gateCode, gateInfo }) => {
+  const response = await api.put(`/api/v1/airplane/gate/${gateCode}`, gateInfo);
+  return response.data;
+});
+
 const gateSlice = createSlice({
   name: 'gates',
   initialState: {
     gateList: [],
     gateDetail: null, 
+    modifyGate : null,
     status: 'idle',
     error: null,
   },
@@ -43,6 +49,17 @@ const gateSlice = createSlice({
         state.gateDetail = action.payload; 
       })
       .addCase(fetchGate.rejected, (state, action) => {
+        state.status = 'failed';
+        state.error = action.error.message;
+      })
+      .addCase(modifyGate.pending, (state) => {
+        state.status = 'loading';
+      })
+      .addCase(modifyGate.fulfilled, (state, action) => {
+        state.status = 'succeeded';
+        state.modifyGate = action.payload; 
+      })
+      .addCase(modifyGate.rejected, (state, action) => {
         state.status = 'failed';
         state.error = action.error.message;
       });
