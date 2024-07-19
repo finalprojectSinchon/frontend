@@ -52,7 +52,7 @@ const Datatables = () => {
     afterSearch, 
     onRowClick: (row) => {
       console.log('Row clicked: ', row);
-      navigate(`/api/v1/airplane/gate/${row.gateCode}`);
+      navigate(`/airplane/gate/${row.gateCode}`);
     
     },
   };

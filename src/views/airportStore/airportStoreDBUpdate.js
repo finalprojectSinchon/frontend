@@ -2,6 +2,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { Button, Input, InputGroup, Label, FormGroup, Card, CardBody, CardTitle, Col } from "reactstrap";
 import api from "../../store/apps/airplane/api";
+import { useNavigate } from "react-router-dom";
 
 
 
@@ -10,11 +11,9 @@ const AirportDBUpdate = () => {
     const [rangeValue, setRangeValue] = useState(10);
     const [apiData, setapiData] = useState([]);
     const [buttonStatus, setbuttonStatus] = useState(true);
-    console.log(apiData);
+    const navigate = useNavigate();
+
     const apiURI = import.meta.env.VITE_storeApi;
-    console.log(apiURI)
-    
-        // api.post(`${apiURI}${rangeValue}`)
     
     
     const onClickHandler = () => {
@@ -34,9 +33,11 @@ const AirportDBUpdate = () => {
         api.post('/api/v1/store/insertapi',apiData)
         .then(res => {
             alert('등록성공')
+            navigate('/airport/store')
         })
         .catch(error => {
             console.error(error)
+            alert('다시 시도해주세요')
         })
     }
 
