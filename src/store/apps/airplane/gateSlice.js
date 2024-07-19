@@ -16,6 +16,12 @@ export const modifyGate = createAsyncThunk('gates/modifyGate', async ({ gateCode
   return response.data;
 });
 
+export const softdeleteGate = createAsyncThunk('gates/softDelete', async ({gateCode}) => {
+  console.log(gateCode)
+  const response = await api.put(`/api/v1/airplane/gate/${gateCode}/delete`);
+  return response.data
+})
+
 const gateSlice = createSlice({
   name: 'gates',
   initialState: {
@@ -62,7 +68,7 @@ const gateSlice = createSlice({
       .addCase(modifyGate.rejected, (state, action) => {
         state.status = 'failed';
         state.error = action.error.message;
-      });
+      })
   },
 });
 
