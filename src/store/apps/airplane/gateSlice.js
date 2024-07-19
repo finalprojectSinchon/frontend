@@ -32,7 +32,7 @@ const gateSlice = createSlice({
     error: null,
   },
   reducers: {
-   
+
   },
   extraReducers: (builder) => {
     builder

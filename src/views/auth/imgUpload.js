@@ -1,20 +1,22 @@
 import React, { useState, useEffect } from "react";
-import { storage, db } from "../../firebase"; // Firebase 설정에 맞게 수정해주세요
+import { storage, db } from "src/firebase.js";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { collection, addDoc, getDocs, query, where } from "firebase/firestore";
 import { useSelector } from "react-redux";
 import api from "../../store/apps/airplane/api";
 import { useNavigate } from "react-router-dom";
+import { Button, Form, FormGroup, Label, Input, Spinner } from 'reactstrap';
+import './ProfileUploader.css';
 
 const ProfileUploader = () => {
 
-    const userInfo = useSelector((state) => state.userInfo);
-
-    const navigate = useNavigate();
+  const userInfo = useSelector((state) => state.userInfo);
+  const navigate = useNavigate();
 
   const [image, setImage] = useState(null);
   const [userCode, setUserCode] = useState("");
   const [profileImageUrl, setProfileImageUrl] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const handleImageChange = (e) => {
     setUserCode(userInfo.userCode);
@@ -23,9 +25,9 @@ const ProfileUploader = () => {
     }
   };
 
-
   const handleUpload = async () => {
     if (image && userCode) {
+      setLoading(true);
       const imageRef = ref(storage, `profile_images/${userCode}`);
       try {
         await uploadBytes(imageRef, image);
@@ -41,13 +43,14 @@ const ProfileUploader = () => {
       } catch (error) {
         console.error("업로드 중 오류 발생:", error);
         alert("업로드 중 오류가 발생했습니다.");
+      } finally {
+        setLoading(false);
       }
     } else {
       alert("이미지와 사용자 코드를 입력하세요.");
     }
   };
 
-  // 사용자 코드(userCode)를 기준으로 Firestore에서 데이터를 꺼내는 예시
   useEffect(() => {
     const fetchData = async () => {
       if (userCode) {
@@ -69,34 +72,40 @@ const ProfileUploader = () => {
   useEffect(() => {
     const sendProfileImageToServer = async () => {
       if (profileImageUrl) {
-        api.post('/api/v1/profile/img',{ 
-            profileImageUrl : profileImageUrl,
-            userCode : userInfo.userCode })
-        .then(res => {
-          setTimeout(() => {
-            navigate('/profile');
-          },500)
+        api.post('/api/v1/profile/img', {
+          profileImageUrl : profileImageUrl,
+          userCode : userInfo.userCode
         })
-        .catch(error => {
-            console.log(error);
-            alert('다시 시도해주세요')
-        })
+            .then(res => {
+              setTimeout(() => {
+                navigate('/profile');
+              }, 500);
+            })
+            .catch(error => {
+              console.log(error);
+              alert('다시 시도해주세요');
+            });
       }
     };
-  
+
     sendProfileImageToServer();
   }, [profileImageUrl]);
 
   return (
-    <div>
-      <input type="file" onChange={handleImageChange} />
-      <button onClick={handleUpload}>Upload Profile Picture</button>
-
-      {/* 이미지 URL 표시 */}
-      {profileImageUrl && (
-        <img src={profileImageUrl} alt="프로필 이미지" style={{ maxWidth: "200px" }} />
-      )}
-    </div>
+      <Form>
+        <FormGroup>
+          <Label for="profileImage">프로필 이미지</Label>
+          <Input type="file" id="profileImage" onChange={handleImageChange} />
+        </FormGroup>
+        <Button color="primary" onClick={handleUpload} disabled={loading}>
+          {loading ? <Spinner size="sm" /> : "프로필 사진 업로드"}
+        </Button>
+        {profileImageUrl && (
+            <div className="profile-image-preview">
+              <img src={profileImageUrl} alt="프로필 이미지" />
+            </div>
+        )}
+      </Form>
   );
 };
 
