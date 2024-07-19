@@ -1,0 +1,11 @@
+.profile-image-preview {
+  margin-top: 15px;
+  text-align: center;
+}
+
+.profile-image-preview img {
+  max-width: 200px;
+  border-radius: 10px;
+  border: 1px solid #ddd;
+  padding: 5px;
+}
