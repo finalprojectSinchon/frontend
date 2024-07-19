@@ -17,10 +17,12 @@ const ProfileUploader = () => {
   const [profileImageUrl, setProfileImageUrl] = useState("");
 
   const handleImageChange = (e) => {
+    setUserCode(userInfo.userCode);
     if (e.target.files[0]) {
       setImage(e.target.files[0]);
     }
   };
+
 
   const handleUpload = async () => {
     if (image && userCode) {
@@ -71,7 +73,9 @@ const ProfileUploader = () => {
             profileImageUrl : profileImageUrl,
             userCode : userInfo.userCode })
         .then(res => {
+          setTimeout(() => {
             navigate('/profile');
+          },500)
         })
         .catch(error => {
             console.log(error);
@@ -85,12 +89,6 @@ const ProfileUploader = () => {
 
   return (
     <div>
-      <input
-        type="text"
-        placeholder="User Code"
-        value={userCode}
-        onChange={(e) => setUserCode(e.target.value)}
-      />
       <input type="file" onChange={handleImageChange} />
       <button onClick={handleUpload}>Upload Profile Picture</button>
 

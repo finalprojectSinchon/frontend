@@ -29,6 +29,8 @@ const AirportStoreDetail = () => {
 
   const [storeInfo, setstoreInfo] = useState();
   const [readOnly, setreadOnly] = useState(true);
+
+  console.log(storeInfo);
   
 
   useEffect(() => {
@@ -47,6 +49,27 @@ const AirportStoreDetail = () => {
     setstoreInfo({
         ...storeInfo,
         [e.target.name] : e.target.value
+    })
+  }
+
+  const onClickSave = () => {
+    api.put(`/api/v1/store/${storeId}`,storeInfo)
+    .then(res => {
+        alert('수정에 성공하였습니다.')
+    })
+    .catch(error => {
+        console.error('에러 : ',error);
+    })
+  }
+
+  const onClickDelete = () => {
+    api.put(`/api/v1/store/${storeId}/delete`)
+    .then(res => {
+        alert('삭제에 성공하였습니다.')
+        navigate('/airport/store')
+    })
+    .catch(error => {
+        console.error('에러 : ', error);
     })
   }
 
@@ -140,20 +163,27 @@ const AirportStoreDetail = () => {
                   <Col md="6">
                     <FormGroup>
                       <Label>비고</Label>
-                      <Input type="textarea" placeholder="특이사항을 입력하세요"  rows="6" />
+                      <Input type="textarea" placeholder="특이사항을 입력하세요"  rows="6" name='storeExtra' onChange={onChangeHandler} readOnly={readOnly}/>
                     </FormGroup>
                   </Col>
                 <Col md="6">
-                    {!readOnly ? <h1>수정가능</h1> : null}
                 </Col>
                 </Row>
-              <Col className='d-flex justify-content-center'>
-                <Button className="btn " color="primary" onClick={() => setreadOnly(false)}  >
-                  수정하기
-                </Button>
-                <Button className="btn" color="secondary" >
-                  secondary
-                </Button>
+                <Col className="d-flex justify-content-center align-items-center">
+                <div className="d-flex">
+                    <Button className="me-2" color="danger" onClick={onClickDelete}>
+                    삭제하기
+                    </Button>
+                    {readOnly ? (
+                    <Button className="btn" color="primary" onClick={() => setreadOnly(false)}>
+                        수정하기
+                    </Button>
+                    ) : (
+                    <Button color="success" onClick={onClickSave}>
+                        저장하기
+                    </Button>
+                    )}
+                </div>
                 </Col>
               </Form>
             </CardBody>
