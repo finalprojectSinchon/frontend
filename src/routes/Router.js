@@ -5,6 +5,7 @@ import ProfileUploader from '../views/auth/imgUpload';
 
 
 
+
 /****Layouts*****/
 
 const FullLayout = Loadable(lazy(() => import('../layouts/FullLayout')));
@@ -24,6 +25,7 @@ const AirportStore = Loadable(lazy(() => import('../views/airportStore/airportSt
 const Maintenance =  Loadable(lazy(() => import('../views/maintenance/maintenance')));
 
 const AirportStoreDetail = Loadable(lazy(() => import('../views/airportStore/airportStoreDetail')));
+const AirportDBUpdate = Loadable(lazy(() => import('../views/airportStore/airportStoreDBUpdate')));
 
 
 /***** CASL Access Control ****/
@@ -55,6 +57,7 @@ const ThemeRoutes = [
   
       { path: '/airport/store', name: 'AirportStore', exact: true, element: <AirportStore /> },
       { path: '/airport/store/:storeId', name: 'AirportStoreDetail', exact: true, element: <AirportStoreDetail /> },
+      { path: '/airport/store/dbupdate', name: 'AirportStoreDBUpdate', exact: true, element: <AirportDBUpdate /> },
 
  
 
