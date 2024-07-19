@@ -14,7 +14,7 @@ import {
   FormFeedback,
 } from 'reactstrap';
 import BreadCrumbs from '../../layouts/breadcrumbs/BreadCrumbs';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import api from '../../store/apps/airplane/api';
 
@@ -24,17 +24,21 @@ const AirportStoreDetail = () => {
  
 
   const { storeId } = useParams();
-  console.log("storeId detail",storeId)
+  
+  const navigate = useNavigate();
 
   const [storeInfo, setstoreInfo] = useState();
   const [readOnly, setreadOnly] = useState(true);
-  console.log(storeInfo);
+  
 
   useEffect(() => {
     api.get(`/api/v1/store/${storeId}`)
     .then(res=> res.data)
     .then(data => {
       setstoreInfo(data.data)
+    })
+    .catch(error => {
+        navigate('auth/404')
     })
   }, []);
 
@@ -64,8 +68,7 @@ const AirportStoreDetail = () => {
                     <FormGroup>
                       <Label>점포명</Label>
                       <Input type="text" placeholder="점포이름을 입력하세요" name='storeName' onChange={onChangeHandler} readOnly={readOnly}
-                      value={storeInfo ? storeInfo.storeName :  '로딩중...' } valid />
-                      <FormFeedback valid>Success! You&apos;ve done it.</FormFeedback>
+                      value={storeInfo ? storeInfo.storeName :  '로딩중...' } />                    
                     </FormGroup>
                   </Col>
                   <Col md="6">

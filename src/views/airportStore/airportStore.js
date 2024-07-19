@@ -1,9 +1,9 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
-import { Card, CardBody, CardTitle, CardSubtitle, Table } from 'reactstrap';
+import { Card, CardBody, CardTitle, CardSubtitle, Table, CardHeader, Button } from 'reactstrap';
 import Cookies from 'js-cookie';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 //This is for the Delete row
 function onAfterDeleteRow(rowKeys) {
@@ -47,6 +47,7 @@ const AirportStore = () => {
   const navigate = useNavigate();
 
   const [Storedata, setStoredata] = useState([]);
+  console.log(Storedata)
 
   useEffect(() => {
     axios.get('http://localhost:8080/api/v1/store',{
@@ -59,6 +60,7 @@ const AirportStore = () => {
       setStoredata(data.data);
     })
   }, []);
+
 
   const options = {
     afterDeleteRow: onAfterDeleteRow, 
@@ -74,7 +76,9 @@ const AirportStore = () => {
     <div>
       <Card>
         <CardBody>
-          <CardTitle tag="h5">점포</CardTitle>
+          <CardTitle tag="h5">점포
+          <Button color="primary" className="ms-5 btn btn-" size="sm" onClick={() => navigate('/airport/store/dbupdate')}>점포 DB 업데이트</Button>
+          </CardTitle>
           <CardSubtitle className="mb-2 text-muted" tag="h6">
             점포 조회
           </CardSubtitle>
@@ -92,14 +96,14 @@ const AirportStore = () => {
               exportCSV
               headerStyle={{ width: '100%' }}
               >
-              <TableHeaderColumn width="20%" dataField="storeName" dataAlign="center"   isKey>
-              storeName
+              <TableHeaderColumn width="20%" dataField="storeType" dataAlign="center"   isKey>
+              타입
               </TableHeaderColumn>
-              <TableHeaderColumn width="20%" dataField="storeType" dataAlign="center">
-              storeType
+              <TableHeaderColumn width="20%" dataField="storeName" dataAlign="center">
+              점포명
               </TableHeaderColumn>
-              <TableHeaderColumn width="20%" dataField="storeManager" dataAlign="center" >
-              storeManager
+              <TableHeaderColumn width="20%" dataField="storeContact" dataAlign="center" >
+              연락처
               </TableHeaderColumn>
               <TableHeaderColumn width="20%" dataField="status" dataAlign="center" dataFormat={statusFormatter}>
               Status
