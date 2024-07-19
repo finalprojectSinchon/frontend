@@ -18,7 +18,9 @@ const Gate = Loadable(lazy(() => import('../views/airplane/Gate')));
 const GateDetail = Loadable(lazy(() => import('../views/airplane/gateDetail')));
 const Profile = Loadable(lazy(() => import('../views/auth/Profile')));
 
-// const Inspection = Loadable(lazy(() => import('../views/inspection/inspection')));
+const Inspection = Loadable(lazy(() => import('../views/inspection/inspection')));
+const InspectionDetail = Loadable(lazy(() => import('../views/inspection/inspectionDetail')));
+
 const AirportStore = Loadable(lazy(() => import('../views/airportStore/airportStore')));
 
 const Maintenance =  Loadable(lazy(() => import('../views/maintenance/maintenance')));
@@ -49,7 +51,9 @@ const ThemeRoutes = [
       { path: '/api/v1/maintenance', name: 'Maintenance', exact: true, element: <Maintenance /> },
 
       { path: '/api/v1/airplane/gate/:gateCode', name: 'GateDetail', exact: true, element: <GateDetail /> },
-      // { path: '/api/v1/inspection', name: 'inspection', exact: true, element: <Inspection/> },
+
+      { path: '/api/v1/inspection', name: 'inspection', exact: true, element: <Inspection/> },
+      { path: '/api/v1/inspection/:inspectionCode', name: 'inspectionDetail', exact: true, element: <InspectionDetail/> },
 
       { path: '/dashboards/dashboard1', name: 'Dashboard 1', exact: true, element: <Dashboard1 /> },
   
