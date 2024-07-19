@@ -1,7 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
   <component name="ChangeListManager">
-    <list default="true" id="69926207-5b43-4876-b095-05d7c27fba30" name="Changes" comment="[2024-07-18]안전 점검 프론트" />
+    <list default="true" id="69926207-5b43-4876-b095-05d7c27fba30" name="Changes" comment="[2024-07-18]안전 점검 프론트">
+      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -30,6 +36,10 @@
     "git-widget-placeholder": "feature/inspection",
     "kotlin-language-version-configured": "true",
     "last_opened_file_path": "C:/lecture/fianl",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
     "vue.rearranger.settings.migration": "true"
   }
@@ -70,6 +80,7 @@
       <workItem from="1721269399049" duration="17000" />
       <workItem from="1721269524012" duration="8000" />
       <workItem from="1721280519575" duration="137000" />
+      <workItem from="1721348602437" duration="1025000" />
     </task>
     <task id="LOCAL-00001" summary="[2024-07-18]안전 점검 프론트">
       <option name="closed" value="true" />
