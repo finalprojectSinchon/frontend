@@ -40,7 +40,7 @@ const SidebarData = [
   },
   {
     title: '안전 점검',
-    href: '/apps/email',
+    href: '/api/v1/inspection',
     icon: <MaterialIcon icon="mail_outline" />,
     suffix: 'New',
     suffixColor: 'bg-success',
@@ -49,12 +49,12 @@ const SidebarData = [
   },
   {
     title: '정비',
-    href: '/casl',
+    href: '/api/v1/maintenance',
     icon: <MaterialIcon icon="manage_accounts" />,
     id: 2.6,
     collapisble: false,
   },
- 
+
 
   {
     title: '이동수단',

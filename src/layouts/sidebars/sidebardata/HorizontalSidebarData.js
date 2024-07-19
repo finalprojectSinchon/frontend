@@ -49,7 +49,7 @@ const SidebarData = [
   },
   {
     title: '정비',
-    href: '/casl',
+    href: '/api/v1/maintenance',
     icon: <MaterialIcon icon="manage_accounts" />,
     id: 2.6,
     collapisble: false,
