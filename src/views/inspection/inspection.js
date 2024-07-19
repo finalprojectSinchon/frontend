@@ -4,7 +4,8 @@ import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
 import { Card, CardBody, CardTitle, CardSubtitle, Table } from 'reactstrap';
 import Cookies from 'js-cookie';
 import { useNavigate } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import { useDispatch ,useSelector } from 'react-redux';
+import { fetchInspections } from '../../store/apps/inspection/inspectionSlice';
 
 
 function onAfterDeleteRow(rowKeys) {
@@ -47,27 +48,24 @@ const Datatables = () => {
 
         const navigate = useNavigate();
         const dispatch = useDispatch();
+        const inspectionList = useSelector((state) => state.inspections.inspectionList);
+        console.log('inspectionList ',inspectionList)
 
-        const [tableData, settableData] = useState([]);
     
         useEffect(() => {
-        axios.get('http://localhost:8080/api/v1/inspection',{
-            headers:{
-                Authorization: Cookies.get('token')
-            }
-        })
-        .then(res => res.data)
-        .then(data => {
-            settableData(data.data);
-        })
-        }, []);
+            dispatch(fetchInspections())
+        }, [dispatch]);
+
+        if (!inspectionList || !inspectionList.data  ) {
+            return <div>Loading...</div>;
+        }
     
         const options = {
         afterDeleteRow: onAfterDeleteRow, 
         afterSearch, 
         onRowClick: (row) => {
-            console.log('Row clicked: ', row.inspectionCode);
-            navigate(`/airport/inspection/${row.inspectionCode}`);
+            console.log('Row clicked: ', row.inspectionDetail);
+            navigate(`/airport/inspection/${row.inspectionDetail}`);
         },
         };
 
@@ -83,7 +81,7 @@ const Datatables = () => {
                     <BootstrapTable
                         hover
                         search
-                        data={tableData}
+                        data={inspectionList.data}
                         insertRow
                         deleteRow
                         selectRow={selectRowProp}
