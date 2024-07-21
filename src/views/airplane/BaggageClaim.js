@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
 import { Card, CardBody, CardTitle, CardSubtitle, Button } from 'reactstrap';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchChkinCounters  } from '../../store/apps/airplane/chkinCounterSlice';
+import { fetchBaggageClaims  } from '../../store/apps/airplane/baggageClaimSlice';
 import { useNavigate } from 'react-router-dom';
 
 
@@ -46,37 +46,38 @@ const statusFormatter = (cell, row) => {
 const Datatables = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const chkinCounterList = useSelector((state) => state.chkinCounters.chkinCounterList);
+  const baggageClaimList = useSelector((state) => state.baggageClaims.baggageClaimList);
 
-  console.log('chkinCounterList ',chkinCounterList)
+
 
   const options = {
     afterDeleteRow: onAfterDeleteRow, 
     afterSearch, 
     onRowClick: (row) => {
       console.log('Row clicked: ', row);
-      navigate(`/airplane/checkin-counter/${row.checkinCounterCode}`);
+      navigate(`/airplane/baggage-claim/${row.baggageClaimCode}`);
     
     },
   };
 
 
   useEffect(() => {
-    dispatch(fetchChkinCounters());
+    dispatch(fetchBaggageClaims());
   }, [dispatch]);
 
   
 
-  if (!chkinCounterList || !chkinCounterList.data || !chkinCounterList.data.chkinCounterList) {
+  if (!baggageClaimList || !baggageClaimList.data || !baggageClaimList.data.baggageClaimList) {
     return <div>Loading...</div>;
   }
 
-  const flatChkinCounterList = chkinCounterList.data.chkinCounterList.map(chkincounter => ({
-    ...chkincounter,
-    airline: chkincounter.airplane.airline,
-    scheduleDateTime: chkincounter.airplane.scheduleDateTime
+  const flatBaggageClaimList = baggageClaimList.data.baggageClaimList.map(baggageClaim => ({
+    ...baggageClaim,
+    airline: baggageClaim.airplane.airline,
+    scheduleDateTime: baggageClaim.airplane.scheduleDateTime
   }));
 
+  console.log('baggageClaimList',baggageClaimList);
 
 
   return (
@@ -90,7 +91,7 @@ const Datatables = () => {
           <BootstrapTable
             hover
             search 
-            data={flatChkinCounterList}
+            data={flatBaggageClaimList}
             insertRow
             deleteRow
             selectRow={selectRowProp}

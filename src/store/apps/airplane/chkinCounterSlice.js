@@ -62,7 +62,7 @@ const chkinCounterSlice = createSlice({
       })
       .addCase(modifyChkinCounter.fulfilled, (state, action) => {
         state.status = 'succeeded';
-        state.modifyGate = action.payload; 
+        state.modifyChkinCounter = action.payload; 
       })
       .addCase(modifyChkinCounter.rejected, (state, action) => {
         state.status = 'failed';

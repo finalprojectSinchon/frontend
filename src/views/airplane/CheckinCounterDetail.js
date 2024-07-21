@@ -16,6 +16,7 @@ import { useParams,useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchChkinCounter, modifyChkinCounter, softdeleteChkinCounter } from '../../store/apps/airplane/chkinCounterSlice';
 
+
 const CheckinCounterDetail = () => {
 
   const dispatch = useDispatch();

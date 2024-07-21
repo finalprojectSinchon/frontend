@@ -16,6 +16,7 @@ import { useParams,useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchGate, modifyGate, softdeleteGate } from '../../store/apps/airplane/gateSlice';
 
+
 const GateDetail = () => {
   const dispatch = useDispatch();
   const { gateCode } = useParams();
