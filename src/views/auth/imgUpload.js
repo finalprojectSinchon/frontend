@@ -3,10 +3,10 @@ import { storage, db } from "src/firebase.js";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { collection, addDoc, getDocs, query, where } from "firebase/firestore";
 import { useSelector } from "react-redux";
-import api from "../../store/apps/airplane/api";
 import { useNavigate } from "react-router-dom";
 import { Button, Form, FormGroup, Label, Input, Spinner } from 'reactstrap';
 import './ProfileUploader.css';
+import api from "src/store/apps/airplane/api.js";
 
 const ProfileUploader = () => {
 
