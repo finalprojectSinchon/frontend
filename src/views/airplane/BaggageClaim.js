@@ -77,7 +77,7 @@ const Datatables = () => {
     scheduleDateTime: baggageClaim.airplane.scheduleDateTime
   }));
 
-  console.log('baggageClaimList',baggageClaimList);
+
 
 
   return (
@@ -86,7 +86,7 @@ const Datatables = () => {
         <CardBody>
           <CardTitle tag="h5">비행기</CardTitle>
           <CardSubtitle className="mb-2 text-muted" tag="h6">
-            체크인 카운터
+            수화물 수취대
           </CardSubtitle>
           <BootstrapTable
             hover
@@ -101,8 +101,8 @@ const Datatables = () => {
             exportCSV
             headerStyle={{ width: '100%' }}
           >
-            <TableHeaderColumn width="14.28%" dataField="checkinCounterCode" dataAlign="center" isKey>
-              Counter Code
+            <TableHeaderColumn width="14.28%" dataField="baggageClaimCode" dataAlign="center" isKey>
+            BaggageClaim Code
             </TableHeaderColumn>
             <TableHeaderColumn width="14.28%" dataField="location" dataAlign="center">
               Location
