@@ -4,8 +4,6 @@ import Loadable from '../layouts/loader/Loadable';
 import ProfileUploader from '../views/auth/imgUpload';
 
 
-
-
 /****Layouts*****/
 
 const FullLayout = Loadable(lazy(() => import('../layouts/FullLayout')));
@@ -67,6 +65,7 @@ const ThemeRoutes = [
 
       { path: '/profile', name: 'profile', exact: true, element: <Profile /> },
       { path: '/upload', name: 'test', exact: true, element: <ProfileUploader /> },
+
     
       { path: '/casl', name: 'casl', exact: true, element: <CASL /> },
       { path: '*', element: <Navigate to="/auth/404" /> },
