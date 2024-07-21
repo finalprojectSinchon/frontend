@@ -15,6 +15,7 @@ const BlankLayout = Loadable(lazy(() => import('../layouts/BlankLayout')));
 const Dashboard1 = Loadable(lazy(() => import('../views/dashboards/Dashboard1')));
 const Airplane = Loadable(lazy(() => import('../views/airplane/Airplane')));
 const CheckinCounter = Loadable(lazy(() => import('../views/airplane/CheckinCounter')));
+const CheckinCounterDetail = Loadable(lazy(() => import('../views/airplane/CheckinCounterDetail')));
 const Gate = Loadable(lazy(() => import('../views/airplane/Gate')));
 const GateDetail = Loadable(lazy(() => import('../views/airplane/gateDetail')));
 const Profile = Loadable(lazy(() => import('../views/auth/Profile')));
@@ -50,13 +51,12 @@ const ThemeRoutes = [
     element: <FullLayout />,
     children: [
       { path: '/', name: 'Home', element: <Navigate to="/auth/loginformik" /> },
-      { path: '/api/v1/airplane', name: 'Airplane', exact: true, element: <Airplane /> },
-      { path: '/api/v1/airplane/checkin-counter', name: 'CheckinCounter', exact: true, element: <CheckinCounter /> },
+      { path: '/airplane', name: 'Airplane', exact: true, element: <Airplane /> },
+      { path: '/airplane/checkin-counter', name: 'CheckinCounter', exact: true, element: <CheckinCounter /> },
+      { path: '/airplane/checkin-counter/:checkinCounterCode', name: 'CheckinCounterDetail', exact: true, element: <CheckinCounterDetail /> },
       { path: '/airplane/gate', name: 'Gate', exact: true, element: <Gate /> },
-      { path: '/api/v1/maintenance', name: 'Maintenance', exact: true, element: <Maintenance /> },
-
       { path: '/airplane/gate/:gateCode', name: 'GateDetail', exact: true, element: <GateDetail /> },
-
+      { path: '/api/v1/maintenance', name: 'Maintenance', exact: true, element: <Maintenance /> },
       { path: '/api/v1/inspection', name: 'inspection', exact: true, element: <Inspection/> },
       { path: '/api/v1/inspection/:inspectionCode', name: 'inspectionDetail', exact: true, element: <InspectionDetail/> },
       { path: '/api/v1/inspection/inspectionUpdate', name: 'inspectionUpdate', exact: true, element: <InspectionUpdate/> },
