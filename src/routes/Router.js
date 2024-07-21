@@ -17,7 +17,7 @@ const Airplane = Loadable(lazy(() => import('../views/airplane/Airplane')));
 const CheckinCounter = Loadable(lazy(() => import('../views/airplane/CheckinCounter')));
 const CheckinCounterDetail = Loadable(lazy(() => import('../views/airplane/CheckinCounterDetail')));
 const Gate = Loadable(lazy(() => import('../views/airplane/Gate')));
-const GateDetail = Loadable(lazy(() => import('../views/airplane/gateDetail')));
+const GateDetail = Loadable(lazy(() => import('../views/airplane/GateDetail')));
 const BaggageClaim = Loadable(lazy(() => import('../views/airplane/BaggageClaim')));
 const BaggageClaimDetail = Loadable(lazy(() => import('../views/airplane/BaggageClaimsDetail')));
 

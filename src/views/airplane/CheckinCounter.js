@@ -4,7 +4,7 @@ import { Card, CardBody, CardTitle, CardSubtitle, Button } from 'reactstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchChkinCounters  } from '../../store/apps/airplane/chkinCounterSlice';
 import { useNavigate } from 'react-router-dom';
-
+import BreadCrumbs from '../../layouts/breadcrumbs/BreadCrumbs';
 
 
 function onAfterDeleteRow(rowKeys) {
@@ -83,10 +83,12 @@ const Datatables = () => {
     <div>
       <Card>
         <CardBody>
-          <CardTitle tag="h5">비행기</CardTitle>
+          <BreadCrumbs />
+          {/* <CardTitle tag="h5">비행기</CardTitle>
           <CardSubtitle className="mb-2 text-muted" tag="h6">
             체크인 카운터
-          </CardSubtitle>
+          </CardSubtitle> */}
+          
           <BootstrapTable
             hover
             search 

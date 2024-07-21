@@ -4,6 +4,7 @@ import { Card, CardBody, CardTitle, CardSubtitle, Button } from 'reactstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchBaggageClaims  } from '../../store/apps/airplane/baggageClaimSlice';
 import { useNavigate } from 'react-router-dom';
+import BreadCrumbs from '../../layouts/breadcrumbs/BreadCrumbs';
 
 
 
@@ -84,10 +85,11 @@ const Datatables = () => {
     <div>
       <Card>
         <CardBody>
-          <CardTitle tag="h5">비행기</CardTitle>
+          {/* <CardTitle tag="h5">비행기</CardTitle>
           <CardSubtitle className="mb-2 text-muted" tag="h6">
-            수화물 수취대
-          </CardSubtitle>
+            수화물 수취대  
+          </CardSubtitle> */}
+          <BreadCrumbs />
           <BootstrapTable
             hover
             search 
