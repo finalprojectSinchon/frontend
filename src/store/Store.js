@@ -6,6 +6,7 @@ import gateReducer from './apps/airplane/gateSlice';
 import CustomizerReducer from './customizer/CustomizerSlice';
 import MaintenanceReducer from './apps/maintenance/maintenanceSlice';
 import ChkinCounterReducer from './apps/airplane/chkinCounterSlice';
+import BaggageClaimReducer from './apps/airplane/baggageClaimSlice';
 
 
 
@@ -16,7 +17,7 @@ export const store = configureStore({
     customizer: CustomizerReducer,
     chkinCounters : ChkinCounterReducer,
     maintenances: MaintenanceReducer,
-
+    baggageClaims : BaggageClaimReducer,
   
 
   },

@@ -18,6 +18,7 @@ const CheckinCounter = Loadable(lazy(() => import('../views/airplane/CheckinCoun
 const CheckinCounterDetail = Loadable(lazy(() => import('../views/airplane/CheckinCounterDetail')));
 const Gate = Loadable(lazy(() => import('../views/airplane/Gate')));
 const GateDetail = Loadable(lazy(() => import('../views/airplane/gateDetail')));
+const BaggageClaim = Loadable(lazy(() => import('../views/airplane/BaggageClaim')));
 const Profile = Loadable(lazy(() => import('../views/auth/Profile')));
 
 const Inspection = Loadable(lazy(() => import('../views/inspection/inspection')));
@@ -56,6 +57,7 @@ const ThemeRoutes = [
       { path: '/airplane/checkin-counter/:checkinCounterCode', name: 'CheckinCounterDetail', exact: true, element: <CheckinCounterDetail /> },
       { path: '/airplane/gate', name: 'Gate', exact: true, element: <Gate /> },
       { path: '/airplane/gate/:gateCode', name: 'GateDetail', exact: true, element: <GateDetail /> },
+      { path: '/airplane/baggage-claim', name: 'BaggageClaim', exact: true, element: <BaggageClaim /> },
       { path: '/api/v1/maintenance', name: 'Maintenance', exact: true, element: <Maintenance /> },
       { path: '/api/v1/inspection', name: 'inspection', exact: true, element: <Inspection/> },
       { path: '/api/v1/inspection/:inspectionCode', name: 'inspectionDetail', exact: true, element: <InspectionDetail/> },

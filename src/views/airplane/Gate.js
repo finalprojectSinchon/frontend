@@ -6,6 +6,7 @@ import { fetchGates  } from '../../store/apps/airplane/gateSlice';
 import { useNavigate } from 'react-router-dom';
 
 
+
 function onAfterDeleteRow(rowKeys) {
   alert(`The rowkey you drop: ${rowKeys}`);
 }
