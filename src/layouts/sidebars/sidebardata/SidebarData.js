@@ -69,8 +69,13 @@ const SidebarData = [
     href: '/airplane',
     icon: <MaterialIcon icon="confirmation_number" />,
     id: 2.8,
-    collapisble: true,
+    collapisble: false,
     children: [
+      {
+        title: '비행기',
+        href: '/airplane',
+        icon: <MaterialIcon icon="radio_button_checked" />,
+      },
       {
         title: '체크인 카운터',
         href: '/airplane/checkin-counter',

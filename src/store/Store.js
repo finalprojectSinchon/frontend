@@ -7,6 +7,7 @@ import CustomizerReducer from './customizer/CustomizerSlice';
 import MaintenanceReducer from './apps/maintenance/maintenanceSlice';
 import ChkinCounterReducer from './apps/airplane/chkinCounterSlice';
 import BaggageClaimReducer from './apps/airplane/baggageClaimSlice';
+import AirplaneReducer from './apps/airplane/airplaneSlice';
 
 
 
@@ -18,7 +19,7 @@ export const store = configureStore({
     chkinCounters : ChkinCounterReducer,
     maintenances: MaintenanceReducer,
     baggageClaims : BaggageClaimReducer,
-  
+    airplanes : AirplaneReducer
 
   },
 });
