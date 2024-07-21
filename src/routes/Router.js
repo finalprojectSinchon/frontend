@@ -14,6 +14,7 @@ const BlankLayout = Loadable(lazy(() => import('../layouts/BlankLayout')));
 
 const Dashboard1 = Loadable(lazy(() => import('../views/dashboards/Dashboard1')));
 const Airplane = Loadable(lazy(() => import('../views/airplane/Airplane')));
+const AirplaneDetail = Loadable(lazy(() => import('../views/airplane/AirplaneDetail')));
 const CheckinCounter = Loadable(lazy(() => import('../views/airplane/CheckinCounter')));
 const CheckinCounterDetail = Loadable(lazy(() => import('../views/airplane/CheckinCounterDetail')));
 const Gate = Loadable(lazy(() => import('../views/airplane/Gate')));
@@ -54,7 +55,8 @@ const ThemeRoutes = [
     element: <FullLayout />,
     children: [
       { path: '/', name: 'Home', element: <Navigate to="/auth/loginformik" /> },
-      { path: '/airplane', name: 'Airplane', exact: true, element: <Airplane /> },
+      { path: '/airplane', name: '비행기', exact: true, element: <Airplane /> },
+      { path: '/airplane/:airplaneCode', name: '비행기 상세보기', exact: true, element: <AirplaneDetail/> },
       { path: '/airplane/checkin-counter', name: 'CheckinCounter', exact: true, element: <CheckinCounter /> },
       { path: '/airplane/checkin-counter/:checkinCounterCode', name: 'CheckinCounterDetail', exact: true, element: <CheckinCounterDetail /> },
       { path: '/airplane/gate', name: 'Gate', exact: true, element: <Gate /> },
