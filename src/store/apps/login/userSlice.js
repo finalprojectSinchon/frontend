@@ -11,6 +11,8 @@ const initialState = {
   userRole: '',
   userAbout : '',
   userImg : '',
+  isActive : '',
+  authCode : '',
 };
 
 const userInfoSlice = createSlice({
@@ -29,6 +31,7 @@ const userInfoSlice = createSlice({
       state.userRole = action.payload.userRole;
       state.userAbout = action.payload.userAbout;
       state.userImg = action.payload.userImg;
+      state.isActive = action.payload.isActive;
     },
     modifyUser: (state,action) => {
         state.userCode = action.payload.userCode;
@@ -37,10 +40,13 @@ const userInfoSlice = createSlice({
         state.userPhone = action.payload.userPhone;
         state.userAddress = action.payload.userAddress;
         state.userAbout = action.payload.userAbout;
+    },
+    addAuthCode: (state, action) => {
+      state.authCode = action.payload.password;
     }
   }
 });
 
-export const { addUser, modifyUser } = userInfoSlice.actions;
+export const { addUser, modifyUser,addAuthCode } = userInfoSlice.actions;
 
 export default userInfoSlice.reducer;

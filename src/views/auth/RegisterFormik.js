@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import { Button, Label, FormGroup, Container, Row, Col, Card, CardBody } from 'reactstrap';
 import { Formik, Field, Form, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
@@ -7,10 +7,21 @@ import AuthLogo from "../../layouts/logo/AuthLogo";
 import { ReactComponent as LeftBg } from '../../assets/images/bg/login-bgleft.svg';
 import { ReactComponent as RightBg } from '../../assets/images/bg/login-bg-right.svg';
 import axios from 'axios';
+import {useSelector} from "react-redux";
 
 const RegisterFormik = () => {
 
   let navigate = useNavigate();
+
+  const userInfo = useSelector(state => state.userInfo);
+  console.log(userInfo.authCode);
+
+  useEffect(() => {
+    console.log(userInfo);
+    if(!userInfo.authCode) {
+      navigate('/auth/certification')
+    }
+  }, []);
 
   const initialValues = {
     userId: '',
@@ -20,8 +31,10 @@ const RegisterFormik = () => {
     confirmPassword: '',
     userPhone: '',
     acceptTerms: false,
+    authCode : parseInt(userInfo.authCode),
   };
 
+  console.log(initialValues);
   const validationSchema = Yup.object().shape({
     userId: Yup.string().required('아이디를 입력해주세요'),
     userName: Yup.string().required('이름을 입력해주세요'),

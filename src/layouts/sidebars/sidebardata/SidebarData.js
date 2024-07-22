@@ -11,6 +11,20 @@ const SidebarData = [
   
   },
   {
+    title: '관리자',
+    href: '/',
+    icon: <MaterialIcon icon="how_to_reg" />,
+    id: 2.8,
+    collapisble: false,
+    children: [
+      {
+        title: '인증코드 발급',
+        href: '/code-issuance',
+        icon: <MaterialIcon icon="radio_button_checked" />,
+      },
+    ],
+  },
+  {
     title: '사용 승인',
     href: '/apps/notes',
     icon: <MaterialIcon icon="description" />,

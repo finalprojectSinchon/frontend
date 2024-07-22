@@ -4,6 +4,9 @@ import Loadable from '../layouts/loader/Loadable';
 import ProfileUploader from '../views/auth/imgUpload';
 
 
+
+
+
 /****Layouts*****/
 
 const FullLayout = Loadable(lazy(() => import('../layouts/FullLayout')));
@@ -21,6 +24,7 @@ const BaggageClaim = Loadable(lazy(() => import('../views/airplane/BaggageClaim'
 const BaggageClaimDetail = Loadable(lazy(() => import('../views/airplane/BaggageClaimsDetail')));
 
 const Profile = Loadable(lazy(() => import('../views/auth/Profile')));
+const AuthCode = Loadable(lazy(() => import('../views/auth/AuthCode.js')));
 
 const Inspection = Loadable(lazy(() => import('../views/inspection/inspection')));
 const InspectionDetail = Loadable(lazy(() => import('../views/inspection/inspectionDetail')));
@@ -43,6 +47,8 @@ const CASL = Loadable(lazy(() => import('../views/apps/accessControlCASL/AccessC
 const Error = Loadable(lazy(() => import('../views/auth/Error')));
 const RegisterFormik = Loadable(lazy(() => import('../views/auth/RegisterFormik')));
 const LoginFormik = Loadable(lazy(() => import('../views/auth/LoginFormik')));
+const PermissionError = Loadable(lazy(() => import('../views/auth/PermissionError.js')));
+const Certification = Loadable(lazy(() => import('../views/auth/Certification.js')));
 
 
 /*****Routes******/
@@ -79,6 +85,8 @@ const ThemeRoutes = [
 
       { path: '/profile', name: 'profile', exact: true, element: <Profile /> },
       { path: '/upload', name: 'test', exact: true, element: <ProfileUploader /> },
+      { path: '/code-issuance', name: 'test', exact: true, element: <AuthCode /> },
+
 
     
       { path: '/casl', name: 'casl', exact: true, element: <CASL /> },
@@ -93,6 +101,8 @@ const ThemeRoutes = [
       { path: '*', element: <Navigate to="/auth/404" /> },
       { path: 'registerformik', element: <RegisterFormik /> },
       { path: 'loginformik', element: <LoginFormik /> },
+      { path: 'permission-error', element: <PermissionError /> },
+      { path: 'certification', element: <Certification /> },
     ],
   },
 ];
