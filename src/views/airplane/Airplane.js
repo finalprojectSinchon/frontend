@@ -1,12 +1,11 @@
-import React, { useEffect } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
-import { Card, CardBody, CardTitle, CardSubtitle, Button } from 'reactstrap';
+import { Card, CardBody, CardImg, Container, Button } from 'reactstrap';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchAirplanes  } from '../../store/apps/airplane/airplaneSlice';
+import { fetchAirplanes } from '../../store/apps/airplane/airplaneSlice';
 import { useNavigate } from 'react-router-dom';
 import BreadCrumbs from '../../layouts/breadcrumbs/BreadCrumbs';
-
-
+import './img.css';
 
 function onAfterDeleteRow(rowKeys) {
   alert(`The rowkey you drop: ${rowKeys}`);
@@ -30,44 +29,34 @@ const cellEditProp = {
 
 
 
-
 const Datatables = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const AirplaneList = useSelector((state) => state.airplanes.airplaneList);
 
 
-
   const options = {
-    afterDeleteRow: onAfterDeleteRow, 
-    afterSearch, 
+    afterDeleteRow: onAfterDeleteRow,
+    afterSearch,
     onRowClick: (row) => {
       console.log('Row clicked: ', row);
       navigate(`/airplane/${row.airplaneCode}`);
-    
     },
   };
-
 
   useEffect(() => {
     dispatch(fetchAirplanes());
   }, [dispatch]);
 
-  
-
-  if (!AirplaneList || !AirplaneList.data || !AirplaneList.data.airplaneList ) {
+  if (!AirplaneList || !AirplaneList.data || !AirplaneList.data.airplaneList) {
     return <div>Loading...</div>;
   }
 
-
-console.log('airplane',AirplaneList)
-
-
   return (
     <div>
+      
       <Card>
         <CardBody>
-          {/* <CardTitle tag="h5">비행기</CardTitle> */}
           <BreadCrumbs />
           <BootstrapTable
             hover
@@ -83,13 +72,13 @@ console.log('airplane',AirplaneList)
             headerStyle={{ width: '100%' }}
           >
             <TableHeaderColumn width="12.5%" dataField="airplaneCode" dataAlign="center" isKey>
-            Airplane Code
+              Airplane Code
             </TableHeaderColumn>
-            <TableHeaderColumn width="12.5%"dataField="airline" dataAlign="center">
-            Airline
+            <TableHeaderColumn width="12.5%" dataField="airline" dataAlign="center">
+              Airline
             </TableHeaderColumn>
             <TableHeaderColumn width="12.5%" dataField="airport" dataAlign="center">
-            Airport
+              Airport
             </TableHeaderColumn>
             <TableHeaderColumn width="12.5%" dataField="carousel" dataAlign="center">
               수화물 수취대
@@ -103,7 +92,6 @@ console.log('airplane',AirplaneList)
             <TableHeaderColumn width="12.5%" dataField="scheduleDateTime" dataAlign="center">
               Schedule DateTime
             </TableHeaderColumn>
-            
           </BootstrapTable>
         </CardBody>
       </Card>

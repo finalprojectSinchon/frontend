@@ -1,0 +1,7 @@
+
+
+  .image-map-area {
+    position: absolute;
+    border: 2px solid red; /* 영역에 시각적 표시 */
+    pointer-events: none;  /* 클릭 이벤트를 이미지 맵으로 전달 */
+  }
