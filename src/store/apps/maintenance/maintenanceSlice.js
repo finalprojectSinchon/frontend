@@ -28,6 +28,7 @@ const maintenanceSlice = createSlice({
     name: 'maintenances',
     initialState: {
         maintenanceList: [],
+        maintenanceDetails :null,
         status: 'idle',
         error: null,
     },
@@ -46,6 +47,9 @@ const maintenanceSlice = createSlice({
             .addCase(fetchMaintenances.rejected, (state, action) => {
                 state.status = 'failed';
                 state.error = action.error.message;
+            }) .addCase(fetchMaintenance.fulfilled, (state, action) => {
+                state.status = 'succeeded';
+                state.maintenanceDetails = action.payload;
             });
     },
 });

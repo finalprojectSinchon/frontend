@@ -23,6 +23,10 @@ const MaintenanceDetails = () => {
   const [maintenanceInfo, setMaintenanceInfo] = useState({});
   const [readOnly, setReadOnly] = useState(true);
 
+  console.log('maintenanceCode',maintenanceCode)
+
+  console.log('11',maintenanceDetails);
+
   const onChangeHandler = (e) => {
     setMaintenanceInfo({
       ...maintenanceInfo,
@@ -41,8 +45,8 @@ const MaintenanceDetails = () => {
   }, [dispatch, maintenanceCode]);
 
   useEffect(() => {
-    if (maintenanceDetails && maintenanceDetails.data && maintenanceDetails.data.maintenance) {
-      setMaintenanceInfo(maintenanceDetails.data.maintenance);
+    if (maintenanceDetails && maintenanceDetails.data && maintenanceDetails.data.maintenanceDTO) {
+      setMaintenanceInfo(maintenanceDetails.data.maintenanceDTO);
     }
   }, [maintenanceDetails]);
 
