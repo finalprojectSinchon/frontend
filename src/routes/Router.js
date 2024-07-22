@@ -2,6 +2,7 @@ import { lazy } from 'react';
 import { Navigate } from 'react-router-dom';
 import Loadable from '../layouts/loader/Loadable';
 import ProfileUploader from '../views/auth/imgUpload';
+import { element, exact } from 'prop-types';
 
 
 /****Layouts*****/
@@ -31,6 +32,7 @@ const InspectionUpdate = Loadable(lazy(() => import('../views/inspection/inspect
 const AirportStore = Loadable(lazy(() => import('../views/airportStore/airportStore')));
 
 const Maintenance =  Loadable(lazy(() => import('../views/maintenance/maintenance')));
+const MaintenanceDetail = Loadable(lazy(() => import('../views/maintenance/maintenanceDetails')));
 
 const AirportStoreDetail = Loadable(lazy(() => import('../views/airportStore/airportStoreDetail')));
 const AirportDBUpdate = Loadable(lazy(() => import('../views/airportStore/airportStoreDBUpdate')));
@@ -62,7 +64,8 @@ const ThemeRoutes = [
       { path: '/airplane/baggage-claim', name: 'BaggageClaim', exact: true, element: <BaggageClaim /> },
       { path: '/airplane/baggage-claim/:baggageClaimCode', name: 'BaggageClaimDetail', exact: true, element: <BaggageClaimDetail /> },
 
-      { path: '/api/v1/maintenance', name: 'Maintenance', exact: true, element: <Maintenance /> },
+      { path: '/maintenance', name: 'Maintenance', exact: true, element: <Maintenance /> },
+      { path: '/maintenance/:maintenanceCode', name: 'MaintenanceDetail', exact: true, element: <MaintenanceDetail /> },
       { path: '/api/v1/inspection', name: 'inspection', exact: true, element: <Inspection/> },
       { path: '/api/v1/inspection/:inspectionCode', name: 'inspectionDetail', exact: true, element: <InspectionDetail/> },
       { path: '/api/v1/inspection/inspectionUpdate', name: 'inspectionUpdate', exact: true, element: <InspectionUpdate/> },
