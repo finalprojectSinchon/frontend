@@ -57,6 +57,7 @@ const MaintenanceDetails = () => {
 
   console.log('modify maintenanceInfo', maintenanceInfo);
 
+  //푸시확인
   return (
     <div>
       <BreadCrumbs />
