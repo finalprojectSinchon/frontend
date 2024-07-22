@@ -47,7 +47,7 @@ const ProfileUploader = () => {
         setLoading(false);
       }
     } else {
-      alert("이미지와 사용자 코드를 입력하세요.");
+      alert("이미지를 입력하세요.");
     }
   };
 
