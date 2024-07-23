@@ -60,6 +60,7 @@ const RegisterFormik = () => {
     })
     .then(res => res.data)
     .then(data => {
+        console.log('1111',data)
       if(data.status == 201) {
         alert(data.message);
         navigate('/auth/loginformik')

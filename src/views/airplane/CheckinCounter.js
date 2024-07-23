@@ -1,8 +1,8 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
-import { Card, CardBody, CardTitle, CardSubtitle, Button } from 'reactstrap';
+import { Card, CardTitle, CardBody, Popover, PopoverHeader, PopoverBody } from 'reactstrap';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchChkinCounters  } from '../../store/apps/airplane/chkinCounterSlice';
+import { fetchChkinCounters } from '../../store/apps/airplane/chkinCounterSlice';
 import { useNavigate } from 'react-router-dom';
 import BreadCrumbs from '../../layouts/breadcrumbs/BreadCrumbs';
 import './img.css';
@@ -13,13 +13,11 @@ function onAfterDeleteRow(rowKeys) {
 
 function afterSearch(searchText, result) {
   console.log(`Your search text is ${searchText}`);
-  console.log('result',result)
+  console.log('result', result);
 }
-
 
 const selectRowProp = {
   mode: 'checkbox',
-
 };
 
 const cellEditProp = {
@@ -27,7 +25,6 @@ const cellEditProp = {
   blurToSave: true,
 };
 
-// 좌표를 퍼센트에서 픽셀로 변환
 const convertPercentToCoords = (percentCoords, imgWidth, imgHeight) => {
   const coordsArray = percentCoords.split(',').map(coord => parseFloat(coord));
 
@@ -38,7 +35,6 @@ const convertPercentToCoords = (percentCoords, imgWidth, imgHeight) => {
   }).join(',');
 };
 
-
 const statusFormatter = (cell, row) => {
   let styleClass;
   if (cell === '고장') {
@@ -48,39 +44,39 @@ const statusFormatter = (cell, row) => {
   } else {
     styleClass = 'bg-success';
   }
-  
+
   return (
     <span className={`p-2 rounded-circle d-inline-block ${styleClass}`}></span>
   );
 };
-
 
 const Datatables = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const chkinCounterList = useSelector((state) => state.chkinCounters.chkinCounterList);
 
-   // 초기 퍼센트 좌표 설정
-   const initialMapData = [
-    { id: 1, coords: "12.5%,58%,16%,80%", href: "#section1", label: "Section 1" },
-    { id: 2, coords: "17%,50%,21%,70%", href: "#section2", label: "Section 2" },
-    { id: 3, coords: "22%,40%,25.5%,60%", href: "#section3", label: "Section 3" },
-    { id: 4, coords: "27%,33%,30%,49%", href: "#section4", label: "Section 4" },
-    { id: 5, coords: "33%,28%,36%,45%", href: "#section5", label: "Section 5" },
-    { id: 6, coords: "39%,23%,42%,43%", href: "#section6", label: "Section 6" },
-    { id: 7, coords: "51%,23%,54%,43%", href: "#section7", label: "Section 7" },
-    { id: 8, coords: "57%,24%,60%,44%", href: "#section8", label: "Section 8" },
-    { id: 9, coords: "62%,27%,65.5%,49%", href: "#section9", label: "Section 9" },
-    { id: 10, coords: "68%,29%,71%,53%", href: "#section10", label: "Section 10" },
-    { id: 11, coords: "73%,36%,77%,60%", href: "#section11", label: "Section 11" },
-    { id: 12, coords: "79%,47%,82%,67%", href: "#section12", label: "Section 12" },
-    { id: 13, coords: "83%,55%,87%,75%", href: "#section13", label: "Section 13" }
+  const initialMapData = [
+    { id: 1, coords: "12.5%,58%,16%,80%", href: "#section1", label: "N" },
+    { id: 2, coords: "17%,50%,21%,70%", href: "#section2", label: "M" },
+    { id: 3, coords: "22%,40%,25.5%,60%", href: "#section3", label: "L" },
+    { id: 4, coords: "27%,33%,30%,49%", href: "#section4", label: "K" },
+    { id: 5, coords: "33%,28%,36%,45%", href: "#section5", label: "J" },
+    { id: 6, coords: "39%,23%,42%,43%", href: "#section6", label: "H" },
+    { id: 7, coords: "51%,23%,54%,43%", href: "#section7", label: "G" },
+    { id: 8, coords: "57%,24%,60%,44%", href: "#section8", label: "F" },
+    { id: 9, coords: "62%,27%,65.5%,49%", href: "#section9", label: "E" },
+    { id: 10, coords: "68%,29%,71%,53%", href: "#section10", label: "D" },
+    { id: 11, coords: "73%,36%,77%,60%", href: "#section11", label: "C" },
+    { id: 12, coords: "79%,47%,82%,67%", href: "#section12", label: "B" },
+    { id: 13, coords: "83%,55%,87%,75%", href: "#section13", label: "A" }
   ];
 
   const [mapData, setMapData] = useState(initialMapData);
+  const [imageLoaded, setImageLoaded] = useState(false);
+  const [popoverOpen, setPopoverOpen] = useState(null); // Popover의 상태 관리
+
   const imageRef = useRef(null);
 
-  // 좌표 조정 함수
   const adjustCoords = () => {
     if (imageRef.current) {
       const imgWidth = imageRef.current.clientWidth;
@@ -88,7 +84,6 @@ const Datatables = () => {
 
       const adjustedMapData = initialMapData.map(area => {
         const newCoords = convertPercentToCoords(area.coords, imgWidth, imgHeight);
-
         return { ...area, coords: newCoords };
       });
 
@@ -96,33 +91,28 @@ const Datatables = () => {
     }
   };
 
-  // 창 크기 변경 및 초기 로딩 시 좌표 조정
   useEffect(() => {
-    adjustCoords();
+    if (imageLoaded) {
+      adjustCoords();
+    }
     window.addEventListener('resize', adjustCoords);
-
     return () => {
       window.removeEventListener('resize', adjustCoords);
     };
-  }, []);
-
+  }, [imageLoaded]);
 
   const options = {
-    afterDeleteRow: onAfterDeleteRow, 
-    afterSearch, 
+    afterDeleteRow: onAfterDeleteRow,
+    afterSearch,
     onRowClick: (row) => {
       console.log('Row clicked: ', row);
       navigate(`/airplane/checkin-counter/${row.checkinCounterCode}`);
-    
     },
   };
-
 
   useEffect(() => {
     dispatch(fetchChkinCounters());
   }, [dispatch]);
-
-  
 
   if (!chkinCounterList || !chkinCounterList.data || !chkinCounterList.data.chkinCounterList) {
     return <div>Loading...</div>;
@@ -134,62 +124,81 @@ const Datatables = () => {
     scheduleDateTime: chkincounter.airplane.scheduleDateTime
   }));
 
+  const handleMouseEnter = (id) => {
+    setPopoverOpen(id);
+  };
 
+  const handleMouseLeave = () => {
+    setPopoverOpen(null);
+  };
 
   return (
     <div>
-    <div style={{ position: 'relative' }}>
-        <img 
-          src='/3.png' 
-          useMap='#roadmap' 
-          alt='Roadmap' 
-          ref={imageRef} 
-          style={{ width: '100%', height: 'auto' }}
-        />
-        <map name='roadmap'>
-          {mapData.map(area => (
-            <area 
-              key={area.id}
-              shape='rect'
-              coords={area.coords}
-              href={area.href}
-              onClick={() => console.log(`Clicked on ${area.label}`)}
-              alt={area.label}
-            />
-          ))}
-        </map>
-        {/* 스타일 적용 영역 */}
-        {mapData.map(area => {
-          const [x1, y1, x2, y2] = area.coords.split(',').map(Number);
-          return (
-            <div
-              key={area.id}
-              className='image-map-area'
-              style={{
-                position: 'absolute',
-                border: '2px solid rgba(255, 0, 0, 0.5)',
-                backgroundColor: 'rgba(255, 0, 0, 0.2)',
-                left: `${x1}px`,
-                top: `${y1}px`,
-                width: `${x2 - x1}px`,
-                height: `${y2 - y1}px`,
-              }}
-            />
-          );
-        })}
+      <div className="container">
+        <div style={{ position: 'relative' }}>
+          <img
+            src='/3.png'
+            useMap='#roadmap'
+            alt='Roadmap'
+            ref={imageRef}
+            style={{ width: '100%', height: 'auto' }}
+            onLoad={() => setImageLoaded(true)}
+          />
+          <map name='roadmap'>
+            {mapData.map(area => (
+              <area
+                key={area.id}
+                shape='rect'
+                coords={area.coords}
+                href={area.href}
+                alt={area.label}
+                id={`area-${area.id}`}
+                onMouseEnter={() => handleMouseEnter(area.id)}
+                onMouseLeave={handleMouseLeave}
+              />
+            ))}
+          </map>
+          {imageLoaded && mapData.map(area => {
+            const [x1, y1, x2, y2] = area.coords.split(',').map(Number);
+            return (
+              <div
+                key={area.id}
+                className='image-map-area'
+                style={{
+                  position: 'absolute',
+                  border: '2px solid rgba(255, 0, 0, 0.5)',
+                  backgroundColor: 'rgba(255, 0, 0, 0.2)',
+                  left: `${x1}px`,
+                  top: `${y1}px`,
+                  width: `${x2 - x1}px`,
+                  height: `${y2 - y1}px`,
+                }}
+              >
+                {popoverOpen === area.id && (
+                  <Popover
+                    placement='top'
+                    isOpen={true}
+                    target={`area-${area.id}`}
+                    toggle={handleMouseLeave}
+                  >
+                    <PopoverHeader>{area.label}</PopoverHeader>
+                    <PopoverBody>
+                      여기에 정보를 입력하세요.
+                    </PopoverBody>
+                  </Popover>
+                )}
+              </div>
+            );
+          })}
+        </div>
       </div>
-      
+
       <Card>
         <CardBody>
           <BreadCrumbs />
-          {/* <CardTitle tag="h5">비행기</CardTitle>
-          <CardSubtitle className="mb-2 text-muted" tag="h6">
-            체크인 카운터
-          </CardSubtitle> */}
-          
           <BootstrapTable
             hover
-            search 
+            search
             data={flatChkinCounterList}
             insertRow
             deleteRow
@@ -212,13 +221,15 @@ const Datatables = () => {
             <TableHeaderColumn width="14.28%" dataField="airline" dataAlign="center">
               Airline
             </TableHeaderColumn>
+            <TableHeaderColumn width="14.28%" dataField="scheduleDateTime" dataAlign="center">
+              Schedule Date Time
+            </TableHeaderColumn>
             <TableHeaderColumn width="14.28%" dataField="status" dataAlign="center" dataFormat={statusFormatter}>
               Status
             </TableHeaderColumn>
-            <TableHeaderColumn width="14.28%" dataField="scheduleDateTime" dataAlign="center">
-              Schedule DateTime
+            <TableHeaderColumn width="14.28%" dataField="remark" dataAlign="center">
+              Remark
             </TableHeaderColumn>
-            
           </BootstrapTable>
         </CardBody>
       </Card>
