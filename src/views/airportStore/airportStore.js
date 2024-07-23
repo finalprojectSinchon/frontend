@@ -1,120 +1,130 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
-import { Card, CardBody, CardTitle, CardSubtitle, Table, CardHeader, Button } from 'reactstrap';
+import { Card, CardBody, CardTitle, CardSubtitle, Button } from 'reactstrap';
 import Cookies from 'js-cookie';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+import api from "src/store/apps/airplane/api.js";
 
-//This is for the Delete row
+const deleteStore = async (storeId) => {
+  api.put(`/api/v1/store/${storeId}/delete`)
+      .then(res => {
+        alert("삭제 성공")
+      })
+      .catch(err => {
+        alert("삭제 실패")
+        console.error('err',err)
+      })
+};
+
+
+// This is for the Delete row
 function onAfterDeleteRow(rowKeys) {
-  alert(`The rowkey you drop: ${rowKeys}`);
+  // Call the deleteStore function for each selected row
+  rowKeys.forEach(deleteStore);
 }
 
-//This is for the Search item
+// This is for the Search item
 function afterSearch(searchText, result) {
-  console.log(`Your search text is ${searchText}`)
+  console.log(`Your search text is ${searchText}`);
 }
 
 const selectRowProp = {
   mode: 'checkbox',
 };
+
 const cellEditProp = {
   mode: 'click',
   blurToSave: true,
 };
 
-
-
 const statusFormatter = (cell, row) => {
   let styleClass;
-  if (row.storeStatus
-    === '중단') {
-      styleClass = 'bg-danger'
-    }
-    else if (row.storeStatus === '점검중') {
-      styleClass = 'bg-warning';
-    } else {
-      styleClass = 'bg-success';
-    }
-  
+  if (row.storeStatus === '중단') {
+    styleClass = 'bg-danger';
+  } else if (row.storeStatus === '점검중') {
+    styleClass = 'bg-warning';
+  } else {
+    styleClass = 'bg-success';
+  }
+
   return (
-    <span className={`p-2 rounded-circle d-inline-block ${styleClass}`}></span>
+      <span className={`p-2 rounded-circle d-inline-block ${styleClass}`}></span>
   );
 };
 
 const AirportStore = () => {
-
   const navigate = useNavigate();
-
   const [Storedata, setStoredata] = useState([]);
+  console.log(Storedata);
 
   useEffect(() => {
-    axios.get('http://localhost:8080/api/v1/store',{
-      headers:{
-          Authorization: Cookies.get('token')
+    axios.get('http://localhost:8080/api/v1/store', {
+      headers: {
+        Authorization: Cookies.get('token')
       }
     })
-    .then(res => res.data)
-    .then(data => {
-      setStoredata(data.data);
-    })
+        .then(res => res.data)
+        .then(data => {
+          setStoredata(data.data);
+        })
+        .catch(error => console.error('Error fetching store data:', error));
   }, []);
 
-
   const options = {
-    afterDeleteRow: onAfterDeleteRow, 
-    afterSearch, 
+    afterDeleteRow: onAfterDeleteRow,
+    afterSearch,
     onRowClick: (row) => {
       console.log('Row clicked: ', row.storeId);
       navigate(`/airport/store/${row.storeId}`);
     },
   };
 
-
   return (
-    <div>
-      <Card>
-        <CardBody>
-          <CardTitle tag="h5">점포
-          <Button color="primary" className="ms-5 btn btn-" size="sm" onClick={() => navigate('/airport/store/dbupdate')}>점포 DB 업데이트</Button>
-          </CardTitle>
-          <CardSubtitle className="mb-2 text-muted" tag="h6">
-            점포 조회
-          </CardSubtitle>
+      <div>
+        <Card>
+          <CardBody>
+            <CardTitle tag="h5">점포
+              <Button color="primary" className="ms-5 btn btn-" size="sm" onClick={() => navigate('/airport/store/dbupdate')}>점포 DB 업데이트</Button>
+            </CardTitle>
+            <CardSubtitle className="mb-2 text-muted" tag="h6">
+              점포 조회
+            </CardSubtitle>
             <BootstrapTable
-              hover
-              search
-              data={Storedata}
-              insertRow
-              deleteRow
-              selectRow={selectRowProp}
-              pagination
-              options={options}
-              cellEdit={cellEditProp}
-              tableHeaderClass="mb-10"
-              exportCSV
-              headerStyle={{ width: '100%' }}
-              >
-              <TableHeaderColumn width="20%" dataField="storeType" dataAlign="center"   isKey>
-              타입
+                hover
+                search
+                data={Storedata}
+                insertRow
+                deleteRow
+                selectRow={selectRowProp}
+                pagination
+                options={options}
+                cellEdit={cellEditProp}
+                keyField="storeId"
+                tableHeaderClass="mb-10"
+                exportCSV
+                headerStyle={{ width: '100%' }}
+            >
+              <TableHeaderColumn width="20%" dataField="storeType" dataAlign="center">
+                타입
               </TableHeaderColumn>
               <TableHeaderColumn width="20%" dataField="storeName" dataAlign="center">
-              점포명
+                점포명
               </TableHeaderColumn>
-              <TableHeaderColumn width="20%" dataField="storeContact" dataAlign="center" >
-              연락처
+              <TableHeaderColumn width="20%" dataField="storeContact" dataAlign="center">
+                연락처
               </TableHeaderColumn>
               <TableHeaderColumn width="20%" dataField="status" dataAlign="center" dataFormat={statusFormatter}>
-              Status
+                Status
               </TableHeaderColumn>
-              <TableHeaderColumn width="20%" dataField="storeOperatingTime"dataAlign="center">
-              운영시간
+              <TableHeaderColumn width="20%" dataField="storeOperatingTime" dataAlign="center">
+                운영시간
               </TableHeaderColumn>
             </BootstrapTable>
-   
-            </CardBody>
-            </Card>
-    </div>
+          </CardBody>
+        </Card>
+      </div>
   );
 };
+
 export default AirportStore;
