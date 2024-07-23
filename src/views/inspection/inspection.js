@@ -1,12 +1,10 @@
 import axios from 'axios';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
-import { Card, CardBody, CardTitle, CardSubtitle, Table } from 'reactstrap';
-import Cookies from 'js-cookie';
+import { Card, CardBody, CardTitle, CardSubtitle } from 'reactstrap';
 import { useNavigate } from 'react-router-dom';
-import { useDispatch ,useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { fetchInspections } from '../../store/apps/inspection/inspectionSlice';
-
 
 function onAfterDeleteRow(rowKeys) {
     alert(`The rowkey you drop: ${rowKeys}`);
@@ -29,7 +27,7 @@ const cellEditProp = {
     blurToSave: true,
 };
 
-const statusFormatter = (cell, row) => {
+const statusFormatter = (cell) => {
     let styleClass;
     if (cell === '고장') {
         styleClass = 'bg-danger';
@@ -45,30 +43,25 @@ const statusFormatter = (cell, row) => {
 };
 
 const Datatables = () => {
+    const navigate = useNavigate(); // useNavigate 추가
+    const dispatch = useDispatch();
+    const inspectionList = useSelector((state) => state.inspections.inspectionList);
 
-        const navigate = useNavigate();
-        const dispatch = useDispatch();
-        const inspectionList = useSelector((state) => state.inspections.inspectionList);
-        console.log('inspectionList ',inspectionList)
+    useEffect(() => {
+        dispatch(fetchInspections());
+    }, [dispatch]);
 
-    
-        useEffect(() => {
-            dispatch(fetchInspections())
-        }, [dispatch]);
+    if (!inspectionList || !inspectionList.data) {
+        return <div>Loading...</div>;
+    }
 
-        if (!inspectionList || !inspectionList.data  ) {
-            return <div>Loading...</div>;
-        }
-    
-        const options = {
-        afterDeleteRow: onAfterDeleteRow, 
-        afterSearch, 
+    const options = {
+        afterDeleteRow: onAfterDeleteRow,
+        afterSearch,
         onRowClick: (row) => {
-            console.log('Row clicked: ', row.inspectionDetail);
-            navigate(`/airport/inspection/${row.inspectionDetail}`);
+            navigate(`/api/v1/inspection/${row.inspectionCode}`); // 페이지 네비게이션
         },
-        };
-
+    };
 
     return (
         <div>
@@ -92,19 +85,65 @@ const Datatables = () => {
                         exportCSV
                         headerStyle={{ width: '100%' }}
                     >
-                        <TableHeaderColumn width="20%" dataField="location" dataAlign="center" isKey>
+                        <TableHeaderColumn
+                            width="20%"
+                            dataField="location"
+                            dataAlign="center"
+                            isKey
+                            dataFormat={(cell, row) => (
+                                <div onClick={() => navigate(`/api/v1/inspection/${row.inspectionCode}`)}>
+                                    {cell}
+                                </div>
+                            )}
+                        >
                             location
                         </TableHeaderColumn>
-                        <TableHeaderColumn width="20%" dataField="type" dataAlign="center">
+                        <TableHeaderColumn
+                            width="20%"
+                            dataField="type"
+                            dataAlign="center"
+                            dataFormat={(cell, row) => (
+                                <div onClick={() => navigate(`/api/v1/inspection/${row.inspectionCode}`)}>
+                                    {cell}
+                                </div>
+                            )}
+                        >
                             type
                         </TableHeaderColumn>
-                        <TableHeaderColumn width="20%" dataField="status" dataAlign="center" dataFormat={statusFormatter}>
+                        <TableHeaderColumn
+                            width="20%"
+                            dataField="status"
+                            dataAlign="center"
+                            dataFormat={(cell, row) => (
+                                <div onClick={() => navigate(`/api/v1/inspection/${row.inspectionCode}`)}>
+                                    {statusFormatter(cell, row)}
+                                </div>
+                            )}
+                        >
                             Status
                         </TableHeaderColumn>
-                        <TableHeaderColumn width="20%" dataField="regularInspectionDate" dataAlign="center">
+                        <TableHeaderColumn
+                            width="20%"
+                            dataField="regularInspectionDate"
+                            dataAlign="center"
+                            dataFormat={(cell, row) => (
+                                <div onClick={() => navigate(`/api/v1/inspection/${row.inspectionCode}`)}>
+                                    {cell}
+                                </div>
+                            )}
+                        >
                             RegularInspectionDate
                         </TableHeaderColumn>
-                        <TableHeaderColumn width="20%" dataField="manager" dataAlign="center">
+                        <TableHeaderColumn
+                            width="20%"
+                            dataField="manager"
+                            dataAlign="center"
+                            dataFormat={(cell, row) => (
+                                <div onClick={() => navigate(`/api/v1/inspection/${row.inspectionCode}`)}>
+                                    {cell}
+                                </div>
+                            )}
+                        >
                             Manager
                         </TableHeaderColumn>
                     </BootstrapTable>
