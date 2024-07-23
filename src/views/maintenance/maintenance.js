@@ -1,11 +1,10 @@
 import React, { useEffect } from 'react';
 import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
 import '../airplane/ReactBootstrapTable.scss';
-import { Card, CardBody, CardTitle, CardSubtitle, Table } from 'reactstrap';
+import { Card, CardBody, CardTitle, CardSubtitle, Button } from 'reactstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchMaintenances } from '../../store/apps/maintenance/maintenanceSlice';
 import { useNavigate } from 'react-router-dom';
-
 
 function onAfterDeleteRow(rowKeys) {
   alert(`The rowkey you drop: ${rowKeys}`);
@@ -13,13 +12,11 @@ function onAfterDeleteRow(rowKeys) {
 
 function afterSearch(searchText, result) {
   console.log(`Your search text is ${searchText}`);
-  console.log('result',result)
+  console.log('result', result);
 }
-
 
 const selectRowProp = {
   mode: 'checkbox',
-
 };
 
 const cellEditProp = {
@@ -27,45 +24,45 @@ const cellEditProp = {
   blurToSave: true,
 };
 
-
-
 const Datatables = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const maintenanceList = useSelector((state) => state.maintenances.maintenanceList);
 
   const options = {
-    afterDeleteRow: onAfterDeleteRow, 
-    afterSearch, 
+    afterDeleteRow: onAfterDeleteRow,
+    afterSearch,
     onRowClick: (row) => {
       console.log('Row clicked: ', row);
       navigate(`/maintenance/${row.maintenanceCode}`);
-    
     },
   };
-
 
   useEffect(() => {
     dispatch(fetchMaintenances());
   }, [dispatch]);
 
-  
-
   if (!maintenanceList || !maintenanceList.data || !maintenanceList.data.maintenanceList) {
     return <div>Loading...</div>;
   }
 
-  console.log("11",maintenanceList);
-  
+  console.log('11', maintenanceList);
 
   return (
     <div>
       <Card>
         <CardBody>
-          <CardTitle tag="h5">정비</CardTitle>
-          <CardSubtitle className="mb-2 text-muted" tag="h6">
-            정비 전체 조회
-          </CardSubtitle>
+          <div className="d-flex justify-content-between align-items-center">
+            <div>
+              <CardTitle tag="h5">정비</CardTitle>
+              <CardSubtitle className="mb-2 text-muted" tag="h6">
+                정비 전체 조회
+              </CardSubtitle>
+            </div>
+            <Button color="primary" onClick={() => navigate('/maintenance/maintenancaReigist')}>
+              등록
+            </Button>
+          </div>
           <BootstrapTable
             hover
             search
@@ -83,8 +80,8 @@ const Datatables = () => {
             <TableHeaderColumn width="20%" dataField="maintenanceCode" dataAlign="center" isKey>
               maintenanceCode
             </TableHeaderColumn>
-            <TableHeaderColumn width="20%" dataField="type" dataAlign="center">
-              type
+            <TableHeaderColumn width="20%" dataField="structure" dataAlign="center">
+            structure
             </TableHeaderColumn>
             <TableHeaderColumn width="20%" dataField="location" dataAlign="center">
               location
@@ -93,7 +90,7 @@ const Datatables = () => {
               maintenanceEndDate
             </TableHeaderColumn>
             <TableHeaderColumn width="20%" dataField="file" dataAlign="center">
-             maintenanceDetails
+              file
             </TableHeaderColumn>
           </BootstrapTable>
         </CardBody>

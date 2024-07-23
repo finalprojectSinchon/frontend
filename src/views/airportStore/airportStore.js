@@ -47,7 +47,6 @@ const AirportStore = () => {
   const navigate = useNavigate();
 
   const [Storedata, setStoredata] = useState([]);
-  console.log(Storedata)
 
   useEffect(() => {
     axios.get('http://localhost:8080/api/v1/store',{
