@@ -37,6 +37,7 @@ import Cookies from 'js-cookie'
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { modifyUser } from '../../store/apps/login/userSlice';
+import {StyledDemo} from "src/views/auth/image/UploadImage.js";
 
 const Profile = () => {
 
@@ -465,6 +466,7 @@ const Profile = () => {
                   <Col sm="12">
                     <div className="p-4">
                       <Form>
+                        <StyledDemo/>
                         <FormGroup>
                           <Label>이름</Label>
                           <Input type="text" placeholder={userInfo.userName} name='userName'

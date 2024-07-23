@@ -5,7 +5,12 @@ import UserInfoReducer from './apps/login/userSlice';
 import gateReducer from './apps/airplane/gateSlice';
 import CustomizerReducer from './customizer/CustomizerSlice';
 import MaintenanceReducer from './apps/maintenance/maintenanceSlice';
+
 import InspectionReducer from './apps/inspection/inspectionSlice';
+import ChkinCounterReducer from './apps/airplane/chkinCounterSlice';
+import BaggageClaimReducer from './apps/airplane/baggageClaimSlice';
+import AirplaneReducer from './apps/airplane/airplaneSlice';
+
 
 
 
@@ -14,10 +19,11 @@ export const store = configureStore({
     userInfo : UserInfoReducer,
     gates : gateReducer,
     customizer: CustomizerReducer,
-
+    chkinCounters : ChkinCounterReducer,
     maintenances: MaintenanceReducer,
-    inspections :InspectionReducer
-  
+    inspections :InspectionReducer,
+    baggageClaims : BaggageClaimReducer,
+    airplanes : AirplaneReducer
 
   },
 });

@@ -2,7 +2,6 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import api from '../airplane/api';
 
 
-
 export const fetchMaintenances = createAsyncThunk('maintenance/fetchMaintenances', async () => {
     const response = await api.get('/api/v1/maintenance');
     return response.data;
@@ -15,12 +14,21 @@ export const fetchMaintenance = createAsyncThunk('maintenance/fetchMaintenance',
 });
 
 
+export const modifyMaintenance = createAsyncThunk('maintenance/modifyMaintenance', async ({ maintenanceCode, maintenanceInfo }) => {
+  const response = await api.put(`/api/v1/maintenance/${maintenanceCode}`, maintenanceInfo);
+  return response.data;
+});
 
+export const softdeleteMaintenance = createAsyncThunk('maintenance/softdeleteMaintenance', async ({maintenanceCode}) => {
+  const response = await api.put(`/api/v1/maintenance/${maintenanceCode}/delete`);
+  return response.data
+});
 
 const maintenanceSlice = createSlice({
     name: 'maintenances',
     initialState: {
         maintenanceList: [],
+        maintenanceDetails :null,
         status: 'idle',
         error: null,
     },
@@ -39,6 +47,9 @@ const maintenanceSlice = createSlice({
             .addCase(fetchMaintenances.rejected, (state, action) => {
                 state.status = 'failed';
                 state.error = action.error.message;
+            }) .addCase(fetchMaintenance.fulfilled, (state, action) => {
+                state.status = 'succeeded';
+                state.maintenanceDetails = action.payload;
             });
     },
 });

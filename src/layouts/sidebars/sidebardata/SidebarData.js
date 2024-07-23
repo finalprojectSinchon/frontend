@@ -11,6 +11,20 @@ const SidebarData = [
   
   },
   {
+    title: '관리자',
+    href: '/',
+    icon: <MaterialIcon icon="how_to_reg" />,
+    id: 2.8,
+    collapisble: false,
+    children: [
+      {
+        title: '인증코드 발급',
+        href: '/code-issuance',
+        icon: <MaterialIcon icon="radio_button_checked" />,
+      },
+    ],
+  },
+  {
     title: '사용 승인',
     href: '/apps/notes',
     icon: <MaterialIcon icon="description" />,
@@ -49,7 +63,7 @@ const SidebarData = [
   },
   {
     title: '정비',
-    href: '/api/v1/maintenance',
+    href: '/maintenance',
     icon: <MaterialIcon icon="manage_accounts" />,
     id: 2.6,
     collapisble: false,
@@ -69,8 +83,13 @@ const SidebarData = [
     href: '/airplane',
     icon: <MaterialIcon icon="confirmation_number" />,
     id: 2.8,
-    collapisble: true,
+    collapisble: false,
     children: [
+      {
+        title: '비행기',
+        href: '/airplane',
+        icon: <MaterialIcon icon="radio_button_checked" />,
+      },
       {
         title: '체크인 카운터',
         href: '/airplane/checkin-counter',

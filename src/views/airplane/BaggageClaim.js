@@ -2,10 +2,11 @@ import React, { useState, useRef, useEffect } from 'react';
 import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
 import { Card, CardBody, CardTitle, CardSubtitle, Button } from 'reactstrap';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchChkinCounters  } from '../../store/apps/airplane/chkinCounterSlice';
+import { fetchBaggageClaims  } from '../../store/apps/airplane/baggageClaimSlice';
 import { useNavigate } from 'react-router-dom';
 import BreadCrumbs from '../../layouts/breadcrumbs/BreadCrumbs';
 import './img.css';
+
 
 function onAfterDeleteRow(rowKeys) {
   alert(`The rowkey you drop: ${rowKeys}`);
@@ -38,7 +39,6 @@ const convertPercentToCoords = (percentCoords, imgWidth, imgHeight) => {
   }).join(',');
 };
 
-
 const statusFormatter = (cell, row) => {
   let styleClass;
   if (cell === '고장') {
@@ -58,23 +58,23 @@ const statusFormatter = (cell, row) => {
 const Datatables = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const chkinCounterList = useSelector((state) => state.chkinCounters.chkinCounterList);
+  const baggageClaimList = useSelector((state) => state.baggageClaims.baggageClaimList);
 
-   // 초기 퍼센트 좌표 설정
-   const initialMapData = [
-    { id: 1, coords: "12.5%,58%,16%,80%", href: "#section1", label: "Section 1" },
-    { id: 2, coords: "17%,50%,21%,70%", href: "#section2", label: "Section 2" },
-    { id: 3, coords: "22%,40%,25.5%,60%", href: "#section3", label: "Section 3" },
-    { id: 4, coords: "27%,33%,30%,49%", href: "#section4", label: "Section 4" },
-    { id: 5, coords: "33%,28%,36%,45%", href: "#section5", label: "Section 5" },
-    { id: 6, coords: "39%,23%,42%,43%", href: "#section6", label: "Section 6" },
-    { id: 7, coords: "51%,23%,54%,43%", href: "#section7", label: "Section 7" },
-    { id: 8, coords: "57%,24%,60%,44%", href: "#section8", label: "Section 8" },
-    { id: 9, coords: "62%,27%,65.5%,49%", href: "#section9", label: "Section 9" },
-    { id: 10, coords: "68%,29%,71%,53%", href: "#section10", label: "Section 10" },
-    { id: 11, coords: "73%,36%,77%,60%", href: "#section11", label: "Section 11" },
-    { id: 12, coords: "79%,47%,82%,67%", href: "#section12", label: "Section 12" },
-    { id: 13, coords: "83%,55%,87%,75%", href: "#section13", label: "Section 13" }
+  // 초기 퍼센트 좌표 설정
+  const initialMapData = [
+    { id: 1, coords: "24%,55%,27%,75%", href: "#section1", label: "Section 1" },
+    { id: 2, coords: "27.5%,50%,30.5%,70%", href: "#section2", label: "Section 2" },
+    { id: 3, coords: "31%,45%,34%,65%", href: "#section3", label: "Section 3" },
+    { id: 4, coords: "34.5%,40%,37.5%,60%", href: "#section4", label: "Section 4" },
+    { id: 5, coords: "39%,35%,42%,55%", href: "#section5", label: "Section 5" },
+    { id: 6, coords: "43%,30%,46%,50%", href: "#section6", label: "Section 6" },
+    { id: 7, coords: "51%,30%,55%,50%", href: "#section7", label: "Section 7" },
+    { id: 8, coords: "56%,35%,59.5%,55%", href: "#section8", label: "Section 8" },
+    { id: 9, coords: "60%,37%,63.5%,58%", href: "#section9", label: "Section 9" },
+    { id: 10, coords: "64.5%,39%,68%,60%", href: "#section10", label: "Section 10" },
+    { id: 11, coords: "68.5%,42%,72%,62%", href: "#section11", label: "Section 11" },
+    { id: 12, coords: "72.5%,47%,75%,67%", href: "#section12", label: "Section 12" },
+    { id: 13, coords: "75.5%,53%,78%,72%", href: "#section13", label: "Section 13" }
   ];
 
   const [mapData, setMapData] = useState(initialMapData);
@@ -107,40 +107,44 @@ const Datatables = () => {
   }, []);
 
 
+
+
+
   const options = {
     afterDeleteRow: onAfterDeleteRow, 
     afterSearch, 
     onRowClick: (row) => {
       console.log('Row clicked: ', row);
-      navigate(`/airplane/checkin-counter/${row.checkinCounterCode}`);
+      navigate(`/airplane/baggage-claim/${row.baggageClaimCode}`);
     
     },
   };
 
 
   useEffect(() => {
-    dispatch(fetchChkinCounters());
+    dispatch(fetchBaggageClaims());
   }, [dispatch]);
 
   
 
-  if (!chkinCounterList || !chkinCounterList.data || !chkinCounterList.data.chkinCounterList) {
+  if (!baggageClaimList || !baggageClaimList.data || !baggageClaimList.data.baggageClaimList) {
     return <div>Loading...</div>;
   }
 
-  const flatChkinCounterList = chkinCounterList.data.chkinCounterList.map(chkincounter => ({
-    ...chkincounter,
-    airline: chkincounter.airplane.airline,
-    scheduleDateTime: chkincounter.airplane.scheduleDateTime
+  const flatBaggageClaimList = baggageClaimList.data.baggageClaimList.map(baggageClaim => ({
+    ...baggageClaim,
+    airline: baggageClaim.airplane.airline,
+    scheduleDateTime: baggageClaim.airplane.scheduleDateTime
   }));
+
 
 
 
   return (
     <div>
-    <div style={{ position: 'relative' }}>
+      <div style={{ position: 'relative' }}>
         <img 
-          src='/3.png' 
+          src='/1.png' 
           useMap='#roadmap' 
           alt='Roadmap' 
           ref={imageRef} 
@@ -178,19 +182,17 @@ const Datatables = () => {
           );
         })}
       </div>
-      
       <Card>
         <CardBody>
-          <BreadCrumbs />
           {/* <CardTitle tag="h5">비행기</CardTitle>
           <CardSubtitle className="mb-2 text-muted" tag="h6">
-            체크인 카운터
+            수화물 수취대  
           </CardSubtitle> */}
-          
+          <BreadCrumbs />
           <BootstrapTable
             hover
             search 
-            data={flatChkinCounterList}
+            data={flatBaggageClaimList}
             insertRow
             deleteRow
             selectRow={selectRowProp}
@@ -200,8 +202,8 @@ const Datatables = () => {
             exportCSV
             headerStyle={{ width: '100%' }}
           >
-            <TableHeaderColumn width="14.28%" dataField="checkinCounterCode" dataAlign="center" isKey>
-              Counter Code
+            <TableHeaderColumn width="14.28%" dataField="baggageClaimCode" dataAlign="center" isKey>
+            BaggageClaim Code
             </TableHeaderColumn>
             <TableHeaderColumn width="14.28%" dataField="location" dataAlign="center">
               Location

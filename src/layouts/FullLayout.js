@@ -27,7 +27,6 @@ const FullLayout = () => {
   console.log('redux', userInfo);
 
   useEffect(() => {
-    // Check if userInfo is empty
     if (userInfo.userCode === null) {
       axios.get('http://localhost:8080/user-info', {
         headers: {
@@ -42,6 +41,8 @@ const FullLayout = () => {
         console.error('Error fetching user info:', error);
         navigate('/auth/loginformik')
       });
+    } else if (userInfo.isActive !== "Y"){
+      navigate('/auth/permission-error')
     }
   }, [dispatch, userInfo]);
 
