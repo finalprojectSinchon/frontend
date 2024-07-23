@@ -4,18 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="69926207-5b43-4876-b095-05d7c27fba30" name="Changes" comment="[2024-07-21] 프로필 사진 crop">
+    <list default="true" id="69926207-5b43-4876-b095-05d7c27fba30" name="Changes" comment="[2024-07-23]안전 점검 등록 수정 삭제 최종">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/layouts/FullLayout.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/layouts/FullLayout.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/layouts/sidebars/sidebardata/SidebarData.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/layouts/sidebars/sidebardata/SidebarData.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/routes/Router.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/routes/Router.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/store/apps/login/userSlice.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/store/apps/login/userSlice.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/views/airportStore/airportStoreDBUpdate.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/airportStore/airportStoreDBUpdate.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/views/auth/Error.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/auth/Error.scss" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/views/auth/RegisterFormik.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/auth/RegisterFormik.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/views/auth/imgUpload.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/auth/imgUpload.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -50,7 +41,7 @@
   &quot;keyToString&quot;: {
     &quot;Node.js.imgUpload.js.executor&quot;: &quot;Run&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;feature/profileImg&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;feature/inspection&quot;,
     &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
     &quot;last_opened_file_path&quot;: &quot;C:/lecture/fianl&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
@@ -81,8 +72,8 @@
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-jdk-9f38398b9061-39b83d9b5494-intellij.indexing.shared.core-IU-241.15989.150" />
-        <option value="bundled-js-predefined-1d06a55b98c1-91d5c284f522-JavaScript-IU-241.15989.150" />
+        <option value="bundled-jdk-9f38398b9061-18abd8497189-intellij.indexing.shared.core-IU-241.14494.240" />
+        <option value="bundled-js-predefined-1d06a55b98c1-74d2a5396914-JavaScript-IU-241.14494.240" />
       </set>
     </attachedChunks>
   </component>
@@ -104,6 +95,8 @@
       <workItem from="1721620286186" duration="57000" />
       <workItem from="1721620358586" duration="680000" />
       <workItem from="1721621055933" duration="14163000" />
+      <workItem from="1721711538605" duration="169000" />
+      <workItem from="1721714444414" duration="34000" />
     </task>
     <task id="LOCAL-00001" summary="[2024-07-18]안전 점검 프론트">
       <option name="closed" value="true" />
@@ -129,7 +122,23 @@
       <option name="project" value="LOCAL" />
       <updated>1721562154661</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="[2024-07-23]안전 점검 수정 삭제">
+      <option name="closed" value="true" />
+      <created>1721711563572</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1721711563572</updated>
+    </task>
+    <task id="LOCAL-00005" summary="[2024-07-23]안전 점검 등록 수정 삭제 최종">
+      <option name="closed" value="true" />
+      <created>1721714458009</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1721714458009</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -150,6 +159,8 @@
     <MESSAGE value="[2024-07-18]안전 점검 프론트" />
     <MESSAGE value="[2024-07-19] 프로필 수정하기 이미지 추가" />
     <MESSAGE value="[2024-07-21] 프로필 사진 crop" />
-    <option name="LAST_COMMIT_MESSAGE" value="[2024-07-21] 프로필 사진 crop" />
+    <MESSAGE value="[2024-07-23]안전 점검 수정 삭제" />
+    <MESSAGE value="[2024-07-23]안전 점검 등록 수정 삭제 최종" />
+    <option name="LAST_COMMIT_MESSAGE" value="[2024-07-23]안전 점검 등록 수정 삭제 최종" />
   </component>
 </project>
