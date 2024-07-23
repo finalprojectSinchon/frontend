@@ -48,8 +48,6 @@ const GateDetail = () => {
     }
   }, [gateDetail]);
 
-  console.log('gateDetail',gateDetail)
-
   const handleEditClick = () => {
     if (readOnly) {
       setReadOnly(false);
