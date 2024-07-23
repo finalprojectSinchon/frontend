@@ -30,6 +30,8 @@ const selectRowProp = {
     }
 };
 
+
+
 const cellEditProp = {
     mode: 'click',
     blurToSave: true,
@@ -83,6 +85,7 @@ const Datatables = () => {
                         hover
                         search
                         data={inspectionList.data}
+                        keyField='inspectionCode'
                         insertRow
                         deleteRow
                         selectRow={selectRowProp}
@@ -97,7 +100,7 @@ const Datatables = () => {
                             width="20%"
                             dataField="location"
                             dataAlign="center"
-                            isKey
+                            // isKey
                             dataFormat={(cell, row) => (
                                 <div onClick={() => navigate(`/api/v1/inspection/${row.inspectionCode}`)}>
                                     {cell}
