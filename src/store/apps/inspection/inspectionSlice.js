@@ -14,12 +14,13 @@ export const fetchInspection = createAsyncThunk('inspection/fetchInspection', as
 });
 
 export const modifyInspection = createAsyncThunk('inspection/modifyInspection', async ({ inspectionCode, inspectionInfo }) => {
-    const response2 = await api.put(`/api/v1/inspection/${inspectionCode}/`, inspectionInfo);
+    const response2 = await api.put(`/api/v1/inspection/${inspectionCode}/update`, inspectionInfo);
     console.log("수정 결과:", response2);
     return response2.data;
 });
-export const deleteInspection = createAsyncThunk('inspection/deleteInspection', async ({ inspectionCode, inspectionInfo }) => {
-    const response3 = await api.put(`/api/v1/inspection/${inspectionCode}/delete`, inspectionInfo);
+
+export const deleteInspection = createAsyncThunk('inspection/deleteInspection', async ({ inspectionCode }) => {
+    const response3 = await api.put(`/api/v1/inspection/${inspectionCode}/delete`);
     console.log("삭제 결과:", response3);
     return response3.data;
 });
@@ -65,6 +66,20 @@ const inspectionSlice = createSlice({
                 state.inspectionDetail = action.payload;
             })
             .addCase(modifyInspection.rejected, (state, action) => {
+                state.status = 'failed';
+                state.error = action.error.message;
+            })
+            .addCase(deleteInspection.pending, (state) => {
+                state.status = 'loading';
+            })
+            .addCase(deleteInspection.fulfilled, (state, action) => {
+                state.status = 'succeeded';
+                state.inspectionDetail = null; // 삭제 후 상세 정보는 null로 설정
+                state.inspectionList = state.inspectionList.filter(
+                    inspection => inspection.code !== action.meta.arg.inspectionCode
+                );
+            })
+            .addCase(deleteInspection.rejected, (state, action) => {
                 state.status = 'failed';
                 state.error = action.error.message;
             });
