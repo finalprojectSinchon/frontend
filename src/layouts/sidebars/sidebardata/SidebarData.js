@@ -126,7 +126,7 @@ const SidebarData = [
   },
   {
     title: '편의시설',
-    href: '/form-layout',
+    href: '/facilities',
     icon: <MaterialIcon icon="feed" />,
     id: 3.1,
     collapisble: true,
