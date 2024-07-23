@@ -4,12 +4,13 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-
-    <list default="true" id="69926207-5b43-4876-b095-05d7c27fba30" name="Changes" comment="[2024-07-23]안전 점검 등록 수정 삭제 최종">
+    <list default="true" id="69926207-5b43-4876-b095-05d7c27fba30" name="Changes" comment="[2024-07-22] 신규 회원 코드 발급 기능 휴대폰/ 이메일 폼 추가">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/views/auth/RegisterFormik.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/auth/RegisterFormik.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/airportStore/airportStore.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/airportStore/airportStore.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/auth/Profile.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/auth/Profile.js" afterDir="false" />
     </list>
-    <list default="true" id="69926207-5b43-4876-b095-05d7c27fba30" name="Changes" comment="[2024-07-23] 편의시설 조회 상세조회 삭제 수정 추가" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -59,7 +60,7 @@
   "keyToString": {
     "Node.js.imgUpload.js.executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "master",
+    "git-widget-placeholder": "feature/profileImg",
     "kotlin-language-version-configured": "true",
     "last_opened_file_path": "C:/lecture/fianl",
     "node.js.detected.package.eslint": "true",
@@ -68,7 +69,7 @@
     "node.js.selected.package.tslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
     "settings.editor.selected.configurable": "preferences.pluginManager",
-    "ts.external.directory.path": "C:\\Program Files\\JetBrains\\IntelliJ IDEA 2023.3.3\\plugins\\javascript-impl\\jsLanguageServicesImpl\\external",
+    "ts.external.directory.path": "/Applications/IntelliJ IDEA.app/Contents/plugins/javascript-plugin/jsLanguageServicesImpl/external",
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
@@ -167,7 +168,24 @@
       <option name="project" value="LOCAL" />
       <updated>1721715453516</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+
+    <task id="LOCAL-00005" summary="[2024-07-22] 신규 회원 코드 발급 기능 휴대폰/ 이메일 폼 추가">
+      <option name="closed" value="true" />
+      <created>1721716402364</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1721716402364</updated>
+    </task>
+    <task id="LOCAL-00006" summary="[2024-07-22] 신규 회원 코드 발급 기능 휴대폰/ 이메일 폼 추가">
+      <option name="closed" value="true" />
+      <created>1721716482696</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1721716482696</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
 
     <servers />
   </component>
@@ -193,6 +211,7 @@
     <MESSAGE value="[2024-07-23]안전 점검 등록 수정 삭제 최종" />
     <option name="LAST_COMMIT_MESSAGE" value="[2024-07-23]안전 점검 등록 수정 삭제 최종" />
     <MESSAGE value="[2024-07-23] 편의시설 조회 상세조회 삭제 수정 추가" />
-    <option name="LAST_COMMIT_MESSAGE" value="[2024-07-23] 편의시설 조회 상세조회 삭제 수정 추가" />
+    <MESSAGE value="[2024-07-22] 신규 회원 코드 발급 기능 휴대폰/ 이메일 폼 추가" />
+    <option name="LAST_COMMIT_MESSAGE" value="[2024-07-22] 신규 회원 코드 발급 기능 휴대폰/ 이메일 폼 추가" />
   </component>
 </project>
