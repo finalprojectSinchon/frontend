@@ -22,15 +22,13 @@ const InspectionDetail = () => {
   const { inspectionCode } = useParams();
   const [readOnly, setReadOnly] = useState(true);
   const [inspectionInfo, setInspectionInfo] = useState({});
-
-
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const inspectionDetail = useSelector(state => state.inspections.inspectionDetail);
+  
 
-  console.log('1111',inspectionInfo)
+
   useEffect(() => {
-    console.log(`Dispatching fetchInspection for code: ${inspectionCode}`);
     dispatch(fetchInspection({ inspectionCode }));
     
 
