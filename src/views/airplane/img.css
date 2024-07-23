@@ -32,11 +32,13 @@
     color: white;
     font-weight: bold;
     text-align: center;
+    width: 250px;
   }
   
   .custom-popover-body {
     background-color: #f8f9fa;
     padding: 15px;
+    width: 250px;
   }
   
   .custom-table {
@@ -50,6 +52,7 @@
   
   .custom-table tr td:first-child {
     font-weight: bold;
+  
   }
 
 .custom-popover-header {
@@ -69,8 +72,19 @@
   line-height: 1;
   color: white;
 }
-.custom-popover-button {
-  margin-top: 10px;
+.custom-popover-body {
+  background-color: #f8f9fa;
+  padding: 15px;
+  width: 250px;
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* 수평 중앙 정렬 */
+}
+
+.custom-button-wrapper {
+  margin-top: 10px; /* 테이블과 버튼 사이의 공간 조정 */
+  display: flex;
+  gap: 10px; /* 버튼 사이의 공간 */
 }
 
 .custom-button {
@@ -80,6 +94,7 @@
   font-size: 13px;
   border-radius: 5px;
   cursor: pointer;
-  margin-left: 80px;
+  width: 80px;
+  text-align: center; /* 버튼 내 텍스트 중앙 정렬 */
 }
 
