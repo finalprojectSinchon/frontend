@@ -20,6 +20,7 @@ const Airplane = Loadable(lazy(() => import('../views/airplane/Airplane')));
 const AirplaneDetail = Loadable(lazy(() => import('../views/airplane/AirplaneDetail')));
 const CheckinCounter = Loadable(lazy(() => import('../views/airplane/CheckinCounter')));
 const CheckinCounterDetail = Loadable(lazy(() => import('../views/airplane/CheckinCounterDetail')));
+const CheckinCounterRegist = Loadable(lazy(()=> import('../views/airplane/CheckinCounterRegist')));
 const Gate = Loadable(lazy(() => import('../views/airplane/Gate')));
 const GateDetail = Loadable(lazy(() => import('../views/airplane/GateDetail')));
 const BaggageClaim = Loadable(lazy(() => import('../views/airplane/BaggageClaim')));
@@ -27,6 +28,8 @@ const BaggageClaimDetail = Loadable(lazy(() => import('../views/airplane/Baggage
 // 편의시설
 const Facilities = Loadable(lazy(() => import('../views/facilities/facilities')));
 const FacilitiesDetail = Loadable(lazy(() => import('../views/facilities/facilitiesDetail')));
+
+
 
 
 const Profile = Loadable(lazy(() => import('../views/auth/Profile')));
@@ -71,6 +74,7 @@ const ThemeRoutes = [
       { path: '/airplane/:airplaneCode', name: '비행기 상세보기', exact: true, element: <AirplaneDetail/> },
       { path: '/airplane/checkin-counter', name: 'CheckinCounter', exact: true, element: <CheckinCounter /> },
       { path: '/airplane/checkin-counter/:checkinCounterCode', name: 'CheckinCounterDetail', exact: true, element: <CheckinCounterDetail /> },
+      { path: '/airplane/checkin-counter/regist', name: 'CheckinCounterRegist', exact: true, element: <CheckinCounterRegist /> },
       { path: '/airplane/gate', name: 'Gate', exact: true, element: <Gate /> },
       { path: '/airplane/gate/:gateCode', name: 'GateDetail', exact: true, element: <GateDetail /> },
       { path: '/airplane/baggage-claim', name: 'BaggageClaim', exact: true, element: <BaggageClaim /> },
