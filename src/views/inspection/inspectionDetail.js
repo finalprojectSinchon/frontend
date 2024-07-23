@@ -15,54 +15,57 @@ import {
 } from 'reactstrap';
 import BreadCrumbs from '../../layouts/breadcrumbs/BreadCrumbs';
 import { useParams, useNavigate } from 'react-router-dom'; // useNavigate 추가
-import api from '../../store/apps/airplane/api';
+import { useDispatch, useSelector } from 'react-redux'; // Redux hooks 추가
+import { fetchInspection, modifyInspection, deleteInspection } from '../../store/apps/inspection/inspectionSlice'; // Redux thunks 추가
 
 const InspectionDetail = () => {
   const { inspectionCode } = useParams();
-  const [inspectionInfo, setInspectionInfo] = useState({});
   const [readOnly, setReadOnly] = useState(true);
-  const navigate = useNavigate(); // useNavigate 추가
+  const [inspectionInfo, setInspectionInfo] = useState({});
+
+
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const inspectionDetail = useSelector(state => state.inspections.inspectionDetail);
+
+  console.log('1111',inspectionInfo)
+  useEffect(() => {
+    console.log(`Dispatching fetchInspection for code: ${inspectionCode}`);
+    dispatch(fetchInspection({ inspectionCode }));
+    
+
+  }, [dispatch, inspectionCode]);
+
 
   useEffect(() => {
-    api.get(`/api/v1/inspection/${inspectionCode}`)
-      .then(res => res.data)
-      .then(data => setInspectionInfo(data.data))
-      .catch(error => console.error("Failed to fetch data:", error));
-  }, [inspectionCode]);
+    if (inspectionDetail && inspectionDetail.data) {
+      setInspectionInfo(inspectionDetail.data);
+    }
+  }, [inspectionDetail]);
+
+
 
   const onChangeHandler = e => {
     const { name, value } = e.target;
-    setInspectionInfo(prevState => ({
-      ...prevState,
-      [name]: value
-    }));
+    setInspectionInfo({ 
+      ...inspectionInfo,
+      [name]: value } );
   };
 
   const handleSave = () => {
-    console.log('Saving inspection info:', inspectionInfo); // 상태 출력
+    dispatch(modifyInspection({ inspectionCode, inspectionInfo: inspectionInfo }))
+    navigate('/api/v1/inspection');
 
-    api.put(`/api/v1/inspection/${inspectionCode}/update`, inspectionInfo)
-      .then((response) => {
-        console.log('API response:', response); // 응답 출력
-        alert('수정이 완료되었습니다');
-        setReadOnly(true);
-        navigate('/api/v1/inspection'); // 페이지 네비게이션
-      })
-      .catch(error => {
-        console.error("Failed to update data:", error);
-      });
+  
   };
-  console.log("인포 나옴 ?", inspectionInfo)
 
   const handleDelete = () => {
-    api.put(`/api/v1/inspection/${inspectionCode}/delete`)
-      .then((response) => {
-        console.log("삭제까지 오냐", response); // 응답 출력
-        alert('삭제가 완료되었습니다');
-        navigate('/api/v1/inspection'); // 삭제 후 네비게이션
-      })
-      .catch(error => console.error("Failed to delete data:", error));
+    dispatch(deleteInspection({ inspectionCode}))
+    navigate('/api/v1/inspection');
+  
   };
+
+
 
   return (
     <div>
@@ -177,10 +180,10 @@ const InspectionDetail = () => {
                         type="textarea"
                         placeholder="특이사항을 입력하세요"
                         rows="6"
-                        name="text"
+                        name="text" // 기존 "text"에서 변경
                         readOnly={readOnly}
                         onChange={onChangeHandler}
-                        value={inspectionInfo.text || ''}
+                        value={inspectionInfo.text || ''} // 기존 "text"에서 변경
                       />
                     </FormGroup>
                   </Col>
