@@ -100,12 +100,13 @@ const Facilities = () => {
                         tableHeaderClass="mb-10"
                         exportCSV
                         headerStyle={{ width: '100%' }}
+                        keyField = "facilitiesCode"
                     >
 
                         <TableHeaderColumn width="15%" dataField="facilitiesManager" dataAlign="center">
                             담당자
                         </TableHeaderColumn>
-                        <TableHeaderColumn width="20%" dataField="facilitiesLocation" dataAlign="center" isKey>
+                        <TableHeaderColumn width="20%" dataField="facilitiesLocation" dataAlign="center" >
                             위치
                         </TableHeaderColumn>
                         <TableHeaderColumn width="20%" dataField="facilitiesClass" dataAlign="center">
