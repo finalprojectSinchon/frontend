@@ -3,6 +3,7 @@ import { Navigate } from 'react-router-dom';
 import Loadable from '../layouts/loader/Loadable';
 import ProfileUploader from '../views/auth/imgUpload';
 import { element, exact } from 'prop-types';
+
 //import MaintenanceRegist from '../views/maintenance/maintenanceRegist';
 
 
@@ -58,7 +59,8 @@ const LoginFormik = Loadable(lazy(() => import('../views/auth/LoginFormik')));
 const PermissionError = Loadable(lazy(() => import('../views/auth/PermissionError.js')));
 const Certification = Loadable(lazy(() => import('../views/auth/Certification.js')));
 
-
+/***** Chatting Pages ****/
+const TestChatting = Loadable(lazy(() => import('../views/chat/TestChatting.js')));
 /*****Routes******/
 
 const ThemeRoutes = [
@@ -96,7 +98,7 @@ const ThemeRoutes = [
       { path: '/upload', name: 'test', exact: true, element: <ProfileUploader /> },
       { path: '/code-issuance', name: 'test', exact: true, element: <AuthCode /> },
 
-
+      { path: '/chatting/test', name: 'chattingTest', exact: true, element: <TestChatting /> },
     
       { path: '/casl', name: 'casl', exact: true, element: <CASL /> },
       { path: '*', element: <Navigate to="/auth/404" /> },
