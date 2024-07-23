@@ -4,19 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="69926207-5b43-4876-b095-05d7c27fba30" name="Changes" comment="[2024-07-21] 프로필 사진 crop">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/layouts/FullLayout.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/layouts/FullLayout.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/layouts/sidebars/sidebardata/SidebarData.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/layouts/sidebars/sidebardata/SidebarData.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/routes/Router.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/routes/Router.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/store/apps/login/userSlice.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/store/apps/login/userSlice.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/views/airportStore/airportStoreDBUpdate.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/airportStore/airportStoreDBUpdate.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/views/auth/Error.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/auth/Error.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/views/auth/RegisterFormik.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/auth/RegisterFormik.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/views/auth/imgUpload.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/auth/imgUpload.js" afterDir="false" />
-    </list>
+    <list default="true" id="69926207-5b43-4876-b095-05d7c27fba30" name="Changes" comment="[2024-07-23] 편의시설 조회 상세조회 삭제 수정 추가" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -46,23 +34,23 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Node.js.imgUpload.js.executor&quot;: &quot;Run&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;feature/profileImg&quot;,
-    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/lecture/fianl&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;,
-    &quot;ts.external.directory.path&quot;: &quot;/Applications/IntelliJ IDEA.app/Contents/plugins/javascript-plugin/jsLanguageServicesImpl/external&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Node.js.imgUpload.js.executor": "Run",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "git-widget-placeholder": "master",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "C:/lecture/fianl",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "preferences.pluginManager",
+    "ts.external.directory.path": "C:\\Program Files\\JetBrains\\IntelliJ IDEA 2023.3.3\\plugins\\javascript-impl\\jsLanguageServicesImpl\\external",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="RunManager">
     <configuration default="true" type="JetRunConfigurationType">
       <module name="airport" />
@@ -129,7 +117,15 @@
       <option name="project" value="LOCAL" />
       <updated>1721562154661</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="[2024-07-23] 편의시설 조회 상세조회 삭제 수정 추가">
+      <option name="closed" value="true" />
+      <created>1721715453516</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1721715453516</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -150,6 +146,7 @@
     <MESSAGE value="[2024-07-18]안전 점검 프론트" />
     <MESSAGE value="[2024-07-19] 프로필 수정하기 이미지 추가" />
     <MESSAGE value="[2024-07-21] 프로필 사진 crop" />
-    <option name="LAST_COMMIT_MESSAGE" value="[2024-07-21] 프로필 사진 crop" />
+    <MESSAGE value="[2024-07-23] 편의시설 조회 상세조회 삭제 수정 추가" />
+    <option name="LAST_COMMIT_MESSAGE" value="[2024-07-23] 편의시설 조회 상세조회 삭제 수정 추가" />
   </component>
 </project>

@@ -24,6 +24,10 @@ const Gate = Loadable(lazy(() => import('../views/airplane/Gate')));
 const GateDetail = Loadable(lazy(() => import('../views/airplane/GateDetail')));
 const BaggageClaim = Loadable(lazy(() => import('../views/airplane/BaggageClaim')));
 const BaggageClaimDetail = Loadable(lazy(() => import('../views/airplane/BaggageClaimsDetail')));
+// 편의시설
+const Facilities = Loadable(lazy(() => import('../views/facilities/facilities')));
+const FacilitiesDetail = Loadable(lazy(() => import('../views/facilities/facilitiesDetail')));
+
 
 const Profile = Loadable(lazy(() => import('../views/auth/Profile')));
 const AuthCode = Loadable(lazy(() => import('../views/auth/AuthCode.js')));
@@ -72,15 +76,13 @@ const ThemeRoutes = [
       { path: '/airplane/baggage-claim', name: 'BaggageClaim', exact: true, element: <BaggageClaim /> },
       { path: '/airplane/baggage-claim/:baggageClaimCode', name: 'BaggageClaimDetail', exact: true, element: <BaggageClaimDetail /> },
 
-      { path: '/maintenance', name: 'Maintenance', exact: true, element: <Maintenance /> },
-      { path: '/maintenance/:maintenanceCode', name: 'MaintenanceDetail', exact: true, element: <MaintenanceDetail /> },
-      { path: '/maintenance/maintenancaReigist', name: 'MaintenanceRegist', exact: true, element: <MaintenanceRegist /> },
-
+      { path: '/api/v1/maintenance', name: 'Maintenance', exact: true, element: <Maintenance /> },
       { path: '/api/v1/inspection', name: 'inspection', exact: true, element: <Inspection/> },
       { path: '/api/v1/inspection/:inspectionCode', name: 'inspectionDetail', exact: true, element: <InspectionDetail/> },
       { path: '/api/v1/inspection/inspectionUpdate', name: 'inspectionUpdate', exact: true, element: <InspectionUpdate/> },
 
-
+      { path: '/facilities', name: 'Facilities', exact: true, element: <Facilities /> },
+      { path: '/facilities/:facilitiesCode', name: 'FacilitiesDetail', exact: true, element:<FacilitiesDetail /> },
 
       { path: '/dashboards/dashboard1', name: 'Dashboard 1', exact: true, element: <Dashboard1 /> },
   
