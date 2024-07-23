@@ -12,40 +12,45 @@ import {
   Button,
 } from 'reactstrap';
 import BreadCrumbs from '../../layouts/breadcrumbs/BreadCrumbs';
-import { useNavigate ,useLocation } from 'react-router-dom';
+import { useNavigate,useLocation } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 
 
-
-const CheckinCounterDetail = () => {
-  const location = useLocation();
-  const state = location.state || {}; 
-
-  console.log('location',location)
-  console.log('state',state)
+const BaggageClaimsDetail = () => {
+    const location = useLocation();
+    const state = location.state || {}; 
+  
+    console.log('location',location)
+    console.log('state',state)
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-
-  const [checkinCounterInfo, setCheckinCounterInfo] = useState({});
- 
+  const [baggageClaimInfo, setBaggageClaimInfo] = useState({});
+  
 
   const onChangeHandler = e => {
-    setCheckinCounterInfo({
-      ...checkinCounterInfo,
+    setBaggageClaimInfo({
+      ...baggageClaimInfo,
       [e.target.name]: e.target.value
     });
   };
 
   
- 
+
+
+
+
 
   const handleClick = () => {
-   
-  
+
  
-    }
+
+    
+  };
+
+
+
 
   return (
     <div>
@@ -55,7 +60,7 @@ const CheckinCounterDetail = () => {
           <Card>
             <CardBody className="bg-light">
               <CardTitle tag="h4" className="mb-0">
-                체크인 카운터 등록
+                수화물 수취대 등록
               </CardTitle>
             </CardBody>
             <CardBody>
@@ -64,7 +69,7 @@ const CheckinCounterDetail = () => {
                 <Col md="6">
                     <FormGroup>
                       <Label>위치</Label>
-                      <Input type="text" name="location"  onChange={onChangeHandler}  />
+                      <Input type="text"  name="location" value={state.location} onChange={onChangeHandler}  />
                     </FormGroup>
                   </Col>
                   <Col md="6">
@@ -77,10 +82,8 @@ const CheckinCounterDetail = () => {
                       </Input>
                     </FormGroup>
                   </Col>
-                
                 </Row>
                 <Row>
-                    
                   <Col md="6">
                     <FormGroup>
                       <Label>type</Label>
@@ -95,7 +98,7 @@ const CheckinCounterDetail = () => {
                   <Col md="6">
                     <FormGroup>
                       <Label>항공사</Label>
-                      <Input type="text" name='airline' onChange={onChangeHandler}  />
+                      <Input type="text" name='airline' />
                     </FormGroup>
                   </Col>
                 </Row>
@@ -117,13 +120,13 @@ const CheckinCounterDetail = () => {
                   <Col md="6">
                     <FormGroup>
                       <Label>도착예정시간</Label>
-                      <Input type="datetime" name='scheduleDateTime' onChange={onChangeHandler}/>
+                      <Input type="datetime" name='scheduleDateTime' onChange={onChangeHandler}  />
                     </FormGroup>
                   </Col>
                   <Col md="6">
                     <FormGroup>
                       <Label>지연시간</Label>
-                      <Input type="number"  name='delayTime' onChange={onChangeHandler} />
+                      <Input type="number"   name='delayTime' onChange={onChangeHandler}  />
                     </FormGroup>
                   </Col>
                 </Row>
@@ -137,12 +140,12 @@ const CheckinCounterDetail = () => {
                   <Col md="6">
                     <FormGroup>
                       <Label>담당자</Label>
-                      <Input type="text" name="manager" onChange={onChangeHandler}  />
+                      <Input type="text"  name="manager" onChange={onChangeHandler} />
                     </FormGroup>
                   </Col>
                 </Row>
                 <Row>
-                 
+            
                   <Col md="6">
                     <FormGroup>
                       <Label>비고</Label>
@@ -154,7 +157,6 @@ const CheckinCounterDetail = () => {
                   <Button className="m-2" color="primary" onClick={handleClick}>
                     등록
                   </Button>
-                
                 </Col>
               </Form>
             </CardBody>
@@ -165,11 +167,4 @@ const CheckinCounterDetail = () => {
   );
 };
 
-
- 
-
-
-
-  
-
-export default CheckinCounterDetail;
+export default BaggageClaimsDetail;

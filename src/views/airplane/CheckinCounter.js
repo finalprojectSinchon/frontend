@@ -127,9 +127,13 @@ const Datatables = () => {
     setPopoverOpen(null);
   };
 
-  const onClickHandler = (location) => () => {
+  const handlerRegist = (location) => () => {
     navigate(`/airplane/checkin-counter/regist`, { state: { location: location } });
   };
+
+  const onClickHandler = (checkinCounterCode) => () =>{
+    navigate('/airplane/checkin-counter/'+checkinCounterCode);
+  }
   return (
     <div>
       <div className="container">
@@ -230,10 +234,20 @@ const Datatables = () => {
                           <td><strong>위치:</strong></td>
                           <td>{area.label} 탑승구</td>
                         </tr>
-                        <Button className='custom-button custom-popover-button' onClick={onClickHandler(area.label)} >등록</Button>
                       </tbody>
                     </Table>
                   )}
+                    <div className="custom-button-wrapper">
+                      {matchedCounter ? (
+                        <Button className='custom-button' onClick={onClickHandler(matchedCounter.checkinCounterCode)}>
+                          상세보기
+                        </Button>
+                      ) : (
+                        <Button className='custom-button' onClick={handlerRegist(area.label)}>
+                          등록
+                        </Button>
+                      )}
+                    </div>
                 </PopoverBody>
               </Popover>
             );

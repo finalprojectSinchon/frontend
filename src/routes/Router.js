@@ -25,6 +25,7 @@ const Gate = Loadable(lazy(() => import('../views/airplane/Gate')));
 const GateDetail = Loadable(lazy(() => import('../views/airplane/GateDetail')));
 const BaggageClaim = Loadable(lazy(() => import('../views/airplane/BaggageClaim')));
 const BaggageClaimDetail = Loadable(lazy(() => import('../views/airplane/BaggageClaimsDetail')));
+const BaggageClaimRegist = Loadable(lazy(() => import('../views/airplane/BaggageClaimRegist')));
 // 편의시설
 const Facilities = Loadable(lazy(() => import('../views/facilities/facilities')));
 const FacilitiesDetail = Loadable(lazy(() => import('../views/facilities/facilitiesDetail')));
@@ -79,6 +80,7 @@ const ThemeRoutes = [
       { path: '/airplane/gate/:gateCode', name: 'GateDetail', exact: true, element: <GateDetail /> },
       { path: '/airplane/baggage-claim', name: 'BaggageClaim', exact: true, element: <BaggageClaim /> },
       { path: '/airplane/baggage-claim/:baggageClaimCode', name: 'BaggageClaimDetail', exact: true, element: <BaggageClaimDetail /> },
+      { path: '/airplane/baggage-claim/regist', name: 'BaggageClaimRegist', exact: true, element: <BaggageClaimRegist /> },
 
       { path: '/api/v1/maintenance', name: 'Maintenance', exact: true, element: <Maintenance /> },
       { path: '/api/v1/inspection', name: 'inspection', exact: true, element: <Inspection/> },
