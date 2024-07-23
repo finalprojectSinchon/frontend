@@ -80,8 +80,8 @@ const Datatables = () => {
             <TableHeaderColumn width="20%" dataField="maintenanceCode" dataAlign="center" isKey>
               maintenanceCode
             </TableHeaderColumn>
-            <TableHeaderColumn width="20%" dataField="type" dataAlign="center">
-              type
+            <TableHeaderColumn width="20%" dataField="structure" dataAlign="center">
+            structure
             </TableHeaderColumn>
             <TableHeaderColumn width="20%" dataField="location" dataAlign="center">
               location
@@ -90,7 +90,7 @@ const Datatables = () => {
               maintenanceEndDate
             </TableHeaderColumn>
             <TableHeaderColumn width="20%" dataField="file" dataAlign="center">
-              maintenanceDetails
+              file
             </TableHeaderColumn>
           </BootstrapTable>
         </CardBody>
