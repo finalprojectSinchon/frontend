@@ -23,6 +23,8 @@ const Inspection = Loadable(lazy(() => import('../views/inspection/inspection'))
 const InspectionDetail = Loadable(lazy(() => import('../views/inspection/inspectionDetail')));
 const InspectionUpdate = Loadable(lazy(() => import('../views/inspection/inspectionUpdate')));
 
+
+
 const AirportStore = Loadable(lazy(() => import('../views/airportStore/airportStore')));
 
 const Maintenance =  Loadable(lazy(() => import('../views/maintenance/maintenance')));
@@ -50,14 +52,16 @@ const ThemeRoutes = [
       { path: '/', name: 'Home', element: <Navigate to="/auth/loginformik" /> },
       { path: '/api/v1/airplane', name: 'Airplane', exact: true, element: <Airplane /> },
       { path: '/api/v1/airplane/checkin-counter', name: 'CheckinCounter', exact: true, element: <CheckinCounter /> },
-      { path: '/api/v1/airplane/gate', name: 'Gate', exact: true, element: <Gate /> },
+      { path: '/airplane/gate', name: 'Gate', exact: true, element: <Gate /> },
       { path: '/api/v1/maintenance', name: 'Maintenance', exact: true, element: <Maintenance /> },
 
-      { path: '/api/v1/airplane/gate/:gateCode', name: 'GateDetail', exact: true, element: <GateDetail /> },
+      { path: '/airplane/gate/:gateCode', name: 'GateDetail', exact: true, element: <GateDetail /> },
 
       { path: '/api/v1/inspection', name: 'inspection', exact: true, element: <Inspection/> },
       { path: '/api/v1/inspection/:inspectionCode', name: 'inspectionDetail', exact: true, element: <InspectionDetail/> },
       { path: '/api/v1/inspection/inspectionUpdate', name: 'inspectionUpdate', exact: true, element: <InspectionUpdate/> },
+
+
 
       { path: '/dashboards/dashboard1', name: 'Dashboard 1', exact: true, element: <Dashboard1 /> },
   

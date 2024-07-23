@@ -66,24 +66,24 @@ const SidebarData = [
   },
   {
     title: '비행기',
-    href: '/api/v1/airplane',
+    href: '/airplane',
     icon: <MaterialIcon icon="confirmation_number" />,
     id: 2.8,
     collapisble: true,
     children: [
       {
         title: '체크인 카운터',
-        href: '/api/v1/airplane/checkin-counter',
+        href: '/airplane/checkin-counter',
         icon: <MaterialIcon icon="radio_button_checked" />,
       },
       {
         title: '탑승구',
-        href: '/api/v1/airplane/gate',
+        href: '/airplane/gate',
         icon: <MaterialIcon icon="radio_button_checked" />,
       },
       {
         title: '수화물 수취대',
-        href: '/api/v1/airplane/baggage-claim',
+        href: '/airplane/baggage-claim',
         icon: <MaterialIcon icon="radio_button_checked" />,
       },
     ],

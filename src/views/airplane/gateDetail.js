@@ -12,9 +12,9 @@ import {
   Button,
 } from 'reactstrap';
 import BreadCrumbs from '../../layouts/breadcrumbs/BreadCrumbs';
-import { useParams } from 'react-router-dom';
+import { useParams,useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchGate, modifyGate } from '../../store/apps/airplane/gateSlice';
+import { fetchGate, modifyGate, softdeleteGate } from '../../store/apps/airplane/gateSlice';
 
 const GateDetail = () => {
   const dispatch = useDispatch();
@@ -29,6 +29,13 @@ const GateDetail = () => {
       [e.target.name]: e.target.value
     });
   };
+
+  const navigate = useNavigate();
+  const onClickHandler = () => {
+    
+    dispatch(softdeleteGate({gateCode}));
+    navigate('/airplane/gate');
+  }
 
   useEffect(() => {
     dispatch(fetchGate({ gateCode }));
@@ -160,11 +167,11 @@ const GateDetail = () => {
                   </Col>
                 </Row>
                 <Col className='d-flex justify-content-center'>
-                  <Button className="btn" color="primary" onClick={handleEditClick}>
-                    {readOnly ? '수정하기' : '저장하기'}
+                  <Button className="m-2" color="primary" onClick={handleEditClick}>
+                    {readOnly ? '수정' : '저장'}
                   </Button>
-                  <Button className="btn" color="secondary">
-                    secondary
+                  <Button className="m-2 " color="danger" onClick={onClickHandler} >
+                    삭제
                   </Button>
                 </Col>
               </Form>
