@@ -14,13 +14,14 @@ import {
   FormFeedback,
 } from 'reactstrap';
 import BreadCrumbs from '../../layouts/breadcrumbs/BreadCrumbs';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom'; // useNavigate 추가
 import api from '../../store/apps/airplane/api';
 
 const InspectionDetail = () => {
   const { inspectionCode } = useParams();
   const [inspectionInfo, setInspectionInfo] = useState({});
   const [readOnly, setReadOnly] = useState(true);
+  const navigate = useNavigate(); // useNavigate 추가
 
   useEffect(() => {
     api.get(`/api/v1/inspection/${inspectionCode}`)
@@ -38,21 +39,27 @@ const InspectionDetail = () => {
   };
 
   const handleSave = () => {
-    // Save updated inspectionInfo to the server
-    api.put(`/api/v1/inspection/${inspectionCode}`, inspectionInfo)
-      .then(() => {
-        alert('Inspection details updated successfully');
+    console.log('Saving inspection info:', inspectionInfo); // 상태 출력
+
+    api.put(`/api/v1/inspection/${inspectionCode}/update`, inspectionInfo)
+      .then((response) => {
+        console.log('API response:', response); // 응답 출력
+        alert('수정이 완료되었습니다');
         setReadOnly(true);
+        navigate('/api/v1/inspection'); // 페이지 네비게이션
       })
-      .catch(error => console.error("Failed to update data:", error));
+      .catch(error => {
+        console.error("Failed to update data:", error);
+      });
   };
+  console.log("인포 나옴 ?", inspectionInfo)
 
   const handleDelete = () => {
-    // Delete the inspection record
-    api.delete(`/api/v1/inspection/${inspectionCode}`)
-      .then(() => {
-        alert('Inspection deleted successfully');
-        // Redirect or update the state after deletion
+    api.put(`/api/v1/inspection/${inspectionCode}/delete`)
+      .then((response) => {
+        console.log("삭제까지 오냐", response); // 응답 출력
+        alert('삭제가 완료되었습니다');
+        navigate('/api/v1/inspection'); // 삭제 후 네비게이션
       })
       .catch(error => console.error("Failed to delete data:", error));
   };
@@ -80,7 +87,7 @@ const InspectionDetail = () => {
                         readOnly={readOnly}
                         value={inspectionInfo.location || ''}
                       />
-                      <FormFeedback valid>Success! You&apos;ve done it.</FormFeedback>
+                      <FormFeedback valid>Success! You've done it.</FormFeedback>
                     </FormGroup>
                   </Col>
                   <Col md="6">
@@ -170,9 +177,10 @@ const InspectionDetail = () => {
                         type="textarea"
                         placeholder="특이사항을 입력하세요"
                         rows="6"
-                        name="notes"
+                        name="text"
+                        readOnly={readOnly}
                         onChange={onChangeHandler}
-                        value={inspectionInfo.notes || ''}
+                        value={inspectionInfo.text || ''}
                       />
                     </FormGroup>
                   </Col>
