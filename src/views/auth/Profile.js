@@ -22,14 +22,6 @@ import {
   InputGroup,
 } from 'reactstrap';
 import BreadCrumbs from '../../layouts/breadcrumbs/BreadCrumbs';
-import img1 from '../../assets/images/users/user1.jpg';
-import img2 from '../../assets/images/users/user2.jpg';
-import img3 from '../../assets/images/users/user3.jpg';
-import img4 from '../../assets/images/users/user4.jpg';
-import time1 from '../../assets/images/bg/bg1.jpg';
-import time2 from '../../assets/images/bg/bg2.jpg';
-import time3 from '../../assets/images/bg/bg3.jpg';
-import time4 from '../../assets/images/bg/bg4.jpg';
 import { useDispatch, useSelector } from 'react-redux';
 import Cookies from 'js-cookie';
 import axios from 'axios';
@@ -37,6 +29,9 @@ import { useNavigate } from 'react-router-dom';
 import { modifyUser } from '../../store/apps/login/userSlice';
 import { StyledDemo } from "src/views/auth/image/UploadImage.js";
 import MDEditor from '@uiw/react-md-editor';
+import ReactMarkdown from "react-markdown";
+import api from "src/store/apps/airplane/api.js";
+import rehypeRaw from "rehype-raw";
 
 const Profile = () => {
   const [activeTab, setActiveTab] = useState('1');
@@ -46,8 +41,10 @@ const Profile = () => {
   const [confirmPassword, setConfirmPassword] = useState(null);
   const [isPasswordValid, setIsPasswordValid] = useState(false);
   const [mdContent, setMdContent] = useState('');
+  const [isEditing, setIsEditing] = useState(false); // 상태 추가: 에디터 활성화 여부
 
-  console.log('mdContent', mdContent);
+
+
   const userInfo = useSelector((state) => state.userInfo);
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -171,6 +168,22 @@ const Profile = () => {
     });
   };
 
+  const userAboutHandler = () => {
+    setIsEditing(false);
+    api.post('/api/v1/user-about', {
+      userCode : userInfo.userCode,
+      userAbout : mdContent
+    })
+        .then(res => {
+          alert('등록성공!');
+        })
+        .catch(err => {
+          alert('다시 시도해주세요!')
+          console.error('error', err);
+        })
+  }
+
+
   return (
       <>
         <BreadCrumbs />
@@ -281,19 +294,30 @@ const Profile = () => {
                     비밀번호 변경
                   </NavLink>
                 </NavItem>
+                {isEditing ? <div className="position-absolute top-0 end-0 p-2">
+                      <Button color="primary" size="sm" onClick={userAboutHandler}>완료</Button>
+                    </div> :
+                    <div className="position-absolute top-0 end-0 p-2">
+                      <Button color="secondary" size="sm" onClick={() => setIsEditing(true)}>수정하기</Button>
+                    </div>}
+
               </Nav>
               <TabContent activeTab={activeTab}>
                 <TabPane tabId="1">
                   <Row>
                     <Col sm="12">
-                      <div className="p-4">
-                        <div className="steamline position-relative border-start ms-4 mt-0">
-                          <div className="markarea">
-                            <div data-color-mode="light">
+                      <div className="p-4 position-relative">
+                        {isEditing ? (
+                            <>
                               <MDEditor height={865} value={mdContent} onChange={handleMdChange} />
-                            </div>
-                          </div>
-                        </div>
+                            </>
+                        ) : (
+                            <>
+                              <ReactMarkdown rehypePlugins={[rehypeRaw]}>
+                                {mdContent}
+                              </ReactMarkdown>
+                            </>
+                        )}
                       </div>
                     </Col>
                   </Row>
@@ -332,11 +356,11 @@ const Profile = () => {
                         <h5 className="mt-4">
                           Wordpress <span className="float-end">80%</span>
                         </h5>
-                        <Progress value={2 * 5} />
+                        <Progress value={80} />
                         <h5 className="mt-4">
                           HTML 5 <span className="float-end">90%</span>
                         </h5>
-                        <Progress color="success" value="25" />
+                        <Progress color="success" value={90} />
                         <h5 className="mt-4">
                           jQuery <span className="float-end">50%</span>
                         </h5>
@@ -344,7 +368,7 @@ const Profile = () => {
                         <h5 className="mt-4">
                           Photoshop <span className="float-end">70%</span>
                         </h5>
-                        <Progress color="warning" value={75} />
+                        <Progress color="warning" value={70} />
                       </div>
                     </Col>
                   </Row>
@@ -373,10 +397,6 @@ const Profile = () => {
                               <Input type="text" placeholder={userInfo.userAddress} name='userAddress' onChange={onChangeHandler} />
                               <Button color='success' onClick="">주소찾기</Button>
                             </InputGroup>
-                          </FormGroup>
-                          <FormGroup>
-                            <Label>내소개</Label>
-                            <Input type="textarea" placeholder={userInfo.userAbout} name='userAbout' onChange={onChangeHandler} />
                           </FormGroup>
                           <Button color="primary" onClick={onClickHandler}>수정하기</Button>
                         </Form>
