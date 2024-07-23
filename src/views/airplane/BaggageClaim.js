@@ -78,6 +78,7 @@ const Datatables = () => {
   ];
 
   const [mapData, setMapData] = useState(initialMapData);
+  const [imageLoaded, setImageLoaded] = useState(false);
   const imageRef = useRef(null);
 
   // 좌표 조정 함수
@@ -98,13 +99,14 @@ const Datatables = () => {
 
   // 창 크기 변경 및 초기 로딩 시 좌표 조정
   useEffect(() => {
-    adjustCoords();
+    if (imageLoaded) {
+      adjustCoords();
+    }
     window.addEventListener('resize', adjustCoords);
-
     return () => {
       window.removeEventListener('resize', adjustCoords);
     };
-  }, []);
+  }, [imageLoaded]);
 
 
 
@@ -149,6 +151,7 @@ const Datatables = () => {
           alt='Roadmap' 
           ref={imageRef} 
           style={{ width: '100%', height: 'auto' }}
+          onLoad={() => setImageLoaded(true)}
         />
         <map name='roadmap'>
           {mapData.map(area => (
@@ -163,7 +166,7 @@ const Datatables = () => {
           ))}
         </map>
         {/* 스타일 적용 영역 */}
-        {mapData.map(area => {
+        {imageLoaded && mapData.map(area => {
           const [x1, y1, x2, y2] = area.coords.split(',').map(Number);
           return (
             <div
