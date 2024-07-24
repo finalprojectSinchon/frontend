@@ -6,6 +6,11 @@ import svgr from '@svgr/rollup';
 
 // https://vitejs.dev/config/
 export default defineConfig({
+    server: {
+        host: '0.0.0.0',
+        port: 5173, // 필요한 경우 포트 번호를 수정하세요.
+        strictPort: true,
+    },
     resolve: {
         alias: {
             src: resolve(__dirname, 'src'),
