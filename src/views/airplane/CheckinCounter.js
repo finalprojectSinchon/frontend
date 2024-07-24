@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
-import { Card, CardTitle, CardBody, Popover, PopoverHeader, PopoverBody } from 'reactstrap';
+import { Card, CardBody, Popover, PopoverHeader, PopoverBody, Table, Button } from 'reactstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchChkinCounters } from '../../store/apps/airplane/chkinCounterSlice';
 import { useNavigate } from 'react-router-dom';
@@ -13,18 +13,13 @@ function onAfterDeleteRow(rowKeys) {
 
 function afterSearch(searchText, result) {
   console.log(`Your search text is ${searchText}`);
-  console.log('result', result);
+  console.log('result',result)
 }
 
 const selectRowProp = {
   mode: 'checkbox',
-};
 
-const cellEditProp = {
-  mode: 'click',
-  blurToSave: true,
 };
-
 const convertPercentToCoords = (percentCoords, imgWidth, imgHeight) => {
   const coordsArray = percentCoords.split(',').map(coord => parseFloat(coord));
 
@@ -73,9 +68,10 @@ const Datatables = () => {
 
   const [mapData, setMapData] = useState(initialMapData);
   const [imageLoaded, setImageLoaded] = useState(false);
-  const [popoverOpen, setPopoverOpen] = useState(null); // Popover의 상태 관리
+  const [popoverOpen, setPopoverOpen] = useState(null);
 
   const imageRef = useRef(null);
+  const popoverTargets = useRef({});
 
   const adjustCoords = () => {
     if (imageRef.current) {
@@ -92,6 +88,10 @@ const Datatables = () => {
   };
 
   useEffect(() => {
+    dispatch(fetchChkinCounters());
+  }, [dispatch]);
+
+  useEffect(() => {
     if (imageLoaded) {
       adjustCoords();
     }
@@ -105,14 +105,9 @@ const Datatables = () => {
     afterDeleteRow: onAfterDeleteRow,
     afterSearch,
     onRowClick: (row) => {
-      console.log('Row clicked: ', row);
       navigate(`/airplane/checkin-counter/${row.checkinCounterCode}`);
     },
   };
-
-  useEffect(() => {
-    dispatch(fetchChkinCounters());
-  }, [dispatch]);
 
   if (!chkinCounterList || !chkinCounterList.data || !chkinCounterList.data.chkinCounterList) {
     return <div>Loading...</div>;
@@ -132,6 +127,13 @@ const Datatables = () => {
     setPopoverOpen(null);
   };
 
+  const handlerRegist = (location) => () => {
+    navigate(`/airplane/checkin-counter/regist`, { state: { location: location } });
+  };
+
+  const onClickHandler = (checkinCounterCode) => () =>{
+    navigate('/airplane/checkin-counter/'+checkinCounterCode);
+  }
   return (
     <div>
       <div className="container">
@@ -154,45 +156,104 @@ const Datatables = () => {
                 alt={area.label}
                 id={`area-${area.id}`}
                 onMouseEnter={() => handleMouseEnter(area.id)}
-                onMouseLeave={handleMouseLeave}
+                ref={(el) => { popoverTargets.current[area.id] = el; }}
               />
             ))}
           </map>
-          {imageLoaded && mapData.map(area => {
+          {mapData.map(area => {
             const [x1, y1, x2, y2] = area.coords.split(',').map(Number);
+            const matchedCounter = flatChkinCounterList.find(chkincounter => chkincounter.location === area.label);
+            const circleClass = matchedCounter ? 'red-circle' : 'green-circle'; // 조건에 따른 동그라미 색상
+
             return (
               <div
+                key={`circle-${area.id}`}
+                className={circleClass}
+                style={{
+                  left: `${x1+22}px`, // 동그라미의 중심 위치
+                  top: `${y1 + (y2 - y1) / 2}px`, // 동그라미의 중심 위치
+                  position: 'absolute'
+                }}
+              ></div>
+            );
+          })}
+          {mapData.map(area => {
+            const [x1, y1, x2, y2] = area.coords.split(',').map(Number);
+            const matchedCounter = flatChkinCounterList.find(chkincounter => chkincounter.location === area.label);
+
+            return (
+              <Popover
                 key={area.id}
-                className='image-map-area'
+                placement='top'
+                isOpen={popoverOpen === area.id}
+                target={`area-${area.id}`}
+                toggle={handleMouseLeave}
+                className='custom-popover'
                 style={{
                   position: 'absolute',
-                  border: '2px solid rgba(255, 0, 0, 0.5)',
-                  backgroundColor: 'rgba(255, 0, 0, 0.2)',
                   left: `${x1}px`,
                   top: `${y1}px`,
-                  width: `${x2 - x1}px`,
-                  height: `${y2 - y1}px`,
+                  transform: 'translate(-50%, -80%)', 
+                  width:'250px'
                 }}
               >
-                {popoverOpen === area.id && (
-                  <Popover
-                    placement='top'
-                    isOpen={true}
-                    target={`area-${area.id}`}
-                    toggle={handleMouseLeave}
-                  >
-                    <PopoverHeader>{area.label}</PopoverHeader>
-                    <PopoverBody>
-                      여기에 정보를 입력하세요.
-                    </PopoverBody>
-                  </Popover>
-                )}
-              </div>
+                <PopoverHeader className='custom-popover-header'>
+                  {area.label} 카운터
+                  <Button close onClick={handleMouseLeave} />
+                </PopoverHeader>
+                <PopoverBody className='custom-popover-body'>
+                  {matchedCounter ? (
+                    <Table className='custom-table'>
+                      <tbody>
+                        <tr>
+                          <td><strong>항공사:</strong></td>
+                          <td>{matchedCounter.airline}</td>
+                        </tr>
+                        <tr>
+                          <td><strong>출발/도착시간:</strong></td>
+                          <td>{matchedCounter.scheduleDateTime}</td>
+                        </tr>
+                        <tr>
+                          <td><strong>위치:</strong></td>
+                          <td>{matchedCounter.location} 탑승구</td>
+                        </tr>
+                      </tbody>
+                    </Table>
+                  ) : (
+                    <Table className='custom-table'>
+                      <tbody>
+                      <tr>
+                          <td><strong>항공사:</strong></td>
+                          <td>등록 필요</td>
+                        </tr>
+                        <tr>
+                          <td><strong>출발/도착시간:</strong></td>
+                          <td>등록 필요</td>
+                        </tr>
+                        <tr>
+                          <td><strong>위치:</strong></td>
+                          <td>{area.label} 탑승구</td>
+                        </tr>
+                      </tbody>
+                    </Table>
+                  )}
+                    <div className="custom-button-wrapper">
+                      {matchedCounter ? (
+                        <Button className='custom-button' onClick={onClickHandler(matchedCounter.checkinCounterCode)}>
+                          상세보기
+                        </Button>
+                      ) : (
+                        <Button className='custom-button' onClick={handlerRegist(area.label)}>
+                          등록
+                        </Button>
+                      )}
+                    </div>
+                </PopoverBody>
+              </Popover>
             );
           })}
         </div>
       </div>
-
       <Card>
         <CardBody>
           <BreadCrumbs />
