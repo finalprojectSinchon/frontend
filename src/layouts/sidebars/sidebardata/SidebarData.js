@@ -47,7 +47,7 @@ const SidebarData = [
   },
   {
     title: '사원조회',
-    href: '/apps/calendar',
+    href: '/contact',
     icon: <MaterialIcon icon="calendar_today" />,
     id: 2.4,
     collapisble: false,

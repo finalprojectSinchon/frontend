@@ -1,11 +1,10 @@
 import React from 'react';
 import { Form, Input } from 'reactstrap';
 import { useSelector, useDispatch } from 'react-redux';
-import {SearchUsers} from "src/store/apps/userContact/UserContactSlice.js";
+import { SearchUsers } from '../../../store/apps/userContact/UserContactSlice';
 
 const UserSearch = () => {
     const searchTerm = useSelector((state) => state.userContact.userSearch);
-
     const dispatch = useDispatch();
 
     return (

@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Nav } from 'reactstrap';
-import UserListItem from './UserListItem.js';
-import { fetchUsers, SelectUser, DeleteUser } from 'src/store/apps/userContact/UserContactSlice.js';
+import UserListItem from './UserListItem';
+import { fetchUsers, SelectUser, DeleteUser } from '../../../store/apps/userContact/UserContactSlice';
 
 const UserList = () => {
     const dispatch = useDispatch();
@@ -11,35 +11,37 @@ const UserList = () => {
         dispatch(fetchUsers());
     }, [dispatch]);
 
+    // 여기서 필터 거름
     const filterUsers = (users, userSearch) => {
         if (userSearch !== '')
             return users.filter(
                 (t) =>
                     !t.deleted &&
-                    t.title.toLocaleLowerCase().concat(' ').includes(userSearch.toLocaleLowerCase()),
+                    t.userName.toLowerCase().concat(' ').includes(userSearch.toLowerCase())
             );
         return users.filter((t) => !t.deleted);
     };
 
     const users = useSelector((state) =>
-        filterUsers(state.userContact.users, state.userContact.userSearch),
+        filterUsers(state.userContact.users, state.userContact.userSearch)
     );
 
-    const active = useSelector((state) => state.userContact.userContent);
+    const active = useSelector((state) => state.userContact.userContentCode);
 
     return (
         <Nav>
             {users && users.length
                 ? users.map((user) => (
                     <UserListItem
-                        key={user.id}
+                        key={user.userCode}
                         {...user}
                         active={active}
-                        onClick={() => dispatch(SelectUser(user.id))}
-                        onDeleteClick={() => dispatch(DeleteUser(user.id))}
-                        userTitle={user.title}
-                        userColor={user.color}
-                        userDatef={new Date(user.datef).toLocaleDateString({
+                        onClick={() => {
+                            dispatch(SelectUser(user.userCode))
+                        }}
+                        onDeleteClick={() => dispatch(DeleteUser(user.userCode))}
+                        user={user}
+                        userDatef={new Date(user.createdDate).toLocaleDateString({
                             weekday: 'short',
                             year: 'numeric',
                             month: 'short',
