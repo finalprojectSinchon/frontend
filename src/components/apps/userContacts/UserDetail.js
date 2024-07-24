@@ -1,9 +1,10 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { Input, FormGroup, Button, Label, Card, CardBody, CardTitle, CardText } from 'reactstrap';
+import {Input, FormGroup, Button, Label, Card, CardBody, CardTitle, CardText, CardHeader, Alert} from 'reactstrap';
 import { UpdateUser, addUser } from '../../../store/apps/userContact/UserContactSlice';
 import ReactMarkdown from 'react-markdown';
 import rehypeRaw from 'rehype-raw';
+
 import {
     Row,
     Col,
@@ -28,6 +29,11 @@ const UserDetail = () => {
             </div>
             {userDetails && !userDetails.deleted ? (
                 <Card>
+                    <Alert>
+                    <CardHeader className="d-flex justify-content-center">
+                        <h2>사원 조회</h2>
+                    </CardHeader>
+                    </Alert>
                     <CardBody>
                         <Row>
                             <Col sm="12">
@@ -42,7 +48,7 @@ const UserDetail = () => {
                                             />
                                         </Col>
                                         <Col md="9" xs="6">
-                                            <h4 className="mb-3">{userDetails.userName}</h4>
+                                                <h3 className="mb-0">사원명 : {userDetails.userName}</h3>
                                         </Col>
                                     </Row>
 

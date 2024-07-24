@@ -1,21 +1,28 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
-import {Input} from "reactstrap";
+import { Input } from 'reactstrap';
 
 function TestChatting() {
     const [messages, setMessages] = useState([]);
     const [socket, setSocket] = useState(null);
     const [input, setInput] = useState('');
-    const [sendTo, setSendTo] = useState()
+    const [sendTo, setSendTo] = useState('');
 
     const userInfo = useSelector(state => state.userInfo);
+    const userDetails = useSelector(
+        (state) => state.userContact.users.find(user => user.userCode === state.userContact.userContentCode)
+    );
 
     useEffect(() => {
-        let ws;
+        if (userDetails) {
+            setSendTo(userDetails.userCode);
+        }
+    }, [userDetails]);
 
+    useEffect(() => {
         const connectWebSocket = () => {
             console.log('WebSocket 연결 시도');
-            ws = new WebSocket(`ws://localhost:8080/ws?userCode=${userInfo.userCode}`);
+            const ws = new WebSocket(`ws://localhost:8080/ws?userCode=${userInfo.userCode}`);
 
             ws.onopen = () => {
                 console.log('WebSocket 연결 성공');
@@ -28,10 +35,7 @@ function TestChatting() {
 
             ws.onclose = (event) => {
                 console.log('WebSocket 연결 종료:', event);
-                setTimeout(() => {
-                    console.log('WebSocket 재연결 시도');
-                    connectWebSocket();
-                }, 10000);
+                setTimeout(connectWebSocket, 10000);
             };
 
             ws.onerror = (error) => {
@@ -44,8 +48,8 @@ function TestChatting() {
         connectWebSocket();
 
         return () => {
-            if (ws) {
-                ws.close();
+            if (socket) {
+                socket.close();
             }
         };
     }, [userInfo]);
@@ -53,9 +57,9 @@ function TestChatting() {
     const sendMessage = () => {
         if (socket && input) {
             const message = {
-                from : userInfo.userCode,
-                to : sendTo,
-                message : input
+                from: userInfo.userCode,
+                to: sendTo,
+                message: input,
             };
             socket.send(JSON.stringify(message));
             setInput('');
@@ -64,16 +68,19 @@ function TestChatting() {
 
     return (
         <div style={styles.chatContainer}>
-            <Input type='text' value={sendTo} onChange={e => setSendTo(e.target.value)} placeholder='누구에게 보낼꺼니'/>
             <div style={styles.chatWindow}>
-                {messages.map((msg, index) => (
-                    <div key={index} style={styles.message}>
-                        {msg}
-                    </div>
-                ))}
+                {messages.length > 0 ? (
+                    messages.map((msg, index) => (
+                        <div key={index} style={styles.message}>
+                            {msg}
+                        </div>
+                    ))
+                ) : (
+                    <p style={styles.noMessages}>No messages yet</p>
+                )}
             </div>
             <div style={styles.inputArea}>
-                <input
+                <Input
                     type="text"
                     value={input}
                     onChange={(e) => setInput(e.target.value)}
@@ -131,6 +138,10 @@ const styles = {
         backgroundColor: '#007bff',
         color: '#fff',
         cursor: 'pointer',
+    },
+    noMessages: {
+        textAlign: 'center',
+        color: '#888',
     },
 };
 
