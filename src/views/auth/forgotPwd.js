@@ -55,9 +55,9 @@ const ForgotPwd = () => {
                         <Card>
                             <CardBody className="p-4 m-1">
                                 <div className="text-center">
-                                    <img src={img1} alt="avatar" className="rounded-circle" width="95" />
+
                                     <CardTitle tag="h4" className="mt-2">
-                                        John Deo
+                                        아이디 찾기
                                     </CardTitle>
                                 </div>
                                 <Formik
@@ -92,7 +92,7 @@ const ForgotPwd = () => {
                                             </FormGroup>
                                             <FormGroup>
                                                 <Button type="submit" color="info" block className="me-2">
-                                                    찾기
+                                                    확인
                                                 </Button>
                                             </FormGroup>
                                         </Form>
