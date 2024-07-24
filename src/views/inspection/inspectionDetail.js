@@ -14,48 +14,56 @@ import {
   FormFeedback,
 } from 'reactstrap';
 import BreadCrumbs from '../../layouts/breadcrumbs/BreadCrumbs';
-import { useParams } from 'react-router-dom';
-import api from '../../store/apps/airplane/api';
+import { useParams, useNavigate } from 'react-router-dom'; // useNavigate 추가
+import { useDispatch, useSelector } from 'react-redux'; // Redux hooks 추가
+import { fetchInspection, modifyInspection, deleteInspection } from '../../store/apps/inspection/inspectionSlice'; // Redux thunks 추가
 
 const InspectionDetail = () => {
   const { inspectionCode } = useParams();
-  const [inspectionInfo, setInspectionInfo] = useState({});
   const [readOnly, setReadOnly] = useState(true);
+  const [inspectionInfo, setInspectionInfo] = useState({});
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const inspectionDetail = useSelector(state => state.inspections.inspectionDetail);
+  
+
 
   useEffect(() => {
-    api.get(`/api/v1/inspection/${inspectionCode}`)
-      .then(res => res.data)
-      .then(data => setInspectionInfo(data.data))
-      .catch(error => console.error("Failed to fetch data:", error));
-  }, [inspectionCode]);
+    dispatch(fetchInspection({ inspectionCode }));
+    
+
+  }, [dispatch, inspectionCode]);
+
+
+  useEffect(() => {
+    if (inspectionDetail && inspectionDetail.data) {
+      setInspectionInfo(inspectionDetail.data);
+    }
+  }, [inspectionDetail]);
+
+
 
   const onChangeHandler = e => {
     const { name, value } = e.target;
-    setInspectionInfo(prevState => ({
-      ...prevState,
-      [name]: value
-    }));
+    setInspectionInfo({ 
+      ...inspectionInfo,
+      [name]: value } );
   };
 
   const handleSave = () => {
-    // Save updated inspectionInfo to the server
-    api.put(`/api/v1/inspection/${inspectionCode}`, inspectionInfo)
-      .then(() => {
-        alert('Inspection details updated successfully');
-        setReadOnly(true);
-      })
-      .catch(error => console.error("Failed to update data:", error));
+    dispatch(modifyInspection({ inspectionCode, inspectionInfo: inspectionInfo }))
+    navigate('/api/v1/inspection');
+
+  
   };
 
   const handleDelete = () => {
-    // Delete the inspection record
-    api.delete(`/api/v1/inspection/${inspectionCode}`)
-      .then(() => {
-        alert('Inspection deleted successfully');
-        // Redirect or update the state after deletion
-      })
-      .catch(error => console.error("Failed to delete data:", error));
+    dispatch(deleteInspection({ inspectionCode}))
+    navigate('/api/v1/inspection');
+  
   };
+
+
 
   return (
     <div>
@@ -80,7 +88,7 @@ const InspectionDetail = () => {
                         readOnly={readOnly}
                         value={inspectionInfo.location || ''}
                       />
-                      <FormFeedback valid>Success! You&apos;ve done it.</FormFeedback>
+                      <FormFeedback valid>Success! You've done it.</FormFeedback>
                     </FormGroup>
                   </Col>
                   <Col md="6">
@@ -170,9 +178,10 @@ const InspectionDetail = () => {
                         type="textarea"
                         placeholder="특이사항을 입력하세요"
                         rows="6"
-                        name="notes"
+                        name="text" // 기존 "text"에서 변경
+                        readOnly={readOnly}
                         onChange={onChangeHandler}
-                        value={inspectionInfo.notes || ''}
+                        value={inspectionInfo.text || ''} // 기존 "text"에서 변경
                       />
                     </FormGroup>
                   </Col>

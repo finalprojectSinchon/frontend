@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import {
   Card,
   CardBody,
@@ -12,52 +12,45 @@ import {
   Button,
 } from 'reactstrap';
 import BreadCrumbs from '../../layouts/breadcrumbs/BreadCrumbs';
-import { useParams,useNavigate } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
-import { fetchGate, modifyGate, softdeleteGate } from '../../store/apps/airplane/gateSlice';
+import { useNavigate,useLocation } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
 
 
-const GateDetail = () => {
+const BaggageClaimsDetail = () => {
+    const location = useLocation();
+    const state = location.state || {}; 
+  
+    console.log('location',location)
+    console.log('state',state)
+
   const dispatch = useDispatch();
-  const { gateCode } = useParams();
-  const gateDetail = useSelector((state) => state.gates.gateDetail);
-  const [gateInfo, setGateInfo] = useState({});
-  const [readOnly, setReadOnly] = useState(true);
+  const navigate = useNavigate();
+
+  const [baggageClaimInfo, setBaggageClaimInfo] = useState({});
+  
 
   const onChangeHandler = e => {
-    setGateInfo({
-      ...gateInfo,
+    setBaggageClaimInfo({
+      ...baggageClaimInfo,
       [e.target.name]: e.target.value
     });
   };
 
-  const navigate = useNavigate();
-  const onClickHandler = () => {
+  
+
+
+
+
+
+  const handleClick = () => {
+
+ 
+
     
-    dispatch(softdeleteGate({gateCode}));
-    navigate('/airplane/gate');
-  }
-
-  useEffect(() => {
-    dispatch(fetchGate({ gateCode }));
-  }, [dispatch, gateCode]);
-
-  useEffect(() => {
-    if (gateDetail && gateDetail.data && gateDetail.data.gate) {
-      setGateInfo(gateDetail.data.gate);
-    }
-  }, [gateDetail]);
-
-  const handleEditClick = () => {
-    if (readOnly) {
-      setReadOnly(false);
-    } else {
-      setReadOnly(true);
-      dispatch(modifyGate({ gateCode, gateInfo }));
-    }
   };
 
-  console.log('modify gateInfo', gateInfo);
+
+
 
   return (
     <div>
@@ -67,22 +60,22 @@ const GateDetail = () => {
           <Card>
             <CardBody className="bg-light">
               <CardTitle tag="h4" className="mb-0">
-                탑승구
+                수화물 수취대 등록
               </CardTitle>
             </CardBody>
             <CardBody>
               <Form>
                 <Row>
-                  <Col md="6">
+                <Col md="6">
                     <FormGroup>
-                      <Label>탑승구 코드</Label>
-                      <Input type="text" value={gateInfo.gateCode } name='gateCode' onChange={onChangeHandler} readOnly={readOnly} />
+                      <Label>위치</Label>
+                      <Input type="text"  name="location" value={state.location} onChange={onChangeHandler}  />
                     </FormGroup>
                   </Col>
                   <Col md="6">
                     <FormGroup>
                       <Label>Status</Label>
-                      <Input type="select" name="status" value={gateInfo.status } onChange={onChangeHandler} disabled={readOnly}>
+                      <Input type="select" name="status"  onChange={onChangeHandler} >
                         <option>고장</option>
                         <option>정상</option>
                         <option>점검중</option>
@@ -94,7 +87,7 @@ const GateDetail = () => {
                   <Col md="6">
                     <FormGroup>
                       <Label>type</Label>
-                      <Input type="select" name="gateType" value={gateInfo.gateType } onChange={onChangeHandler} disabled={readOnly}>
+                      <Input type="select" name="gateType"  onChange={onChangeHandler} >
                         <option>A</option>
                         <option>B</option>
                         <option>C</option>
@@ -105,7 +98,7 @@ const GateDetail = () => {
                   <Col md="6">
                     <FormGroup>
                       <Label>항공사</Label>
-                      <Input type="text" value={gateInfo.airplane?.airline } readOnly={readOnly} />
+                      <Input type="text" name='airline' />
                     </FormGroup>
                   </Col>
                 </Row>
@@ -113,13 +106,13 @@ const GateDetail = () => {
                   <Col md="6">
                     <FormGroup>
                       <Label>편명</Label>
-                      <Input type="text" value={gateInfo.airplane?.flightId} readOnly={readOnly} />
+                      <Input type="text" name='flightId' onChange={onChangeHandler}  />
                     </FormGroup>
                   </Col>
                   <Col md="6">
                     <FormGroup>
                       <Label>최근 점검일</Label>
-                      <Input type="date" value={gateInfo.lastInspectionDate } name="lastInspectionDate" onChange={onChangeHandler} disabled={readOnly} />
+                      <Input type="date"  name="lastInspectionDate" onChange={onChangeHandler}  />
                     </FormGroup>
                   </Col>
                 </Row>
@@ -127,13 +120,13 @@ const GateDetail = () => {
                   <Col md="6">
                     <FormGroup>
                       <Label>도착예정시간</Label>
-                      <Input type="datetime" value={gateInfo.airplane?.scheduleDateTime } name='scheduleDateTime' disabled={readOnly}/>
+                      <Input type="datetime" name='scheduleDateTime' onChange={onChangeHandler}  />
                     </FormGroup>
                   </Col>
                   <Col md="6">
                     <FormGroup>
                       <Label>지연시간</Label>
-                      <Input type="number"  value={gateInfo.delayTime }  name='delayTime' disabled={readOnly} />
+                      <Input type="number"   name='delayTime' onChange={onChangeHandler}  />
                     </FormGroup>
                   </Col>
                 </Row>
@@ -141,36 +134,28 @@ const GateDetail = () => {
                   <Col md="6">
                     <FormGroup>
                       <Label>도착공항명</Label>
-                      <Input type="text" value={gateInfo.airplane?.airport} readOnly={readOnly} />
+                      <Input type="text" name='airport' onChange={onChangeHandler}  />
                     </FormGroup>
                   </Col>
                   <Col md="6">
                     <FormGroup>
                       <Label>담당자</Label>
-                      <Input type="text" value={gateInfo.manager } name="manager" onChange={onChangeHandler} readOnly={readOnly} />
+                      <Input type="text"  name="manager" onChange={onChangeHandler} />
                     </FormGroup>
                   </Col>
                 </Row>
                 <Row>
-                  <Col md="6">
-                    <FormGroup>
-                      <Label>위치</Label>
-                      <Input type="text" value={gateInfo.location} name="location" onChange={onChangeHandler} disabled={readOnly} />
-                    </FormGroup>
-                  </Col>
+            
                   <Col md="6">
                     <FormGroup>
                       <Label>비고</Label>
-                      <Input type="textarea" rows="6" value={gateInfo.note} name="note" onChange={onChangeHandler} disabled={readOnly} />
+                      <Input type="textarea" rows="6"  name="note" onChange={onChangeHandler} />
                     </FormGroup>
                   </Col>
                 </Row>
                 <Col className='d-flex justify-content-center'>
-                  <Button className="m-2" color="primary" onClick={handleEditClick}>
-                    {readOnly ? '수정' : '저장'}
-                  </Button>
-                  <Button className="m-2 " color="danger" onClick={onClickHandler} >
-                    삭제
+                  <Button className="m-2" color="primary" onClick={handleClick}>
+                    등록
                   </Button>
                 </Col>
               </Form>
@@ -182,4 +167,4 @@ const GateDetail = () => {
   );
 };
 
-export default GateDetail;
+export default BaggageClaimsDetail;

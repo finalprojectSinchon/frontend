@@ -49,7 +49,7 @@ const SidebarData = [
   },
   {
     title: '정비',
-    href: '/api/v1/maintenance',
+    href: '/maintenance',
     icon: <MaterialIcon icon="manage_accounts" />,
     id: 2.6,
     collapisble: false,
@@ -110,7 +110,7 @@ const SidebarData = [
   },
   {
     title: '편의시설',
-    href: '/form-layout',
+    href: '/facilities',
     icon: <MaterialIcon icon="feed" />,
     id: 3.1,
     collapisble: true,

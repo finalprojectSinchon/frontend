@@ -30,7 +30,7 @@ const AirportDBUpdate = () => {
     }
 
     const onClickDB = () => {
-        api.post('/api/v1/store/insertapi',apiData)
+        api.post('/api/v1/store/api',apiData)
         .then(res => {
             alert('등록성공')
             navigate('/airport/store')

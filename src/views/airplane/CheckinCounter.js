@@ -1,11 +1,11 @@
-import React, { useEffect } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
-import { Card, CardBody, CardTitle, CardSubtitle, Button } from 'reactstrap';
+import { Card, CardBody, Popover, PopoverHeader, PopoverBody, Table, Button } from 'reactstrap';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchChkinCounters  } from '../../store/apps/airplane/chkinCounterSlice';
+import { fetchChkinCounters } from '../../store/apps/airplane/chkinCounterSlice';
 import { useNavigate } from 'react-router-dom';
 import BreadCrumbs from '../../layouts/breadcrumbs/BreadCrumbs';
-
+import './img.css';
 
 function onAfterDeleteRow(rowKeys) {
   alert(`The rowkey you drop: ${rowKeys}`);
@@ -16,15 +16,18 @@ function afterSearch(searchText, result) {
   console.log('result',result)
 }
 
-
 const selectRowProp = {
   mode: 'checkbox',
 
 };
+const convertPercentToCoords = (percentCoords, imgWidth, imgHeight) => {
+  const coordsArray = percentCoords.split(',').map(coord => parseFloat(coord));
 
-const cellEditProp = {
-  mode: 'click',
-  blurToSave: true,
+  return coordsArray.map((coord, index) => {
+    return index % 2 === 0
+      ? Math.round((coord / 100) * imgWidth)
+      : Math.round((coord / 100) * imgHeight);
+  }).join(',');
 };
 
 const statusFormatter = (cell, row) => {
@@ -36,36 +39,75 @@ const statusFormatter = (cell, row) => {
   } else {
     styleClass = 'bg-success';
   }
-  
+
   return (
     <span className={`p-2 rounded-circle d-inline-block ${styleClass}`}></span>
   );
 };
-
 
 const Datatables = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const chkinCounterList = useSelector((state) => state.chkinCounters.chkinCounterList);
 
-  console.log('chkinCounterList ',chkinCounterList)
+  const initialMapData = [
+    { id: 1, coords: "12.5%,58%,16%,80%", href: "#section1", label: "N" },
+    { id: 2, coords: "17%,50%,21%,70%", href: "#section2", label: "M" },
+    { id: 3, coords: "22%,40%,25.5%,60%", href: "#section3", label: "L" },
+    { id: 4, coords: "27%,33%,30%,49%", href: "#section4", label: "K" },
+    { id: 5, coords: "33%,28%,36%,45%", href: "#section5", label: "J" },
+    { id: 6, coords: "39%,23%,42%,43%", href: "#section6", label: "H" },
+    { id: 7, coords: "51%,23%,54%,43%", href: "#section7", label: "G" },
+    { id: 8, coords: "57%,24%,60%,44%", href: "#section8", label: "F" },
+    { id: 9, coords: "62%,27%,65.5%,49%", href: "#section9", label: "E" },
+    { id: 10, coords: "68%,29%,71%,53%", href: "#section10", label: "D" },
+    { id: 11, coords: "73%,36%,77%,60%", href: "#section11", label: "C" },
+    { id: 12, coords: "79%,47%,82%,67%", href: "#section12", label: "B" },
+    { id: 13, coords: "83%,55%,87%,75%", href: "#section13", label: "A" }
+  ];
 
-  const options = {
-    afterDeleteRow: onAfterDeleteRow, 
-    afterSearch, 
-    onRowClick: (row) => {
-      console.log('Row clicked: ', row);
-      navigate(`/airplane/checkin-counter/${row.checkinCounterCode}`);
-    
-    },
+  const [mapData, setMapData] = useState(initialMapData);
+  const [imageLoaded, setImageLoaded] = useState(false);
+  const [popoverOpen, setPopoverOpen] = useState(null);
+
+  const imageRef = useRef(null);
+  const popoverTargets = useRef({});
+
+  const adjustCoords = () => {
+    if (imageRef.current) {
+      const imgWidth = imageRef.current.clientWidth;
+      const imgHeight = imageRef.current.clientHeight;
+
+      const adjustedMapData = initialMapData.map(area => {
+        const newCoords = convertPercentToCoords(area.coords, imgWidth, imgHeight);
+        return { ...area, coords: newCoords };
+      });
+
+      setMapData(adjustedMapData);
+    }
   };
-
 
   useEffect(() => {
     dispatch(fetchChkinCounters());
   }, [dispatch]);
 
-  
+  useEffect(() => {
+    if (imageLoaded) {
+      adjustCoords();
+    }
+    window.addEventListener('resize', adjustCoords);
+    return () => {
+      window.removeEventListener('resize', adjustCoords);
+    };
+  }, [imageLoaded]);
+
+  const options = {
+    afterDeleteRow: onAfterDeleteRow,
+    afterSearch,
+    onRowClick: (row) => {
+      navigate(`/airplane/checkin-counter/${row.checkinCounterCode}`);
+    },
+  };
 
   if (!chkinCounterList || !chkinCounterList.data || !chkinCounterList.data.chkinCounterList) {
     return <div>Loading...</div>;
@@ -77,21 +119,147 @@ const Datatables = () => {
     scheduleDateTime: chkincounter.airplane.scheduleDateTime
   }));
 
+  const handleMouseEnter = (id) => {
+    setPopoverOpen(id);
+  };
 
+  const handleMouseLeave = () => {
+    setPopoverOpen(null);
+  };
 
+  const handlerRegist = (location) => () => {
+    navigate(`/airplane/checkin-counter/regist`, { state: { location: location } });
+  };
+
+  const onClickHandler = (checkinCounterCode) => () =>{
+    navigate('/airplane/checkin-counter/'+checkinCounterCode);
+  }
   return (
     <div>
+      <div className="container">
+        <div style={{ position: 'relative' }}>
+          <img
+            src='/3.png'
+            useMap='#roadmap'
+            alt='Roadmap'
+            ref={imageRef}
+            style={{ width: '100%', height: 'auto' }}
+            onLoad={() => setImageLoaded(true)}
+          />
+          <map name='roadmap'>
+            {mapData.map(area => (
+              <area
+                key={area.id}
+                shape='rect'
+                coords={area.coords}
+                href={area.href}
+                alt={area.label}
+                id={`area-${area.id}`}
+                onMouseEnter={() => handleMouseEnter(area.id)}
+                ref={(el) => { popoverTargets.current[area.id] = el; }}
+              />
+            ))}
+          </map>
+          {mapData.map(area => {
+            const [x1, y1, x2, y2] = area.coords.split(',').map(Number);
+            const matchedCounter = flatChkinCounterList.find(chkincounter => chkincounter.location === area.label);
+            const circleClass = matchedCounter ? 'red-circle' : 'green-circle'; // 조건에 따른 동그라미 색상
+
+            return (
+              <div
+                key={`circle-${area.id}`}
+                className={circleClass}
+                style={{
+                  left: `${x1+22}px`, // 동그라미의 중심 위치
+                  top: `${y1 + (y2 - y1) / 2}px`, // 동그라미의 중심 위치
+                  position: 'absolute'
+                }}
+              ></div>
+            );
+          })}
+          {mapData.map(area => {
+            const [x1, y1, x2, y2] = area.coords.split(',').map(Number);
+            const matchedCounter = flatChkinCounterList.find(chkincounter => chkincounter.location === area.label);
+
+            return (
+              <Popover
+                key={area.id}
+                placement='top'
+                isOpen={popoverOpen === area.id}
+                target={`area-${area.id}`}
+                toggle={handleMouseLeave}
+                className='custom-popover'
+                style={{
+                  position: 'absolute',
+                  left: `${x1}px`,
+                  top: `${y1}px`,
+                  transform: 'translate(-50%, -80%)', 
+                  width:'250px'
+                }}
+              >
+                <PopoverHeader className='custom-popover-header'>
+                  {area.label} 카운터
+                  <Button close onClick={handleMouseLeave} />
+                </PopoverHeader>
+                <PopoverBody className='custom-popover-body'>
+                  {matchedCounter ? (
+                    <Table className='custom-table'>
+                      <tbody>
+                        <tr>
+                          <td><strong>항공사:</strong></td>
+                          <td>{matchedCounter.airline}</td>
+                        </tr>
+                        <tr>
+                          <td><strong>출발/도착시간:</strong></td>
+                          <td>{matchedCounter.scheduleDateTime}</td>
+                        </tr>
+                        <tr>
+                          <td><strong>위치:</strong></td>
+                          <td>{matchedCounter.location} 탑승구</td>
+                        </tr>
+                      </tbody>
+                    </Table>
+                  ) : (
+                    <Table className='custom-table'>
+                      <tbody>
+                      <tr>
+                          <td><strong>항공사:</strong></td>
+                          <td>등록 필요</td>
+                        </tr>
+                        <tr>
+                          <td><strong>출발/도착시간:</strong></td>
+                          <td>등록 필요</td>
+                        </tr>
+                        <tr>
+                          <td><strong>위치:</strong></td>
+                          <td>{area.label} 탑승구</td>
+                        </tr>
+                      </tbody>
+                    </Table>
+                  )}
+                    <div className="custom-button-wrapper">
+                      {matchedCounter ? (
+                        <Button className='custom-button' onClick={onClickHandler(matchedCounter.checkinCounterCode)}>
+                          상세보기
+                        </Button>
+                      ) : (
+                        <Button className='custom-button' onClick={handlerRegist(area.label)}>
+                          등록
+                        </Button>
+                      )}
+                    </div>
+                </PopoverBody>
+              </Popover>
+            );
+          })}
+        </div>
+      </div>
       <Card>
         <CardBody>
           <BreadCrumbs />
-          {/* <CardTitle tag="h5">비행기</CardTitle>
-          <CardSubtitle className="mb-2 text-muted" tag="h6">
-            체크인 카운터
-          </CardSubtitle> */}
-          
           <BootstrapTable
             hover
-            search 
+            search
             data={flatChkinCounterList}
             insertRow
             deleteRow
@@ -114,13 +282,15 @@ const Datatables = () => {
             <TableHeaderColumn width="14.28%" dataField="airline" dataAlign="center">
               Airline
             </TableHeaderColumn>
+            <TableHeaderColumn width="14.28%" dataField="scheduleDateTime" dataAlign="center">
+              Schedule Date Time
+            </TableHeaderColumn>
             <TableHeaderColumn width="14.28%" dataField="status" dataAlign="center" dataFormat={statusFormatter}>
               Status
             </TableHeaderColumn>
-            <TableHeaderColumn width="14.28%" dataField="scheduleDateTime" dataAlign="center">
-              Schedule DateTime
+            <TableHeaderColumn width="14.28%" dataField="remark" dataAlign="center">
+              Remark
             </TableHeaderColumn>
-            
           </BootstrapTable>
         </CardBody>
       </Card>
