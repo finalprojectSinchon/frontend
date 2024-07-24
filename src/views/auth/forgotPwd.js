@@ -92,7 +92,7 @@ const ForgotPwd = () => {
                                             </FormGroup>
                                             <FormGroup>
                                                 <Button type="submit" color="info" block className="me-2">
-                                                    Reset
+                                                    찾기
                                                 </Button>
                                             </FormGroup>
                                         </Form>
