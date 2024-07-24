@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
-import { Card, CardBody, CardTitle, CardSubtitle, Button } from 'reactstrap';
+import { Card, CardBody, Popover, PopoverHeader, PopoverBody, Table, Button } from 'reactstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchBaggageClaims  } from '../../store/apps/airplane/baggageClaimSlice';
 import { useNavigate } from 'react-router-dom';
@@ -62,24 +62,26 @@ const Datatables = () => {
 
   // 초기 퍼센트 좌표 설정
   const initialMapData = [
-    { id: 1, coords: "24%,55%,27%,75%", href: "#section1", label: "Section 1" },
-    { id: 2, coords: "27.5%,50%,30.5%,70%", href: "#section2", label: "Section 2" },
-    { id: 3, coords: "31%,45%,34%,65%", href: "#section3", label: "Section 3" },
-    { id: 4, coords: "34.5%,40%,37.5%,60%", href: "#section4", label: "Section 4" },
-    { id: 5, coords: "39%,35%,42%,55%", href: "#section5", label: "Section 5" },
-    { id: 6, coords: "43%,30%,46%,50%", href: "#section6", label: "Section 6" },
-    { id: 7, coords: "51%,30%,55%,50%", href: "#section7", label: "Section 7" },
-    { id: 8, coords: "56%,35%,59.5%,55%", href: "#section8", label: "Section 8" },
-    { id: 9, coords: "60%,37%,63.5%,58%", href: "#section9", label: "Section 9" },
-    { id: 10, coords: "64.5%,39%,68%,60%", href: "#section10", label: "Section 10" },
-    { id: 11, coords: "68.5%,42%,72%,62%", href: "#section11", label: "Section 11" },
-    { id: 12, coords: "72.5%,47%,75%,67%", href: "#section12", label: "Section 12" },
-    { id: 13, coords: "75.5%,53%,78%,72%", href: "#section13", label: "Section 13" }
+    { id: 1, coords: "24%,55%,27%,75%", href: "#section1", label: "N" },
+    { id: 2, coords: "27.5%,50%,30.5%,70%", href: "#section2", label: "M" },
+    { id: 3, coords: "31%,45%,34%,65%", href: "#section3", label: "L" },
+    { id: 4, coords: "34.5%,40%,37.5%,60%", href: "#section4", label: "K" },
+    { id: 5, coords: "39%,35%,42%,55%", href: "#section5", label: "J" },
+    { id: 6, coords: "43%,30%,46%,50%", href: "#section6", label: "H" },
+    { id: 7, coords: "51%,30%,55%,50%", href: "#section7", label: "G" },
+    { id: 8, coords: "56%,35%,59.5%,55%", href: "#section8", label: "F" },
+    { id: 9, coords: "60%,37%,63.5%,58%", href: "#section9", label: "E" },
+    { id: 10, coords: "64.5%,39%,68%,60%", href: "#section10", label: "D" },
+    { id: 11, coords: "68.5%,42%,72%,62%", href: "#section11", label: "C" },
+    { id: 12, coords: "72.5%,47%,75%,67%", href: "#section12", label: "B" },
+    { id: 13, coords: "75.5%,53%,78%,72%", href: "#section13", label: "A" }
   ];
 
   const [mapData, setMapData] = useState(initialMapData);
   const [imageLoaded, setImageLoaded] = useState(false);
+  const [popoverOpen, setPopoverOpen] = useState(null);
   const imageRef = useRef(null);
+  const popoverTargets = useRef({});
 
   // 좌표 조정 함수
   const adjustCoords = () => {
@@ -139,51 +141,144 @@ const Datatables = () => {
     scheduleDateTime: baggageClaim.airplane.scheduleDateTime
   }));
 
+  const handleMouseEnter = (id) => {
+    setPopoverOpen(id);
+  };
+
+  const handleMouseLeave = () => {
+    setPopoverOpen(null);
+  };
+
+  const handlerRegist = (location) => () => {
+    navigate(`/airplane/baggage-claim/regist`, { state: { location: location } });
+  };
+
+  const onClickHandler = (baggageClaimCode) =>() => {
+    navigate('/airplane/baggage-claim/'+baggageClaimCode);
+  }
+
 
 
 
   return (
     <div>
-      <div style={{ position: 'relative' }}>
-        <img 
-          src='/1.png' 
-          useMap='#roadmap' 
-          alt='Roadmap' 
-          ref={imageRef} 
-          style={{ width: '100%', height: 'auto' }}
-          onLoad={() => setImageLoaded(true)}
-        />
-        <map name='roadmap'>
-          {mapData.map(area => (
-            <area 
-              key={area.id}
-              shape='rect'
-              coords={area.coords}
-              href={area.href}
-              onClick={() => console.log(`Clicked on ${area.label}`)}
-              alt={area.label}
-            />
-          ))}
-        </map>
-        {/* 스타일 적용 영역 */}
-        {imageLoaded && mapData.map(area => {
-          const [x1, y1, x2, y2] = area.coords.split(',').map(Number);
-          return (
-            <div
-              key={area.id}
-              className='image-map-area'
-              style={{
-                position: 'absolute',
-                border: '2px solid rgba(255, 0, 0, 0.5)',
-                backgroundColor: 'rgba(255, 0, 0, 0.2)',
-                left: `${x1}px`,
-                top: `${y1}px`,
-                width: `${x2 - x1}px`,
-                height: `${y2 - y1}px`,
-              }}
-            />
-          );
-        })}
+      <div className="container">
+        <div style={{ position: 'relative' }}>
+          <img
+            src='/1.png'
+            useMap='#roadmap'
+            alt='Roadmap'
+            ref={imageRef}
+            style={{ width: '100%', height: 'auto' }}
+            onLoad={() => setImageLoaded(true)}
+          />
+          <map name='roadmap'>
+            {mapData.map(area => (
+              <area
+                key={area.id}
+                shape='rect'
+                coords={area.coords}
+                href={area.href}
+                alt={area.label}
+                id={`area-${area.id}`}
+                onMouseEnter={() => handleMouseEnter(area.id)}
+                ref={(el) => { popoverTargets.current[area.id] = el; }}
+              />
+            ))}
+          </map>
+          {mapData.map(area => {
+            const [x1, y1, x2, y2] = area.coords.split(',').map(Number);
+            const matchedCounter = flatBaggageClaimList.find(chkincounter => chkincounter.location === area.label);
+            const circleClass = matchedCounter ? 'red-circle' : 'green-circle'; // 조건에 따른 동그라미 색상
+
+            return (
+              <div
+                key={`circle-${area.id}`}
+                className={circleClass}
+                style={{
+                  left: `${x1+23}px`, // 동그라미의 중심 위치
+                  top: `${y1 + (y2 - y1) / 2}px`, // 동그라미의 중심 위치
+                  position: 'absolute'
+                }}
+              ></div>
+            );
+          })}
+          {mapData.map(area => {
+            const [x1, y1, x2, y2] = area.coords.split(',').map(Number);
+            const matchedCounter = flatBaggageClaimList.find(chkincounter => chkincounter.location === area.label);
+
+            return (
+              <Popover
+                key={area.id}
+                placement='top'
+                isOpen={popoverOpen === area.id}
+                target={`area-${area.id}`}
+                toggle={handleMouseLeave}
+                className='custom-popover'
+                style={{
+                  position: 'absolute',
+                  left: `${x1}px`,
+                  top: `${y1}px`,
+                  transform: 'translate(-50%, -80%)', 
+                  width:'260px'
+                }}
+              >
+                <PopoverHeader className='custom-popover-header'>
+                  {area.label} 카운터
+                  <Button close onClick={handleMouseLeave} />
+                </PopoverHeader>
+                <PopoverBody className='custom-popover-body'>
+                  {matchedCounter ? (
+                    <Table className='custom-table'>
+                      <tbody>
+                        <tr>
+                          <td><strong>항공사:</strong></td>
+                          <td>{matchedCounter.airline}</td>
+                        </tr>
+                        <tr>
+                          <td><strong>출발/도착시간:</strong></td>
+                          <td>{matchedCounter.scheduleDateTime}</td>
+                        </tr>
+                        <tr>
+                          <td><strong>위치:</strong></td>
+                          <td>{matchedCounter.location} 탑승구</td>
+                        </tr>
+                      </tbody>
+                    </Table>
+                  ) : (
+                    <Table className='custom-table'>
+                      <tbody>
+                      <tr>
+                          <td><strong>항공사:</strong></td>
+                          <td>등록 필요</td>
+                        </tr>
+                        <tr>
+                          <td><strong>출발/도착시간:</strong></td>
+                          <td>등록 필요</td>
+                        </tr>
+                        <tr>
+                          <td><strong>위치:</strong></td>
+                          <td>{area.label} 탑승구</td>
+                        </tr>
+                      </tbody>
+                    </Table>
+                  )}
+                   <div className="custom-button-wrapper">
+                      {matchedCounter ? (
+                        <Button className='custom-button' onClick={onClickHandler(matchedCounter.baggageClaimCode)}>
+                          상세보기
+                        </Button>
+                      ) : (
+                        <Button className='custom-button' onClick={handlerRegist(area.label)}>
+                          등록
+                        </Button>
+                      )}
+                    </div>
+                </PopoverBody>
+              </Popover>
+            );
+          })}
+        </div>
       </div>
       <Card>
         <CardBody>

@@ -9,8 +9,6 @@ import { element, exact } from 'prop-types';
 
 
 
-
-
 /****Layouts*****/
 
 const FullLayout = Loadable(lazy(() => import('../layouts/FullLayout')));
@@ -26,14 +24,14 @@ const Gate = Loadable(lazy(() => import('../views/airplane/Gate')));
 const GateDetail = Loadable(lazy(() => import('../views/airplane/GateDetail')));
 const BaggageClaim = Loadable(lazy(() => import('../views/airplane/BaggageClaim')));
 const BaggageClaimDetail = Loadable(lazy(() => import('../views/airplane/BaggageClaimsDetail')));
-// 편의시설
-const Facilities = Loadable(lazy(() => import('../views/facilities/facilities')));
-const FacilitiesDetail = Loadable(lazy(() => import('../views/facilities/facilitiesDetail')));
-
 
 const Profile = Loadable(lazy(() => import('../views/auth/Profile')));
+
 const AuthCode = Loadable(lazy(() => import('../views/auth/AuthCode.js')));
 const UserContact = Loadable(lazy(() => import('../views/auth/userlist/UserContact.js')));
+
+
+
 const Inspection = Loadable(lazy(() => import('../views/inspection/inspection')));
 const InspectionDetail = Loadable(lazy(() => import('../views/inspection/inspectionDetail')));
 const InspectionUpdate = Loadable(lazy(() => import('../views/inspection/inspectionUpdate')));
@@ -43,11 +41,13 @@ const InspectionUpdate = Loadable(lazy(() => import('../views/inspection/inspect
 const AirportStore = Loadable(lazy(() => import('../views/airportStore/airportStore')));
 
 const Maintenance =  Loadable(lazy(() => import('../views/maintenance/maintenance')));
-const MaintenanceDetail = Loadable(lazy(() => import('../views/maintenance/maintenanceDetails')));
-const MaintenanceRegist = Loadable(lazy(() => import('../views/maintenance/maintenanceRegist')));
 
 const AirportStoreDetail = Loadable(lazy(() => import('../views/airportStore/airportStoreDetail')));
 const AirportDBUpdate = Loadable(lazy(() => import('../views/airportStore/airportStoreDBUpdate')));
+
+const Storage = Loadable(lazy(() => import('../views/storage/Storage')));
+const StorageDetail = Loadable(lazy(() => import('../views/storage/StorageDetail')));
+
 
 
 /***** CASL Access Control ****/
@@ -57,11 +57,14 @@ const CASL = Loadable(lazy(() => import('../views/apps/accessControlCASL/AccessC
 const Error = Loadable(lazy(() => import('../views/auth/Error')));
 const RegisterFormik = Loadable(lazy(() => import('../views/auth/RegisterFormik')));
 const LoginFormik = Loadable(lazy(() => import('../views/auth/LoginFormik')));
-const PermissionError = Loadable(lazy(() => import('../views/auth/PermissionError.js')));
-const Certification = Loadable(lazy(() => import('../views/auth/Certification.js')));
+
 
 /***** Chatting Pages ****/
 const TestChatting = Loadable(lazy(() => import('../views/chat/TestChatting.js')));
+
+const ForgotPwd = Loadable(lazy(() => import('../views/auth/forgotPwd.js')))
+
+
 /*****Routes******/
 
 const ThemeRoutes = [
@@ -84,22 +87,27 @@ const ThemeRoutes = [
       { path: '/api/v1/inspection/:inspectionCode', name: 'inspectionDetail', exact: true, element: <InspectionDetail/> },
       { path: '/api/v1/inspection/inspectionUpdate', name: 'inspectionUpdate', exact: true, element: <InspectionUpdate/> },
 
-      { path: '/facilities', name: 'Facilities', exact: true, element: <Facilities /> },
-      { path: '/facilities/:facilitiesCode', name: 'FacilitiesDetail', exact: true, element:<FacilitiesDetail /> },
+
 
       { path: '/dashboards/dashboard1', name: 'Dashboard 1', exact: true, element: <Dashboard1 /> },
   
       { path: '/airport/store', name: 'AirportStore', exact: true, element: <AirportStore /> },
       { path: '/airport/store/:storeId', name: 'AirportStoreDetail', exact: true, element: <AirportStoreDetail /> },
       { path: '/airport/store/dbupdate', name: 'AirportStoreDBUpdate', exact: true, element: <AirportDBUpdate /> },
+      { path: '/storage', name: 'Storage', exact: true, element: <Storage /> },
+      { path: '/storage/:storageCode', name: 'StorageDetail', exact: true, element: <StorageDetail /> },
 
       { path: '/contact', name: 'userContact', exact: true, element: <UserContact /> },
 
       { path: '/profile', name: 'profile', exact: true, element: <Profile /> },
       { path: '/upload', name: 'test', exact: true, element: <ProfileUploader /> },
+
       { path: '/code-issuance', name: 'test', exact: true, element: <AuthCode /> },
 
       { path: '/chatting/test', name: 'chattingTest', exact: true, element: <TestChatting /> },
+
+
+
     
       { path: '/casl', name: 'casl', exact: true, element: <CASL /> },
       { path: '*', element: <Navigate to="/auth/404" /> },
@@ -113,8 +121,12 @@ const ThemeRoutes = [
       { path: '*', element: <Navigate to="/auth/404" /> },
       { path: 'registerformik', element: <RegisterFormik /> },
       { path: 'loginformik', element: <LoginFormik /> },
+
+
       { path: 'permission-error', element: <PermissionError /> },
       { path: 'certification', element: <Certification /> },
+      { path: 'forgotPwd', element: <ForgotPwd/>}
+
     ],
   },
 ];
