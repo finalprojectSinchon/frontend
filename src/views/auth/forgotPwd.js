@@ -13,6 +13,7 @@ import {
 import { useNavigate } from 'react-router-dom';
 import { Formik, Field, Form, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
+import axios from 'axios'; // axios 추가
 import AuthLogo from '../../layouts/logo/AuthLogo';
 import { ReactComponent as LeftBg } from '../../assets/images/bg/login-bgleft.svg';
 import { ReactComponent as RightBg } from '../../assets/images/bg/login-bg-right.svg';
@@ -30,6 +31,19 @@ const ForgotPwd = () => {
         email: Yup.string().email('Email is invalid').required('Email is required'),
         uname: Yup.string().required('Username is required'),
     });
+
+    const handleSubmit = (fields) => {
+        axios.post('http://localhost:8080/account/search-id', fields)
+            .then(response => {
+                alert('성공!! )\n\n' + JSON.stringify(response.data, null, 4));
+                navigate('/');
+            })
+            .catch(error => {
+                alert('오류!! )\n\n' + JSON.stringify(error.response.data, null, 4));
+            });
+        console.log(fields)
+    };
+
     return (
         <div className="loginBox">
             <LeftBg className="position-absolute left bottom-0" />
@@ -49,24 +63,20 @@ const ForgotPwd = () => {
                                 <Formik
                                     initialValues={initialValues}
                                     validationSchema={validationSchema}
-                                    onSubmit={(fields) => {
-                                        // eslint-disable-next-line no-alert
-                                        alert(`SUCCESS!! :-)\n\n${JSON.stringify(fields, null, 4)}`);
-                                        navigate('/');
-                                    }}
+                                    onSubmit={handleSubmit}
                                     render={({ errors, touched }) => (
                                         <Form className="mt-3">
                                             <FormGroup>
-                                                <Label htmlFor="name">Name</Label>
+                                                <Label htmlFor="uname">Name</Label>
                                                 <Field
-                                                    name="name"
+                                                    name="uname"
                                                     type="text"
                                                     placeholder='이름를 입력해주세요.'
                                                     className={`form-control${
                                                         errors.uname && touched.uname ? ' is-invalid' : ''
                                                     }`}
                                                 />
-                                                <ErrorMessage name="name" component="div" className="invalid-feedback" />
+                                                <ErrorMessage name="uname" component="div" className="invalid-feedback" />
                                             </FormGroup>
                                             <FormGroup>
                                                 <Label htmlFor="email">Email</Label>
