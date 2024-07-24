@@ -64,7 +64,7 @@
     "react-tagsinput": "^3.20.3",
     "react-validation": "^3.0.7",
     "react-zoom-pan-pinch": "^3.6.1",
-    "reactstrap": "^9.2.0",
+    "reactstrap": "^9.2.2",
     "redux": "^4.2.1",
     "rehype-raw": "^7.0.0",
     "sass": "^1.69.0",

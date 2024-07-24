@@ -14,7 +14,7 @@ const SidebarData = [
     title: '관리자',
     href: '/',
     icon: <MaterialIcon icon="how_to_reg" />,
-    id: 5,
+    id: 2.83,
     collapisble: false,
     children: [
       {
@@ -47,7 +47,7 @@ const SidebarData = [
   },
   {
     title: '사원조회',
-    href: '/apps/calendar',
+    href: '/contact',
     icon: <MaterialIcon icon="calendar_today" />,
     id: 2.4,
     collapisble: false,

@@ -2,6 +2,11 @@ import { lazy } from 'react';
 import { Navigate } from 'react-router-dom';
 import Loadable from '../layouts/loader/Loadable';
 import ProfileUploader from '../views/auth/imgUpload';
+import { element, exact } from 'prop-types';
+
+
+//import MaintenanceRegist from '../views/maintenance/maintenanceRegist';
+
 
 
 /****Layouts*****/
@@ -21,6 +26,11 @@ const BaggageClaim = Loadable(lazy(() => import('../views/airplane/BaggageClaim'
 const BaggageClaimDetail = Loadable(lazy(() => import('../views/airplane/BaggageClaimsDetail')));
 
 const Profile = Loadable(lazy(() => import('../views/auth/Profile')));
+
+const AuthCode = Loadable(lazy(() => import('../views/auth/AuthCode.js')));
+const UserContact = Loadable(lazy(() => import('../views/auth/userlist/UserContact.js')));
+
+
 
 const Inspection = Loadable(lazy(() => import('../views/inspection/inspection')));
 const InspectionDetail = Loadable(lazy(() => import('../views/inspection/inspectionDetail')));
@@ -48,7 +58,12 @@ const Error = Loadable(lazy(() => import('../views/auth/Error')));
 const RegisterFormik = Loadable(lazy(() => import('../views/auth/RegisterFormik')));
 const LoginFormik = Loadable(lazy(() => import('../views/auth/LoginFormik')));
 
+
+/***** Chatting Pages ****/
+const TestChatting = Loadable(lazy(() => import('../views/chat/TestChatting.js')));
+
 const ForgotPwd = Loadable(lazy(() => import('../views/auth/forgotPwd.js')))
+
 
 /*****Routes******/
 
@@ -82,10 +97,16 @@ const ThemeRoutes = [
       { path: '/storage', name: 'Storage', exact: true, element: <Storage /> },
       { path: '/storage/:storageCode', name: 'StorageDetail', exact: true, element: <StorageDetail /> },
 
-
+      { path: '/contact', name: 'userContact', exact: true, element: <UserContact /> },
 
       { path: '/profile', name: 'profile', exact: true, element: <Profile /> },
       { path: '/upload', name: 'test', exact: true, element: <ProfileUploader /> },
+
+      { path: '/code-issuance', name: 'test', exact: true, element: <AuthCode /> },
+
+      { path: '/chatting/test', name: 'chattingTest', exact: true, element: <TestChatting /> },
+
+
 
     
       { path: '/casl', name: 'casl', exact: true, element: <CASL /> },
