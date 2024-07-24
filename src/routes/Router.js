@@ -51,6 +51,9 @@ const MaintenanceRegist = Loadable(lazy(() => import('../views/maintenance/maint
 const AirportStoreDetail = Loadable(lazy(() => import('../views/airportStore/airportStoreDetail')));
 const AirportDBUpdate = Loadable(lazy(() => import('../views/airportStore/airportStoreDBUpdate')));
 
+const Storage = Loadable(lazy(() => import('../views/storage/Storage')));
+
+
 
 /***** CASL Access Control ****/
 const CASL = Loadable(lazy(() => import('../views/apps/accessControlCASL/AccessControl')));
@@ -95,6 +98,7 @@ const ThemeRoutes = [
       { path: '/airport/store', name: 'AirportStore', exact: true, element: <AirportStore /> },
       { path: '/airport/store/:storeId', name: 'AirportStoreDetail', exact: true, element: <AirportStoreDetail /> },
       { path: '/airport/store/dbupdate', name: 'AirportStoreDBUpdate', exact: true, element: <AirportDBUpdate /> },
+      { path: '/storage', name: 'Storage', exact: true, element: <Storage /> },
 
 
 

@@ -102,13 +102,11 @@ const SidebarData = [
   },
   {
     title: '창고',
-    href: '/ui',
-    id: 3,
-    suffix: '22',
-    suffixColor: 'bg-info',
+    href: '/storage',
     icon: <MaterialIcon icon="grid_view" />,
+    id: 3,
     collapisble: true,
-  
+
   },
   {
     title: '편의시설',
