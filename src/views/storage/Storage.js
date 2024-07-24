@@ -56,6 +56,7 @@ const Storage = () => {
         })
         .then(res => res.data)
         .then(data => {
+            console.log("22", data)
             setStorageData(data.data);
         })
     }, []);
