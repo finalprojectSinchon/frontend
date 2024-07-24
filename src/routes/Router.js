@@ -48,6 +48,7 @@ const Error = Loadable(lazy(() => import('../views/auth/Error')));
 const RegisterFormik = Loadable(lazy(() => import('../views/auth/RegisterFormik')));
 const LoginFormik = Loadable(lazy(() => import('../views/auth/LoginFormik')));
 
+const ForgotPwd = Loadable(lazy(() => import('../views/auth/forgotPwd.js')))
 
 /*****Routes******/
 
@@ -99,6 +100,12 @@ const ThemeRoutes = [
       { path: '*', element: <Navigate to="/auth/404" /> },
       { path: 'registerformik', element: <RegisterFormik /> },
       { path: 'loginformik', element: <LoginFormik /> },
+
+
+      { path: 'permission-error', element: <PermissionError /> },
+      { path: 'certification', element: <Certification /> },
+      { path: 'forgotPwd', element: <ForgotPwd/>}
+
     ],
   },
 ];

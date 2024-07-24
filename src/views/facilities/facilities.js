@@ -6,12 +6,24 @@ import {useNavigate} from "react-router-dom";
 import axios from "axios";
 import Cookies from "js-cookie";
 import {navigate} from "react-big-calendar/lib/utils/constants.js";
+import api from "src/store/apps/airplane/api.js";
 
 
 function onAfterDeleteRow(rowKeys) {
-    alert(`The rowkey you drop: ${rowKeys}`);
+    // Call the deleteStore function for each selected row
+    rowKeys.forEach(deletefacilities);
 }
 
+const deletefacilities = async (facilitiesCode) => {
+    api.put(`/api/v1/facilities/${facilitiesCode}/delete`)
+        .then(res => {
+            alert("삭제 성공")
+        })
+        .catch(err => {
+            alert("삭제 실패")
+            console.error('err',err)
+        })
+};
 
 function afterSearch(searchText, result) {
     console.log(`Your search text is ${searchText}`)
@@ -100,19 +112,20 @@ const Facilities = () => {
                         tableHeaderClass="mb-10"
                         exportCSV
                         headerStyle={{ width: '100%' }}
+                        keyField = "facilitiesCode"
                     >
 
                         <TableHeaderColumn width="15%" dataField="facilitiesManager" dataAlign="center">
                             담당자
                         </TableHeaderColumn>
-                        <TableHeaderColumn width="20%" dataField="facilitiesLocation" dataAlign="center" isKey>
+                        <TableHeaderColumn width="20%" dataField="facilitiesLocation" dataAlign="center" >
                             위치
                         </TableHeaderColumn>
                         <TableHeaderColumn width="20%" dataField="facilitiesClass" dataAlign="center">
-                            정기점검일
+                            분류
                         </TableHeaderColumn>
                         <TableHeaderColumn width="20%" dataField="facilitiesName" dataAlign="center">
-                            마지막점검일
+                            시설물이름
                         </TableHeaderColumn>
                         <TableHeaderColumn width="15%" dataField="facilitiesType" dataAlign="center">
                             종류
