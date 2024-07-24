@@ -14,7 +14,7 @@ const SidebarData = [
     title: '관리자',
     href: '/',
     icon: <MaterialIcon icon="how_to_reg" />,
-    id: 2.8,
+    id: 2.83,
     collapisble: false,
     children: [
       {

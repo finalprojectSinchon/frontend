@@ -4,6 +4,7 @@ import Loadable from '../layouts/loader/Loadable';
 import ProfileUploader from '../views/auth/imgUpload';
 import { element, exact } from 'prop-types';
 
+
 //import MaintenanceRegist from '../views/maintenance/maintenanceRegist';
 
 
@@ -32,7 +33,7 @@ const FacilitiesDetail = Loadable(lazy(() => import('../views/facilities/facilit
 
 const Profile = Loadable(lazy(() => import('../views/auth/Profile')));
 const AuthCode = Loadable(lazy(() => import('../views/auth/AuthCode.js')));
-
+const UserContact = Loadable(lazy(() => import('../views/auth/userlist/UserContact.js')));
 const Inspection = Loadable(lazy(() => import('../views/inspection/inspection')));
 const InspectionDetail = Loadable(lazy(() => import('../views/inspection/inspectionDetail')));
 const InspectionUpdate = Loadable(lazy(() => import('../views/inspection/inspectionUpdate')));
@@ -92,7 +93,7 @@ const ThemeRoutes = [
       { path: '/airport/store/:storeId', name: 'AirportStoreDetail', exact: true, element: <AirportStoreDetail /> },
       { path: '/airport/store/dbupdate', name: 'AirportStoreDBUpdate', exact: true, element: <AirportDBUpdate /> },
 
-
+      { path: '/contact', name: 'userContact', exact: true, element: <UserContact /> },
 
       { path: '/profile', name: 'profile', exact: true, element: <Profile /> },
       { path: '/upload', name: 'test', exact: true, element: <ProfileUploader /> },
