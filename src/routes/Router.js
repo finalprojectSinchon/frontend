@@ -5,6 +5,7 @@ import ProfileUploader from '../views/auth/imgUpload';
 import { element, exact } from 'prop-types';
 
 
+
 //import MaintenanceRegist from '../views/maintenance/maintenanceRegist';
 
 
@@ -76,8 +77,10 @@ const Certification = Loadable(lazy(() => import('../views/auth/Certification'))
 /***** Chatting Pages ****/
 const TestChatting = Loadable(lazy(() => import('../views/chat/TestChatting.js')));
 const LiveChatting = Loadable(lazy(() => import('../views/chat/LiveChatting.js')));
+const ManagerDragAndDrop = Loadable(lazy(() => import('src/components/apps/managerDargAndDrop/ManagerDragAndDrop')));
 
 const ForgotPwd = Loadable(lazy(() => import('../views/auth/forgotPwd.js')))
+
 
 
 /*****Routes******/
@@ -126,6 +129,9 @@ const ThemeRoutes = [
 
       { path: '/chatting/test', name: 'chattingTest', exact: true, element: <TestChatting /> },
 
+
+        // Test
+      { path: '/drag-drop', name: 'dragdrop', exact: true, element: <ManagerDragAndDrop /> },
 
 
     

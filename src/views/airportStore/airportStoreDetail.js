@@ -17,21 +17,24 @@ import BreadCrumbs from '../../layouts/breadcrumbs/BreadCrumbs';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import api from '../../store/apps/airplane/api';
-
+import ManagerDragAndDrop from "src/components/apps/managerDargAndDrop/ManagerDragAndDrop.js";
+import axios from "axios";
+import Cookies from 'js-cookie';
 
 
 const AirportStoreDetail = () => {
- 
+
 
   const { storeId } = useParams();
-  
+
   const navigate = useNavigate();
 
   const [storeInfo, setstoreInfo] = useState();
   const [readOnly, setreadOnly] = useState(true);
+  const [manager, setManager] = useState([])
+  const [airportType, setAirportType] = useState()
 
-  console.log(storeInfo);
-  
+
 
   useEffect(() => {
     api.get(`/api/v1/store/${storeId}`)
@@ -42,7 +45,22 @@ const AirportStoreDetail = () => {
     .catch(error => {
         navigate('auth/404')
     })
+    setAirportType('store')
   }, []);
+
+
+  useEffect(() => {
+
+    api.post('/api/v1/managers',{
+      airportType : "store",
+      airportCode : storeId
+    })
+        .then(res => res.data)
+        .then(data => {
+          setManager(data.data)
+        })
+
+  }, [storeInfo]);
 
 
   const onChangeHandler = e => {
@@ -93,7 +111,7 @@ const AirportStoreDetail = () => {
                     <FormGroup>
                       <Label>점포명</Label>
                       <Input type="text" placeholder="점포이름을 입력하세요" name='storeName' onChange={onChangeHandler} readOnly={readOnly}
-                      value={storeInfo ? storeInfo.storeName :  '로딩중...' } />                    
+                      value={storeInfo ? storeInfo.storeName :  '로딩중...' } />
                     </FormGroup>
                   </Col>
                   <Col md="6">
@@ -127,7 +145,7 @@ const AirportStoreDetail = () => {
                       <FormText className='muted'>주요업무는 반드시 입력해야햡니다.</FormText>
                     </FormGroup>
                   </Col>
-               
+
                 </Row>
                 <Row>
                    <Col md="6">
@@ -140,7 +158,7 @@ const AirportStoreDetail = () => {
                   <Col md="6">
                     <FormGroup>
                       <Label>운영시간</Label>
-                      <Input type="text" name='storeOperatingTime' placeholder="운영시간을 입력하세요" readOnly={readOnly} 
+                      <Input type="text" name='storeOperatingTime' placeholder="운영시간을 입력하세요" readOnly={readOnly}
                       onChange={onChangeHandler} value={storeInfo ? storeInfo.storeOperatingTime :  '로딩중...' } />
                     </FormGroup>
                   </Col>
@@ -152,24 +170,31 @@ const AirportStoreDetail = () => {
                     <Input type="text" name='storeItems' placeholder='취급품목을 입력하세요' readOnly={readOnly}
                       onChange={onChangeHandler} value={storeInfo ? storeInfo.storeItems :  '로딩중...' } />
                     </FormGroup>
-                  </Col>
-                  <Col md="6">
-                    <FormGroup>
-                      <Label>담당자</Label>
-                      <Input type="text" name='storeManager' placeholder="담당자를 입력하세요" readOnly={readOnly}
-                        onChange={onChangeHandler} value={storeInfo ? storeInfo.storeManager :  '로딩중...' } />
-                    </FormGroup>
-                  </Col>
-                </Row>
-                <Row>
-                  <Col md="6">
+
                     <FormGroup>
                       <Label>비고</Label>
                       <Input type="textarea" placeholder="특이사항을 입력하세요"  rows="6" name='storeExtra' onChange={onChangeHandler} readOnly={readOnly}/>
                     </FormGroup>
+
                   </Col>
-                <Col md="6">
-                </Col>
+                  <Col md="6">
+                    <Row className="mb-3 mt-3">
+                      <Col md="6" className="d-flex justify-content-start">
+                        <h2 className="ms-5 ps-4">전체 직원</h2>
+                      </Col>
+                      <Col md="6" className="d-flex justify-content-end">
+                        <h2 className="me-5 pe-5">담당 직원</h2>
+                      </Col>
+                    </Row>
+                    <div className='mb-4'>
+                      {manager ? <ManagerDragAndDrop AllUser={manager.AllUser} Manager={manager.Manager} airportCode={storeId} airportType={airportType}/>
+                      : <h3>loading</h3> }
+
+                    </div>
+                  </Col>
+                </Row>
+                <Row>
+
                 </Row>
                 <Col className="d-flex justify-content-center align-items-center">
                 <div className="d-flex">
@@ -189,13 +214,13 @@ const AirportStoreDetail = () => {
                 </Col>
               </Form>
             </CardBody>
-   
+
           </Card>
         </Col>
-     
+
       </Row>
 
-      
+
     </div>
   );
 };
