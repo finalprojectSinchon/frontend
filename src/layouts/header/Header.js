@@ -23,6 +23,7 @@ import Logo from '../logo/Logo';
 import { ToggleMiniSidebar, ToggleMobileSidebar } from '../../store/customizer/CustomizerSlice';
 import ProfileDD from './ProfileDD';
 import Cookies from 'js-cookie'
+import Player from "src/components/apps/audioPlayer/Player.js";
 
 const Header = () => {
   const isDarkMode = useSelector((state) => state.customizer.isDark);
@@ -103,8 +104,17 @@ const Header = () => {
             </Link>
           </NavItem>
         </Nav>
-
         <div className="d-flex align-items-center">
+          <UncontrolledDropdown className="mx-0">
+            <DropdownToggle className="bg-transparent border-0" color={topbarColor}>
+              <Icon.PlayCircle size={18} />
+            </DropdownToggle>
+            <DropdownMenu className="ddWidth">
+              <DropdownItem header>
+                <Player/>
+              </DropdownItem>
+            </DropdownMenu>
+          </UncontrolledDropdown>
           {/******************************/}
           {/**********Notification DD**********/}
           {/******************************/}
