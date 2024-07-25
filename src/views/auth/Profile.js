@@ -294,12 +294,17 @@ const Profile = () => {
                     비밀번호 변경
                   </NavLink>
                 </NavItem>
-                {isEditing ? <div className="position-absolute top-0 end-0 p-2">
-                      <Button color="primary" size="sm" onClick={userAboutHandler}>완료</Button>
-                    </div> :
-                    <div className="position-absolute top-0 end-0 p-2">
-                      <Button color="secondary" size="sm" onClick={() => setIsEditing(true)}>수정하기</Button>
-                    </div>}
+                {activeTab === '1' ? (
+                    isEditing ? (
+                        <div className="position-absolute top-0 end-0 p-2">
+                          <Button color="primary" size="sm" onClick={userAboutHandler}>완료</Button>
+                        </div>
+                    ) : (
+                        <div className="position-absolute top-0 end-0 p-2">
+                          <Button color="secondary" size="sm" onClick={() => setIsEditing(true)}>수정하기</Button>
+                        </div>
+                    )
+                ) : null}
 
               </Nav>
               <TabContent activeTab={activeTab}>
@@ -349,7 +354,7 @@ const Profile = () => {
                           </Col>
                         </Row>
                         <p className="mt-4">
-                          {userInfo.userAbout}
+
                         </p>
                         <h4 className="font-medium mt-4">Skill Set</h4>
                         <hr />
