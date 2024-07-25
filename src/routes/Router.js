@@ -20,10 +20,12 @@ const Airplane = Loadable(lazy(() => import('../views/airplane/Airplane')));
 const AirplaneDetail = Loadable(lazy(() => import('../views/airplane/AirplaneDetail')));
 const CheckinCounter = Loadable(lazy(() => import('../views/airplane/CheckinCounter')));
 const CheckinCounterDetail = Loadable(lazy(() => import('../views/airplane/CheckinCounterDetail')));
+const CheckinCounterRegist = Loadable(lazy(() => import('../views/airplane/CheckinCounterRegist')));
 const Gate = Loadable(lazy(() => import('../views/airplane/Gate')));
 const GateDetail = Loadable(lazy(() => import('../views/airplane/GateDetail')));
 const BaggageClaim = Loadable(lazy(() => import('../views/airplane/BaggageClaim')));
 const BaggageClaimDetail = Loadable(lazy(() => import('../views/airplane/BaggageClaimsDetail')));
+const BaggageClaimRegist = Loadable(lazy(() => import('../views/airplane/BaggageClaimRegist')));
 
 const Profile = Loadable(lazy(() => import('../views/auth/Profile')));
 
@@ -57,7 +59,8 @@ const CASL = Loadable(lazy(() => import('../views/apps/accessControlCASL/AccessC
 const Error = Loadable(lazy(() => import('../views/auth/Error')));
 const RegisterFormik = Loadable(lazy(() => import('../views/auth/RegisterFormik')));
 const LoginFormik = Loadable(lazy(() => import('../views/auth/LoginFormik')));
-
+const PermissionError =  Loadable(lazy(() => import('../views/auth/PermissionError')));
+const Certification = Loadable(lazy(() => import('../views/auth/Certification')));
 
 /***** Chatting Pages ****/
 const TestChatting = Loadable(lazy(() => import('../views/chat/TestChatting.js')));
@@ -77,10 +80,13 @@ const ThemeRoutes = [
       { path: '/airplane/:airplaneCode', name: '비행기 상세보기', exact: true, element: <AirplaneDetail/> },
       { path: '/airplane/checkin-counter', name: 'CheckinCounter', exact: true, element: <CheckinCounter /> },
       { path: '/airplane/checkin-counter/:checkinCounterCode', name: 'CheckinCounterDetail', exact: true, element: <CheckinCounterDetail /> },
+      { path: '/airplane/checkin-counter/regist', name: 'CheckinCounterRegist', exact: true, element: <CheckinCounterRegist /> },
+
       { path: '/airplane/gate', name: 'Gate', exact: true, element: <Gate /> },
       { path: '/airplane/gate/:gateCode', name: 'GateDetail', exact: true, element: <GateDetail /> },
       { path: '/airplane/baggage-claim', name: 'BaggageClaim', exact: true, element: <BaggageClaim /> },
       { path: '/airplane/baggage-claim/:baggageClaimCode', name: 'BaggageClaimDetail', exact: true, element: <BaggageClaimDetail /> },
+      { path: '/airplane/baggage-claim/regist', name: 'BaggageClaimRegist', exact: true, element: <BaggageClaimRegist /> },
 
       { path: '/api/v1/maintenance', name: 'Maintenance', exact: true, element: <Maintenance /> },
       { path: '/api/v1/inspection', name: 'inspection', exact: true, element: <Inspection/> },
