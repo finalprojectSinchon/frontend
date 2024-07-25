@@ -78,7 +78,7 @@ const Storage = () => {
             <Card>
                 <CardBody>
                     <CardTitle tag="h5">창고
-                    <Button color="primary" className="ms-5 btn btn-" size="sm" onClick={() => navigate('/storage/dbupdate')}>창고 DB 업데이트</Button>
+                    {/* <Button color="primary" className="ms-5 btn btn-" size="sm" onClick={() => navigate('/storage/dbupdate')}>창고 DB 업데이트</Button> */}
                     </CardTitle>
                     <CardSubtitle className="mb-2 text-muted" tag="h6">
                         창고 조회
@@ -89,7 +89,7 @@ const Storage = () => {
                             data={storageData}
                             insertRow
                             deleteRow
-                            selectRow
+                            selectRow={selectRowProp}
                             pagination
                             options={options}
                             cellEdit={cellEditProp}
@@ -109,8 +109,6 @@ const Storage = () => {
                             <TableHeaderColumn width="20%" dataField="manager" dataAlign="center">
                             담당자
                             </TableHeaderColumn>
-
-
                         </BootstrapTable>
                 </CardBody>
             </Card>
