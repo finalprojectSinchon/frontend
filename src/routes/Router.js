@@ -25,7 +25,14 @@ const Gate = Loadable(lazy(() => import('../views/airplane/Gate')));
 const GateDetail = Loadable(lazy(() => import('../views/airplane/GateDetail')));
 const BaggageClaim = Loadable(lazy(() => import('../views/airplane/BaggageClaim')));
 const BaggageClaimDetail = Loadable(lazy(() => import('../views/airplane/BaggageClaimsDetail')));
+
 const BaggageClaimRegist = Loadable(lazy(() => import('../views/airplane/BaggageClaimRegist')));
+
+// 편의시설
+const Facilities = Loadable(lazy(() => import('../views/facilities/facilities')));
+const FacilitiesDetail = Loadable(lazy(() => import('../views/facilities/facilitiesDetail')));
+
+
 
 const Profile = Loadable(lazy(() => import('../views/auth/Profile')));
 
@@ -43,6 +50,8 @@ const InspectionUpdate = Loadable(lazy(() => import('../views/inspection/inspect
 const AirportStore = Loadable(lazy(() => import('../views/airportStore/airportStore')));
 
 const Maintenance =  Loadable(lazy(() => import('../views/maintenance/maintenance')));
+const MaintenanceDetail = Loadable(lazy(() => import('../views/maintenance/maintenanceDetails')));
+const MaintenanceRegist = Loadable(lazy(() => import('../views/maintenance/maintenanceRegist')));
 
 const AirportStoreDetail = Loadable(lazy(() => import('../views/airportStore/airportStoreDetail')));
 const AirportDBUpdate = Loadable(lazy(() => import('../views/airportStore/airportStoreDBUpdate')));
@@ -59,11 +68,14 @@ const CASL = Loadable(lazy(() => import('../views/apps/accessControlCASL/AccessC
 const Error = Loadable(lazy(() => import('../views/auth/Error')));
 const RegisterFormik = Loadable(lazy(() => import('../views/auth/RegisterFormik')));
 const LoginFormik = Loadable(lazy(() => import('../views/auth/LoginFormik')));
+
 const PermissionError =  Loadable(lazy(() => import('../views/auth/PermissionError')));
 const Certification = Loadable(lazy(() => import('../views/auth/Certification')));
 
+
 /***** Chatting Pages ****/
 const TestChatting = Loadable(lazy(() => import('../views/chat/TestChatting.js')));
+const LiveChatting = Loadable(lazy(() => import('../views/chat/LiveChatting.js')));
 
 const ForgotPwd = Loadable(lazy(() => import('../views/auth/forgotPwd.js')))
 
@@ -93,7 +105,8 @@ const ThemeRoutes = [
       { path: '/api/v1/inspection/:inspectionCode', name: 'inspectionDetail', exact: true, element: <InspectionDetail/> },
       { path: '/api/v1/inspection/inspectionUpdate', name: 'inspectionUpdate', exact: true, element: <InspectionUpdate/> },
 
-
+      { path: '/facilities', name: 'Facilities', exact: true, element: <Facilities /> },
+      { path: '/facilities/:facilitiesCode', name: 'FacilitiesDetail', exact: true, element:<FacilitiesDetail /> },
 
       { path: '/dashboards/dashboard1', name: 'Dashboard 1', exact: true, element: <Dashboard1 /> },
   
@@ -107,6 +120,7 @@ const ThemeRoutes = [
 
       { path: '/profile', name: 'profile', exact: true, element: <Profile /> },
       { path: '/upload', name: 'test', exact: true, element: <ProfileUploader /> },
+      { path: '/chatting', name: 'chatting', exact: true, element: <LiveChatting /> },
 
       { path: '/code-issuance', name: 'test', exact: true, element: <AuthCode /> },
 

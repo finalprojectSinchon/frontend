@@ -40,7 +40,7 @@ const SidebarData = [
   },
   {
     title: '메세지',
-    href: '/apps/contacts',
+    href: '/chatting',
     icon: <MaterialIcon icon="person_outline" />,
     id: 2.3,
     collapisble: false,
