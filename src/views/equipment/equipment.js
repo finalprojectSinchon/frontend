@@ -4,7 +4,7 @@ import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
 import { Card, CardBody, CardTitle, CardSubtitle } from 'reactstrap';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchInspections } from '../../store/apps/inspection/inspectionSlice';
+import { fetchEquipments } from '../../store/apps/equipment/equipmentSlice';
 
 function onAfterDeleteRow(rowKeys) {
     alert(`The rowkey you drop: ${rowKeys}`);
@@ -55,13 +55,14 @@ const statusFormatter = (cell) => {
 const Datatables = () => {
     const navigate = useNavigate(); // useNavigate 추가
     const dispatch = useDispatch();
-    const inspectionList = useSelector((state) => state.inspections.inspectionList);
+    const equipmentList = useSelector((state) => state.equipments.equipmentList);
+    console.log('equipmentList',equipmentList)
 
     useEffect(() => {
-        dispatch(fetchInspections());
+        dispatch(fetchEquipments());
     }, [dispatch]);
 
-    if (!inspectionList || !inspectionList.data) {
+    if (!equipmentList || !equipmentList.data) {
         return <div>Loading...</div>;
     }
 
@@ -69,7 +70,7 @@ const Datatables = () => {
         afterDeleteRow: onAfterDeleteRow,
         afterSearch,
         onRowClick: (row) => {
-            navigate(`/inspection/${row.inspectionCode}`); // 페이지 네비게이션
+            navigate(`/equipment/${row.equipmentCode}`); // 페이지 네비게이션
         },
     };
 
@@ -77,15 +78,15 @@ const Datatables = () => {
         <div>
             <Card>
                 <CardBody>
-                    <CardTitle tag="h5">안전 점검</CardTitle>
+                    <CardTitle tag="h5">장비 재고</CardTitle>
                     <CardSubtitle className="mb-2 text-muted" tag="h6">
-                        안전 점검 전체 조회
+                    장비 재고 전체 조회
                     </CardSubtitle>
                     <BootstrapTable
                         hover
                         search
-                        data={inspectionList.data}
-                        keyField='inspectionCode'
+                        data={equipmentList.data}
+                        keyField='equipmentCode'
                         insertRow
                         deleteRow
                         selectRow={selectRowProp}
@@ -98,59 +99,60 @@ const Datatables = () => {
                     >
                         <TableHeaderColumn
                             width="20%"
-                            dataField="location"
+                            dataField="equipmentName"
                             dataAlign="center"
                             // isKey
                             dataFormat={(cell, row) => (
-                                <div onClick={() => navigate(`/inspection/${row.inspectionCode}`)}>
+                                <div onClick={() => navigate(`/equipment/${row.equipmentCode}`)}>
                                     {cell}
                                 </div>
                             )}
                         >
-                            location
+                            Name
                         </TableHeaderColumn>
                         <TableHeaderColumn
                             width="20%"
-                            dataField="type"
+                            dataField="equipmentLocation"
                             dataAlign="center"
                             dataFormat={(cell, row) => (
-                                <div onClick={() => navigate(`/inspection/${row.inspectionCode}`)}>
+                                <div onClick={() => navigate(`/equipment/${row.equipmentCode}`)}>
                                     {cell}
                                 </div>
                             )}
                         >
-                            type
+                            Location
                         </TableHeaderColumn>
                         <TableHeaderColumn
                             width="20%"
                             dataField="status"
                             dataAlign="center"
                             dataFormat={(cell, row) => (
-                                <div onClick={() => navigate(`/inspection/${row.inspectionCode}`)}>
+                                <div onClick={() => navigate(`/equipment/${row.equipmentCode}`)}>
                                     {statusFormatter(cell, row)}
                                 </div>
                             )}
                         >
                             Status
                         </TableHeaderColumn>
+
                         <TableHeaderColumn
                             width="20%"
-                            dataField="regularInspectionDate"
+                            dataField="equipmentQuantity"
                             dataAlign="center"
                             dataFormat={(cell, row) => (
-                                <div onClick={() => navigate(`/inspection/${row.inspectionCode}`)}>
+                                <div onClick={() => navigate(`/equipment/${row.equipmentCode}`)}>
                                     {cell}
                                 </div>
                             )}
                         >
-                            RegularInspectionDate
+                            EquipmentQuantity
                         </TableHeaderColumn>
                         <TableHeaderColumn
                             width="20%"
-                            dataField="manager"
+                            dataField="equipmentManager"
                             dataAlign="center"
                             dataFormat={(cell, row) => (
-                                <div onClick={() => navigate(`/inspection/${row.inspectionCode}`)}>
+                                <div onClick={() => navigate(`/equipment/${row.equipmentCode}`)}>
                                     {cell}
                                 </div>
                             )}

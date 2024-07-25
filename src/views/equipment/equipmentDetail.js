@@ -14,52 +14,52 @@ import {
   FormFeedback,
 } from 'reactstrap';
 import BreadCrumbs from '../../layouts/breadcrumbs/BreadCrumbs';
-import { useParams, useNavigate } from 'react-router-dom'; // useNavigate 추가
-import { useDispatch, useSelector } from 'react-redux'; // Redux hooks 추가
-import { fetchInspection, modifyInspection, deleteInspection } from '../../store/apps/inspection/inspectionSlice'; // Redux thunks 추가
+import { useParams, useNavigate } from 'react-router-dom'; 
+import { useDispatch, useSelector } from 'react-redux'; 
+import { fetchEquipment, modifyEquipment, deleteEquipment } from '../../store/apps/equipment/equipmentSlice'; 
 
-const InspectionDetail = () => {
-  const { inspectionCode } = useParams();
+const EquipmentDetail = () => {
+  const { equipmentCode } = useParams();
   const [readOnly, setReadOnly] = useState(true);
-  const [inspectionInfo, setInspectionInfo] = useState({});
+  const [equipmentInfo, setEquipmentInfo] = useState({});
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const inspectionDetail = useSelector(state => state.inspections.inspectionDetail);
+  const equipmentDetail = useSelector(state => state.equipments.equipmentDetail);
   
 
 
   useEffect(() => {
-    dispatch(fetchInspection({ inspectionCode }));
+    dispatch(fetchEquipment({ equipmentCode }));
     
 
-  }, [dispatch, inspectionCode]);
+  }, [dispatch, equipmentCode]);
 
 
   useEffect(() => {
-    if (inspectionDetail && inspectionDetail.data) {
-      setInspectionInfo(inspectionDetail.data);
+    if (equipmentDetail && equipmentDetail.data) {
+      setEquipmentInfo(equipmentDetail.data);
     }
-  }, [inspectionDetail]);
+  }, [equipmentDetail]);
 
 
 
   const onChangeHandler = e => {
     const { name, value } = e.target;
-    setInspectionInfo({ 
-      ...inspectionInfo,
+    setEquipmentInfo({ 
+      ...equipmentInfo,
       [name]: value } );
   };
 
   const handleSave = () => {
-    dispatch(modifyInspection({ inspectionCode, inspectionInfo: inspectionInfo }))
-    navigate('/inspection');
+    dispatch(modifyEquipment({ equipmentCode, equipmentInfo: equipmentInfo }))
+    navigate('/equipment');
 
   
   };
 
   const handleDelete = () => {
-    dispatch(deleteInspection({ inspectionCode}))
-    navigate('/inspection');
+    dispatch(deleteEquipment({ equipmentCode}))
+    navigate('/equipment');
   
   };
 
@@ -86,7 +86,7 @@ const InspectionDetail = () => {
                         name="location"
                         onChange={onChangeHandler}
                         readOnly={readOnly}
-                        value={inspectionInfo.location || ''}
+                        value={equipmentInfo.location || ''}
                       />
                       <FormFeedback valid>Success! You've done it.</FormFeedback>
                     </FormGroup>
@@ -99,7 +99,7 @@ const InspectionDetail = () => {
                         name="status"
                         onChange={onChangeHandler}
                         disabled={readOnly}
-                        value={inspectionInfo.status || ''}
+                        value={equipmentInfo.status || ''}
                       >
                         <option value="정상">정상</option>
                         <option value="점검중">점검중</option>
@@ -118,7 +118,7 @@ const InspectionDetail = () => {
                         name="type"
                         onChange={onChangeHandler}
                         disabled={readOnly}
-                        value={inspectionInfo.type || ''}
+                        value={equipmentInfo.type || ''}
                       >
                         <option value="점포">점포</option>
                         <option value="안내소">안내소</option>
@@ -135,7 +135,7 @@ const InspectionDetail = () => {
                         placeholder="이름을 입력하세요"
                         readOnly={readOnly}
                         onChange={onChangeHandler}
-                        value={inspectionInfo.manager || ''}
+                        value={equipmentInfo.manager || ''}
                       />
                       <FormText className="muted">이름은 반드시 입력해야 합니다.</FormText>
                     </FormGroup>
@@ -151,7 +151,7 @@ const InspectionDetail = () => {
                         placeholder="점검일을 기입하세요"
                         readOnly={readOnly}
                         onChange={onChangeHandler}
-                        value={inspectionInfo.regularInspectionDate || ''}
+                        value={equipmentInfo.regularInspectionDate || ''}
                       />
                     </FormGroup>
                   </Col>
@@ -211,4 +211,4 @@ const InspectionDetail = () => {
   );
 };
 
-export default InspectionDetail;
+export default EquipmentDetail;
