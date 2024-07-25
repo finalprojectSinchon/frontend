@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import {
     Button,
     Label,
@@ -9,65 +9,44 @@ import {
     Col,
     Card,
     CardBody,
-    Modal,
-    ModalHeader,
-    ModalBody,
-    ModalFooter,
 } from 'reactstrap';
 import { useNavigate } from 'react-router-dom';
 import { Formik, Field, Form, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
-import axios from 'axios'; // axios 추가
+import axios from 'axios';
 import AuthLogo from '../../layouts/logo/AuthLogo';
 import { ReactComponent as LeftBg } from '../../assets/images/bg/login-bgleft.svg';
 import { ReactComponent as RightBg } from '../../assets/images/bg/login-bg-right.svg';
-import img1 from '../../assets/images/users/user4.jpg';
 
-const ForgotPwd = () => {
+const FindPassword = () => {
     const navigate = useNavigate();
 
-    // 모달 상태 관리
-    const [modalOpen, setModalOpen] = useState(false);
-    const [modalData, setModalData] = useState('');
-    const [modalType, setModalType] = useState('success'); // 'success' or 'error'
+    // 로컬스토리지에서 userId 가져오기
+    const storedUserId = localStorage.getItem('userId') || '';
 
     const initialValues = {
-        email: '',
-        uname: '',
+        userEmail: '',
+        userId: storedUserId,
+        userPhone: ''
     };
 
     const validationSchema = Yup.object().shape({
-        email: Yup.string().email('Email is invalid').required('Email is required'),
-        uname: Yup.string().required('Username is required'),
+        userEmail: Yup.string().email('Email is invalid'),
+        userId: Yup.string().required('Username is required'),
+        userPhone: Yup.string()
     });
 
     const handleSubmit = (fields) => {
-        axios.post('http://localhost:8080/account/search-id', fields)
-            .then(response => {
-                localStorage.setItem('userId', response.data.data);
-                setModalData(`아이디는 '${response.data.data}' 입니다.`);
-                setModalType('success');
-                setModalOpen(true);
+        axios.post('http://localhost:8080/account/newPassword', fields)
 
+            .then(response => {
+                alert('성공!! )\n\n' + JSON.stringify(response.data, null, 4));
+                navigate('/');
             })
             .catch(error => {
-                setModalData('이름 혹은 이메일이 틀렸습니다.');
-                setModalType('error');
-                setModalOpen(true);
+                alert('오류!! )\n\n' + JSON.stringify(error.response.data, null, 4));
             });
         console.log(fields);
-    };
-
-    const handleCloseModal = () => {
-        setModalOpen(false);
-    };
-
-    const handleLoginRedirect = () => {
-        navigate('/auth/loginformik');
-    };
-
-    const handleFindPasswordRedirect = () => {
-        navigate('/auth/findPassword');
     };
 
     return (
@@ -82,7 +61,7 @@ const ForgotPwd = () => {
                             <CardBody className="p-4 m-1">
                                 <div className="text-center">
                                     <CardTitle tag="h4" className="mt-2">
-                                        아이디 찾기
+                                        비밀번호 찾기
                                     </CardTitle>
                                 </div>
                                 <Formik
@@ -92,25 +71,37 @@ const ForgotPwd = () => {
                                     render={({ errors, touched }) => (
                                         <Form className="mt-3">
                                             <FormGroup>
-                                                <Label htmlFor="uname">Name</Label>
+                                                <Label htmlFor="userId">ID</Label>
                                                 <Field
-                                                    name="uname"
+                                                    name="userId"
                                                     type="text"
-                                                    placeholder='이름을 입력해주세요.'
                                                     className={`form-control${
-                                                        errors.uname && touched.uname ? ' is-invalid' : ''
+                                                        errors.userId && touched.userId ? ' is-invalid' : ''
                                                     }`}
+                                                    readOnly
                                                 />
-                                                <ErrorMessage name="uname" component="div" className="invalid-feedback" />
+                                                <ErrorMessage name="userId" component="div" className="invalid-feedback" />
                                             </FormGroup>
                                             <FormGroup>
-                                                <Label htmlFor="email">Email</Label>
+                                                <Label htmlFor="userEmail">Email</Label>
                                                 <Field
-                                                    name="email"
+                                                    name="userEmail"
                                                     type="text"
                                                     placeholder='이메일을 입력해주세요.'
                                                     className={`form-control${
-                                                        errors.email && touched.email ? ' is-invalid' : ''
+                                                        errors.userEmail && touched.userEmail ? ' is-invalid' : ''
+                                                    }`}
+                                                />
+                                                <ErrorMessage name="email" component="div" className="invalid-feedback" />
+                                            </FormGroup>
+                                            <FormGroup>
+                                                <Label htmlFor="userPhone">전화번호</Label>
+                                                <Field
+                                                    name="userPhone"
+                                                    type="text"
+                                                    placeholder='전화번호를 입력해주세요.'
+                                                    className={`form-control${
+                                                        errors.userPhone && touched.userPhone ? ' is-invalid' : ''
                                                     }`}
                                                 />
                                                 <ErrorMessage name="email" component="div" className="invalid-feedback" />
@@ -128,30 +119,8 @@ const ForgotPwd = () => {
                     </Col>
                 </Row>
             </Container>
-
-
-            <Modal isOpen={modalOpen} toggle={handleCloseModal} centered={true}>
-                <ModalHeader toggle={handleCloseModal} className="text-center">
-                     {modalType === 'success' ? '아이디 찾기 성공' : '아이디 찾기 실패'}
-                </ModalHeader>
-                <ModalBody>
-                    <div>
-                        {modalData}
-                    </div>
-                </ModalBody>
-                <ModalFooter>
-                    {modalType === 'success' ? (
-                        <>
-                            <Button color="primary" onClick={handleLoginRedirect} className="me-2">로그인하러 가기</Button>
-                            <Button color="secondary" onClick={handleFindPasswordRedirect}>비밀번호 찾기</Button>
-                        </>
-                    ) : (
-                        <Button color="primary" onClick={handleCloseModal}>확인</Button>
-                    )}
-                </ModalFooter>
-            </Modal>
         </div>
     );
 };
 
-export default ForgotPwd;
+export default FindPassword;

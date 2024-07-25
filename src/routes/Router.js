@@ -77,7 +77,8 @@ const Certification = Loadable(lazy(() => import('../views/auth/Certification'))
 const TestChatting = Loadable(lazy(() => import('../views/chat/TestChatting.js')));
 const LiveChatting = Loadable(lazy(() => import('../views/chat/LiveChatting.js')));
 
-const ForgotPwd = Loadable(lazy(() => import('../views/auth/forgotPwd.js')))
+const ForgotPwd = Loadable(lazy(() => import('../views/auth/forgotPwd.js')));
+const FindPassword = Loadable(lazy(() => import('../views/auth/findPassword.js')));
 
 
 /*****Routes******/
@@ -145,7 +146,9 @@ const ThemeRoutes = [
 
       { path: 'permission-error', element: <PermissionError /> },
       { path: 'certification', element: <Certification /> },
-      { path: 'forgotPwd', element: <ForgotPwd/>}
+
+      { path: 'forgotPwd', element: <ForgotPwd/>},
+      { path: 'findPassword', element: <FindPassword/>}
 
     ],
   },
