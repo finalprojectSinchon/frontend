@@ -65,7 +65,8 @@ const LoginFormik = Loadable(lazy(() => import('../views/auth/LoginFormik')));
 const PermissionError = Loadable(lazy(() => import('../views/auth/PermissionError.js')));
 const Certification = Loadable(lazy(() => import('../views/auth/Certification.js')));
 
-const ForgotPwd = Loadable(lazy(() => import('../views/auth/forgotPwd.js')))
+const ForgotPwd = Loadable(lazy(() => import('../views/auth/forgotPwd.js')));
+const FindPassword = Loadable(lazy(() => import('../views/auth/findPassword.js')));
 
 /*****Routes******/
 
@@ -123,7 +124,8 @@ const ThemeRoutes = [
       { path: 'loginformik', element: <LoginFormik /> },
       { path: 'permission-error', element: <PermissionError /> },
       { path: 'certification', element: <Certification /> },
-      { path: 'forgotPwd', element: <ForgotPwd/>}
+      { path: 'forgotPwd', element: <ForgotPwd/>},
+      { path: 'findPassword', element: <FindPassword/>}
     ],
   },
 ];
