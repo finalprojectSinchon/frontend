@@ -52,14 +52,14 @@ const InspectionDetail = () => {
 
   const handleSave = () => {
     dispatch(modifyInspection({ inspectionCode, inspectionInfo: inspectionInfo }))
-    navigate('/api/v1/inspection');
+    navigate('/inspection');
 
   
   };
 
   const handleDelete = () => {
     dispatch(deleteInspection({ inspectionCode}))
-    navigate('/api/v1/inspection');
+    navigate('/inspection');
   
   };
 

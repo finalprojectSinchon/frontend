@@ -69,7 +69,7 @@ const Datatables = () => {
         afterDeleteRow: onAfterDeleteRow,
         afterSearch,
         onRowClick: (row) => {
-            navigate(`/api/v1/inspection/${row.inspectionCode}`); // 페이지 네비게이션
+            navigate(`/inspection/${row.inspectionCode}`); // 페이지 네비게이션
         },
     };
 
@@ -102,7 +102,7 @@ const Datatables = () => {
                             dataAlign="center"
                             // isKey
                             dataFormat={(cell, row) => (
-                                <div onClick={() => navigate(`/api/v1/inspection/${row.inspectionCode}`)}>
+                                <div onClick={() => navigate(`/inspection/${row.inspectionCode}`)}>
                                     {cell}
                                 </div>
                             )}
@@ -114,7 +114,7 @@ const Datatables = () => {
                             dataField="type"
                             dataAlign="center"
                             dataFormat={(cell, row) => (
-                                <div onClick={() => navigate(`/api/v1/inspection/${row.inspectionCode}`)}>
+                                <div onClick={() => navigate(`/inspection/${row.inspectionCode}`)}>
                                     {cell}
                                 </div>
                             )}
@@ -126,7 +126,7 @@ const Datatables = () => {
                             dataField="status"
                             dataAlign="center"
                             dataFormat={(cell, row) => (
-                                <div onClick={() => navigate(`/api/v1/inspection/${row.inspectionCode}`)}>
+                                <div onClick={() => navigate(`/inspection/${row.inspectionCode}`)}>
                                     {statusFormatter(cell, row)}
                                 </div>
                             )}
@@ -138,7 +138,7 @@ const Datatables = () => {
                             dataField="regularInspectionDate"
                             dataAlign="center"
                             dataFormat={(cell, row) => (
-                                <div onClick={() => navigate(`/api/v1/inspection/${row.inspectionCode}`)}>
+                                <div onClick={() => navigate(`/inspection/${row.inspectionCode}`)}>
                                     {cell}
                                 </div>
                             )}
@@ -150,7 +150,7 @@ const Datatables = () => {
                             dataField="manager"
                             dataAlign="center"
                             dataFormat={(cell, row) => (
-                                <div onClick={() => navigate(`/api/v1/inspection/${row.inspectionCode}`)}>
+                                <div onClick={() => navigate(`/inspection/${row.inspectionCode}`)}>
                                     {cell}
                                 </div>
                             )}

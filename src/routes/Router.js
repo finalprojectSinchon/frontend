@@ -45,6 +45,10 @@ const Inspection = Loadable(lazy(() => import('../views/inspection/inspection'))
 const InspectionDetail = Loadable(lazy(() => import('../views/inspection/inspectionDetail')));
 const InspectionUpdate = Loadable(lazy(() => import('../views/inspection/inspectionUpdate')));
 
+const Equipment = Loadable(lazy(() => import('../views/equipment/equipment')));
+const EquipmentDetail = Loadable(lazy(() => import('../views/equipment/equipmentDetail')));
+const EquipmentUpdate = Loadable(lazy(() => import('../views/equipment/equipmentUpdate')));
+
 
 
 const AirportStore = Loadable(lazy(() => import('../views/airportStore/airportStore')));
@@ -102,9 +106,14 @@ const ThemeRoutes = [
       { path: '/airplane/baggage-claim/regist', name: 'BaggageClaimRegist', exact: true, element: <BaggageClaimRegist /> },
 
       { path: '/api/v1/maintenance', name: 'Maintenance', exact: true, element: <Maintenance /> },
-      { path: '/api/v1/inspection', name: 'inspection', exact: true, element: <Inspection/> },
-      { path: '/api/v1/inspection/:inspectionCode', name: 'inspectionDetail', exact: true, element: <InspectionDetail/> },
-      { path: '/api/v1/inspection/inspectionUpdate', name: 'inspectionUpdate', exact: true, element: <InspectionUpdate/> },
+
+      { path: '/inspection', name: 'inspection', exact: true, element: <Inspection/> },
+      { path: '/inspection/:inspectionCode', name: 'inspectionDetail', exact: true, element: <InspectionDetail/> },
+      { path: '/inspection/inspectionUpdate', name: 'inspectionUpdate', exact: true, element: <InspectionUpdate/> },
+
+      { path: '/equipment', name: 'equipment', exact: true, element: <Equipment/> },
+      { path: '/equipment/:equipmentCode', name: 'equipmentDetail', exact: true, element: <EquipmentDetail/> },
+      { path: '/equipment/equipmentUpdate', name: 'equipmentUpdate', exact: true, element: <EquipmentUpdate/> },
 
       { path: '/facilities', name: 'Facilities', exact: true, element: <Facilities /> },
       { path: '/facilities/:facilitiesCode', name: 'FacilitiesDetail', exact: true, element:<FacilitiesDetail /> },

@@ -54,7 +54,7 @@ const SidebarData = [
   },
   {
     title: '안전 점검',
-    href: '/api/v1/inspection',
+    href: '/inspection',
     icon: <MaterialIcon icon="mail_outline" />,
     suffix: 'New',
     suffixColor: 'bg-success',
@@ -140,7 +140,7 @@ const SidebarData = [
   },
   {
     title: '장비재고',
-    href: '/form-validation',
+    href: '/equipment',
     icon: <MaterialIcon icon="assignment_turned_in" />,
     id: 3.3,
     collapisble: false,
