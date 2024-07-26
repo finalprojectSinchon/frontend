@@ -223,6 +223,9 @@ const Profile = () => {
                   <CardSubtitle className="text-muted fs-5 mt-3">Phone</CardSubtitle>
                   <CardTitle tag="h5">{formatPhoneNumber(userInfo.userPhone)}</CardTitle>
 
+                  <CardSubtitle className="text-muted fs-5 mt-3">소속</CardSubtitle>
+                  <CardTitle tag="h5">{formatPhoneNumber(userInfo.userDepartment)}</CardTitle>
+
                   <CardSubtitle className="text-muted fs-5 mt-3">Address</CardSubtitle>
                   <CardTitle tag="h5">{userInfo.userAddress}</CardTitle>
                   <div>

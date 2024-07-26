@@ -70,9 +70,9 @@ const UserDetail = () => {
                                             <p className="text-muted">{userDetails.userAddress}</p>
                                         </Col>
                                         <Col md="3" xs="6">
-                                            <strong>Role</strong>
+                                            <strong>Department</strong>
                                             <br />
-                                            <p className="text-muted">{userDetails.userRole}</p>
+                                            <p className="text-muted">{userDetails.userDepartment}</p>
                                         </Col>
                                     </Row>
 

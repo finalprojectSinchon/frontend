@@ -2,14 +2,19 @@ import React, { useState, useCallback, useEffect } from 'react';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import api from "src/store/apps/airplane/api.js";
 
-// Utility function to convert user data into draggable items
 const getItems = (users) => users.map(user => ({
     userCode: user.userCode.toString(),
     userName: user.username,
     userImg: user.userImg,
+    userPhone : formatPhone(user.userPhone),
+    userDepartment : user.userDepartment,
 }));
 
-// Reorder items within the same list
+const formatPhone = (phone) => {
+    return phone.replace(/(\d{3})(\d{4})(\d{4})/, '$1-$2-$3');
+};
+
+
 const reorder = (list, startIndex, endIndex) => {
     const result = Array.from(list);
     const [removed] = result.splice(startIndex, 1);
@@ -54,27 +59,25 @@ const getListStyle = (isDraggingOver) => ({
 
 // Function to perform API request
 const sendApiRequest = async (AllUser, Manager, airportCode, airportType) => {
-
     const managerUpdateDTOList = Manager.map(user => ({
         userCode: user.userCode,
         airportType: airportType,
         airportCode: airportCode,
     }));
 
-    api.put('/api/v1/managers',managerUpdateDTOList)
+    api.put('/api/v1/managers', managerUpdateDTOList)
         .then(res => res.data)
         .catch(err => {
-            alert('담당 직원은 비어있을 수 없습니다.')
+            alert('담당 직원은 비어있을 수 없습니다.');
             window.location.reload();
-        })
+        });
 };
 
-const ManagerDragAndDrop = ({ AllUser = [], Manager = [], airportCode, airportType }) => {
+const ManagerDragAndDrop = ({ AllUser = [], Manager = [], airportCode, airportType, isEditMode }) => {
     const [state, setState] = useState({
         admins: getItems(AllUser),
         selectedAdmins: getItems(Manager),
     });
-
 
     useEffect(() => {
         setState({
@@ -118,66 +121,94 @@ const ManagerDragAndDrop = ({ AllUser = [], Manager = [], airportCode, airportTy
         // Update state
         setState(updatedState);
 
-        // Send API request with the new state
+
         sendApiRequest(updatedState.admins, updatedState.selectedAdmins, airportCode, airportType);
     }, [state]);
 
     return (
-        <DragDropContext onDragEnd={onDragEnd}>
-            <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                <Droppable droppableId="admins">
-                    {(provided, snapshot) => (
-                        <div
-                            ref={provided.innerRef}
-                            style={getListStyle(snapshot.isDraggingOver)}
-                        >
-                            {state.admins.map((item, index) => (
-                                <Draggable key={item.userCode} draggableId={item.userCode} index={index}>
-                                    {(provided, snapshot) => (
-                                        <div
-                                            ref={provided.innerRef}
-                                            {...provided.draggableProps}
-                                            {...provided.dragHandleProps}
-                                            style={getItemStyle(snapshot.isDragging, provided.draggableProps.style)}
-                                        >
-                                            <img src={item.userImg} alt={item.userName} width="50" className="rounded-circle me-4"/>
-                                            {item.userName}
-                                        </div>
-                                    )}
-                                </Draggable>
-                            ))}
-                            {provided.placeholder}
-                        </div>
-                    )}
-                </Droppable>
+        <div>
+            <DragDropContext onDragEnd={!isEditMode ? onDragEnd : () => {}}>
+                <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                    <Droppable droppableId="admins" isDropDisabled={isEditMode}>
+                        {(provided, snapshot) => (
+                            <div
+                                ref={provided.innerRef}
+                                style={getListStyle(snapshot.isDraggingOver)}
+                            >
+                                {state.admins.map((item, index) => (
+                                    <Draggable
+                                        key={item.userCode}
+                                        draggableId={item.userCode}
+                                        index={index}
+                                        isDragDisabled={isEditMode}
+                                    >
+                                        {(provided, snapshot) => (
+                                            <div
+                                                ref={provided.innerRef}
+                                                {...provided.draggableProps}
+                                                {...provided.dragHandleProps}
+                                                style={getItemStyle(snapshot.isDragging, provided.draggableProps.style)}
+                                            >
+                                                <img src={item.userImg} alt={item.userName} width="50"
+                                                     className="rounded-circle me-4"/>
+                                                <div style={{
+                                                    display: 'flex',
+                                                    flexDirection: 'column',
+                                                    marginLeft: '10px'
+                                                }}>
+                                                    <h5 style={{margin: '0'}}>{item.userName}</h5>
+                                                    <small style={{marginTop: '20%'}}>{item.userDepartment}</small>
+                                                </div>
+                                            </div>
+                                        )}
+                                    </Draggable>
+                                ))}
+                                {provided.placeholder}
+                            </div>
+                        )}
+                    </Droppable>
 
-                <Droppable droppableId="selectedAdmins">
-                    {(provided, snapshot) => (
-                        <div
-                            ref={provided.innerRef}
-                            style={getListStyle(snapshot.isDraggingOver)}
-                        >
-                            {state.selectedAdmins.map((item, index) => (
-                                <Draggable key={item.userCode} draggableId={item.userCode} index={index}>
-                                    {(provided, snapshot) => (
-                                        <div
-                                            ref={provided.innerRef}
-                                            {...provided.draggableProps}
-                                            {...provided.dragHandleProps}
-                                            style={getItemStyle(snapshot.isDragging, provided.draggableProps.style)}
-                                        >
-                                            <img src={item.userImg} alt={item.userName} width="50" className="rounded-circle me-4"/>
-                                            <div>{item.userName}</div>
-                                        </div>
-                                    )}
-                                </Draggable>
-                            ))}
-                            {provided.placeholder}
-                        </div>
-                    )}
-                </Droppable>
-            </div>
-        </DragDropContext>
+                    <Droppable droppableId="selectedAdmins" isDropDisabled={isEditMode}>
+                        {(provided, snapshot) => (
+                            <div
+                                ref={provided.innerRef}
+                                style={getListStyle(snapshot.isDraggingOver)}
+                            >
+                                {state.selectedAdmins.map((item, index) => (
+                                    <Draggable
+                                        key={item.userCode}
+                                        draggableId={item.userCode}
+                                        index={index}
+                                        isDragDisabled={isEditMode}
+                                    >
+                                        {(provided, snapshot) => (
+                                            <div
+                                                ref={provided.innerRef}
+                                                {...provided.draggableProps}
+                                                {...provided.dragHandleProps}
+                                                style={getItemStyle(snapshot.isDragging, provided.draggableProps.style)}
+                                            >
+                                                <img src={item.userImg} alt={item.userName} width="50"
+                                                     className="rounded-circle me-4"/>
+                                                <div style={{
+                                                    display: 'flex',
+                                                    flexDirection: 'column',
+                                                    marginLeft: '10px'
+                                                }}>
+                                                    <h5 style={{margin: '0'}}>{item.userName}</h5>
+                                                    <small style={{marginTop: '20%'}}>{item.userDepartment}</small>
+                                                </div>
+                                            </div>
+                                        )}
+                                    </Draggable>
+                                ))}
+                                {provided.placeholder}
+                            </div>
+                        )}
+                    </Droppable>
+                </div>
+            </DragDropContext>
+        </div>
     );
 };
 
