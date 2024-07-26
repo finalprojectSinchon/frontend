@@ -76,7 +76,7 @@ const equipmentSlice = createSlice({
                 state.status = 'succeeded';
                 state.equipmentDetail = null;
                 state.equipmentList = state.equipmentList.filter(
-                    equipment => equipment.equipmentCode !== action.meta.arg.equipmentCode
+                    equipment => equipment.Code !== action.meta.arg.equipmentCode
                 );
             })
             .addCase(deleteEquipment.rejected, (state, action) => {
