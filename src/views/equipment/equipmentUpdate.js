@@ -14,49 +14,30 @@ import {
 } from 'reactstrap';
 import BreadCrumbs from '../../layouts/breadcrumbs/BreadCrumbs';
 import { useParams } from 'react-router-dom';
-import { useSelector, useDispatch } from 'react-redux';
-import { fetchEquipment, modifyEquipment } from '../../store/apps/equipmentSlice';
+import api from '../../store/apps/airplane/api';
+
 
 const EquipmentDetail = () => {
   const { equipmentCode } = useParams();
-  const dispatch = useDispatch();
-  const equipmentDetail = useSelector((state) => state.equipment.equipmentDetail);
-  const [formState, setFormState] = useState(null);
   const [readOnly, setReadOnly] = useState(true);
+  const [equipmentInfo, setEquipmentInfo] = useState({});
 
   useEffect(() => {
-    dispatch(fetchEquipment({ equipmentCode }));
-  }, [dispatch, equipmentCode]);
-
-  useEffect(() => {
-    if (equipmentDetail) {
-      setFormState(equipmentDetail);
-    }
-  }, [equipmentDetail]);
+    api.get(`/api/v1/equipment/${equipmentCode}`)
+      .then(res => res.data)
+      .then(data => {
+        setEquipmentInfo(data.data);
+        console.log('API response:', res.data); 
+      });
+  }, [equipmentCode]);
 
   const onChangeHandler = e => {
-    const { name, value } = e.target;
-    setFormState({
-      ...formState,
-      [name]: value
+    setEquipmentInfo({
+      ...equipmentInfo,
+      [e.target.name]: e.target.value
     });
   };
 
-  const onSubmitHandler = e => {
-    e.preventDefault();
-    dispatch(modifyEquipment({ equipmentCode, equipmentInfo: formState }))
-      .then(() => {
-        alert('저장이 완료되었습니다.');
-        setReadOnly(true);
-      })
-      .catch(err => {
-        alert('저장 중 오류가 발생했습니다.');
-      });
-  };
-
-  if (!formState) {
-    return <div>로딩 중...</div>;
-  }
 
   return (
     <div>
@@ -70,7 +51,7 @@ const EquipmentDetail = () => {
               </CardTitle>
             </CardBody>
             <CardBody>
-              <Form onSubmit={onSubmitHandler}>
+              <Form>
                 <Row>
                   <Col md="6">
                     <FormGroup>
@@ -80,7 +61,7 @@ const EquipmentDetail = () => {
                         placeholder="장비 재고의 위치를 입력하세요" 
                         name='equipmentLocation' 
                         onChange={onChangeHandler} 
-                        value={formState.equipmentLocation || ""} 
+                        value={equipmentInfo.equipmentLocation || ""} 
                         readOnly={readOnly}
                       />
                     </FormGroup>
@@ -92,7 +73,7 @@ const EquipmentDetail = () => {
                         type="select" 
                         name="status" 
                         onChange={onChangeHandler} 
-                        value={formState.status || ""}
+                        value={equipmentInfo.status || ""}
                         readOnly={readOnly}
                       >
                         <option value="정상">정상</option>
@@ -110,7 +91,7 @@ const EquipmentDetail = () => {
                         type="text" 
                         name='equipmentName' 
                         onChange={onChangeHandler} 
-                        value={formState.equipmentName || ""}
+                        value={equipmentInfo.equipmentName || ""}
                         readOnly={readOnly}
                       />
                     </FormGroup>
@@ -123,7 +104,7 @@ const EquipmentDetail = () => {
                         name="equipmentManager" 
                         placeholder='이름을 입력하세요' 
                         onChange={onChangeHandler}  
-                        value={formState.equipmentManager || ""} 
+                        value={equipmentInfo.equipmentManager || ""} 
                         readOnly={readOnly}
                       />
                       <FormText className='muted'>이름은 반드시 입력해야 합니다.</FormText>
@@ -139,7 +120,7 @@ const EquipmentDetail = () => {
                         name='equipmentQuantity' 
                         placeholder='수량을 기입하세요.' 
                         onChange={onChangeHandler} 
-                        value={formState.equipmentQuantity || ""} 
+                        value={equipmentInfo.equipmentQuantity || ""} 
                         readOnly={readOnly}
                       />
                       <FormText className='muted'>점검일은 반드시 입력해야 합니다.</FormText>
@@ -153,7 +134,7 @@ const EquipmentDetail = () => {
                         name='equipmentPrice' 
                         placeholder="가격을 입력하세요."
                         onChange={onChangeHandler} 
-                        value={formState.equipmentPrice || ""} 
+                        value={equipmentInfo.equipmentPrice || ""} 
                         readOnly={readOnly}
                       />
                       <FormText className='muted'>가격은 반드시 입력해야 합니다.</FormText>

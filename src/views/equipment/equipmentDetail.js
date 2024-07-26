@@ -82,7 +82,7 @@ const EquipmentDetail = () => {
                       <Label>Location</Label>
                       <Input
                         type="text"
-                        placeholder="안전점검 할 위치를 입력하세요"
+                        placeholder="장비 재고의 위치를 입력하세요"
                         name="equipmentLocation"
                         onChange={onChangeHandler}
                         readOnly={readOnly}
@@ -146,7 +146,7 @@ const EquipmentDetail = () => {
                       <Input
                         type="text"
                         name="equipmentQuantity"
-                        placeholder="점검일을 기입하세요"
+                        placeholder='수량을 기입하세요.'
                         readOnly={readOnly}
                         onChange={onChangeHandler}
                         value={equipmentInfo.equipmentQuantity || ''}
@@ -159,7 +159,7 @@ const EquipmentDetail = () => {
                       <Input
                         type="text"
                         name="equipmentPrice"
-                        placeholder="010-****-****"
+                        placeholder="--원"
                         readOnly={readOnly}
                         onChange={onChangeHandler}
                         value={equipmentInfo.equipmentPrice || ''}

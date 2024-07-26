@@ -145,7 +145,7 @@ const Datatables = () => {
                                 </div>
                             )}
                         >
-                            EquipmentQuantity
+                            Quantity
                         </TableHeaderColumn>
                         <TableHeaderColumn
                             width="20%"
