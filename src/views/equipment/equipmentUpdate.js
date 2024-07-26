@@ -10,43 +10,53 @@ import {
   Label,
   Input,
   FormText,
-  Button,
-  FormFeedback,
+  Button
 } from 'reactstrap';
 import BreadCrumbs from '../../layouts/breadcrumbs/BreadCrumbs';
 import { useParams } from 'react-router-dom';
-import api from '../../store/apps/airplane/api';
+import { useSelector, useDispatch } from 'react-redux';
+import { fetchEquipment, modifyEquipment } from '../../store/apps/equipmentSlice';
 
 const EquipmentDetail = () => {
   const { equipmentCode } = useParams();
-  const [equipmentInfo, setequipmentInfo] = useState({});
-  const [readOnly, setreadOnly] = useState(true);
+  const dispatch = useDispatch();
+  const equipmentDetail = useSelector((state) => state.equipment.equipmentDetail);
+  const [formState, setFormState] = useState(null);
+  const [readOnly, setReadOnly] = useState(true);
 
   useEffect(() => {
-    api.get(`/equipment/${equipmentCode}`)
-      .then(res => res.data)
-      .then(data => {
-        setequipmentInfo(data.data);
-      });
-  }, [equipmentCode]);
+    dispatch(fetchEquipment({ equipmentCode }));
+  }, [dispatch, equipmentCode]);
+
+  useEffect(() => {
+    if (equipmentDetail) {
+      setFormState(equipmentDetail);
+    }
+  }, [equipmentDetail]);
 
   const onChangeHandler = e => {
     const { name, value } = e.target;
-    
-    if (name === 'equipmentTime') {
-      const phoneRegex = /^010-\d{4}-\d{4}$/;
-      if (!phoneRegex.test(value) && value !== "") {
-        setPhoneError(true);
-      } else {
-        setPhoneError(false);
-      }
-    }
-
-    setequipmentInfo({
-      ...equipmentInfo,
-      [e.target.name]: e.target.value
+    setFormState({
+      ...formState,
+      [name]: value
     });
   };
+
+  const onSubmitHandler = e => {
+    e.preventDefault();
+    dispatch(modifyEquipment({ equipmentCode, equipmentInfo: formState }))
+      .then(() => {
+        alert('저장이 완료되었습니다.');
+        setReadOnly(true);
+      })
+      .catch(err => {
+        alert('저장 중 오류가 발생했습니다.');
+      });
+  };
+
+  if (!formState) {
+    return <div>로딩 중...</div>;
+  }
 
   return (
     <div>
@@ -56,68 +66,65 @@ const EquipmentDetail = () => {
           <Card>
             <CardBody className="bg-light">
               <CardTitle tag="h2" className="mb-0">
-                Inspection
+                장비 재고
               </CardTitle>
             </CardBody>
             <CardBody>
-              <Form>
+              <Form onSubmit={onSubmitHandler}>
                 <Row>
                   <Col md="6">
                     <FormGroup>
-                      <Label>Location</Label>
+                      <Label>재고 위치</Label>
                       <Input 
                         type="text" 
-                        placeholder="안전점검 할 위치를 입력하세요" 
-                        name='inspectionName' 
+                        placeholder="장비 재고의 위치를 입력하세요" 
+                        name='equipmentLocation' 
                         onChange={onChangeHandler} 
-                        defaultValue={equipmentInfo.equipmentName || ""} 
+                        value={formState.equipmentLocation || ""} 
+                        readOnly={readOnly}
                       />
-                      <FormFeedback valid>Success! You&apos;ve done it.</FormFeedback>
                     </FormGroup>
                   </Col>
                   <Col md="6">
                     <FormGroup>
-                      <Label>Status</Label>
+                      <Label>상태</Label>
                       <Input 
                         type="select" 
-                        name="inspectionStatus" 
+                        name="status" 
                         onChange={onChangeHandler} 
-                        defaultValue={equipmentInfo.equipmentInfoStatus || ""}
+                        value={formState.status || ""}
+                        readOnly={readOnly}
                       >
                         <option value="정상">정상</option>
                         <option value="점검중">점검중</option>
                         <option value="중단">중단</option>
                       </Input>
-                      <FormText className="muted">This field has error.</FormText>
                     </FormGroup>
                   </Col>
                 </Row>
                 <Row>
                   <Col md="6">
                     <FormGroup>
-                      <Label>Type</Label>
+                      <Label>이름</Label>
                       <Input 
-                        type="select" 
-                        name='inspectionType' 
-                        placeholder="12n" 
+                        type="text" 
+                        name='equipmentName' 
                         onChange={onChangeHandler} 
-                        defaultValue={equipmentInfo.equipmentType || ""}
-                      >
-                        <option value='엘레베이터'>엘레베이터-A</option>
-                        <option value='에스컬레이터'>에스컬레이터-C</option>
-                      </Input>
-                      <FormText className="muted">Select your type</FormText>
+                        value={formState.equipmentName || ""}
+                        readOnly={readOnly}
+                      />
                     </FormGroup>
                   </Col>
                   <Col md="6">
                     <FormGroup>
-                      <Label>Manager</Label>
+                      <Label>관리자</Label>
                       <Input 
                         type="text" 
-                        name="inspectionWork" 
+                        name="equipmentManager" 
                         placeholder='이름을 입력하세요' 
                         onChange={onChangeHandler}  
-                        defaultValue={equipmentInfo || ""} 
+                        value={formState.equipmentManager || ""} 
+                        readOnly={readOnly}
                       />
                       <FormText className='muted'>이름은 반드시 입력해야 합니다.</FormText>
                     </FormGroup>
@@ -126,57 +133,44 @@ const EquipmentDetail = () => {
                 <Row>
                   <Col md="6">
                     <FormGroup>
-                      <Label>Regular Inspection Date</Label>
+                      <Label>수량</Label>
                       <Input 
                         type="text" 
-                        name='inspectionContact' 
-                        placeholder='점검일을 기입하세요. EX)202X-XX-XX' 
+                        name='equipmentQuantity' 
+                        placeholder='수량을 기입하세요.' 
                         onChange={onChangeHandler} 
-                        defaultValue={equipmentInfo || ""} 
+                        value={formState.equipmentQuantity || ""} 
+                        readOnly={readOnly}
                       />
                       <FormText className='muted'>점검일은 반드시 입력해야 합니다.</FormText>
                     </FormGroup>
                   </Col>
                   <Col md="6">
                     <FormGroup>
-                      <Label>Phone</Label>
+                      <Label>가격</Label>
                       <Input 
                         type="text" 
-                        name='inspectionTime' 
-                        placeholder="EX)010-****-****"
-                        maxLength="13" 
-  
+                        name='equipmentPrice' 
+                        placeholder="가격을 입력하세요."
                         onChange={onChangeHandler} 
-                        defaultValue={equipmentInfo || ""} 
+                        value={formState.equipmentPrice || ""} 
+                        readOnly={readOnly}
                       />
-                      <FormText className='muted'>휴대폰 번호는 반드시 입력해야 합니다.</FormText>
+                      <FormText className='muted'>가격은 반드시 입력해야 합니다.</FormText>
                     </FormGroup>
                   </Col>
                 </Row>
                 <Row>
                   <Col md="6">
-                    <FormGroup>
-                      <Label>비고</Label>
-                      <Input 
-                        type="textarea" 
-                        placeholder="특이사항을 입력하세요"  
-                        rows="6" 
-                        name="inspectionNote"
-                        onChange={onChangeHandler} 
-                        defaultValue={equipmentInfo|| ""}
-                      />
-                    </FormGroup>
-                  </Col>
-                  <Col md="6">
-                    {!readOnly ? <h1>수정가능</h1> : null}
+                    {!readOnly ? <h1>수정 가능</h1> : null}
                   </Col>
                 </Row>
                 <Col className='d-flex justify-content-center'>
-                  <Button className="btn " color="primary" onClick={() => setreadOnly(false)} >
+                  <Button className="btn" color="primary" onClick={() => setReadOnly(false)} >
                     수정
                   </Button>
-                  <Button className="btn" color="secondary" >
-                    삭제
+                  <Button className="btn" color="secondary" type="submit" disabled={readOnly}>
+                    저장
                   </Button>
                 </Col>
               </Form>
