@@ -19,34 +19,46 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import Cookies from 'js-cookie';
 import api from '../../store/apps/airplane/api';
+import ManagerDragAndDrop from "src/components/apps/managerDargAndDrop/ManagerDragAndDrop.js";
 
 const StorageDetail = () => {
 
     const { storageCode } = useParams();
-    console.log("fdfdfd", storageCode)
 
     const navigate = useNavigate();
 
     const [storageInfo, setstorageInfo] = useState();
     const [readOnly, setreadOnly] = useState(true);
 
-    console.log("qwer", storageInfo);
-    console.log(readOnly);
+    const [manager, setManager] = useState();
+    const [airportType, setAirportType] = useState()
 
 
-useEffect(() => {
-    axios.get(`http://localhost:8080/api/v1/storage/${storageCode}`, {
-        headers:{
-            Authorization: Cookies.get('token')
-        }
-    })
-    .then(res => res.data)
-    .then(data => {
-        console.log("eieiei", data)
-        setstorageInfo(data.data)
-    })
+    useEffect(() => {
 
-}, []);
+        api.post('/api/v1/managers',{
+            airportType : "storage",
+            airportCode : storageCode
+        })
+            .then(res => res.data)
+            .then(data => {
+                setManager(data.data)
+            })
+    }, [storageInfo]);
+
+
+    useEffect(() => {
+            axios.get(`http://localhost:8080/api/v1/storage/${storageCode}`, {
+                headers:{
+                    Authorization: Cookies.get('token')
+                }
+            })
+            .then(res => res.data)
+            .then(data => {
+                setstorageInfo(data.data)
+            })
+        setAirportType('storage')
+        }, []);
 
 // 상세조회
 const onChangeHandler = e => {
@@ -55,7 +67,6 @@ const onChangeHandler = e => {
         [e.target.name] : e.target.value
     })
 }
-console.log("dfdfdfd", storageInfo)
 
 // 수정
 const onClickSave = () => {
@@ -71,7 +82,7 @@ const onClickSave = () => {
         console.error('에러 : ', error);
     })
 }
-console.log("dkdfkdkdkdk", storageInfo)
+
 
 // 삭제
 const onClickDelete = () => {
@@ -139,25 +150,35 @@ return (
                                 <Col md="6">
                                     <FormGroup>
                                         <Label>담당부서</Label>
-                                        <Input type="text" placeholder="담당부서를 입력하세요" name='department' onChange={onChangeHandler} readOnly={readOnly}
-                                        value={storageInfo ? storageInfo.department : '로딩중...'}/>
+                                        <Input type="text" placeholder="담당부서를 입력하세요" name='department'
+                                               onChange={onChangeHandler} readOnly={readOnly}
+                                               value={storageInfo ? storageInfo.department : '로딩중...'}/>
                                     </FormGroup>
                                 </Col>
                                 <Col md="6">
-                                    <FormGroup>
-                                        <Label>담당자</Label>
-                                        <Input type="text" name='manager' placeholder="담당자를 입력하세요" onChange={onChangeHandler} readOnly={readOnly}
-                                            value={storageInfo ? storageInfo.manager : '로딩중...' }/>
-                                    </FormGroup>
+                                    <Row className="mb-3 mt-3">
+                                        <Col md="6" className="d-flex justify-content-start">
+                                            <h2 className="ms-5 ps-4">전체 직원</h2>
+                                        </Col>
+                                        <Col md="6" className="d-flex justify-content-end">
+                                            <h2 className="me-5 pe-5">담당 직원</h2>
+                                        </Col>
+                                    </Row>
+                                    <div className='mb-4'>
+                                        {manager ? <ManagerDragAndDrop AllUser={manager.AllUser} Manager={manager.Manager} airportCode={storageCode}
+                                                                       airportType={airportType} isEditMode={readOnly}/>
+                                            : <h3>loading</h3> }
+
+                                    </div>
                                 </Col>
                             </Row>
                             <Col className="d-flex justify-content-center align-items-center">
-                            <div className="d-flex">
-                                <Button className="me-2" color="danger" onClick={onClickDelete}>
-                                    삭제하기
-                                </Button>
-                                {readOnly ? (
-                                    <Button className="btn" color="primary" onClick={() => setreadOnly(false)}>
+                                <div className="d-flex">
+                                    <Button className="me-2" color="danger" onClick={onClickDelete}>
+                                        삭제하기
+                                    </Button>
+                                    {readOnly ? (
+                                        <Button className="btn" color="primary" onClick={() => setreadOnly(false)}>
                                         수정하기
                                     </Button>
                                 ) : (

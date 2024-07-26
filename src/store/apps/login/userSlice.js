@@ -14,6 +14,7 @@ const initialState = {
   userImg : '',
   isActive : '',
   authCode : '',
+  userDepartment : '',
 };
 
 const userInfoSlice = createSlice({
@@ -33,6 +34,7 @@ const userInfoSlice = createSlice({
       state.userAbout = action.payload.userAbout;
       state.userImg = action.payload.userImg;
       state.isActive = action.payload.isActive;
+      state.userDepartment = action.payload.userDepartment;
     },
     modifyUser: (state,action) => {
         state.userCode = action.payload.userCode;

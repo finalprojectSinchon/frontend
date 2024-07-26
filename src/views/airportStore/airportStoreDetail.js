@@ -76,6 +76,7 @@ const AirportStoreDetail = () => {
     api.put(`/api/v1/store/${storeId}`,storeInfo)
     .then(res => {
         alert('수정에 성공하였습니다.')
+      setreadOnly(true);
     })
     .catch(error => {
         console.error('에러 : ', error);
@@ -173,7 +174,7 @@ const AirportStoreDetail = () => {
 
                     <FormGroup>
                       <Label>비고</Label>
-                      <Input type="textarea" placeholder="특이사항을 입력하세요"  rows="6" name='storeExtra' onChange={onChangeHandler} readOnly={readOnly}/>
+                      <Input type="textarea" placeholder="특이사항을 입력하세요"  rows="6" name='storeExtra' onChange={onChangeHandler} readOnly={readOnly} />
                     </FormGroup>
 
                   </Col>
@@ -187,7 +188,8 @@ const AirportStoreDetail = () => {
                       </Col>
                     </Row>
                     <div className='mb-4'>
-                      {manager ? <ManagerDragAndDrop AllUser={manager.AllUser} Manager={manager.Manager} airportCode={storeId} airportType={airportType}/>
+                      {manager ? <ManagerDragAndDrop AllUser={manager.AllUser} Manager={manager.Manager} airportCode={storeId}
+                                                     airportType={airportType} isEditMode={readOnly}/>
                       : <h3>loading</h3> }
 
                     </div>

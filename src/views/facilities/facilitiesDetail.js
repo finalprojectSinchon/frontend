@@ -17,6 +17,7 @@ import BreadCrumbs from '../../layouts/breadcrumbs/BreadCrumbs';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import api from '../../store/apps/airplane/api';
+import ManagerDragAndDrop from "src/components/apps/managerDargAndDrop/ManagerDragAndDrop.js";
 
 
 
@@ -24,14 +25,26 @@ const FacilitiesDetail = () => {
 
 
     const { facilitiesCode } = useParams();
-    console.log(facilitiesCode)
+
 
     const navigate = useNavigate();
 
     const [facilitiesInfo, setfacilitiesInfo] = useState();
     const [readOnly, setreadOnly] = useState(true);
+    const [manager, setManager] = useState([]);
+    const [airportType, setAirportType] = useState()
 
-    console.log(facilitiesInfo);
+    useEffect(() => {
+
+        api.post('/api/v1/managers',{
+            airportType : "facilities",
+            airportCode : facilitiesCode
+        })
+            .then(res => res.data)
+            .then(data => {
+                setManager(data.data)
+            })
+    }, [facilitiesInfo]);
 
     useEffect(() =>{
         api.get(`/api/v1/facilities/${facilitiesCode}`)
@@ -39,9 +52,9 @@ const FacilitiesDetail = () => {
             .then(data => {
                 setfacilitiesInfo(data.data)
             })
-
+        setAirportType('facilities')
     },[]);
-    console.log('mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmsadqwda',facilitiesInfo);
+
     const onClickDelete = () => {
         api.put(`/api/v1/facilities/${facilitiesCode}/delete`)
             .then(res => {
@@ -137,38 +150,31 @@ const FacilitiesDetail = () => {
                                                 <option name='여자화장실'>여자화장실</option>
                                             </Input>
                                         </FormGroup>
+                                        <Col md="12">
+                                            <FormGroup>
+                                                <Label>비고</Label>
+                                                <Input type="textarea" placeholder="특이사항을 입력하세요"  rows="6" name='' readOnly={readOnly}/>
+                                            </FormGroup>
+                                        </Col>
                                     </Col>
                                     <Col md="6">
-                                        <FormGroup>
-                                            <Label>담당자</Label>
-                                            <Input type="text" name='facilitiesManager' placeholder="담당자를 입력하세요" onChange={onChangeHandler} readOnly={readOnly}
-                                                   value={facilitiesInfo?facilitiesInfo.facilitiesManager: '12'}/>
+                                        <Row className="mb-3 mt-3">
+                                            <Col md="6" className="d-flex justify-content-start">
+                                                <h2 className="ms-5 ps-4">전체 직원</h2>
+                                            </Col>
+                                            <Col md="6" className="d-flex justify-content-end">
+                                                <h2 className="me-5 pe-5">담당 직원</h2>
+                                            </Col>
+                                        </Row>
+                                        <div className='mb-4'>
+                                            {manager ? <ManagerDragAndDrop AllUser={manager.AllUser} Manager={manager.Manager} airportCode={facilitiesCode}
+                                                                           airportType={airportType} isEditMode={readOnly}/>
+                                                : <h3>loading</h3> }
 
-                                        </FormGroup>
+                                        </div>
                                     </Col>
                                 </Row>
-                                <Row>
-                                    <Col md="6">
-                                        <FormGroup>
-                                            <Label>비고</Label>
-                                            <Input type="textarea" placeholder="특이사항을 입력하세요"  rows="6" name='' readOnly={readOnly}/>
-                                        </FormGroup>
-                                    </Col>
-                                    <Col md="6">
-                                        <FormGroup>
-                                            <Label>담당자 연락처</Label>
-                                            <Input type="text" name='' placeholder='연락처를 입력하세요' readOnly={readOnly}
-                                            />
-                                        </FormGroup>
-                                    </Col>
-                                </Row>
-                                <Row>
-                                    <Col md="6">
 
-                                    </Col>
-                                    <Col md="6">
-                                    </Col>
-                                </Row>
                                 <Col className="d-flex justify-content-center align-items-center">
                                     <div className="d-flex">
                                         <Button className="me-2" color="danger" onClick={onClickDelete}>

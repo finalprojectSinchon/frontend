@@ -19,7 +19,6 @@ const UserContactSlice = createSlice({
         },
         SelectUser: (state, action) => {
             state.userContentCode = action.payload;
-            console.log(action.payload)
         },
         DeleteUser: (state, action) => {
             const index = state.users.findIndex((note) => note.id === action.payload);
