@@ -28,6 +28,9 @@ const CheckinCounterDetail = () => {
   const airplanes = AirplaneList?.data?.airplaneList || [];
   const chkincounters = ChkinCounterList?.data?.chkinCounterList;
 
+  console.log('AirplaneList', AirplaneList);
+  console.log('airplanes', airplanes);
+
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [selectedAirline, setSelectedAirline] = useState('');
@@ -53,34 +56,40 @@ const CheckinCounterDetail = () => {
   }, [dispatch]);
 
   useEffect(() => {
+    // 선택된 항공사에 따라 도착 시간을 필터링합니다.
     const filteredTimes = airplanes
       .filter(airplane => airplane.airline === selectedAirline)
       .map(airplane => airplane.scheduleDateTime);
-      
+
     setArrivalTimes(filteredTimes);
-    setSelectedSchedule(''); 
+    setSelectedSchedule('');
   }, [selectedAirline, airplanes]);
 
   useEffect(() => {
-    const filteredAirports = airplanes
-      .filter(airplane => airplane.airline === selectedAirline && airplane.scheduleDateTime === selectedSchedule)
-      .map(airplane => airplane.airport);
+    // 선택된 항공사와 도착 시간에 따라 공항을 필터링합니다.
+    if (selectedAirline && selectedSchedule) {
+      const filteredAirports = airplanes
+        .filter(airplane => airplane.airline == selectedAirline && airplane.scheduleDateTime == selectedSchedule)
+        .map(airplane => airplane.airport);
 
-    setAirports(filteredAirports);
+      console.log('filteredAirports', filteredAirports);
+      setAirports(filteredAirports);
+    }
   }, [selectedAirline, selectedSchedule, airplanes]);
 
   useEffect(() => {
+    // 선택된 항공사, 도착 시간, 공항에 따라 비행 ID를 설정합니다.
     const selectedAirplane = airplanes.find(airplane =>
-      airplane.airline === selectedAirline &&
-      airplane.scheduleDateTime === selectedSchedule &&
-      airplane.airport === selectedAirport
+      airplane.airline == selectedAirline &&
+      airplane.scheduleDateTime == selectedSchedule &&
+      airplane.airport == selectedAirport
     );
 
-
-
     setFlightId(selectedAirplane ? selectedAirplane.flightId : '');
-  }, [selectedAirline, selectedSchedule, airplanes,selectedAirport]);
+  }, [selectedAirline, selectedSchedule, selectedAirport, airplanes]);
 
+  console.log('selectedSchedule', selectedSchedule);
+  console.log('selectedAirline', selectedAirline);
 
   if (loading) {
     return <div>Loading...</div>;
@@ -94,35 +103,28 @@ const CheckinCounterDetail = () => {
     if (chkincounters.airplane.airline === selectedAirline 
       && chkincounters.airline.scheduleDateTime === selectedSchedule
       && chkincounters.airline.airport === selectedAirport) {
-      // Handle the click event
+      // 클릭 이벤트를 처리합니다.
     }
   };
 
   const uniqueAirlines = [...new Set(airplanes.map(airplane => airplane.airline))];
-  const uniqueTimes = [...new Set(arrivalTimes.map(time => time))]
+  const uniqueTimes = [...new Set(arrivalTimes.map(time => time))];
+
   const ChangeHandler = (event) => {
     const { name, value } = event.target;
     console.log('name', name);
 
     if (name === 'airline') {
       setSelectedAirline(value);
-
-      const filteredTimes = airplanes
-        .filter(airplane => airplane.airline === value)
-        .map(airplane => airplane.scheduleDateTime);
-      
-      
-      setArrivalTimes(filteredTimes);
-      setSelectedSchedule(''); 
-      console.log('filteredTimes', filteredTimes);
-
+      setSelectedSchedule('');
+      setSelectedAirport('');
     } else if (name === 'scheduleDateTime') {
       setSelectedSchedule(value);
-    } else if (name === 'airport'){
+      setSelectedAirport('');
+    } else if (name === 'airport') {
       setSelectedAirport(value);
-    } 
+    }
   };
-
 
   return (
     <div>
@@ -144,7 +146,7 @@ const CheckinCounterDetail = () => {
                       <FormText color="muted" style={{ marginLeft: '15px' }}>
                         * 항공사를 먼저 선택해주세요.
                       </FormText>
-                      <Input type="text" name="location" value={state.location || ''} />
+                      <Input type="text" name="location" value={state.location || ''} readOnly />
                     </FormGroup>
                   </Col>
                   <Col md="6">
@@ -207,7 +209,7 @@ const CheckinCounterDetail = () => {
                   <Col md="6">
                     <FormGroup>
                       <Label>도착공항명</Label>
-                      <Input type="select" name='airport' onChange={ChangeHandler}>
+                      <Input type="select" name='airport' value={selectedAirport} onChange={ChangeHandler}>
                         <option value="">도착 공항을 선택하세요</option>
                         {airports.map((airport, index) => (
                           <option key={index} value={airport}>{airport}</option>

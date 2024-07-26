@@ -25,6 +25,7 @@ const CheckinCounterDetail = () => {
 
 
   const chkinCounterDetail = useSelector((state) => state.chkinCounters.chkinCounterDetail);
+  console.log('chkinCounterDetail',chkinCounterDetail)
   const [checkinCounterInfo, setCheckinCounterInfo] = useState({});
   const [readOnly, setReadOnly] = useState(true);
 
@@ -167,6 +168,15 @@ const CheckinCounterDetail = () => {
                     </FormGroup>
                   </Col>
                   <Col md="6">
+                    <FormGroup>
+                      <Label>운항상태</Label>
+                      <Input type="text" value={checkinCounterInfo.airplane?.remark } readOnly={readOnly} />
+                    </FormGroup>
+                  </Col>
+             
+                </Row>
+                <Row>
+                <Col md="6">
                     <FormGroup>
                       <Label>비고</Label>
                       <Input type="textarea" rows="6" value={checkinCounterInfo.note} name="note" onChange={onChangeHandler} disabled={readOnly} />
