@@ -1,5 +1,4 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import axios from 'axios';
 import api from '../airplane/api';
 
 export const fetchEquipments = createAsyncThunk('equipment/fetchEquipments', async () => {
@@ -48,7 +47,6 @@ const equipmentSlice = createSlice({
                 state.status = 'failed';
                 state.error = action.error.message;
             })
-            // fetchEquipment 중복된 정의 제거
             .addCase(fetchEquipment.pending, (state) => {
                 state.status = 'loading';
             })
@@ -60,7 +58,6 @@ const equipmentSlice = createSlice({
                 state.status = 'failed';
                 state.error = action.error.message;
             })
-            // modifyEquipment 정의
             .addCase(modifyEquipment.pending, (state) => {
                 state.status = 'loading';
             })
@@ -72,7 +69,6 @@ const equipmentSlice = createSlice({
                 state.status = 'failed';
                 state.error = action.error.message;
             })
-            // deleteEquipment 정의
             .addCase(deleteEquipment.pending, (state) => {
                 state.status = 'loading';
             })

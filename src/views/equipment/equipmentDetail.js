@@ -72,7 +72,7 @@ const EquipmentDetail = () => {
         <Col md="12">
           <Card>
             <CardBody className="bg-light">
-              <CardTitle tag="h2" className="mb-0">Inspection</CardTitle>
+              <CardTitle tag="h2" className="mb-0">Equipment</CardTitle>
             </CardBody>
             <CardBody>
               <Form>
@@ -83,10 +83,10 @@ const EquipmentDetail = () => {
                       <Input
                         type="text"
                         placeholder="안전점검 할 위치를 입력하세요"
-                        name="location"
+                        name="equipmentLocation"
                         onChange={onChangeHandler}
                         readOnly={readOnly}
-                        value={equipmentInfo.location || ''}
+                        value={equipmentInfo.equipmentLocation || ''}
                       />
                       <FormFeedback valid>Success! You've done it.</FormFeedback>
                     </FormGroup>
@@ -112,18 +112,16 @@ const EquipmentDetail = () => {
                 <Row>
                   <Col md="6">
                     <FormGroup>
-                      <Label>Type</Label>
+                      <Label>Name</Label>
                       <Input
-                        type="select"
-                        name="type"
+                        type="text"
+                        name="equipmentName"
+                        placeholder="장비 이름을 입력하세요"
+                        readOnly={readOnly}
                         onChange={onChangeHandler}
-                        disabled={readOnly}
-                        value={equipmentInfo.type || ''}
-                      >
-                        <option value="점포">점포</option>
-                        <option value="안내소">안내소</option>
-                      </Input>
-                      <FormText className="muted">Select your type</FormText>
+                        value={equipmentInfo.equipmentName || ''}
+                      />
+                      <FormText className="muted"></FormText>
                     </FormGroup>
                   </Col>
                   <Col md="6">
@@ -131,60 +129,47 @@ const EquipmentDetail = () => {
                       <Label>Manager</Label>
                       <Input
                         type="text"
-                        name="manager"
+                        name="equipmentManager"
                         placeholder="이름을 입력하세요"
                         readOnly={readOnly}
                         onChange={onChangeHandler}
-                        value={equipmentInfo.manager || ''}
+                        value={equipmentInfo.equipmentManager || ''}
                       />
-                      <FormText className="muted">이름은 반드시 입력해야 합니다.</FormText>
+                      <FormText className="muted">가격은 반드시 입력해야 합니다.</FormText>
                     </FormGroup>
                   </Col>
                 </Row>
                 <Row>
                   <Col md="6">
                     <FormGroup>
-                      <Label>Regular Inspection Date</Label>
+                      <Label>Quantity</Label>
                       <Input
                         type="text"
-                        name="regularInspectionDate"
+                        name="equipmentQuantity"
                         placeholder="점검일을 기입하세요"
                         readOnly={readOnly}
                         onChange={onChangeHandler}
-                        value={equipmentInfo.regularInspectionDate || ''}
+                        value={equipmentInfo.equipmentQuantity || ''}
                       />
                     </FormGroup>
                   </Col>
                   <Col md="6">
                     <FormGroup>
-                      <Label>Phone</Label>
+                      <Label>Price</Label>
                       <Input
                         type="text"
-                        name="phone"
+                        name="equipmentPrice"
                         placeholder="010-****-****"
                         readOnly={readOnly}
                         onChange={onChangeHandler}
-                        value={inspectionInfo.phone || ''}
+                        value={equipmentInfo.equipmentPrice || ''}
                       />
                       <FormText className="muted">휴대폰 번호는 반드시 입력해야 합니다.</FormText>
                     </FormGroup>
                   </Col>
                 </Row>
                 <Row>
-                  <Col md="6">
-                    <FormGroup>
-                      <Label>비고</Label>
-                      <Input
-                        type="textarea"
-                        placeholder="특이사항을 입력하세요"
-                        rows="6"
-                        name="text" // 기존 "text"에서 변경
-                        readOnly={readOnly}
-                        onChange={onChangeHandler}
-                        value={inspectionInfo.text || ''} // 기존 "text"에서 변경
-                      />
-                    </FormGroup>
-                  </Col>
+                
                 </Row>
                 <Col className="d-flex justify-content-center">
                   {readOnly ? (
