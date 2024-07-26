@@ -67,7 +67,7 @@ const BaggageClaimsDetail = () => {
 
     useEffect(() => {
       const filteredAirports = airplanes
-        .filter(airplane => airplane.airline === selectedAirline && airplane.scheduleDateTime === selectedSchedule)
+        .filter(airplane => airplane.airline == selectedAirline && airplane.scheduleDateTime == selectedSchedule)
         .map(airplane => airplane.airport);
   
       setAirports(filteredAirports);
@@ -75,9 +75,9 @@ const BaggageClaimsDetail = () => {
 
     useEffect(() => {
       const selectedAirplane = airplanes.find(airplane =>
-        airplane.airline === selectedAirline &&
-        airplane.scheduleDateTime === selectedSchedule &&
-        airplane.airport === selectedAirport
+        airplane.airline == selectedAirline &&
+        airplane.scheduleDateTime == selectedSchedule &&
+        airplane.airport == selectedAirport
       );
 
   
@@ -85,9 +85,9 @@ const BaggageClaimsDetail = () => {
     }, [selectedAirline, selectedSchedule, airplanes,selectedAirport]);
   
     const onClickHandler = () => {
-      if (chkincounters.airplane.airline === selectedAirline 
-        && chkincounters.airline.scheduleDateTime === selectedSchedule
-        && chkincounters.airline.airport === selectedAirport) {
+      if (chkincounters.airplane.airline == selectedAirline 
+        && chkincounters.airline.scheduleDateTime == selectedSchedule
+        && chkincounters.airline.airport == selectedAirport) {
         // Handle the click event
       }
     };

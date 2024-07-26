@@ -49,6 +49,7 @@ const Datatables = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const chkinCounterList = useSelector((state) => state.chkinCounters.chkinCounterList);
+  console.log('chkinCounterList',chkinCounterList)
 
   const initialMapData = [
     { id: 1, coords: "12.5%,58%,16%,80%", href: "#section1", label: "N" },
@@ -115,8 +116,9 @@ const Datatables = () => {
 
   const flatChkinCounterList = chkinCounterList.data.chkinCounterList.map(chkincounter => ({
     ...chkincounter,
-    airline: chkincounter.airplane.airline,
-    scheduleDateTime: chkincounter.airplane.scheduleDateTime
+    airline: chkincounter.airplane?.airline,
+    scheduleDateTime: chkincounter.airplane?.scheduleDateTime,
+    remark:chkincounter.airplane?.remark
   }));
 
   const handleMouseEnter = (id) => {
