@@ -41,7 +41,7 @@ const Profile = () => {
   const [confirmPassword, setConfirmPassword] = useState(null);
   const [isPasswordValid, setIsPasswordValid] = useState(false);
   const [mdContent, setMdContent] = useState('');
-  const [isEditing, setIsEditing] = useState(false); // 상태 추가: 에디터 활성화 여부
+  const [isEditing, setIsEditing] = useState(false);
 
 
 
@@ -362,13 +362,13 @@ const Profile = () => {
                         <h4 className="font-medium mt-4">Skill Set</h4>
                         <hr />
                         <h5 className="mt-4">
-                          Wordpress <span className="float-end">80%</span>
+                          Wordpress <span className="float-end">70%</span>
                         </h5>
-                        <Progress value={80} />
+                        <Progress value={30} />
                         <h5 className="mt-4">
-                          HTML 5 <span className="float-end">90%</span>
+                          HTML 5 <span className="float-end">30%</span>
                         </h5>
-                        <Progress color="success" value={90} />
+                        <Progress color="success" value={30} />
                         <h5 className="mt-4">
                           jQuery <span className="float-end">50%</span>
                         </h5>
