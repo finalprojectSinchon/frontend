@@ -19,7 +19,18 @@ export const modifyBaggageClaim = createAsyncThunk('baggageClaims/modifyBaggageC
 export const softdeleteBaggageClaim = createAsyncThunk('baggageClaims/softdeleteBaggageClaim', async ({baggageClaimCode}) => {
   const response = await api.put(`/api/v1/airplane/baggage-claim/${baggageClaimCode}/delete`);
   return response.data
-})
+});
+
+export const registBaggageClaim = createAsyncThunk('chkinCounters/registChkinCounter',async (baggageClaimInfo, { rejectWithValue }) => {
+    try {
+      const response = await api.post(`/api/v1/airplane/baggage-claim`, baggageClaimInfo);
+      return response.data;
+    } catch (error) {
+      console.error("Error:", error);
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
 
 const baggageClaimSlice = createSlice({
   name: 'baggageClaims',
