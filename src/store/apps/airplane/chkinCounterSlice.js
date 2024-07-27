@@ -21,6 +21,18 @@ export const softdeleteChkinCounter = createAsyncThunk('chkinCounters/softdelete
   return response.data
 })
 
+export const registChkinCounter = createAsyncThunk('chkinCounters/registChkinCounter',async (checkinCounterInfo, { rejectWithValue }) => {
+    try {
+      const response = await api.post(`/api/v1/airplane/checkin-counter`, checkinCounterInfo);
+      return response.data;
+    } catch (error) {
+      console.error("Error:", error);
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+ 
+
 const chkinCounterSlice = createSlice({
   name: 'chkinCounters',
   initialState: {

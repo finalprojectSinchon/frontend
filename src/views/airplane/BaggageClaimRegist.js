@@ -16,13 +16,13 @@ import BreadCrumbs from '../../layouts/breadcrumbs/BreadCrumbs';
 import { useNavigate,useLocation } from 'react-router-dom';
 import { useDispatch, useSelector  } from 'react-redux';
 import { fetchAirplanes } from '../../store/apps/airplane/airplaneSlice';
-import { fetchBaggageClaims } from '../../store/apps/airplane/baggageClaimSlice';
+import { fetchBaggageClaims,registBaggageClaim } from '../../store/apps/airplane/baggageClaimSlice';
 
-const BaggageClaimsDetail = () => {
+const BaggageClaimsRegist = () => {
     const location = useLocation();
     const state = location.state || {}; 
     const dispatch = useDispatch();
-
+    const navigate = useNavigate();
 
     const AirplaneList = useSelector((state) => state.airplanes.airplaneList);
     const airplanes = AirplaneList?.data?.airplaneList || [];
@@ -38,7 +38,16 @@ const BaggageClaimsDetail = () => {
     const [arrivalTimes, setArrivalTimes] = useState([]);
     const [flightId, setFlightId] = useState('');
     const [airports, setAirports] = useState([]);
-
+    const [baggageClaimInfo, setBaggageClaimInfo] = useState({
+      location: state.location || '',
+      status: null,
+      lastInspectionDate: null,
+      delayTime: null,
+      manager: null,
+      note: null,
+      airplaneCode: null,
+      type:null
+    });
     
 
     useEffect(() => {
@@ -66,11 +75,14 @@ const BaggageClaimsDetail = () => {
     }, [selectedAirline, airplanes]);
 
     useEffect(() => {
-      const filteredAirports = airplanes
-        .filter(airplane => airplane.airline == selectedAirline && airplane.scheduleDateTime == selectedSchedule)
-        .map(airplane => airplane.airport);
+      if (selectedAirline && selectedSchedule) {
+        const filteredAirports = airplanes
+          .filter(airplane => airplane.airline == selectedAirline && airplane.scheduleDateTime == selectedSchedule)
+          .map(airplane => airplane.airport);
   
-      setAirports(filteredAirports);
+          console.log('filteredAirports',filteredAirports)
+        setAirports(filteredAirports);
+      }
     }, [selectedAirline, selectedSchedule, airplanes]);
 
     useEffect(() => {
@@ -82,39 +94,50 @@ const BaggageClaimsDetail = () => {
 
   
       setFlightId(selectedAirplane ? selectedAirplane.flightId : '');
+      setBaggageClaimInfo(prevInfo => ({
+        ...prevInfo,
+        airplaneCode: selectedAirplane?.airplaneCode || ''
+    
+      }));
+
     }, [selectedAirline, selectedSchedule, airplanes,selectedAirport]);
   
-    const onClickHandler = () => {
-      if (chkincounters.airplane.airline == selectedAirline 
-        && chkincounters.airline.scheduleDateTime == selectedSchedule
-        && chkincounters.airline.airport == selectedAirport) {
-        // Handle the click event
+    const onClickHandler =  ()  => {
+      if (baggageClaims.some(baggageClaim =>
+        baggageClaim.airplaneCode == baggageClaimInfo.airplaneCode 
+      )) {
+        alert("이미 등록된 수화물 수취대 입니다");
+        return;
       }
-    };
   
-    const uniqueAirlines = [...new Set(airplanes.map(airplane => airplane.airline))];
+       dispatch(registBaggageClaim(baggageClaimInfo));
+       navigate('/airplane/baggage-claim')
+       window.location.reload();
+    };
+
+  
+  const uniqueAirlines = [...new Set(airplanes.map(airplane => airplane.airline))];
   const uniqueTimes = [...new Set(arrivalTimes.map(time => time))]
   const ChangeHandler = (event) => {
     const { name, value } = event.target;
-    console.log('name', name);
-
-    if (name === 'airline') {
-      setSelectedAirline(value);
-
-      const filteredTimes = airplanes
-        .filter(airplane => airplane.airline === value)
-        .map(airplane => airplane.scheduleDateTime);
-      
-      
-      setArrivalTimes(filteredTimes);
-      setSelectedSchedule(''); 
-      console.log('filteredTimes', filteredTimes);
-
-    } else if (name === 'scheduleDateTime') {
-      setSelectedSchedule(value);
-    } else if (name === 'airport'){
-      setSelectedAirport(value);
-    } 
+   
+  
+      if (name === 'airline') {
+        setSelectedAirline(value);
+        setSelectedSchedule('');
+        setSelectedAirport('');
+      } else if (name === 'scheduleDateTime') {
+        setSelectedSchedule(value);
+        setSelectedAirport('');
+      } else if (name === 'airport') {
+        setSelectedAirport(value);
+      } else {
+        setBaggageClaimInfo(prevInfo => ({
+          ...prevInfo,
+          [name]: value // 특정 필드만 업데이트
+        }));
+      }
+    
   };
 
 
@@ -146,13 +169,13 @@ const BaggageClaimsDetail = () => {
                       <FormText color="muted" style={{ marginLeft: '15px' }}>
                         * 항공사를 먼저 선택해주세요.
                       </FormText>
-                      <Input type="text" name="location" value={state.location || ''} />
+                      <Input type="text" name="location" value={state.location || ''}  readOnly/>
                     </FormGroup>
                   </Col>
                   <Col md="6">
                     <FormGroup>
                       <Label>Status</Label>
-                      <Input type="select" name="status">
+                      <Input type="select" name="status" onChange={ChangeHandler}>
                         <option>정상</option>
                         <option>고장</option>
                         <option>점검중</option>
@@ -201,7 +224,7 @@ const BaggageClaimsDetail = () => {
                   <Col md="6">
                     <FormGroup>
                       <Label>최근 점검일</Label>
-                      <Input type="date" name="lastInspectionDate" />
+                      <Input type="date" name="lastInspectionDate" onChange={ChangeHandler}/>
                     </FormGroup>
                   </Col>
                 </Row>
@@ -209,7 +232,7 @@ const BaggageClaimsDetail = () => {
                   <Col md="6">
                     <FormGroup>
                       <Label>도착공항명</Label>
-                      <Input type="select" name='airport' onChange={ChangeHandler}>
+                      <Input type="select" name='airport' value={selectedAirport} onChange={ChangeHandler}>
                         <option value="">도착 공항을 선택하세요</option>
                         {airports.map((airport, index) => (
                           <option key={index} value={airport}>{airport}</option>
@@ -220,7 +243,7 @@ const BaggageClaimsDetail = () => {
                   <Col md="6">
                     <FormGroup>
                       <Label>지연시간</Label>
-                      <Input type="number" name='delayTime' />
+                      <Input type="number" name='delayTime' onChange={ChangeHandler} />
                     </FormGroup>
                   </Col>
                 </Row>
@@ -234,7 +257,7 @@ const BaggageClaimsDetail = () => {
                   <Col md="6">
                     <FormGroup>
                       <Label>담당자</Label>
-                      <Input type="text" name="manager" />
+                      <Input type="text" name="manager" onChange={ChangeHandler}/>
                     </FormGroup>
                   </Col>
                 </Row>
@@ -242,7 +265,7 @@ const BaggageClaimsDetail = () => {
                   <Col md="6">
                     <FormGroup>
                       <Label>비고</Label>
-                      <Input type="textarea" rows="6" name="note" />
+                      <Input type="textarea" rows="6" name="note" onChange={ChangeHandler} />
                     </FormGroup>
                   </Col>
                 </Row>
@@ -260,4 +283,4 @@ const BaggageClaimsDetail = () => {
   );
 };
 
-export default BaggageClaimsDetail;
+export default BaggageClaimsRegist;

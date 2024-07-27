@@ -16,29 +16,39 @@ import BreadCrumbs from '../../layouts/breadcrumbs/BreadCrumbs';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchAirplanes } from '../../store/apps/airplane/airplaneSlice';
-import { fetchChkinCounters } from '../../store/apps/airplane/chkinCounterSlice';
+import { fetchChkinCounters, registChkinCounter } from '../../store/apps/airplane/chkinCounterSlice';
 
-const CheckinCounterDetail = () => {
+const CheckinCounterRegist = () => {
   const location = useLocation();
   const state = location.state || {};
   const dispatch = useDispatch();
-  
+  const navigate = useNavigate();
+
   const AirplaneList = useSelector((state) => state.airplanes.airplaneList);
   const ChkinCounterList = useSelector((state) => state.chkinCounters.chkinCounterList);
   const airplanes = AirplaneList?.data?.airplaneList || [];
   const chkincounters = ChkinCounterList?.data?.chkinCounterList;
 
-  console.log('AirplaneList', AirplaneList);
-  console.log('airplanes', airplanes);
-
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+
   const [selectedAirline, setSelectedAirline] = useState('');
   const [selectedSchedule, setSelectedSchedule] = useState('');
   const [selectedAirport, setSelectedAirport] = useState('');
   const [arrivalTimes, setArrivalTimes] = useState([]);
   const [airports, setAirports] = useState([]);
   const [flightId, setFlightId] = useState('');
+  const [checkinCounterInfo, setCheckinCounterInfo] = useState({
+    location: state.location || '',
+    status: null,
+    lastInspectionDate: null,
+    delayTime: null,
+    manager: null,
+    note: null,
+    airplaneCode: null,
+    type:null
+  });
+
 
   useEffect(() => {
     const fetchData = async () => {
@@ -72,7 +82,6 @@ const CheckinCounterDetail = () => {
         .filter(airplane => airplane.airline == selectedAirline && airplane.scheduleDateTime == selectedSchedule)
         .map(airplane => airplane.airport);
 
-      console.log('filteredAirports', filteredAirports);
       setAirports(filteredAirports);
     }
   }, [selectedAirline, selectedSchedule, airplanes]);
@@ -84,12 +93,15 @@ const CheckinCounterDetail = () => {
       airplane.scheduleDateTime == selectedSchedule &&
       airplane.airport == selectedAirport
     );
-
     setFlightId(selectedAirplane ? selectedAirplane.flightId : '');
-  }, [selectedAirline, selectedSchedule, selectedAirport, airplanes]);
 
-  console.log('selectedSchedule', selectedSchedule);
-  console.log('selectedAirline', selectedAirline);
+    // 비행 ID를 설정하지만, checkinCounterInfo의 기존 상태는 유지
+    setCheckinCounterInfo(prevInfo => ({
+      ...prevInfo,
+      airplaneCode: selectedAirplane?.airplaneCode || ''
+  
+    }));
+  }, [selectedAirline, selectedSchedule, selectedAirport, airplanes]);
 
   if (loading) {
     return <div>Loading...</div>;
@@ -99,12 +111,19 @@ const CheckinCounterDetail = () => {
     return <div>Error: {error}</div>;
   }
 
-  const onClickHandler = () => {
-    if (chkincounters.airplane.airline === selectedAirline 
-      && chkincounters.airline.scheduleDateTime === selectedSchedule
-      && chkincounters.airline.airport === selectedAirport) {
-      // 클릭 이벤트를 처리합니다.
+  
+
+  const onClickHandler =  ()  => {
+    if (chkincounters.some(counter =>
+      counter.airplaneCode == checkinCounterInfo.airplaneCode 
+    )) {
+      alert("이미 등록된 수화물 수취대 입니다");
+      return;
     }
+
+     dispatch(registChkinCounter(checkinCounterInfo));
+     navigate('/airplane/checkin-counter')
+     window.location.reload();
   };
 
   const uniqueAirlines = [...new Set(airplanes.map(airplane => airplane.airline))];
@@ -112,8 +131,8 @@ const CheckinCounterDetail = () => {
 
   const ChangeHandler = (event) => {
     const { name, value } = event.target;
-    console.log('name', name);
 
+    // 상태에 필요한 필드만 업데이트
     if (name === 'airline') {
       setSelectedAirline(value);
       setSelectedSchedule('');
@@ -123,6 +142,11 @@ const CheckinCounterDetail = () => {
       setSelectedAirport('');
     } else if (name === 'airport') {
       setSelectedAirport(value);
+    } else {
+      setCheckinCounterInfo(prevInfo => ({
+        ...prevInfo,
+        [name]: value // 특정 필드만 업데이트
+      }));
     }
   };
 
@@ -146,16 +170,17 @@ const CheckinCounterDetail = () => {
                       <FormText color="muted" style={{ marginLeft: '15px' }}>
                         * 항공사를 먼저 선택해주세요.
                       </FormText>
-                      <Input type="text" name="location" value={state.location || ''} readOnly />
+                      <Input type="text" name="location" value={state.location} readOnly />
                     </FormGroup>
                   </Col>
                   <Col md="6">
                     <FormGroup>
                       <Label>Status</Label>
-                      <Input type="select" name="status">
-                        <option>정상</option>
-                        <option>고장</option>
-                        <option>점검중</option>
+                      <Input type="select" name="status" onChange={ChangeHandler}>
+                        <option value="">상태를 선택하세요</option>
+                        <option value="정상">정상</option>
+                        <option value="고장">고장</option>
+                        <option value="점검중">점검중</option>
                       </Input>
                     </FormGroup>
                   </Col>
@@ -177,11 +202,12 @@ const CheckinCounterDetail = () => {
                   <Col md="6">
                     <FormGroup>
                       <Label>type</Label>
-                      <Input type="select" name="gateType">
-                        <option>A</option>
-                        <option>B</option>
-                        <option>C</option>
-                        <option>D</option>
+                      <Input type="select" name="type" onChange={ChangeHandler}>
+                        <option value="">타입을 선택하세요</option>
+                        <option value="A">A</option>
+                        <option value="B">B</option>
+                        <option value="C">C</option>
+                        <option value="D">D</option>
                       </Input>
                     </FormGroup>
                   </Col>
@@ -201,7 +227,7 @@ const CheckinCounterDetail = () => {
                   <Col md="6">
                     <FormGroup>
                       <Label>최근 점검일</Label>
-                      <Input type="date" name="lastInspectionDate" />
+                      <Input type="date" name="lastInspectionDate" onChange={ChangeHandler} />
                     </FormGroup>
                   </Col>
                 </Row>
@@ -220,7 +246,7 @@ const CheckinCounterDetail = () => {
                   <Col md="6">
                     <FormGroup>
                       <Label>지연시간</Label>
-                      <Input type="number" name='delayTime' />
+                      <Input type="number" name='delayTime' onChange={ChangeHandler} />
                     </FormGroup>
                   </Col>
                 </Row>
@@ -234,7 +260,7 @@ const CheckinCounterDetail = () => {
                   <Col md="6">
                     <FormGroup>
                       <Label>담당자</Label>
-                      <Input type="text" name="manager" />
+                      <Input type="text" name="manager" onChange={ChangeHandler} />
                     </FormGroup>
                   </Col>
                 </Row>
@@ -242,7 +268,7 @@ const CheckinCounterDetail = () => {
                   <Col md="6">
                     <FormGroup>
                       <Label>비고</Label>
-                      <Input type="textarea" rows="6" name="note" />
+                      <Input type="textarea" rows="6" name="note" onChange={ChangeHandler} />
                     </FormGroup>
                   </Col>
                 </Row>
@@ -260,4 +286,4 @@ const CheckinCounterDetail = () => {
   );
 };
 
-export default CheckinCounterDetail;
+export default CheckinCounterRegist;
