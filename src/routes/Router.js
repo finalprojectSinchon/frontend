@@ -24,9 +24,9 @@ const CheckinCounterDetail = Loadable(lazy(() => import('../views/airplane/Check
 const CheckinCounterRegist = Loadable(lazy(() => import('../views/airplane/CheckinCounterRegist')));
 const Gate = Loadable(lazy(() => import('../views/airplane/Gate')));
 const GateDetail = Loadable(lazy(() => import('../views/airplane/GateDetail')));
+const GateRegist = Loadable(lazy(() => import('../views/airplane/GateRegist')));
 const BaggageClaim = Loadable(lazy(() => import('../views/airplane/BaggageClaim')));
 const BaggageClaimDetail = Loadable(lazy(() => import('../views/airplane/BaggageClaimsDetail')));
-
 const BaggageClaimRegist = Loadable(lazy(() => import('../views/airplane/BaggageClaimRegist')));
 
 // 편의시설
@@ -104,6 +104,7 @@ const ThemeRoutes = [
 
       { path: '/airplane/gate', name: 'Gate', exact: true, element: <Gate /> },
       { path: '/airplane/gate/:gateCode', name: 'GateDetail', exact: true, element: <GateDetail /> },
+      { path: '/airplane/gate/regist', name: 'GateRegist', exact: true, element: <GateRegist /> },
       { path: '/airplane/baggage-claim', name: 'BaggageClaim', exact: true, element: <BaggageClaim /> },
       { path: '/airplane/baggage-claim/:baggageClaimCode', name: 'BaggageClaimDetail', exact: true, element: <BaggageClaimDetail /> },
       { path: '/airplane/baggage-claim/regist', name: 'BaggageClaimRegist', exact: true, element: <BaggageClaimRegist /> },
