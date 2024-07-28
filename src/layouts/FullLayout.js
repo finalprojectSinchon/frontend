@@ -10,6 +10,7 @@ import { useEffect } from 'react';
 import axios from 'axios';
 import Cookies from 'js-cookie';
 import { addUser } from '../store/apps/login/userSlice';
+import { connectWebSocket, disconnectWebSocket } from '../store/apps/websocket/WebSocketSlice';
 
 const FullLayout = () => {
   const customizerToggle = useSelector((state) => state.customizer.customizerSidebar);
@@ -33,51 +34,59 @@ const FullLayout = () => {
           Authorization: Cookies.get('token')
         }
       })
-      .then(res => res.data)
-      .then(data => {
-        dispatch(addUser(data.data));
-      })
-      .catch(error => {
-        console.error('Error fetching user info:', error);
-        navigate('/auth/loginformik')
-      });
+          .then(res => res.data)
+          .then(data => {
+            dispatch(addUser(data.data));
+          })
+          .catch(error => {
+            console.error('Error fetching user info:', error);
+            navigate('/auth/loginformik')
+          });
     } else if (userInfo.isActive !== "Y"){
       navigate('/auth/permission-error')
     }
   }, [dispatch, userInfo]);
 
+  useEffect(() => {
+    if (userInfo.userCode) {
+      dispatch(connectWebSocket(userInfo.userCode));
+    }
 
+    return () => {
+      dispatch(disconnectWebSocket());
+    };
+  }, [dispatch, userInfo.userCode]);
 
   return (
-    <main>
-      <div
-        className={`pageWrapper d-md-block d-lg-flex ${toggleMiniSidebar ? 'isMiniSidebar' : ''}`}
-      >
-        {/******** Sidebar **********/}
-        {LayoutHorizontal ? (
-          ''
-        ) : (
-          <aside className={`sidebarArea ${showMobileSidebar ? 'showSidebar' : ''}`}>
-            <Sidebar />
-          </aside>
-        )}
-        {/********Content Area**********/}
+      <main>
+        <div
+            className={`pageWrapper d-md-block d-lg-flex ${toggleMiniSidebar ? 'isMiniSidebar' : ''}`}
+        >
+          {/******** Sidebar **********/}
+          {LayoutHorizontal ? (
+              ''
+          ) : (
+              <aside className={`sidebarArea ${showMobileSidebar ? 'showSidebar' : ''}`}>
+                <Sidebar />
+              </aside>
+          )}
+          {/********Content Area**********/}
 
-        <div className={`contentArea ${topbarFixed ? 'fixedTopbar' : ''}`}>
-          {/********header**********/}
-          {LayoutHorizontal ? <HorizontalHeader /> : <Header />}
-          {LayoutHorizontal ? <HorizontalSidebar /> : ''}
-          {/********Middle Content**********/}
-          <Container fluid className="p-4 boxContainer">
-            <div className={isFixedSidebar && LayoutHorizontal ? 'HsidebarFixed' : ''}>
-              <Outlet />
-            </div>
-            <Customizer className={customizerToggle ? 'showCustomizer' : ''} />
-            {showMobileSidebar || customizerToggle ? <div className="sidebarOverlay" /> : ''}
-          </Container>
+          <div className={`contentArea ${topbarFixed ? 'fixedTopbar' : ''}`}>
+            {/********header**********/}
+            {LayoutHorizontal ? <HorizontalHeader /> : <Header />}
+            {LayoutHorizontal ? <HorizontalSidebar /> : ''}
+            {/********Middle Content**********/}
+            <Container fluid className="p-4 boxContainer">
+              <div className={isFixedSidebar && LayoutHorizontal ? 'HsidebarFixed' : ''}>
+                <Outlet />
+              </div>
+              <Customizer className={customizerToggle ? 'showCustomizer' : ''} />
+              {showMobileSidebar || customizerToggle ? <div className="sidebarOverlay" /> : ''}
+            </Container>
+          </div>
         </div>
-      </div>
-    </main>
+      </main>
   );
 };
 
