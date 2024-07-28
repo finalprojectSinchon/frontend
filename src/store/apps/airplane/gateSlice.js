@@ -22,6 +22,17 @@ export const softdeleteGate = createAsyncThunk('gates/softDelete', async ({gateC
   return response.data
 })
 
+export const registGate = createAsyncThunk('gates/registGate',async (gateInfo, { rejectWithValue }) => {
+  try {
+    const response = await api.post(`/api/v1/airplane/gate`, gateInfo);
+    return response.data;
+  } catch (error) {
+    console.error("Error:", error);
+    return rejectWithValue(error.response.data);
+  }
+}
+);
+
 const gateSlice = createSlice({
   name: 'gates',
   initialState: {

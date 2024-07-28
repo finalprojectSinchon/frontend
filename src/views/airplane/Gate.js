@@ -62,6 +62,7 @@ const Datatables = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const gateList = useSelector((state) => state.gates.gateList);
+  console.log('gateList',gateList)
 
   // 초기 퍼센트 좌표 설정
   const initialMapData = [
