@@ -1,10 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Input } from 'reactstrap';
-import { connectWebSocket, disconnectWebSocket } from 'src/store/apps/websocket/WebSocketSlice.js'
+import { connectWebSocket, disconnectWebSocket } from 'src/store/apps/websocket/WebSocketSlice.js';
+import { db } from 'src/firebase.js';
+import { collection, query, where, onSnapshot } from "firebase/firestore";
 
 function TestChatting() {
     const [input, setInput] = useState('');
+    const [chat, setChat] = useState([]);
+
     const dispatch = useDispatch();
     const messages = useSelector((state) => state.websocket.messages);
     const socket = useSelector((state) => state.websocket.socket);
@@ -13,6 +17,22 @@ function TestChatting() {
     const userDetails = useSelector(
         (state) => state.userContact.users.find(user => user.userCode === state.userContact.userContentCode)
     );
+
+    useEffect(() => {
+        if (!userInfo || !userDetails) return;
+
+        const chatRef = collection(db, "messages", `${userInfo.userCode}_${userDetails.userCode}`, "chats");
+        const q = query(chatRef);
+
+        const unsubscribe = onSnapshot(q, (snapshot) => {
+            const chatData = snapshot.docs.map((doc) => doc.data());
+            setChat(chatData);
+        });
+
+        return () => unsubscribe();
+    }, [userInfo, userDetails]);
+
+    console.log('chat', chat);
 
     useEffect(() => {
         if (userInfo && userInfo.userCode) {
@@ -26,7 +46,7 @@ function TestChatting() {
     const sendMessage = () => {
         if (socket && input) {
             const message = {
-                to : userDetails.userCode,
+                to: userDetails.userCode,
                 from: userInfo.userCode,
                 message: input,
             };

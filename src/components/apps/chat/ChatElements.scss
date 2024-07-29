@@ -1,0 +1,35 @@
+/* ChatElements.scss */
+.chat-container {
+  display: flex;
+  flex-direction: column;
+  height: calc(100vh - 140px); /* 헤더 높이를 고려하여 전체 높이를 조정 */
+  padding: 10px;
+  margin-top: 10px; /* 헤더 아래 여백 추가 */
+}
+
+.message-list {
+  flex: 1;
+  overflow-y: auto;
+  margin-bottom: 60px; /* 입력 필드 높이만큼 여백 추가 */
+}
+
+.input-container {
+  display: flex;
+  align-items: center;
+  position: absolute; /* 절대 위치 설정 */
+  bottom: 0; /* 바닥에 위치 */
+  right: 0; /* 오른쪽에 위치 */
+  width: 100%; /* 전체 너비 사용 (필요에 따라 조정 가능) */
+  max-width: 930px; /* 최대 너비 설정 (필요에 따라 조정 가능) */
+  background-color: #fff; /* 배경색 */
+  padding: 10px;
+  border-top: 1px solid #ddd; /* 상단 테두리 */
+  box-shadow: 0 -2px 5px rgba(0,0,0,0.1); /* 약간의 그림자 */
+  z-index: 1000; /* 다른 요소 위에 위치하도록 설정 */
+}
+
+
+.input-field {
+  flex: 1;
+  margin-right: 10px;
+}
