@@ -71,14 +71,14 @@ const EquipmentDetail = () => {
                       <Label>상태</Label>
                       <Input 
                         type="select" 
-                        name="status" 
+                        name="equipmentStatus" 
                         onChange={onChangeHandler} 
-                        value={equipmentInfo.status || ""}
+                        value={equipmentInfo.equipmentStatus || ""}
                         readOnly={readOnly}
                       >
                         <option value="정상">정상</option>
                         <option value="점검중">점검중</option>
-                        <option value="중단">중단</option>
+                        <option value="고장">고장</option>
                       </Input>
                     </FormGroup>
                   </Col>

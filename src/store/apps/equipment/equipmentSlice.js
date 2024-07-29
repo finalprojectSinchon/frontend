@@ -14,6 +14,7 @@ export const fetchEquipment = createAsyncThunk('equipment/fetchEquipment', async
 });
 
 export const modifyEquipment = createAsyncThunk('equipment/modifyEquipment', async ({ equipmentCode, equipmentInfo }) => {
+    console.log('equipmentInfo',equipmentInfo)
     const response = await api.put(`/api/v1/equipment/${equipmentCode}/update`, equipmentInfo);
     console.log("수정 결과:", response.data);
     return response.data;

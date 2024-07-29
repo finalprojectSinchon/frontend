@@ -62,9 +62,9 @@ const Datatables = () => {
         dispatch(fetchEquipments());
     }, [dispatch]);
 
-    if (!equipmentList || !equipmentList.data) {
-        return <div>Loading...</div>;
-    }
+    // if (!equipmentList || !equipmentList.data) {
+    //     return <div>Loading...</div>;
+    // }
 
     const options = {
         afterDeleteRow: onAfterDeleteRow,
@@ -124,7 +124,7 @@ const Datatables = () => {
                         </TableHeaderColumn>
                         <TableHeaderColumn
                             width="20%"
-                            dataField="status"
+                            dataField="equipmentStatus"
                             dataAlign="center"
                             dataFormat={(cell, row) => (
                                 <div onClick={() => navigate(`/equipment/${row.equipmentCode}`)}>

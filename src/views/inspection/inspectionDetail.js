@@ -52,7 +52,9 @@ const InspectionDetail = () => {
 
   const handleSave = () => {
     dispatch(modifyInspection({ inspectionCode, inspectionInfo: inspectionInfo }))
+    console.log('inspectionInfoasd', inspectionInfo);
     navigate('/inspection');
+    window.location.reload();
 
   
   };
@@ -60,7 +62,8 @@ const InspectionDetail = () => {
   const handleDelete = () => {
     dispatch(deleteInspection({ inspectionCode}))
     navigate('/inspection');
-  
+    window.location.reload();
+
   };
 
 
@@ -86,7 +89,7 @@ const InspectionDetail = () => {
                         name="location"
                         onChange={onChangeHandler}
                         readOnly={readOnly}
-                        value={inspectionInfo.location || ''}
+                        value={inspectionInfo.location}
                       />
                       <FormFeedback valid>Success! You've done it.</FormFeedback>
                     </FormGroup>
@@ -99,7 +102,7 @@ const InspectionDetail = () => {
                         name="status"
                         onChange={onChangeHandler}
                         disabled={readOnly}
-                        value={inspectionInfo.status || ''}
+                        value={inspectionInfo.status}
                       >
                         <option value="정상">정상</option>
                         <option value="점검중">점검중</option>
@@ -118,7 +121,7 @@ const InspectionDetail = () => {
                         name="type"
                         onChange={onChangeHandler}
                         disabled={readOnly}
-                        value={inspectionInfo.type || ''}
+                        value={inspectionInfo.type}
                       >
                         <option value="점포">점포</option>
                         <option value="안내소">안내소</option>
@@ -135,7 +138,7 @@ const InspectionDetail = () => {
                         placeholder="이름을 입력하세요"
                         readOnly={readOnly}
                         onChange={onChangeHandler}
-                        value={inspectionInfo.manager || ''}
+                        value={inspectionInfo.manager}
                       />
                       <FormText className="muted">이름은 반드시 입력해야 합니다.</FormText>
                     </FormGroup>
@@ -146,12 +149,12 @@ const InspectionDetail = () => {
                     <FormGroup>
                       <Label>Regular Inspection Date</Label>
                       <Input
-                        type="text"
+                        type="date"
                         name="regularInspectionDate"
                         placeholder="점검일을 기입하세요"
                         readOnly={readOnly}
                         onChange={onChangeHandler}
-                        value={inspectionInfo.regularInspectionDate || ''}
+                        value={inspectionInfo.regularInspectionDate}
                       />
                     </FormGroup>
                   </Col>
@@ -164,7 +167,7 @@ const InspectionDetail = () => {
                         placeholder="010-****-****"
                         readOnly={readOnly}
                         onChange={onChangeHandler}
-                        value={inspectionInfo.phone || ''}
+                        value={inspectionInfo.phone}
                       />
                       <FormText className="muted">휴대폰 번호는 반드시 입력해야 합니다.</FormText>
                     </FormGroup>
@@ -181,7 +184,7 @@ const InspectionDetail = () => {
                         name="text" // 기존 "text"에서 변경
                         readOnly={readOnly}
                         onChange={onChangeHandler}
-                        value={inspectionInfo.text || ''} // 기존 "text"에서 변경
+                        value={inspectionInfo.text} // 기존 "text"에서 변경
                       />
                     </FormGroup>
                   </Col>
