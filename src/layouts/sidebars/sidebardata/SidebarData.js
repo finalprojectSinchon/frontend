@@ -31,13 +31,7 @@ const SidebarData = [
     id: 2.1,
     collapisble: false,
   },
-  {
-    title: '커뮤니티',
-    href: '/apps/chat',
-    icon: <MaterialIcon icon="chat" />,
-    id: 2.2,
-    collapisble: false,
-  },
+
   {
     title: '메세지',
     href: '/chatting',
@@ -70,14 +64,7 @@ const SidebarData = [
   },
 
 
-  {
-    title: '이동수단',
-    href: '/ecom',
-    icon: <MaterialIcon icon="shopping_cart" />,
-    id: 2.7,
-    collapisble: true,
-  
-  },
+
   {
     title: '비행기',
     href: '/airplane',
@@ -130,14 +117,7 @@ const SidebarData = [
     collapisble: true,
   
   },
-  {
-    title: '안내소',
-    href: '/form-pickers',
-    icon: <MaterialIcon icon="colorize" />,
-    id: 3.2,
-    collapisble: true,
-  
-  },
+
   {
     title: '장비재고',
     href: '/equipment',
