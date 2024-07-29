@@ -19,15 +19,16 @@ import { fetchAirplanes } from '../../store/apps/airplane/airplaneSlice';
 import { fetchGates,registGate } from '../../store/apps/airplane/gateSlice';
 
 const GateRegist = () => {
-  const location = useLocation();
-  const state = location.state || {};
+  
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const AirplaneList = useSelector((state) => state.airplanes.airplaneList);
   const GateList = useSelector((state) => state.gates.gateList);
   const airplanes = AirplaneList?.data?.airplaneList || [];
-  const gates = GateList?.data?.GateList;
+  const gates = GateList?.data?.gateList;
+  console.log('gates',gates)
+  console.log('GateList',GateList)
 
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -39,7 +40,7 @@ const GateRegist = () => {
   const [airports, setAirports] = useState([]);
   const [flightId, setFlightId] = useState('');
   const [gateInfo, setGateInfo] = useState({
-    location: state.location || '',
+    location: '',
     status: null,
     lastInspectionDate: null,
     delayTime: null,
@@ -120,7 +121,7 @@ const GateRegist = () => {
 
      dispatch(registGate(gateInfo));
      navigate('/airplane/gate')
-     window.location.reload();
+    //  window.location.reload();
   };
 
   const uniqueAirlines = [...new Set(airplanes.map(airplane => airplane.airline))];
@@ -146,6 +147,7 @@ const GateRegist = () => {
       }));
     }
   };
+  console.log('gateInfo',gateInfo)
 
   return (
     <div>
@@ -167,7 +169,7 @@ const GateRegist = () => {
                       <FormText color="muted" style={{ marginLeft: '15px' }}>
                         * 항공사를 먼저 선택해주세요.
                       </FormText>
-                      <Input type="text" name="location" value={state.location} readOnly />
+                      <Input type="text" name="location" onChange={ChangeHandler}  />
                     </FormGroup>
                   </Col>
                   <Col md="6">

@@ -54,7 +54,7 @@ const EquipmentUpdate = Loadable(lazy(() => import('../views/equipment/equipment
 
 const AirportStore = Loadable(lazy(() => import('../views/airportStore/airportStore')));
 
-const Maintenance =  Loadable(lazy(() => import('../views/maintenance/maintenance')));
+const Maintenance =  Loadable(lazy(() => import('../views/maintenance/maintenance.js')));
 const MaintenanceDetail = Loadable(lazy(() => import('../views/maintenance/maintenanceDetails')));
 const MaintenanceRegist = Loadable(lazy(() => import('../views/maintenance/maintenanceRegist')));
 
@@ -109,7 +109,9 @@ const ThemeRoutes = [
       { path: '/airplane/baggage-claim/:baggageClaimCode', name: 'BaggageClaimDetail', exact: true, element: <BaggageClaimDetail /> },
       { path: '/airplane/baggage-claim/regist', name: 'BaggageClaimRegist', exact: true, element: <BaggageClaimRegist /> },
 
-      { path: '/api/v1/maintenance', name: 'Maintenance', exact: true, element: <Maintenance /> },
+      { path: '/maintenance', name: 'Maintenance', exact: true, element: <Maintenance /> },
+      { path: '/maintenance/:maintenanceCode', name: 'Maintenance', exact: true, element: <MaintenanceDetail /> },
+      { path: '/maintenanceRegist', name: 'Maintenance', exact: true, element: <MaintenanceRegist /> },
 
       { path: '/inspection', name: 'inspection', exact: true, element: <Inspection/> },
       { path: '/inspection/:inspectionCode', name: 'inspectionDetail', exact: true, element: <InspectionDetail/> },
@@ -138,11 +140,10 @@ const ThemeRoutes = [
 
       { path: '/code-issuance', name: 'test', exact: true, element: <AuthCode /> },
 
-      { path: '/chatting/test', name: 'chattingTest', exact: true, element: <TestChatting /> },
+   
 
 
-        // Test
-      { path: '/drag-drop', name: 'dragdrop', exact: true, element: <ManagerDragAndDrop /> },
+   
 
 
     
