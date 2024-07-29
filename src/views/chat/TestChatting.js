@@ -1,64 +1,53 @@
-import React, { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
+import React, { useState, useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import { Input } from 'reactstrap';
+import { connectWebSocket, disconnectWebSocket } from 'src/store/apps/websocket/WebSocketSlice.js';
+import { db } from 'src/firebase.js';
+import { collection, query, where, onSnapshot } from "firebase/firestore";
 
 function TestChatting() {
-    const [messages, setMessages] = useState([]);
-    const [socket, setSocket] = useState(null);
     const [input, setInput] = useState('');
-    const [sendTo, setSendTo] = useState('');
+    const [chat, setChat] = useState([]);
 
-    const userInfo = useSelector(state => state.userInfo);
+    const dispatch = useDispatch();
+    const messages = useSelector((state) => state.websocket.messages);
+    const socket = useSelector((state) => state.websocket.socket);
+    const userInfo = useSelector((state) => state.userInfo);
+
     const userDetails = useSelector(
         (state) => state.userContact.users.find(user => user.userCode === state.userContact.userContentCode)
     );
 
     useEffect(() => {
-        if (userDetails) {
-            setSendTo(userDetails.userCode);
-        }
-    }, [userDetails]);
+        if (!userInfo || !userDetails) return;
+
+        const chatRef = collection(db, "messages", `${userInfo.userCode}_${userDetails.userCode}`, "chats");
+        const q = query(chatRef);
+
+        const unsubscribe = onSnapshot(q, (snapshot) => {
+            const chatData = snapshot.docs.map((doc) => doc.data());
+            setChat(chatData);
+        });
+
+        return () => unsubscribe();
+    }, [userInfo, userDetails]);
+
+    console.log('chat', chat);
 
     useEffect(() => {
-        const connectWebSocket = () => {
-            console.log('WebSocket 연결 시도');
-            const ws = new WebSocket(`ws://localhost:8080/ws?userCode=${userInfo.userCode}`);
-
-            ws.onopen = () => {
-                console.log('WebSocket 연결 성공');
-            };
-
-            ws.onmessage = (event) => {
-                console.log('메시지 수신:', event.data);
-                setMessages(prevMessages => [...prevMessages, event.data]);
-            };
-
-            ws.onclose = (event) => {
-                console.log('WebSocket 연결 종료:', event);
-                setTimeout(connectWebSocket, 10000);
-            };
-
-            ws.onerror = (error) => {
-                console.error('WebSocket 오류:', error);
-            };
-
-            setSocket(ws);
-        };
-
-        connectWebSocket();
-
-        return () => {
-            if (socket) {
-                socket.close();
-            }
-        };
-    }, [userInfo]);
+        if (userInfo && userInfo.userCode) {
+            dispatch(connectWebSocket(userInfo.userCode));
+        }
+        // return () => {
+        //     dispatch(disconnectWebSocket());
+        // };
+    }, [dispatch, userInfo]);
 
     const sendMessage = () => {
         if (socket && input) {
             const message = {
+                to: userDetails.userCode,
                 from: userInfo.userCode,
-                to: sendTo,
                 message: input,
             };
             socket.send(JSON.stringify(message));

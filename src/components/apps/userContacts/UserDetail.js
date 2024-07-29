@@ -4,11 +4,12 @@ import {Input, FormGroup, Button, Label, Card, CardBody, CardTitle, CardText, Ca
 import { UpdateUser, addUser } from '../../../store/apps/userContact/UserContactSlice';
 import ReactMarkdown from 'react-markdown';
 import rehypeRaw from 'rehype-raw';
-
 import {
     Row,
     Col,
 } from 'reactstrap';
+
+
 const UserDetail = () => {
     const userDetails = useSelector(
         (state) => state.userContact.users.find(user => user.userCode === state.userContact.userContentCode)
