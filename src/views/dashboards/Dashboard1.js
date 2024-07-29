@@ -11,12 +11,24 @@ import Timeline from '../../components/dashboard/dashboard1/Timeline';
 import MyContact from '../../components/dashboard/dashboard1/MyContact';
 import Downloads from '../../components/dashboard/dashboard1/Downloads';
 import BandwidthUsage from '../../components/dashboard/dashboard1/BandwidthUsage';
-import WeatherCard from '../../components/dashboard/dashboard1/WeatherCard';
+import React from "react";
+import NoiseChart from "src/views/dashboards/NoiseChart.js";
+import WeatherCard from "./WeatherCard";
+
 
 const Dashboard1 = () => {
-  return (
+
+    return (
     <>
       <BreadCrumbs />
+      <Row>
+        <Col lg="5">
+          <WeatherCard/>
+        </Col>
+          <NoiseChart/>
+
+      </Row>
+
       <Row>
         <Col lg="8">
           <SalesOverview />
@@ -42,7 +54,7 @@ const Dashboard1 = () => {
           <Downloads />
         </Col>
         <Col lg="4">
-          <WeatherCard />
+
         </Col>
       </Row>
       <Row>
