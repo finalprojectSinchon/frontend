@@ -84,7 +84,7 @@ const BaggageClaimsDetail = () => {
                   <Col md="6">
                     <FormGroup>
                       <Label>Counter Code</Label>
-                      <Input type="text" value={baggageClaimInfo.baggageClaimCode } name='checkinCounterCode' onChange={onChangeHandler} readOnly={readOnly} />
+                      <Input type="text" value={baggageClaimInfo.baggageClaimCode } name='checkinCounterCode' onChange={onChangeHandler} disabled />
                     </FormGroup>
                   </Col>
                   <Col md="6">
@@ -113,7 +113,7 @@ const BaggageClaimsDetail = () => {
                   <Col md="6">
                     <FormGroup>
                       <Label>항공사</Label>
-                      <Input type="text" value={baggageClaimInfo.airplane?.airline } readOnly={readOnly} />
+                      <Input type="text" value={baggageClaimInfo.airplane?.airline } disabled />
                     </FormGroup>
                   </Col>
                 </Row>
@@ -121,7 +121,7 @@ const BaggageClaimsDetail = () => {
                   <Col md="6">
                     <FormGroup>
                       <Label>편명</Label>
-                      <Input type="text" value={baggageClaimInfo.airplane?.flightId} readOnly={readOnly} />
+                      <Input type="text" value={baggageClaimInfo.airplane?.flightId} disabled/>
                     </FormGroup>
                   </Col>
                   <Col md="6">
@@ -149,13 +149,13 @@ const BaggageClaimsDetail = () => {
                   <Col md="6">
                     <FormGroup>
                       <Label>도착공항명</Label>
-                      <Input type="text" value={baggageClaimInfo.airplane?.airport} readOnly={readOnly} />
+                      <Input type="text" value={baggageClaimInfo.airplane?.airport} disabled />
                     </FormGroup>
                   </Col>
                   <Col md="6">
                     <FormGroup>
                       <Label>담당자</Label>
-                      <Input type="text" value={baggageClaimInfo.manager } name="manager" onChange={onChangeHandler} readOnly={readOnly} />
+                      <Input type="text" value={baggageClaimInfo.manager } name="manager" onChange={onChangeHandler} disabled={readOnly} />
                     </FormGroup>
                   </Col>
                 </Row>
