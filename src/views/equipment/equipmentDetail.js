@@ -53,14 +53,15 @@ const EquipmentDetail = () => {
   const handleSave = () => {
     dispatch(modifyEquipment({ equipmentCode, equipmentInfo: equipmentInfo }))
     navigate('/equipment');
-
+    window.location.reload();
   
   };
+  console.log('equipmentInfo',equipmentInfo)
 
   const handleDelete = () => {
     dispatch(deleteEquipment({ equipmentCode}))
     navigate('/equipment');
-  
+    window.location.reload();
   };
 
 
@@ -96,14 +97,14 @@ const EquipmentDetail = () => {
                       <Label>Status</Label>
                       <Input
                         type="select"
-                        name="status"
+                        name="equipmentStatus"
                         onChange={onChangeHandler}
                         disabled={readOnly}
-                        value={equipmentInfo.status || ''}
+                        value={equipmentInfo.equipmentStatus || ''}
                       >
                         <option value="정상">정상</option>
                         <option value="점검중">점검중</option>
-                        <option value="중단">중단</option>
+                        <option value="고장">고장</option>
                       </Input>
                       <FormText className="muted">This field has error.</FormText>
                     </FormGroup>
