@@ -83,6 +83,9 @@ const Storage = () => {
                     <CardSubtitle className="mb-2 text-muted" tag="h6">
                         창고 조회
                     </CardSubtitle>
+                    <Button color="primary" onClick={ () => navigate('/storage/StorageRegist')}>
+                        등록
+                    </Button>
                         <BootstrapTable
                             hover
                             search
@@ -105,6 +108,9 @@ const Storage = () => {
                             </TableHeaderColumn>
                             <TableHeaderColumn width="20%" dataField="storageStatus" dataAlign="center" dataFormat={statusFormatter}>
                             상태
+                            </TableHeaderColumn>
+                            <TableHeaderColumn width="20%" dataField="department" dataAlign="center">
+                            담당부서
                             </TableHeaderColumn>
                             <TableHeaderColumn width="20%" dataField="manager" dataAlign="center">
                             담당자

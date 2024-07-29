@@ -146,8 +146,24 @@ return (
                                 <Col md="6">
                                     <FormGroup>
                                         <Label>담당자</Label>
-                                        <Input type="text" name='manager' placeholder="담당자를 입력하세요" onChange={onChangeHandler} readOnly={readOnly}
+                                        <Input type="text" placeholder="담당자를 입력하세요" name='manager' onChange={onChangeHandler} readOnly={readOnly}
                                             value={storageInfo ? storageInfo.manager : '로딩중...' }/>
+                                    </FormGroup>
+                                </Col>
+                            </Row>
+                            <Row>
+                                <Col md="6">
+                                    <FormGroup>
+                                        <Label>사용기간</Label>
+                                        <Input type="text" placeholder="사용기간을 입력하세요" name='period' onChange={onChangeHandler} readOnly={readOnly}
+                                        value={storageInfo ? storageInfo.period : '로딩중...'}/>
+                                    </FormGroup>
+                                </Col>
+                                <Col md="6">
+                                    <FormGroup>
+                                        <Label>마지막 점검날짜</Label>
+                                        <Input type="text" placeholder="마지막 점검날짜를 입력하세요" name='date' onChange={onChangeHandler} readOnly={readOnly}
+                                            value={storageInfo ? storageInfo.date : '로딩중...' }/>
                                     </FormGroup>
                                 </Col>
                             </Row>
