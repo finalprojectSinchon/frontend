@@ -76,7 +76,7 @@ const GateDetail = () => {
                   <Col md="6">
                     <FormGroup>
                       <Label>탑승구 코드</Label>
-                      <Input type="text" value={gateInfo.gateCode } name='gateCode' onChange={onChangeHandler} readOnly={readOnly} />
+                      <Input type="text" value={gateInfo.gateCode } name='gateCode' onChange={onChangeHandler}disabled/>
                     </FormGroup>
                   </Col>
                   <Col md="6">
@@ -105,7 +105,7 @@ const GateDetail = () => {
                   <Col md="6">
                     <FormGroup>
                       <Label>항공사</Label>
-                      <Input type="text" value={gateInfo.airplane?.airline } readOnly={readOnly} />
+                      <Input type="text" value={gateInfo.airplane?.airline } disabled />
                     </FormGroup>
                   </Col>
                 </Row>
@@ -113,7 +113,7 @@ const GateDetail = () => {
                   <Col md="6">
                     <FormGroup>
                       <Label>편명</Label>
-                      <Input type="text" value={gateInfo.airplane?.flightId} readOnly={readOnly} />
+                      <Input type="text" value={gateInfo.airplane?.flightId} disabled/>
                     </FormGroup>
                   </Col>
                   <Col md="6">
@@ -141,13 +141,13 @@ const GateDetail = () => {
                   <Col md="6">
                     <FormGroup>
                       <Label>도착공항명</Label>
-                      <Input type="text" value={gateInfo.airplane?.airport} readOnly={readOnly} />
+                      <Input type="text" value={gateInfo.airplane?.airport} disabled />
                     </FormGroup>
                   </Col>
                   <Col md="6">
                     <FormGroup>
                       <Label>담당자</Label>
-                      <Input type="text" value={gateInfo.manager } name="manager" onChange={onChangeHandler} readOnly={readOnly} />
+                      <Input type="text" value={gateInfo.manager } name="manager" onChange={onChangeHandler} disabled={readOnly} />
                     </FormGroup>
                   </Col>
                 </Row>

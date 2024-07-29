@@ -85,7 +85,7 @@ const CheckinCounterDetail = () => {
                   <Col md="6">
                     <FormGroup>
                       <Label>Counter Code</Label>
-                      <Input type="text" value={checkinCounterInfo.checkinCounterCode } name='checkinCounterCode' onChange={onChangeHandler} readOnly={readOnly} />
+                      <Input type="text" value={checkinCounterInfo.checkinCounterCode } name='checkinCounterCode' onChange={onChangeHandler} disabled/>
                     </FormGroup>
                   </Col>
                   <Col md="6">
@@ -103,7 +103,7 @@ const CheckinCounterDetail = () => {
                   <Col md="6">
                     <FormGroup>
                       <Label>type</Label>
-                      <Input type="select" name="gateType" value={checkinCounterInfo.type } onChange={onChangeHandler} disabled={readOnly}>
+                      <Input type="select" name="type" value={checkinCounterInfo.type } onChange={onChangeHandler} disabled={readOnly}>
                         <option>A</option>
                         <option>B</option>
                         <option>C</option>
@@ -114,7 +114,7 @@ const CheckinCounterDetail = () => {
                   <Col md="6">
                     <FormGroup>
                       <Label>항공사</Label>
-                      <Input type="text" value={checkinCounterInfo.airplane?.airline } readOnly={readOnly} />
+                      <Input type="text" value={checkinCounterInfo.airplane?.airline } disabled />
                     </FormGroup>
                   </Col>
                 </Row>
@@ -122,7 +122,7 @@ const CheckinCounterDetail = () => {
                   <Col md="6">
                     <FormGroup>
                       <Label>편명</Label>
-                      <Input type="text" value={checkinCounterInfo.airplane?.flightId} readOnly={readOnly} />
+                      <Input type="text" value={checkinCounterInfo.airplane?.flightId} disabled/>
                     </FormGroup>
                   </Col>
                   <Col md="6">
@@ -150,13 +150,13 @@ const CheckinCounterDetail = () => {
                   <Col md="6">
                     <FormGroup>
                       <Label>도착공항명</Label>
-                      <Input type="text" value={checkinCounterInfo.airplane?.airport} readOnly={readOnly} />
+                      <Input type="text" value={checkinCounterInfo.airplane?.airport} disabled/>
                     </FormGroup>
                   </Col>
                   <Col md="6">
                     <FormGroup>
                       <Label>담당자</Label>
-                      <Input type="text" value={checkinCounterInfo.manager } name="manager" onChange={onChangeHandler} readOnly={readOnly} />
+                      <Input type="text" value={checkinCounterInfo.manager } name="manager" onChange={onChangeHandler} disabled={readOnly} />
                     </FormGroup>
                   </Col>
                 </Row>
@@ -170,7 +170,7 @@ const CheckinCounterDetail = () => {
                   <Col md="6">
                     <FormGroup>
                       <Label>운항상태</Label>
-                      <Input type="text" value={checkinCounterInfo.airplane?.remark } readOnly={readOnly} />
+                      <Input type="text" value={checkinCounterInfo.airplane?.remark } disabled />
                     </FormGroup>
                   </Col>
              
