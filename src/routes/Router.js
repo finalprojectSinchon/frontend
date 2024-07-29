@@ -63,6 +63,7 @@ const AirportDBUpdate = Loadable(lazy(() => import('../views/airportStore/airpor
 
 const Storage = Loadable(lazy(() => import('../views/storage/Storage')));
 const StorageDetail = Loadable(lazy(() => import('../views/storage/StorageDetail')));
+const StorageRegist = Loadable(lazy(() => import('../views/storage/StorageRegist')));
 
 
 
@@ -131,6 +132,7 @@ const ThemeRoutes = [
       { path: '/airport/store/dbupdate', name: 'AirportStoreDBUpdate', exact: true, element: <AirportDBUpdate /> },
       { path: '/storage', name: 'Storage', exact: true, element: <Storage /> },
       { path: '/storage/:storageCode', name: 'StorageDetail', exact: true, element: <StorageDetail /> },
+      { path: '/storage/regist', name: 'StorageRegist', exact: true, element: <StorageRegist /> },
 
       { path: '/contact', name: 'userContact', exact: true, element: <UserContact /> },
 
