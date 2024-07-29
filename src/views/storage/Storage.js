@@ -83,6 +83,9 @@ const Storage = () => {
                     <CardSubtitle className="mb-2 text-muted" tag="h6">
                         창고 조회
                     </CardSubtitle>
+                    <Button color="primary" onClick={ () => navigate('/storage/regist')}>
+                        등록
+                    </Button>
                         <BootstrapTable
                             hover
                             search
