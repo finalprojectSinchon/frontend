@@ -1,4 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
+import {removeUserStatus, updateOnlineStatus} from "src/store/apps/websocket/StatusSlice.js";
 
 // 초기 상태 설정
 const initialState = {
@@ -34,8 +35,17 @@ export const connectWebSocket = (userCode) => (dispatch) => {
     };
 
     socket.onmessage = (event) => {
-        dispatch(receiveMessage(event.data));
+        const data = JSON.parse(event.data);
+        if (data.type === 'USER_STATUS_UPDATE') {
+            data.statusUpdates.forEach(update => {
+                dispatch(updateOnlineStatus({ userCode: update.userCode, status: update.status }));
+            });
+        } else if (data.type === 'USER_DISCONNECTED') {
+            dispatch(removeUserStatus(data.userCode));
+        }
+        // Handle other message types
     };
+
 
     socket.onclose = () => {
         console.log('WebSocket disconnected');

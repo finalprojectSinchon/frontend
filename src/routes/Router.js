@@ -45,7 +45,7 @@ const UserContact = Loadable(lazy(() => import('../views/auth/userlist/UserConta
 const Inspection = Loadable(lazy(() => import('../views/inspection/inspection')));
 const InspectionDetail = Loadable(lazy(() => import('../views/inspection/inspectionDetail')));
 const InspectionUpdate = Loadable(lazy(() => import('../views/inspection/inspectionUpdate')));
-const InspectionRegist = Loadable(lazy(() => import('../views/inspection/inspectionRegist')));
+// const InspectionRegist = Loadable(lazy(() => import('../views/inspection/')));
 
 const Equipment = Loadable(lazy(() => import('../views/equipment/equipment')));
 const EquipmentDetail = Loadable(lazy(() => import('../views/equipment/equipmentDetail')));
@@ -118,7 +118,7 @@ const ThemeRoutes = [
       { path: '/inspection', name: 'inspection', exact: true, element: <Inspection/> },
       { path: '/inspection/:inspectionCode', name: 'inspectionDetail', exact: true, element: <InspectionDetail/> },
       { path: '/inspection/inspectionUpdate', name: 'inspectionUpdate', exact: true, element: <InspectionUpdate/> },
-      { path: '/inspection/inspectionRegist', name: 'inspectionRegist', exact: true, element: <InspectionRegist/> },
+      // { path: '/inspection/inspectionRegist', name: 'inspectionRegist', exact: true, element: <InspectionRegist/> },
 
       { path: '/equipment', name: 'equipment', exact: true, element: <Equipment/> },
       { path: '/equipment/:equipmentCode', name: 'equipmentDetail', exact: true, element: <EquipmentDetail/> },

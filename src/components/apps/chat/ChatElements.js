@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { MessageList, Navbar } from 'react-chat-elements';
 import 'react-chat-elements/dist/main.css';
-import { Input, Button } from 'reactstrap';
+import {Input, Button, Spinner} from 'reactstrap';
 import './ChatElements.scss'; // 스타일을 위한 SCSS 파일
 import { collection, getDocs, query, orderBy } from 'firebase/firestore';
 import { db } from 'src/firebase.js';
 import { connectWebSocket, disconnectWebSocket } from "src/store/apps/websocket/WebSocketSlice.js";
 import { useDispatch, useSelector } from "react-redux";
+import UserStatus from "src/components/apps/liveStatus/UserStatus.js";
 
 const ChatElements = ({ chatData, userInfo }) => {
     const myUserCode = userInfo.userCode;
@@ -163,7 +164,8 @@ const ChatElements = ({ chatData, userInfo }) => {
                     <img src={chatData ? chatData.avatar : 'https://via.placeholder.com/50'} className="rounded-circle ms-2" width="50" alt="profile Img"/>
                 }
                 center={chatData ? <h3>{chatData.title}</h3> : null}
-                right={<div>Online</div>}
+                right={
+                    <UserStatus userCode={chatData ? chatData.userCode : <Spinner/>}/>}
                 type={"light"}
                 className="mb-3"
             />

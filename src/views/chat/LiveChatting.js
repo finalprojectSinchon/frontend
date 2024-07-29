@@ -10,10 +10,10 @@ import { db } from "src/firebase.js";
 import { collection, getDocs, query, orderBy, limit } from "firebase/firestore";
 import { useSelector } from "react-redux";
 import { Timestamp } from 'firebase/firestore';
+import UserStatus from "src/components/apps/liveStatus/UserStatus.js";
 
-// 문자열 형식의 타임스탬프를 Date로 변환
+
 const convertTimestampToDate = (timestamp) => {
-    console.log('Received timestamp:', timestamp); // 로그 추가
 
     if (timestamp instanceof Timestamp) {
         console.log('Timestamp is an instance of Timestamp');
@@ -27,10 +27,10 @@ const convertTimestampToDate = (timestamp) => {
     }
 };
 
-// 특정 패턴의 문서 이름을 동적으로 가져오는 함수
+
 const fetchChatsByPattern = async (userCode, maxUserCode) => {
     const chatCollections = [];
-    console.log('Max user code:', maxUserCode);
+
 
     try {
         for (let i = 1; i <= maxUserCode; i++) {
@@ -54,10 +54,10 @@ const fetchChatsByPattern = async (userCode, maxUserCode) => {
             }
         }
 
-        console.log('Fetched latestChats:', latestChats); // Debugging line
+
         return latestChats;
     } catch (error) {
-        console.error("Error fetching chats:", error);
+
         throw error;
     }
 };
@@ -82,11 +82,11 @@ const LiveChatting = () => {
 
                 const chatData = await fetchChatsByPattern(userInfo.userCode, lastUserCode);
                 setChat(chatData);
-                console.log('Fetched chat data:', chatData); // 데이터 확인용 로그
-                setForm(true); // 데이터가 로드된 후 form을 true로 설정
+
+                setForm(true);
             } catch (error) {
-                console.error("Error fetching users or chats:", error);
-                setForm(true); // 에러가 발생하더라도 form을 true로 설정
+
+                setForm(true);
             }
         };
 
@@ -98,10 +98,10 @@ const LiveChatting = () => {
             const userMessages = {};
 
             chat.forEach(c => {
-                console.log('Chat item:', c); // 각 채팅 항목을 확인
+
 
                 const timestamp = convertTimestampToDate(c.timestamp);
-                console.log('Converted timestamp:', timestamp);
+
 
                 // 사용자가 보낸 메시지 처리
                 if (!userMessages[c.to] || timestamp > userMessages[c.to].timestamp) {
@@ -122,13 +122,13 @@ const LiveChatting = () => {
                 }
             });
 
-            console.log('userMessages:', userMessages); // userMessages 객체를 확인
+
 
             const updatedUsers = users
                 .filter(user => user.userCode !== userInfo.userCode)
                 .map(user => {
                     const userChat = userMessages[user.userCode];
-                    console.log('User chat for', user.userCode, ':', userChat); // 각 사용자의 채팅 정보 확인
+
 
                     return {
                         ...user,
@@ -140,7 +140,7 @@ const LiveChatting = () => {
 
             updatedUsers.sort((a, b) => b.lastMessageDate - a.lastMessageDate);
 
-            console.log('Updated users:', updatedUsers);
+
             setUsers(updatedUsers);
         }
     }, [chat]);
@@ -148,7 +148,7 @@ const LiveChatting = () => {
     const [selectedChat, setSelectedChat] = useState(null);
 
     const handleChatClick = (chat) => {
-        console.log('Selected chat:', chat);
+
         setSelectedChat(chat);
     };
 
@@ -168,7 +168,12 @@ const LiveChatting = () => {
                                 dataSource={users.map(user => ({
                                     avatar: user.userImg || 'https://via.placeholder.com/50',
                                     alt: `${user.userName}_avatar`,
-                                    title: user.userName,
+                                    title: (
+                                        <div className="d-flex">
+                                            {user.userName}
+                                            <UserStatus userCode={user.userCode} style={{ marginLeft: '3rem' }} />
+                                        </div>
+                                    ),
                                     subtitle: user.lastMessage || "최근 메시지가 없습니다.",
                                     date: user.lastMessageDate || new Date(),
                                     unread: user.unreadMessages || 0,
