@@ -14,6 +14,7 @@ import BandwidthUsage from '../../components/dashboard/dashboard1/BandwidthUsage
 import React from "react";
 import NoiseChart from "src/views/dashboards/NoiseChart.js";
 import WeatherCard from "./WeatherCard";
+import AirQuality from "src/views/dashboards/AirQuality.js";
 
 
 const Dashboard1 = () => {
@@ -22,11 +23,13 @@ const Dashboard1 = () => {
     <>
       <BreadCrumbs />
       <Row>
-        <Col lg="5">
+        <AirQuality/>
+      </Row>
+      <Row>
+        <Col lg="6">
           <WeatherCard/>
         </Col>
           <NoiseChart/>
-
       </Row>
 
       <Row>
