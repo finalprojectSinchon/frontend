@@ -1,7 +1,7 @@
 import axios from 'axios';
 import React, { useEffect } from 'react';
 import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
-import { Card, CardBody, CardTitle, CardSubtitle } from 'reactstrap';
+import { Card, CardBody, CardTitle, CardSubtitle,Button } from 'reactstrap';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchEquipments } from '../../store/apps/equipment/equipmentSlice';
@@ -78,10 +78,17 @@ const Datatables = () => {
         <div>
             <Card>
                 <CardBody>
-                    <CardTitle tag="h5">장비 재고</CardTitle>
-                    <CardSubtitle className="mb-2 text-muted" tag="h6">
-                    장비 재고 전체 조회
-                    </CardSubtitle>
+                    <div className="d-flex justify-content-between align-items-center">
+                <div>
+                <CardTitle tag="h5">장비 재고 조회</CardTitle>
+                <CardSubtitle className="mb-2 text-muted" tag="h6">
+                장비 재고 전체 조회
+                </CardSubtitle>
+                </div>
+                <Button color="primary" onClick={() => navigate('/equipment/equipmentRegist')}>
+                등록
+                </Button>
+            </div>
                     <BootstrapTable
                         hover
                         search
