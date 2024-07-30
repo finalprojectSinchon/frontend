@@ -67,7 +67,7 @@ const inspectionSlice = createSlice({
             })
             .addCase(modifyInspection.pending, (state) => {
                 state.status = 'loading';
-            })
+            })  
             .addCase(modifyInspection.fulfilled, (state, action) => {
                 state.status = 'succeeded';
                 state.inspectionDetail = action.payload;
