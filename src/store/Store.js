@@ -11,7 +11,10 @@ import AirplaneReducer from './apps/airplane/airplaneSlice';
 import UserContactReducer from './apps/userContact/UserContactSlice';
 import websocketReducer from './apps/websocket/WebSocketSlice';
 import {websocketMiddleware} from './apps/websocket/WebSocketMiddleware.js';
+
 import StatusReducer from './apps/websocket/StatusSlice.js';
+
+import approveReducer from './apps/approve/ContactSlice.js';
 
 export const store = configureStore({
   reducer: {
@@ -27,6 +30,7 @@ export const store = configureStore({
     userContact: UserContactReducer,
     websocket: websocketReducer, // 웹소켓 리듀서 추가
     status: StatusReducer,
+    contacts: approveReducer
   },
   middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(websocketMiddleware), // 웹소켓 미들웨어 추가
 });

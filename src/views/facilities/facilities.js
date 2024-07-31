@@ -99,6 +99,9 @@ const Facilities = () => {
                     <CardSubtitle className="mb-2 text-muted" tag="h6">
                         편의시설
                     </CardSubtitle>
+                    <button color="primary" onClick={ () => navigate('/facilities/regist')}>
+                        등록
+                    </button>
                     <BootstrapTable
                         hover
                         search

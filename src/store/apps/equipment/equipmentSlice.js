@@ -26,6 +26,13 @@ export const deleteEquipment = createAsyncThunk('equipment/deleteEquipment', asy
     return response.data;
 });
 
+export const registEquipment = createAsyncThunk('equipment/equipmentRegist', async ({ equipmentInfo }) => {
+    console.log('equipmentInfoasd',equipmentInfo)
+    const response4 = await api.post(`/api/v1/equipmentRegist`,equipmentInfo);
+    console.log("등록 결과:", response4);
+    return response4.data;
+});
+
 const equipmentSlice = createSlice({
     name: 'equipment',
     initialState: {
@@ -81,6 +88,18 @@ const equipmentSlice = createSlice({
                 );
             })
             .addCase(deleteEquipment.rejected, (state, action) => {
+                state.status = 'failed';
+                state.error = action.error.message;
+                
+            })
+            .addCase(registEquipment.pending, (state) => {
+                state.status = 'loading';
+            })
+            .addCase(registEquipment.fulfilled, (state, action) => {
+                state.status = 'succeeded';
+                state.equipmentList = action.payload;
+            })
+            .addCase(registEquipment.rejected, (state, action) => {
                 state.status = 'failed';
                 state.error = action.error.message;
             });

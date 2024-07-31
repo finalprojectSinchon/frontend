@@ -32,6 +32,7 @@ const BaggageClaimRegist = Loadable(lazy(() => import('../views/airplane/Baggage
 // 편의시설
 const Facilities = Loadable(lazy(() => import('../views/facilities/facilities')));
 const FacilitiesDetail = Loadable(lazy(() => import('../views/facilities/facilitiesDetail')));
+const FacilitiesRegist = Loadable(lazy(() => import('../views/facilities/facilitiesRegist')));
 
 
 
@@ -50,6 +51,7 @@ const InspectionUpdate = Loadable(lazy(() => import('../views/inspection/inspect
 const Equipment = Loadable(lazy(() => import('../views/equipment/equipment')));
 const EquipmentDetail = Loadable(lazy(() => import('../views/equipment/equipmentDetail')));
 const EquipmentUpdate = Loadable(lazy(() => import('../views/equipment/equipmentUpdate')));
+const EquipmentRegist = Loadable(lazy(() => import('../views/equipment/equipmentRegist')));
 
 
 
@@ -88,6 +90,10 @@ const ManagerDragAndDrop = Loadable(lazy(() => import('src/components/apps/manag
 const ForgotPwd = Loadable(lazy(() => import('../views/auth/forgotPwd.js')));
 const FindPassword = Loadable(lazy(() => import('../views/auth/findPassword.js')));
 
+/*  */
+const Approve = Loadable(lazy(() => import('../views/approve/Contacts.js')));
+//const ContactList = Loadable(lazy(() => import('../apps/approve/ContactList.js'))); // ContactList 경로 추가
+
 
 
 /*****Routes******/
@@ -123,9 +129,11 @@ const ThemeRoutes = [
       { path: '/equipment', name: 'equipment', exact: true, element: <Equipment/> },
       { path: '/equipment/:equipmentCode', name: 'equipmentDetail', exact: true, element: <EquipmentDetail/> },
       { path: '/equipment/equipmentUpdate', name: 'equipmentUpdate', exact: true, element: <EquipmentUpdate/> },
+      { path: '/equipment/equipmentRegist', name: 'equipmentRegist', exact: true, element: <EquipmentRegist/> },
 
       { path: '/facilities', name: 'Facilities', exact: true, element: <Facilities /> },
       { path: '/facilities/:facilitiesCode', name: 'FacilitiesDetail', exact: true, element:<FacilitiesDetail /> },
+      { path: '/facilities/regist', name: 'FacilitiesRegist', exact: true, element:<FacilitiesRegist /> },
 
       { path: '/dashboards/dashboard1', name: 'Dashboard 1', exact: true, element: <Dashboard1 /> },
   
@@ -143,6 +151,10 @@ const ThemeRoutes = [
       { path: '/chatting', name: 'chatting', exact: true, element: <LiveChatting /> },
 
       { path: '/code-issuance', name: 'test', exact: true, element: <AuthCode /> },
+
+      
+      { path: '/approve', name: 'approve', exact:true, element: <Approve/> },
+      //{ path: '/ContactList', name: 'ContactList', exact: true, element: <ContactList /> }, // ContactList 경로 추가
 
    
 
