@@ -5,26 +5,33 @@ import {Input, Button, Spinner} from 'reactstrap';
 import './ChatElements.scss'; // 스타일을 위한 SCSS 파일
 import { collection, getDocs, query, orderBy } from 'firebase/firestore';
 import { db } from 'src/firebase.js';
-import { connectWebSocket, disconnectWebSocket } from "src/store/apps/websocket/WebSocketSlice.js";
+import {
+    clearMessages,
+    connectWebSocket,
+    disconnectWebSocket,
+    sendWebSocketMessage,
+} from "src/store/apps/websocket/WebSocketSlice.js";
 import { useDispatch, useSelector } from "react-redux";
 import UserStatus from "src/components/apps/liveStatus/UserStatus.js";
-
+import { v4 as uuidv4 } from 'uuid';
 const ChatElements = ({ chatData, userInfo }) => {
+
     const myUserCode = userInfo.userCode;
     const [messages, setMessages] = useState([]);
     const [inputValue, setInputValue] = useState('');
-    const socket = useSelector((state) => state.websocket.socket);
     const dispatch = useDispatch();
+    const socketMessages = useSelector(state => state.websocket.messages);
 
     useEffect(() => {
         if (userInfo && userInfo.userCode) {
             dispatch(connectWebSocket(userInfo.userCode));
         }
-        // Clean up on component unmount
-        return () => {
-            dispatch(disconnectWebSocket());
-        };
+
+        // return () => {
+        //     dispatch(disconnectWebSocket());
+        // };
     }, [dispatch, userInfo]);
+
 
     useEffect(() => {
         if (chatData) {
@@ -41,6 +48,7 @@ const ChatElements = ({ chatData, userInfo }) => {
                     const fetchedMessages1 = snapshot1.empty ? [] : snapshot1.docs.map(doc => {
                         const data = doc.data();
                         return {
+                            id: doc.id,
                             position: 'right',
                             type: 'text',
                             text: data.message,
@@ -53,6 +61,7 @@ const ChatElements = ({ chatData, userInfo }) => {
                     const fetchedMessages2 = snapshot2.empty ? [] : snapshot2.docs.map(doc => {
                         const data = doc.data();
                         return {
+                            id: doc.id,
                             position: 'left',
                             type: 'text',
                             text: data.message,
@@ -75,6 +84,30 @@ const ChatElements = ({ chatData, userInfo }) => {
         }
     }, [chatData, myUserCode]);
 
+    useEffect(() => {
+        if (socketMessages.length) {
+            const newMessages = socketMessages.map(msg => {
+                return {
+                    id: uuidv4(),
+                    position: msg.from === myUserCode ? 'right' : 'left',
+                    type: 'text',
+                    text: msg.message,
+                    date: new Date(msg.timestamp),
+                    avatar: msg.from === myUserCode ? userInfo.userImg : (chatData && chatData.avatar ? chatData.avatar : 'default-avatar.png'),
+                    title: msg.from === myUserCode ? 'Me' : (chatData ? chatData.title : 'Unknown')
+                };
+            });
+
+            setMessages(prevMessages => {
+                const updatedMessages = [...prevMessages, ...newMessages];
+                console.log("Updated messages:", updatedMessages);
+                return updatedMessages;
+            });
+
+            dispatch(clearMessages());
+        }
+    }, [socketMessages, dispatch, chatData]);
+
 
 
     const handleMessageReceived = (event) => {
@@ -94,6 +127,7 @@ const ChatElements = ({ chatData, userInfo }) => {
                     : (chatData ? chatData.title : 'Unknown'); // 기본값 설정
 
                 const newMessage = {
+                    id : uuidv4(),
                     position: messagePosition,
                     type: 'text',
                     text: data.message,
@@ -122,29 +156,20 @@ const ChatElements = ({ chatData, userInfo }) => {
     }, [messages]); // messages 배열이 변경될 때마다 호출됩니다.
 
 
-    useEffect(() => {
-        if (socket) {
-            socket.addEventListener('message', handleMessageReceived);
-            return () => {
-                socket.removeEventListener('message', handleMessageReceived);
-            };
-        }
-    }, [socket]);
-
     const handleSendMessage = () => {
         if (inputValue.trim()) {
-            if (socket) {
-                const message = {
-                    to: chatData.userCode,
-                    from: userInfo.userCode,
-                    message: inputValue,
-                };
-                socket.send(JSON.stringify(message));
-            }
+            const message = {
+                type : 'CHAT_MESSAGE',
+                to: chatData.userCode,
+                from: userInfo.userCode,
+                message: inputValue,
+            };
+            dispatch(sendWebSocketMessage(message));
 
             setMessages([
                 ...messages,
                 {
+                    id: uuidv4(),
                     position: 'right',
                     type: 'text',
                     text: inputValue,

@@ -49,7 +49,6 @@ const UserList = () => {
                             month: 'short',
                         })}
                     />
-                    <UserStatus userCode={user.userCode}/>
                     </>
                 ))
                 : 'no notes'}

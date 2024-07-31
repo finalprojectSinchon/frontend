@@ -11,7 +11,11 @@ const statusSlice = createSlice({
     reducers: {
         updateOnlineStatus(state, action) {
             const { userCode, status } = action.payload;
-            state.onlineStatus[userCode] = status;
+            state.onlineStatus = {
+                ...state.onlineStatus,
+                [userCode]: status
+            };
+            console.log("Updated online status:", state.onlineStatus);  // 디버깅을 위한 로그 추가
         },
         removeUserStatus(state, action) {
             const userCode = action.payload;

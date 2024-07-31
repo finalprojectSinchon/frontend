@@ -11,6 +11,7 @@ import { collection, getDocs, query, orderBy, limit } from "firebase/firestore";
 import { useSelector } from "react-redux";
 import { Timestamp } from 'firebase/firestore';
 import UserStatus from "src/components/apps/liveStatus/UserStatus.js";
+import StatusProfileImg from "src/components/apps/liveStatus/StatusProfileImg.js";
 
 
 const convertTimestampToDate = (timestamp) => {
@@ -156,6 +157,8 @@ const LiveChatting = () => {
         handleChatClick(item);
     };
 
+
+
     return (
         <Card>
             <CardBody>
@@ -163,24 +166,32 @@ const LiveChatting = () => {
                     leftContent={
                         <>
                             <UserSearch />
-                            {form ? <ChatList
-                                className="chat-list"
-                                dataSource={users.map(user => ({
-                                    avatar: user.userImg || 'https://via.placeholder.com/50',
-                                    alt: `${user.userName}_avatar`,
-                                    title: (
-                                        <div className="d-flex">
-                                            {user.userName}
-                                            <UserStatus userCode={user.userCode} style={{ marginLeft: '3rem' }} />
-                                        </div>
-                                    ),
-                                    subtitle: user.lastMessage || "최근 메시지가 없습니다.",
-                                    date: user.lastMessageDate || new Date(),
-                                    unread: user.unreadMessages || 0,
-                                    userCode: user.userCode,
-                                }))}
-                                onClick={handleItemClick}
-                            /> : <Spinner className="justify-content-center align-middle"/> }
+                            {form ? (
+                                <ChatList
+                                    className="chat-list"
+                                    dataSource={users.map(user => {
+                                        return {
+                                            avatar: user.userImg ,
+                                            alt: `${user.userName}_avatar`,
+                                            title: (
+                                                <div className="d-flex align-items-center">
+                                                    <div>
+                                                        {user.userName}
+                                                        <UserStatus userCode={user.userCode} style={{ marginLeft: '0.5rem' }} />
+                                                    </div>
+                                                </div>
+                                            ),
+                                            subtitle: user.lastMessage || "최근 메시지가 없습니다.",
+                                            date: user.lastMessageDate || new Date(),
+                                            unread: user.unreadMessages || 0,
+                                            userCode: user.userCode,
+                                        };
+                                    })}
+                                    onClick={handleItemClick}
+                                />
+                            ) : (
+                                <Spinner className="justify-content-center align-middle" />
+                            )}
                         </>
                     }
                     rightContent={<ChatElements chatData={selectedChat} userInfo={userInfo} />}
