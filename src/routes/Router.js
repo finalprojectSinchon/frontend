@@ -32,6 +32,7 @@ const BaggageClaimRegist = Loadable(lazy(() => import('../views/airplane/Baggage
 // 편의시설
 const Facilities = Loadable(lazy(() => import('../views/facilities/facilities')));
 const FacilitiesDetail = Loadable(lazy(() => import('../views/facilities/facilitiesDetail')));
+const FacilitiesRegist = Loadable(lazy(() => import('../views/facilities/facilitiesRegist')));
 
 
 
@@ -126,6 +127,7 @@ const ThemeRoutes = [
 
       { path: '/facilities', name: 'Facilities', exact: true, element: <Facilities /> },
       { path: '/facilities/:facilitiesCode', name: 'FacilitiesDetail', exact: true, element:<FacilitiesDetail /> },
+      { path: '/facilities/regist', name: 'FacilitiesRegist', exact: true, element:<FacilitiesRegist /> },
 
       { path: '/dashboards/dashboard1', name: 'Dashboard 1', exact: true, element: <Dashboard1 /> },
   
