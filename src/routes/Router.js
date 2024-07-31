@@ -90,6 +90,10 @@ const ManagerDragAndDrop = Loadable(lazy(() => import('src/components/apps/manag
 const ForgotPwd = Loadable(lazy(() => import('../views/auth/forgotPwd.js')));
 const FindPassword = Loadable(lazy(() => import('../views/auth/findPassword.js')));
 
+/*  */
+const Approve = Loadable(lazy(() => import('../views/approve/Contacts.js')));
+//const ContactList = Loadable(lazy(() => import('../apps/approve/ContactList.js'))); // ContactList 경로 추가
+
 
 
 /*****Routes******/
@@ -147,6 +151,10 @@ const ThemeRoutes = [
       { path: '/chatting', name: 'chatting', exact: true, element: <LiveChatting /> },
 
       { path: '/code-issuance', name: 'test', exact: true, element: <AuthCode /> },
+
+      
+      { path: '/approve', name: 'approve', exact:true, element: <Approve/> },
+      //{ path: '/ContactList', name: 'ContactList', exact: true, element: <ContactList /> }, // ContactList 경로 추가
 
    
 
