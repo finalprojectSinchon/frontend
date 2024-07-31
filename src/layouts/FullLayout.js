@@ -6,7 +6,7 @@ import Customizer from './customizer/Customizer';
 import Sidebar from './sidebars/vertical/Sidebar';
 import HorizontalHeader from './header/HorizontalHeader';
 import HorizontalSidebar from './sidebars/horizontal/HorizontalSidebar';
-import { useEffect } from 'react';
+import {useEffect, useState} from 'react';
 import axios from 'axios';
 import Cookies from 'js-cookie';
 import { addUser } from '../store/apps/login/userSlice';
@@ -25,7 +25,7 @@ const FullLayout = () => {
 
   const userInfo = useSelector((state) => state.userInfo);
 
-  console.log('redux', userInfo);
+  const [isWebSocketConnected, setIsWebSocketConnected] = useState(false);
 
   useEffect(() => {
     if (userInfo.userCode === null) {
@@ -48,14 +48,19 @@ const FullLayout = () => {
   }, [dispatch, userInfo]);
 
   useEffect(() => {
-    if (userInfo.userCode) {
+    if (userInfo.userCode && !isWebSocketConnected) {
       dispatch(connectWebSocket(userInfo.userCode));
+      setIsWebSocketConnected(true);
     }
 
     return () => {
-      dispatch(disconnectWebSocket());
+      if (isWebSocketConnected) {
+        dispatch(disconnectWebSocket());
+        setIsWebSocketConnected(false);
+      }
     };
-  }, [dispatch, userInfo.userCode]);
+  }, [dispatch, userInfo.userCode, isWebSocketConnected]);
+
 
   return (
       <main>
