@@ -19,6 +19,9 @@ const initialState = {
   approveData:null,
    status: 'idle',  // 상태 관리를 위한 속성 추가
   error: null,  // 오류를 관리하기 위한 속성 추가
+  selectedContact: null,
+  selectedFilter: 'show_all',
+  selectedManager: null,
 };
 
 export const ContactSlice = createSlice({
@@ -30,9 +33,6 @@ export const ContactSlice = createSlice({
     },
     SearchContact: (state, action) => {
       state.contactSearch = action.payload;
-    },
-    SelectContact: (state, action) => {
-      state.contactContent = action.payload;
     },
     DeleteContact: (state, action) => {
       const index = state.contacts.findIndex((contact) => contact.id === action.payload);
@@ -48,6 +48,12 @@ export const ContactSlice = createSlice({
     },
     setVisibilityFilter: (state, action) => {
       state.currentFilter = action.payload;
+    },
+    SelectContact: (state, action) => {
+      const { contact, filter, manager } = action.payload;
+      state.selectedContact = contact;
+      state.selectedFilter = filter;
+      state.selectedManager = manager;
     },
     UpdateContact: {
       reducer: (state, action) => {
@@ -121,18 +127,32 @@ export const {
 export const fetchContacts = () => async (dispatch, getState) => {
   try {
     const state = getState();
-    const response = await axios.get(API_URL, {
-      headers: {
-        Authorization: Cookies.get('token')
-      }
-    });
-    const contacts = response.data.data;
+    const response = await  api.get('/api/v1/approve');
+    console.log('response',response)
+    const contacts = response.data.data.approvalList;
 
     const filteredContacts = contacts.filter(contact => {
+      console.log('contact11111',contact)
       if (state.contacts.currentFilter === 'show_all') {
         return true;
+      }else if(contact.baggageClaim){
+        return contact.baggageClaim === state.contacts.currentFilter;
+      }else if(contact.checkinCounter){
+        return contact.checkinCounter === state.contacts.currentFilter;
+
+      }else if(contact.facilities){
+        return contact.facilities === state.contacts.currentFilter;
+
+      }else if(contact.gate){
+        return contact.gate === state.contacts.currentFilter;
+
+      }else if(contact.storage){
+        return contact.storage === state.contacts.currentFilter;
+
+      }else if(contact.store){
+        return contact.store === state.contacts.currentFilter;
+
       }
-      return contact.manager === state.contacts.currentFilter;
     });
 
     dispatch(getContacts(filteredContacts));

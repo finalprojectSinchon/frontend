@@ -119,7 +119,7 @@ const Datatables = () => {
                         </TableHeaderColumn>
                         <TableHeaderColumn
                             width="20%"
-                            dataField="equipmentLocation"
+                            dataField="location"
                             dataAlign="center"
                             dataFormat={(cell, row) => (
                                 <div onClick={() => navigate(`/equipment/${row.equipmentCode}`)}>
@@ -131,7 +131,7 @@ const Datatables = () => {
                         </TableHeaderColumn>
                         <TableHeaderColumn
                             width="20%"
-                            dataField="equipmentStatus"
+                            dataField="status"
                             dataAlign="center"
                             dataFormat={(cell, row) => (
                                 <div onClick={() => navigate(`/equipment/${row.equipmentCode}`)}>
@@ -156,7 +156,7 @@ const Datatables = () => {
                         </TableHeaderColumn>
                         <TableHeaderColumn
                             width="20%"
-                            dataField="equipmentManager"
+                            dataField="manager"
                             dataAlign="center"
                             dataFormat={(cell, row) => (
                                 <div onClick={() => navigate(`/equipment/${row.equipmentCode}`)}>

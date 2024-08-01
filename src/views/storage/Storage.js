@@ -83,6 +83,7 @@ const Storage = () => {
                     <CardSubtitle className="mb-2 text-muted" tag="h6">
                         창고 조회
                     </CardSubtitle>
+                
                     <Button color="primary" onClick={ () => navigate('/storage/regist')}>
                         등록
                     </Button>
@@ -100,13 +101,13 @@ const Storage = () => {
                             exportCSV
                             headerStyle={{ width: '100%' }}
                             >
-                            <TableHeaderColumn width="20%" dataField="storageType" dataAlign="center"   isKey>
+                            <TableHeaderColumn width="20%" dataField="type" dataAlign="center"   isKey>
                             타입
                             </TableHeaderColumn>
-                            <TableHeaderColumn width="20%" dataField="storageLocation" dataAlign="center">
+                            <TableHeaderColumn width="20%" dataField="location" dataAlign="center">
                             위치
                             </TableHeaderColumn>
-                            <TableHeaderColumn width="20%" dataField="storageStatus" dataAlign="center" dataFormat={statusFormatter}>
+                            <TableHeaderColumn width="20%" dataField="status" dataAlign="center" dataFormat={statusFormatter}>
                             상태
                             </TableHeaderColumn>
                             <TableHeaderColumn width="20%" dataField="manager" dataAlign="center">

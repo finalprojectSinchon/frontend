@@ -137,8 +137,8 @@ const Datatables = () => {
 
   const flatBaggageClaimList = baggageClaimList.data.baggageClaimList.map(baggageClaim => ({
     ...baggageClaim,
-    airline: baggageClaim.airplane.airline,
-    scheduleDateTime: baggageClaim.airplane.scheduleDateTime
+    airline: baggageClaim.airplane?.airline,
+    scheduleDateTime: baggageClaim.airplane?.scheduleDateTime
   }));
 
   const handleMouseEnter = (id) => {
@@ -161,6 +161,7 @@ const Datatables = () => {
 
 
   return (
+    
     <div>
       <div className="container">
         <div style={{ position: 'relative' }}>
@@ -233,11 +234,11 @@ const Datatables = () => {
                       <tbody>
                         <tr>
                           <td><strong>항공사:</strong></td>
-                          <td>{matchedCounter.airline}</td>
+                          <td>{matchedCounter?.airline}</td>
                         </tr>
                         <tr>
                           <td><strong>출발/도착시간:</strong></td>
-                          <td>{matchedCounter.scheduleDateTime}</td>
+                          <td>{matchedCounter?.scheduleDateTime}</td>
                         </tr>
                         <tr>
                           <td><strong>위치:</strong></td>
@@ -287,6 +288,7 @@ const Datatables = () => {
             수화물 수취대  
           </CardSubtitle> */}
           <BreadCrumbs />
+        
           <BootstrapTable
             hover
             search 

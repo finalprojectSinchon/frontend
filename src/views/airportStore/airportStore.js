@@ -90,6 +90,7 @@ const AirportStore = () => {
             <CardSubtitle className="mb-2 text-muted" tag="h6">
               점포 조회
             </CardSubtitle>
+          
             <BootstrapTable
                 hover
                 search
@@ -105,6 +106,9 @@ const AirportStore = () => {
                 exportCSV
                 headerStyle={{ width: '100%' }}
             >
+              <TableHeaderColumn width="20%" dataField="type" dataAlign="center">
+                타입
+              </TableHeaderColumn>
               <TableHeaderColumn width="20%" dataField="storeName" dataAlign="center">
                 점포명
               </TableHeaderColumn>

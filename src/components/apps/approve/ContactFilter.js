@@ -19,6 +19,14 @@ const ContactFilter = () => {
         <ListGroupItem
           href="#"
           tag="a"
+          className={active === 'show_all' ? 'bg-light py-3 border-0' : 'py-3 border-0'}
+          onClick={() => dispatch(setVisibilityFilter('show_all'))}
+        >
+          <i className="bi bi-list mx-1" /> 전체 목록
+        </ListGroupItem>
+        <ListGroupItem
+          href="#"
+          tag="a"
           id="toggler-airplane"
           className="py-3 border-0"
         >
@@ -64,13 +72,13 @@ const ContactFilter = () => {
           <i className="bi bi-shop mx-1" /> 점포
         </ListGroupItem>
         <ListGroupItem
-              href="#"
-              tag="a"
-              className={active === 'storage' ? 'bg-light py-3 border-0' : 'py-3 border-0'}
-              onClick={() => dispatch(setVisibilityFilter('storage'))}
-            >
-              <i className="bi bi-box-seam mx-1" /> 창고
-            </ListGroupItem>
+          href="#"
+          tag="a"
+          className={active === 'storage' ? 'bg-light py-3 border-0' : 'py-3 border-0'}
+          onClick={() => dispatch(setVisibilityFilter('storage'))}
+        >
+          <i className="bi bi-box-seam mx-1" /> 창고
+        </ListGroupItem>
         <ListGroupItem
           href="#"
           tag="a"
