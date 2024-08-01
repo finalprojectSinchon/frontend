@@ -86,13 +86,12 @@ const MaintenanceDetails = () => {
                         onChange={onChangeHandler}
                         disabled={readOnly}
                       >
-                        <option>이동수단</option>
-                        <option>탑승구</option>
-                        <option>수화물 수취대</option>
-                        <option>체크인 카운터</option>
-                        <option>편의시설</option>
-                        <option>점포</option>
-                        <option>창고</option>
+                        <option value="gate">탑승구</option>
+                        <option value="baggageClaim">수화물 수취대</option>
+                        <option value="checkinCounter">체크인 카운터</option>
+                        <option value="facilities">편의시설</option>
+                        <option value="store">점포</option>
+                        <option value="storage">창고</option>
                       </Input>
                     </FormGroup>
                   </Col>

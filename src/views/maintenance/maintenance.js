@@ -59,7 +59,7 @@ const Datatables = () => {
                 정비 전체 조회
               </CardSubtitle>
             </div>
-            <Button color="primary" onClick={() => navigate('/maintenance/maintenancaReigist')}>
+            <Button color="primary" onClick={() => navigate('/maintenance/regist')}>
               등록
             </Button>
           </div>
