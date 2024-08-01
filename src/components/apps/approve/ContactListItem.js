@@ -16,10 +16,16 @@ const ContactListItem = ({
   department,
   starred,
   active,
-  contact
+  checkinCounter,
+  baggageClaim,
+  facilities,
+  gate,
+  storage,
+  store,
+  type
 }) => {
   const dispatch = useDispatch();
-  console.log('approvalCode',approvalCode)
+
   return (
     <NavItem
       onClick={onContactClick}
@@ -34,10 +40,9 @@ const ContactListItem = ({
         </div>
         <div className="mx-2 flex-grow-1">
           <h5 className="mb-0 text-truncate" style={{ width: '140px' }}>
-            {firstname}&nbsp;
-            {lastname}
+            {checkinCounter?.manager}  {storage?.manager} {facilities?.manager} {baggageClaim?.manager} {gate?.manager} {store?.manager}
           </h5>
-          <small>{department}</small>
+          <small>{type} </small>
         </div>
         <div className="d-flex flex-shrink-0">
           <i
