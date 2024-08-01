@@ -119,7 +119,7 @@ const ThemeRoutes = [
 
       { path: '/maintenance', name: 'Maintenance', exact: true, element: <Maintenance /> },
       { path: '/maintenance/:maintenanceCode', name: 'Maintenance', exact: true, element: <MaintenanceDetail /> },
-      { path: '/maintenanceRegist', name: 'Maintenance', exact: true, element: <MaintenanceRegist /> },
+      { path: '/maintenance/regist', name: 'Maintenance', exact: true, element: <MaintenanceRegist /> },
 
       { path: '/inspection', name: 'inspection', exact: true, element: <Inspection/> },
       { path: '/inspection/:inspectionCode', name: 'inspectionDetail', exact: true, element: <InspectionDetail/> },
