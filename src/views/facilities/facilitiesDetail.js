@@ -83,6 +83,12 @@ const FacilitiesDetail = () => {
     return (
         <div>
             <BreadCrumbs />
+            <div>
+            <Button color="dark" onClick={() => navigate('/inspection/inspectionRegist')}>
+            안전 점검 등록
+            </Button>
+                    
+            </div>
             <Row>
                 <Col md="12">
                     <Card>
@@ -98,13 +104,13 @@ const FacilitiesDetail = () => {
                                         <FormGroup>
                                             <Label>시설물</Label>
                                             <Input type="text" placeholder="시설물 이름을 입력하세요" name='facilitiesName' onChange={onChangeHandler} readOnly={readOnly}
-                                                   value={facilitiesInfo ? facilitiesInfo.facilitiesName : '로딩중,.,.'  } />
+                                                    value={facilitiesInfo ? facilitiesInfo.facilitiesName : '로딩중,.,.'  } />
                                         </FormGroup>
                                     </Col>
                                     <Col md="6">
                                         <FormGroup>
                                             <Label>운행 상태</Label>
-                                            <Input type="select" name="facilitiesStatus" disabled={readOnly} onChange={onChangeHandler}>
+                                            <Input type="select" name="status" disabled={readOnly} onChange={onChangeHandler}>
                                                 <option name="정상">정상</option>
                                                 <option name="점검중">점검중</option>
                                                 <option name="중단">중단</option>
@@ -117,7 +123,9 @@ const FacilitiesDetail = () => {
                                     <Col md="6">
                                         <FormGroup>
                                             <Label>type</Label>
-                                            <Input type="select" name='facilitiesClass' value={facilitiesInfo ? facilitiesInfo.facilitiesClass : ''} placeholder="12n" onChange={onChangeHandler} disabled={readOnly}>
+                                            <Input type="select" name='facilitiesClass' 
+                                            value={facilitiesInfo ? facilitiesInfo.facilitiesClass : ''} 
+                                            placeholder="12n" onChange={onChangeHandler} disabled={readOnly}>
                                                 <option name='편의시설'>편의시설</option>
                                                 <option name='이동수단'>이동수단</option>
                                             </Input>
@@ -127,8 +135,8 @@ const FacilitiesDetail = () => {
                                     <Col md="6">
                                         <FormGroup>
                                             <Label>위치</Label>
-                                            <Input type="text" name='facilitiesLocation' placeholder="위치" onChange={onChangeHandler} readOnly={readOnly}
-                                                   value={facilitiesInfo?facilitiesInfo.facilitiesLocation : '2asdas'} />
+                                            <Input type="text" name='location' placeholder="위치" onChange={onChangeHandler} readOnly={readOnly}
+                                                    value={facilitiesInfo?facilitiesInfo.location : '2asdas'} />
                                         </FormGroup>
                                     </Col>
 
@@ -137,9 +145,9 @@ const FacilitiesDetail = () => {
                                     <Col md="6">
                                         <FormGroup>
                                             <Label>분류</Label>
-                                            <Input type="select" name='facilitiesType' placeholder='취급품목을 입력하세요'
-                                                   disabled={readOnly} onChange={onChangeHandler}
-                                                   value={facilitiesInfo ? facilitiesInfo.facilitiesType : 'asd2'}>
+                                            <Input type="select" name='type' placeholder='취급품목을 입력하세요'
+                                                    disabled={readOnly} onChange={onChangeHandler}
+                                                    value={facilitiesInfo ? facilitiesInfo.type : 'asd2'}>
                                                 <option name='엘리베이터'>엘리베이터</option>
                                                 <option name='에스컬레이터'>에스컬레이터</option>
                                                 <option name='무빙워크'>무빙워크</option>
@@ -168,7 +176,7 @@ const FacilitiesDetail = () => {
                                         </Row>
                                         <div className='mb-4'>
                                             {manager ? <ManagerDragAndDrop AllUser={manager.AllUser} Manager={manager.Manager} airportCode={facilitiesCode}
-                                                                           airportType={airportType} isEditMode={readOnly}/>
+                                                                            airportType={airportType} isEditMode={readOnly}/>
                                                 : <h3>loading</h3> }
 
                                         </div>

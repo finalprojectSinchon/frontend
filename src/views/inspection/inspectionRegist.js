@@ -15,6 +15,7 @@ import BreadCrumbs from '../../layouts/breadcrumbs/BreadCrumbs';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { registInspection } from '../../store/apps/inspection/inspectionSlice';
+import { useLocation } from 'react-router-dom';
 
 const InspectionRegist = () => {
   const dispatch = useDispatch();
@@ -29,7 +30,22 @@ const InspectionRegist = () => {
     phone: null,
     isactive: 'Y'
   });
+  const location = useLocation() || '';
+  const { info } = location?.state || { };
+  const [ all ,setAll] = useState({
+    manager: null,
+    status: null,
+    location: null,
+    text: null,
+    type: null,
+  });
+  console.log('info',info)
 
+  setAll(
+    {
+      ...info
+    }
+  )
   const onChangeHandler = (e) => {
     setinspectionInfo({
       ...inspectionInfo,
@@ -68,7 +84,7 @@ const InspectionRegist = () => {
                         placeholder="안전점검 할 위치를 입력하세요" 
                         name='location' 
                         onChange={onChangeHandler} 
-                        defaultValue={inspectionInfo.location } 
+                        defaultValue={all.location}
                       />
                     
                     </FormGroup>
@@ -80,7 +96,7 @@ const InspectionRegist = () => {
                         type="select" 
                         name="status" 
                         onChange={onChangeHandler} 
-                        defaultValue={inspectionInfo.status }
+                        defaultValue={all.status }
                       >
                         <option value="정상">정상</option>
                         <option value="점검중">점검중</option>
@@ -97,9 +113,9 @@ const InspectionRegist = () => {
                       <Input 
                         type="select" 
                         name='type' 
-                        placeholder="12n" 
+                        placeholder="Type" 
                         onChange={onChangeHandler} 
-                        defaultValue={inspectionInfo.type }
+                        defaultValue={all.type }
                       >
                         <option value='엘레베이터'>엘레베이터-A</option>
                         <option value='에스컬레이터'>에스컬레이터-C</option>
@@ -114,7 +130,7 @@ const InspectionRegist = () => {
                         name="manager" 
                         placeholder='이름을 입력하세요' 
                         onChange={onChangeHandler}  
-                        defaultValue={inspectionInfo.manager } 
+                        defaultValue={all.manager } 
                       />
                     </FormGroup>
                   </Col>

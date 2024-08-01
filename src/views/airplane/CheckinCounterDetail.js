@@ -71,6 +71,12 @@ const CheckinCounterDetail = () => {
   return (
     <div>
       <BreadCrumbs />
+      <div>
+            <Button color="dark" onClick={() => navigate('/inspection/inspectionRegist')}>
+            안전 점검 등록
+            </Button>
+                    
+            </div>
       <Row>
         <Col md="12">
           <Card>

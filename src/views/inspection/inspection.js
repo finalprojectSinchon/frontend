@@ -16,7 +16,7 @@ function afterSearch(searchText, result) {
 }
 
 const selectRowProp = {
-    mode: 'checkbox', // 체크박스 모드 유지
+    mode: 'checkbox',
     clickToSelect: true,
     bgColor: 'rgba(0,0,0,0.1)',
     clickToExpand: true,

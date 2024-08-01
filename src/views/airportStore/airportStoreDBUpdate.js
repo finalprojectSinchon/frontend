@@ -20,7 +20,7 @@ const AirportDBUpdate = () => {
         axios.get(`${apiURI}${rangeValue}`)
           .then(res=> res.data)
           .then(data => {
-            setapiData(data.response.body.items)
+            setapiData(data.response.body?.items)
             setbuttonStatus(false);
           })
           .catch(error => {

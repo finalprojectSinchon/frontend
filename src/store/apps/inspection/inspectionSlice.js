@@ -25,12 +25,11 @@ export const deleteInspection = createAsyncThunk('inspection/deleteInspection', 
     return response3.data;
 });
 export const registInspection = createAsyncThunk('inspection/inspectionRegist', async ({ inspectionInfo }) => {
-    console.log('inspectionInfo111111',inspectionInfo)
-    const response4 = await api.post(`/api/v1/inspectionRegist`,inspectionInfo);
+    console.log('inspectionInfo111111', inspectionInfo);
+    const response4 = await api.post(`/api/v1/inspectionRegist`, inspectionInfo);
     console.log("등록 결과:", response4);
     return response4.data;
 });
-
 
 const inspectionSlice = createSlice({
     name: 'inspections',
@@ -67,7 +66,7 @@ const inspectionSlice = createSlice({
             })
             .addCase(modifyInspection.pending, (state) => {
                 state.status = 'loading';
-            })  
+            })
             .addCase(modifyInspection.fulfilled, (state, action) => {
                 state.status = 'succeeded';
                 state.inspectionDetail = action.payload;
@@ -95,13 +94,12 @@ const inspectionSlice = createSlice({
             })
             .addCase(registInspection.fulfilled, (state, action) => {
                 state.status = 'succeeded';
-                state.inspectionList = action.payload;
+                state.inspectionList.push(action.payload); // 새로 등록된 항목 추가
             })
             .addCase(registInspection.rejected, (state, action) => {
                 state.status = 'failed';
                 state.error = action.error.message;
             });
-
     },
 });
 
