@@ -1,0 +1,116 @@
+/* 이미지 맵의 구역들에 대해 스타일을 설정 */
+.image-map-container {
+    position: relative; /* 이미지에 대해 상대 위치 설정 */
+}
+
+.image-map-container img {
+    width: 100%;
+    height: auto;
+}
+
+/* 빨간색 테두리를 가진 구역 스타일 */
+.red-border-area {
+    /*border: 2px solid red; !* 빨간색 테두리 추가 *!*/
+    /*background-color: rgba(255, 0, 0, 0.2); !* 반투명 빨간색 배경 *!*/
+    position: absolute;
+    z-index: 2000; /* 다른 요소들보다 상위에 배치 */
+    pointer-events: none; /* 클릭 이벤트를 이미지 맵으로 전달 */
+}
+
+/* 동그라미 스타일 */
+.red-circle2 {
+    position: absolute;
+    border-radius: 50%;
+    background-color: rgb(228, 76, 76);
+    width: 15px;
+    height: 15px;
+    z-index: 1000; /* 동그라미가 다른 요소보다 아래에 위치하도록 설정 */
+}
+
+.green-circle2 {
+    position: absolute;
+    border-radius: 50%;
+    background-color: rgb(62, 167, 62);
+    width: 15px;
+    height: 15px;
+    z-index: 1000; /* 동그라미가 다른 요소보다 아래에 위치하도록 설정 */
+}
+
+/* 카드 스타일 */
+.custom-card2 {
+    max-width: 600px;
+    width: 100%;
+    position: absolute;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    background-color: #fff;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    z-index: 1500;
+    transform: translate(50%, 120%);
+}
+
+.custom-card-header2 {
+    background-color: #007bff;
+    color: white;
+    font-weight: bold;
+    text-align: center;
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+}
+
+.custom-card-body2 {
+    background-color: #f8f9fa;
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.custom-table2 {
+    width: 100%;
+    margin-bottom: 0;
+}
+
+.custom-table2 td {
+    padding: 5px 10px;
+}
+
+.custom-table2 tr td:first-child {
+    font-weight: bold;
+}
+
+.custom-button-wrapper2 {
+    margin-top: 10px;
+    display: flex;
+    gap: 10px;
+}
+
+.custom-button2 {
+    background-color: #007bff;
+    border: none;
+    color: white;
+    font-size: 13px;
+    border-radius: 5px;
+    cursor: pointer;
+    width: 80px;
+    text-align: center;
+}
+
+.card-hover2 {
+    position: absolute;
+    top: 10%;
+    left: 10%;
+    z-index: 1000;
+}
+
+.bg-danger2 {
+    background-color: #dc3545;
+}
+
+.bg-warning2 {
+    background-color: #ffc107;
+}
+
+.bg-success2 {
+    background-color: #28a745;
+}

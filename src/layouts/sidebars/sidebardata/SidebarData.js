@@ -26,7 +26,7 @@ const SidebarData = [
   },
   {
     title: '사용 승인',
-    href: '/apps/notes',
+    href: '/approve',
     icon: <MaterialIcon icon="description" />,
     id: 2.1,
     collapisble: false,

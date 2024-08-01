@@ -1,7 +1,8 @@
 import React, {useEffect, useState} from 'react';
 import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
 
-import { Card, CardBody, CardTitle, CardSubtitle, Table,Button } from 'reactstrap';
+
+import { Card, CardBody, CardTitle, CardSubtitle, Table, CardHeader, Button } from 'reactstrap';
 import {useNavigate} from "react-router-dom";
 import axios from "axios";
 import Cookies from "js-cookie";
@@ -100,10 +101,16 @@ const Facilities = () => {
                     <CardSubtitle className="mb-2 text-muted" tag="h6">
                         편의시설
                     </CardSubtitle>
+
                     
                     
                 </div>
                     
+
+                    <Button color="primary" onClick={ () => navigate('/facilities/regist')}>
+                        등록
+                    </Button>
+
                     <BootstrapTable
                         hover
                         search

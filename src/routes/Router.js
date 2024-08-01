@@ -32,6 +32,7 @@ const BaggageClaimRegist = Loadable(lazy(() => import('../views/airplane/Baggage
 // 편의시설
 const Facilities = Loadable(lazy(() => import('../views/facilities/facilities')));
 const FacilitiesDetail = Loadable(lazy(() => import('../views/facilities/facilitiesDetail')));
+const FacilitiesRegist = Loadable(lazy(() => import('../views/facilities/facilitiesRegist')));
 
 
 
@@ -45,7 +46,7 @@ const UserContact = Loadable(lazy(() => import('../views/auth/userlist/UserConta
 const Inspection = Loadable(lazy(() => import('../views/inspection/inspection')));
 const InspectionDetail = Loadable(lazy(() => import('../views/inspection/inspectionDetail')));
 const InspectionUpdate = Loadable(lazy(() => import('../views/inspection/inspectionUpdate')));
-const InspectionRegist = Loadable(lazy(() => import('../views/inspection/inspectionRegist')));
+// const InspectionRegist = Loadable(lazy(() => import('../views/inspection/')));
 
 const Equipment = Loadable(lazy(() => import('../views/equipment/equipment')));
 const EquipmentDetail = Loadable(lazy(() => import('../views/equipment/equipmentDetail')));
@@ -89,6 +90,10 @@ const ManagerDragAndDrop = Loadable(lazy(() => import('src/components/apps/manag
 const ForgotPwd = Loadable(lazy(() => import('../views/auth/forgotPwd.js')));
 const FindPassword = Loadable(lazy(() => import('../views/auth/findPassword.js')));
 
+/*  */
+const Approve = Loadable(lazy(() => import('../views/approve/Contacts.js')));
+//const ContactList = Loadable(lazy(() => import('../apps/approve/ContactList.js'))); // ContactList 경로 추가
+
 
 
 /*****Routes******/
@@ -119,7 +124,7 @@ const ThemeRoutes = [
       { path: '/inspection', name: 'inspection', exact: true, element: <Inspection/> },
       { path: '/inspection/:inspectionCode', name: 'inspectionDetail', exact: true, element: <InspectionDetail/> },
       { path: '/inspection/inspectionUpdate', name: 'inspectionUpdate', exact: true, element: <InspectionUpdate/> },
-      { path: '/inspection/inspectionRegist', name: 'inspectionRegist', exact: true, element: <InspectionRegist/> },
+      // { path: '/inspection/inspectionRegist', name: 'inspectionRegist', exact: true, element: <InspectionRegist/> },
 
       { path: '/equipment', name: 'equipment', exact: true, element: <Equipment/> },
       { path: '/equipment/:equipmentCode', name: 'equipmentDetail', exact: true, element: <EquipmentDetail/> },
@@ -128,6 +133,7 @@ const ThemeRoutes = [
 
       { path: '/facilities', name: 'Facilities', exact: true, element: <Facilities /> },
       { path: '/facilities/:facilitiesCode', name: 'FacilitiesDetail', exact: true, element:<FacilitiesDetail /> },
+      { path: '/facilities/regist', name: 'FacilitiesRegist', exact: true, element:<FacilitiesRegist /> },
 
       { path: '/dashboards/dashboard1', name: 'Dashboard 1', exact: true, element: <Dashboard1 /> },
   
@@ -145,6 +151,10 @@ const ThemeRoutes = [
       { path: '/chatting', name: 'chatting', exact: true, element: <LiveChatting /> },
 
       { path: '/code-issuance', name: 'test', exact: true, element: <AuthCode /> },
+
+      
+      { path: '/approve', name: 'approve', exact:true, element: <Approve/> },
+      //{ path: '/ContactList', name: 'ContactList', exact: true, element: <ContactList /> }, // ContactList 경로 추가
 
    
 
