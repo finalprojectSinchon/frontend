@@ -140,10 +140,10 @@ const AirportStoreDetail = () => {
                   </Col>
                   <Col md="6">
                     <FormGroup>
-                      <Label>주요업무</Label>
+                      <Label>위치</Label>
                       <Input type="text" name="storeWork" placeholder='주요업무를 입력하세요' readOnly={readOnly}
-                        onChange={onChangeHandler}  value={storeInfo ? storeInfo.storeWork :  '로딩중...' }/>
-                      <FormText className='muted'>주요업무는 반드시 입력해야햡니다.</FormText>
+                        onChange={onChangeHandler}  value={storeInfo ? storeInfo.storeLocation :  '로딩중...' }/>
+                      <FormText className='muted'>위치는 반드시 입력해야햡니다.</FormText>
                     </FormGroup>
                   </Col>
 

@@ -18,6 +18,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import api from '../../store/apps/airplane/api';
 import ManagerDragAndDrop from "src/components/apps/managerDargAndDrop/ManagerDragAndDrop.js";
+import Location from "src/components/location/Location.js";
 
 
 
@@ -125,11 +126,7 @@ const FacilitiesDetail = () => {
                                         </FormGroup>
                                     </Col>
                                     <Col md="6">
-                                        <FormGroup>
-                                            <Label>위치</Label>
-                                            <Input type="text" name='facilitiesLocation' placeholder="위치" onChange={onChangeHandler} readOnly={readOnly}
-                                                   value={facilitiesInfo?facilitiesInfo.facilitiesLocation : '2asdas'} />
-                                        </FormGroup>
+                                        <Location/>
                                     </Col>
 
                                 </Row>

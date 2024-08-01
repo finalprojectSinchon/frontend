@@ -194,7 +194,8 @@ const LiveChatting = () => {
                             )}
                         </>
                     }
-                    rightContent={<ChatElements chatData={selectedChat} userInfo={userInfo} />}
+                    rightContent={ selectedChat ? <ChatElements chatData={selectedChat} userInfo={userInfo} /> :
+                        <h3 className="d-flex justify-content-center">채팅을 선택해주세요</h3>}
                 />
             </CardBody>
         </Card>
