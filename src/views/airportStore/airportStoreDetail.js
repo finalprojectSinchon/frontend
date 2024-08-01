@@ -97,6 +97,12 @@ const AirportStoreDetail = () => {
   return (
     <div>
       <BreadCrumbs />
+      <div>
+            <Button color="dark" onClick={() => navigate('/inspection/inspectionRegist', { state: { info: storeInfo } })}>
+            안전 점검 등록
+            </Button>
+                    
+            </div>
       <Row>
         <Col md="12">
           <Card>
@@ -118,7 +124,7 @@ const AirportStoreDetail = () => {
                   <Col md="6">
                     <FormGroup>
                       <Label>Status</Label>
-                      <Input type="select" name="storeStatus" onChange={onChangeHandler} disabled={readOnly}>
+                      <Input type="select" name="status" onChange={onChangeHandler} disabled={readOnly}>
                         <option name="정상">정상</option>
                         <option name="점검중">점검중</option>
                         <option name="중단">중단</option>
@@ -131,7 +137,7 @@ const AirportStoreDetail = () => {
                   <Col md="6">
                     <FormGroup>
                       <Label>type</Label>
-                      <Input type="select" name='storeType' placeholder="12n" onChange={onChangeHandler} disabled={readOnly}>
+                      <Input type="select" name='type' placeholder="12n" onChange={onChangeHandler} disabled={readOnly}>
                         <option name='점포'>점포</option>
                         <option name='안내소'>안내소</option>
                       </Input>
@@ -149,11 +155,11 @@ const AirportStoreDetail = () => {
 
                 </Row>
                 <Row>
-                   <Col md="6">
+                    <Col md="6">
                     <FormGroup>
                     <Label>연락처</Label>
                     <Input type="text" name='storeContact' placeholder='연락처를 입력하세요' readOnly={readOnly}
-                     onChange={onChangeHandler} value={storeInfo ? storeInfo.storeContact :  '로딩중...' }/>
+                      onChange={onChangeHandler} value={storeInfo ? storeInfo.storeContact :  '로딩중...' }/>
                     </FormGroup>
                   </Col>
                   <Col md="6">
@@ -189,7 +195,7 @@ const AirportStoreDetail = () => {
                     </Row>
                     <div className='mb-4'>
                       {manager ? <ManagerDragAndDrop AllUser={manager.AllUser} Manager={manager.Manager} airportCode={storeId}
-                                                     airportType={airportType} isEditMode={readOnly}/>
+                                                      airportType={airportType} isEditMode={readOnly}/>
                       : <h3>loading</h3> }
 
                     </div>

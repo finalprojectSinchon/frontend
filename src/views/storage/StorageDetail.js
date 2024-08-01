@@ -96,10 +96,16 @@ const onClickDelete = () => {
     })
 
 }
-
+console.log('storageInfo',storageInfo);
 return (
     <div>
         <BreadCrumbs />
+        <div>
+            <Button color="dark" onClick={() => navigate('/inspection/inspectionRegist', { state: { info: storageInfo } })}>
+            안전 점검 등록
+            </Button>
+                    
+            </div>
         <Row>
             <Col>
                 <Card>
@@ -115,13 +121,13 @@ return (
                                     <FormGroup>
                                         <Label>창고타입</Label>
                                         <Input type="text" placeholder="창고 타입을 입력하세요" name='storageType' onChange={onChangeHandler} readOnly={readOnly}
-                                        value={storageInfo ? storageInfo.storageType : '로딩중...'}/>
+                                        value={storageInfo ? storageInfo.type : '로딩중...'}/>
                                     </FormGroup>
                                 </Col>
                                 <Col md="6">
                                     <FormGroup>
                                         <Label>Status</Label>
-                                        <Input type="select" name="storageStatus" onChange={onChangeHandler} disabled={readOnly}>
+                                        <Input type="select" name="status" onChange={onChangeHandler} disabled={readOnly}>
                                             <option name="정상">정상</option>
                                             <option name="점검중">점검중</option>
                                             <option name-="중단">중단</option>
@@ -134,14 +140,16 @@ return (
                                 <Col md="6">
                                     <FormGroup>
                                         <Label>창고위치</Label>
-                                        <Input type="text" placeholder="창고위치를 입력하세요" name='storageLocation' onChange={onChangeHandler} readOnly={readOnly}
-                                        value={storageInfo ? storageInfo.storageLocation : '로딩중...'}/>
+                                        <Input type="text" placeholder="창고위치를 입력하세요"
+                                        name='location' onChange={onChangeHandler} readOnly={readOnly}
+                                        value={storageInfo ? storageInfo.location : '로딩중...'}/>
                                     </FormGroup>
                                 </Col>
                                 <Col md="6">
                                     <FormGroup>
                                         <Label>대분류</Label>
-                                        <Input type="text"  placeholder="대분류를 입력하세요" name='category' onChange={onChangeHandler} readOnly={readOnly}
+                                        <Input type="text"  placeholder="대분류를 입력하세요" 
+                                        name='category' onChange={onChangeHandler} readOnly={readOnly}
                                         value={storageInfo ? storageInfo.category : '로딩중...' }/>
                                     </FormGroup>
                                 </Col>
@@ -150,16 +158,18 @@ return (
                                 <Col md="6">
                                     <FormGroup>
                                         <Label>담당부서</Label>
-                                        <Input type="text" placeholder="담당부서를 입력하세요" name='department'
-                                               onChange={onChangeHandler} readOnly={readOnly}
-                                               value={storageInfo ? storageInfo.department : '로딩중...'}/>
+                                        <Input type="text" placeholder="담당부서를 입력하세요" 
+                                        name='department'
+                                                onChange={onChangeHandler} readOnly={readOnly}
+                                                value={storageInfo ? storageInfo.department : '로딩중...'}/>
                                     </FormGroup>
                                 </Col>
                                 <Col md="6">
                                     <FormGroup>
                                         <Label>담당자</Label>
-                                        <Input type="text" placeholder="담당자를 입력하세요" name='manager' onChange={onChangeHandler} readOnly={readOnly}
-                                            value={storageInfo ? storageInfo.manager : '로딩중...' }/>
+                                        <Input type="text" placeholder="담당자를 입력하세요" 
+                                        name='manager' onChange={onChangeHandler} readOnly={readOnly}
+                                        value={storageInfo ? storageInfo.manager : '로딩중...' }/>
                                     </FormGroup>
                                 </Col>
                                 <Col md="6">

@@ -65,9 +65,9 @@ const EquipmentRegist = () => {
                       <Input 
                         type="text" 
                         placeholder="안전점검 할 위치를 입력하세요" 
-                        name='equipmentLocation' 
+                        name='location' 
                         onChange={onChangeHandler} 
-                        defaultValue={equipmentInfo.equipmentLocation } 
+                        defaultValue={equipmentInfo.location } 
                       />
                     
                     </FormGroup>
@@ -77,9 +77,9 @@ const EquipmentRegist = () => {
                       <Label>Status</Label>
                       <Input 
                         type="select" 
-                        name="equipmentStatus" 
+                        name="status" 
                         onChange={onChangeHandler} 
-                        defaultValue={equipmentInfo.equipmentStatus }
+                        defaultValue={equipmentInfo.status }
                       >
                         <option value="정상">정상</option>
                         <option value="점검중">점검중</option>
@@ -109,10 +109,10 @@ const EquipmentRegist = () => {
                       <Label>Manager</Label>
                       <Input 
                         type="text" 
-                        name="equipmentManager" 
+                        name="manager" 
                         placeholder='이름을 입력하세요' 
                         onChange={onChangeHandler}  
-                        defaultValue={equipmentInfo.equipmentManager } 
+                        defaultValue={equipmentInfo.manager } 
                       />
                     </FormGroup>
                   </Col>

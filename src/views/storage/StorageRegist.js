@@ -21,9 +21,9 @@ import {
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const [storageInfo, setStorageInfo] = useState({
-        storageType: '',
-        storageStatus: '',
-        storageLocation: '',
+        type: '',
+        status: '',
+        location: '',
         category: '',
         department: '',
         manager: '',
@@ -61,14 +61,14 @@ import {
                                     <Col md="6">
                                     <FormGroup>
                                         <Label>창고타입</Label>
-                                        <Input type="text" name='storageType' onChange={onChangeHandler}
+                                        <Input type="text" name='type' onChange={onChangeHandler}
                                         />
                                     </FormGroup>
                                     </Col>
                                     <Col>
                                     <FormGroup>
                                         <Label>Status</Label>
-                                        <Input type="select" name="storageStatus" onChange={onChangeHandler}>
+                                        <Input type="select" name="status" onChange={onChangeHandler}>
                                             <option name="정상">정상</option>
                                             <option name="점검중">점검중</option>
                                             <option name-="중단">중단</option>
@@ -80,7 +80,7 @@ import {
                                 <Col md="6">
                                     <FormGroup>
                                         <Label>창고위치</Label>
-                                        <Input type="text" name='storageLocation' onChange={onChangeHandler}
+                                        <Input type="text" name='location' onChange={onChangeHandler}
                                         />
                                     </FormGroup>
                                 </Col>

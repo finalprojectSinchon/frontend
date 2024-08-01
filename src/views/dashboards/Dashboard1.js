@@ -15,6 +15,7 @@ import React from "react";
 import NoiseChart from "src/views/dashboards/NoiseChart.js";
 import WeatherCard from "./WeatherCard";
 import AirQuality from "src/views/dashboards/AirQuality.js";
+import DataChart from './Datachart';
 
 
 const Dashboard1 = () => {
@@ -22,6 +23,7 @@ const Dashboard1 = () => {
     return (
     <>
       <BreadCrumbs />
+      <DataChart/>
       <Row>
         <AirQuality/>
       </Row>

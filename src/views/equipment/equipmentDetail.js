@@ -84,10 +84,10 @@ const EquipmentDetail = () => {
                       <Input
                         type="text"
                         placeholder="장비 재고의 위치를 입력하세요"
-                        name="equipmentLocation"
+                        name="location"
                         onChange={onChangeHandler}
                         readOnly={readOnly}
-                        value={equipmentInfo.equipmentLocation || ''}
+                        value={equipmentInfo.location || ''}
                       />
                       <FormFeedback valid>Success! You've done it.</FormFeedback>
                     </FormGroup>
@@ -97,10 +97,10 @@ const EquipmentDetail = () => {
                       <Label>Status</Label>
                       <Input
                         type="select"
-                        name="equipmentStatus"
+                        name="status"
                         onChange={onChangeHandler}
                         disabled={readOnly}
-                        value={equipmentInfo.equipmentStatus || ''}
+                        value={equipmentInfo.status || ''}
                       >
                         <option value="정상">정상</option>
                         <option value="점검중">점검중</option>
@@ -130,11 +130,11 @@ const EquipmentDetail = () => {
                       <Label>Manager</Label>
                       <Input
                         type="text"
-                        name="equipmentManager"
+                        name="manager"
                         placeholder="이름을 입력하세요"
                         readOnly={readOnly}
                         onChange={onChangeHandler}
-                        value={equipmentInfo.equipmentManager || ''}
+                        value={equipmentInfo.manager || ''}
                       />
                       <FormText className="muted">가격은 반드시 입력해야 합니다.</FormText>
                     </FormGroup>

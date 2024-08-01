@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
 
+
 import { Card, CardBody, CardTitle, CardSubtitle, Table, CardHeader, Button } from 'reactstrap';
 import {useNavigate} from "react-router-dom";
 import axios from "axios";
@@ -95,13 +96,21 @@ const Facilities = () => {
         <div>
             <Card>
                 <CardBody>
+                <div className="d-flex justify-content-between align-items-center">
                     <CardTitle tag="h5">시설물</CardTitle>
                     <CardSubtitle className="mb-2 text-muted" tag="h6">
                         편의시설
                     </CardSubtitle>
+
+                    
+                    
+                </div>
+                    
+
                     <Button color="primary" onClick={ () => navigate('/facilities/regist')}>
                         등록
                     </Button>
+
                     <BootstrapTable
                         hover
                         search
@@ -118,10 +127,10 @@ const Facilities = () => {
                         keyField = "facilitiesCode"
                     >
 
-                        <TableHeaderColumn width="15%" dataField="facilitiesManager" dataAlign="center">
+                        <TableHeaderColumn width="15%" dataField="manager" dataAlign="center">
                             담당자
                         </TableHeaderColumn>
-                        <TableHeaderColumn width="20%" dataField="facilitiesLocation" dataAlign="center" >
+                        <TableHeaderColumn width="20%" dataField="location" dataAlign="center" >
                             위치
                         </TableHeaderColumn>
                         <TableHeaderColumn width="20%" dataField="facilitiesClass" dataAlign="center">
@@ -130,10 +139,10 @@ const Facilities = () => {
                         <TableHeaderColumn width="20%" dataField="facilitiesName" dataAlign="center">
                             시설물이름
                         </TableHeaderColumn>
-                        <TableHeaderColumn width="15%" dataField="facilitiesType" dataAlign="center">
+                        <TableHeaderColumn width="15%" dataField="type" dataAlign="center">
                             종류
                         </TableHeaderColumn>
-                        <TableHeaderColumn width="10%" dataField="facilitiesStatus" dataAlign="center" dataFormat={statusFormatter}>
+                        <TableHeaderColumn width="10%" dataField="status" dataAlign="center" dataFormat={statusFormatter}>
                             상태
                         </TableHeaderColumn>
                     </BootstrapTable>
