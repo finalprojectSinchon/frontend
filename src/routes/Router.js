@@ -75,6 +75,7 @@ const CASL = Loadable(lazy(() => import('../views/apps/accessControlCASL/AccessC
 
 /***** Auth Pages ****/
 const Error = Loadable(lazy(() => import('../views/auth/Error')));
+const Error500 = Loadable(lazy(() => import('../views/auth/Error500')));
 const RegisterFormik = Loadable(lazy(() => import('../views/auth/RegisterFormik')));
 const LoginFormik = Loadable(lazy(() => import('../views/auth/LoginFormik')));
 
@@ -165,6 +166,7 @@ const ThemeRoutes = [
     
       { path: '/casl', name: 'casl', exact: true, element: <CASL /> },
       { path: '*', element: <Navigate to="/auth/404" /> },
+      { path: '/500', element: <Navigate to="/auth/500" /> },
     ],
   },
   {
@@ -181,8 +183,8 @@ const ThemeRoutes = [
       { path: 'certification', element: <Certification /> },
 
       { path: 'forgotPwd', element: <ForgotPwd/>},
-      { path: 'findPassword', element: <FindPassword/>}
-
+      { path: 'findPassword', element: <FindPassword/>},
+      { path: '500', element: <Error500 /> }
     ],
   },
 ];
