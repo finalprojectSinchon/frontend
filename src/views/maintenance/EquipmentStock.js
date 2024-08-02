@@ -70,7 +70,8 @@ const EquipmentStock = ({ isOpen, toggle ,maintenance, onEquipmentRegistered }) 
 
         dispatch(maintenanceEquipment(payload));
         toggle();
-        onEquipmentRegistered(); // Notify parent component
+        onEquipmentRegistered();
+        window.location.reload();
     };
 
     return (

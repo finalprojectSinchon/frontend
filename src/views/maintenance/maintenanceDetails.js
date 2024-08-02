@@ -14,7 +14,12 @@ import {
 import BreadCrumbs from '../../layouts/breadcrumbs/BreadCrumbs';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchMaintenance, modifyMaintenance, softdeleteMaintenance } from '../../store/apps/maintenance/maintenanceSlice';
+import {
+  fetchMaintenance,
+  maintenance,
+  modifyMaintenance,
+  softdeleteMaintenance,
+} from '../../store/apps/maintenance/maintenanceSlice';
 import EquipmentStock from "src/views/maintenance/EquipmentStock.js";
 
 const MaintenanceDetails = () => {
@@ -25,6 +30,9 @@ const MaintenanceDetails = () => {
   const [readOnly, setReadOnly] = useState(true);
   const [modal, setModal] = useState(false);
   const [equipmentRegistered, setEquipmentRegistered] = useState(false); // New state for equipment registration
+  const result = useSelector((state) => state.maintenances.result);
+
+  console.log('result', result);
 
   const toggleModal = () => setModal(!modal);
 
@@ -49,6 +57,7 @@ const MaintenanceDetails = () => {
     if (maintenanceDetails && maintenanceDetails.data && maintenanceDetails.data.maintenanceDTO) {
       setMaintenanceInfo(maintenanceDetails.data.maintenanceDTO);
     }
+    dispatch(maintenance({maintenanceCode}));
   }, [maintenanceDetails]);
 
   const handleEditClick = () => {
@@ -167,7 +176,6 @@ const MaintenanceDetails = () => {
                     </Col>
                   </Row>
                   <Row>
-
                     <Col md="12">
                       <FormGroup>
                         <Label>상세 정보</Label>
@@ -182,15 +190,16 @@ const MaintenanceDetails = () => {
                       </FormGroup>
                     </Col>
                   </Row>
+
                   <Row>
-                    <Col md="12">
+                    <Col md="6">
                       <FormGroup>
-                        <Label>보고서 파일 보기</Label>
+                        <Label>비용</Label>
                         <Input
-                            type="file"
-                            name="reportFile"
-                            onChange={onChangeHandler}
-                            disabled={readOnly}
+                            type="text"
+                            name="price"
+                            value={maintenanceInfo.price}
+                            disabled
                         />
                       </FormGroup>
                     </Col>
@@ -200,11 +209,11 @@ const MaintenanceDetails = () => {
                         className="m-2"
                         color="primary"
                         onClick={toggleModal}
-                        disabled={maintenanceInfo.status !== '정비완료' || equipmentRegistered} // Disable based on the new state
+                        disabled={maintenanceInfo.status !== '정비완료' || equipmentRegistered || result === 1} // Disable based on the new state
                     >
                       장비 재고 등록
                     </Button>
-                    <Button className="m-2" color="primary" onClick={handleEditClick} disabled={equipmentRegistered}>
+                    <Button className="m-2" color="primary" onClick={handleEditClick} disabled={equipmentRegistered || result === 1}>
                       {readOnly ? '수정' : '저장'}
                     </Button>
                     <Button className="m-2" color="danger" onClick={onClickHandler}>

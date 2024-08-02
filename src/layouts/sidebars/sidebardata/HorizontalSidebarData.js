@@ -4,7 +4,7 @@ const SidebarData = [
 
   {
     title: 'Dashboards',
-    href: '/dashboards',
+    href: '/dashboards/dashboard1',
     id: 1,
     icon: <MaterialIcon icon="speed" />,
     collapisble: true,
@@ -20,14 +20,14 @@ const SidebarData = [
 
   {
     title: '메세지',
-    href: '/apps/contacts',
+    href: '/chatting',
     icon: <MaterialIcon icon="person_outline" />,
     id: 2.3,
     collapisble: false,
   },
   {
     title: '사원조회',
-    href: '/apps/calendar',
+    href: '/contact',
     icon: <MaterialIcon icon="calendar_today" />,
     id: 2.4,
     collapisble: false,
@@ -36,7 +36,7 @@ const SidebarData = [
     title: '안전 점검',
     href: '/inspection',
     icon: <MaterialIcon icon="mail_outline" />,
-    suffix: 'New',
+
     suffixColor: 'bg-success',
     id: 2.5,
     collapisble: false,
@@ -81,7 +81,7 @@ const SidebarData = [
   },
   {
     title: '점포',
-    href: '/apps/treeview',
+    href: '/airport/store',
     icon: <MaterialIcon icon="account_tree" />,
     id: 2.9,
     collapisble: false,
