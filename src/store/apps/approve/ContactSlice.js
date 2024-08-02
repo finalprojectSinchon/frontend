@@ -1,6 +1,4 @@
-import axios from 'axios';
-import { createSlice ,createAsyncThunk} from '@reduxjs/toolkit';
-import Cookies from 'js-cookie'; // import를 잊지 마세요
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import api from '../airplane/api';
 
 export const fetchApprove = createAsyncThunk('contacts/fetchManager', async () => {
@@ -8,17 +6,15 @@ export const fetchApprove = createAsyncThunk('contacts/fetchManager', async () =
   return response.data;
 });
 
-const API_URL = 'http://localhost:8080/api/v1/contacts'; // API URL을 명확하게 정의
-
 const initialState = {
   contacts: [],
   contactContent: 1,
   contactSearch: '',
   editContact: false,
   currentFilter: 'show_all',
-  approveData:null,
-   status: 'idle',  // 상태 관리를 위한 속성 추가
-  error: null,  // 오류를 관리하기 위한 속성 추가
+  approveData: null,
+  status: 'idle', 
+  error: null,
   selectedContact: null,
   selectedFilter: 'show_all',
   selectedManager: null,
@@ -96,19 +92,17 @@ export const ContactSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-     
-    .addCase(fetchApprove.pending, (state) => {
-      state.status = 'loading';
-    })
-    .addCase(fetchApprove.fulfilled, (state, action) => {
-      state.status = 'succeeded';
-      state.approveData = action.payload;  // 승인 데이터를 상태에 저장
-    })
-    .addCase(fetchApprove.rejected, (state, action) => {
-      state.status = 'failed';
-      state.error = action.error.message;  // 오류를 상태에 저장
-    });
-   
+      .addCase(fetchApprove.pending, (state) => {
+        state.status = 'loading';
+      })
+      .addCase(fetchApprove.fulfilled, (state, action) => {
+        state.status = 'succeeded';
+        state.approveData = action.payload;
+      })
+      .addCase(fetchApprove.rejected, (state, action) => {
+        state.status = 'failed';
+        state.error = action.error.message;
+      });
   },
 });
 
@@ -127,31 +121,24 @@ export const {
 export const fetchContacts = () => async (dispatch, getState) => {
   try {
     const state = getState();
-    const response = await  api.get('/api/v1/approve');
-    console.log('response',response)
+    const response = await api.get('/api/v1/approve');
     const contacts = response.data.data.approvalList;
 
     const filteredContacts = contacts.filter(contact => {
-      console.log('contact11111',contact)
       if (state.contacts.currentFilter === 'show_all') {
         return true;
-      }else if(contact.baggageClaim){
+      } else if (contact.baggageClaim) {
         return contact.baggageClaim === state.contacts.currentFilter;
-      }else if(contact.checkinCounter){
+      } else if (contact.checkinCounter) {
         return contact.checkinCounter === state.contacts.currentFilter;
-
-      }else if(contact.facilities){
+      } else if (contact.facilities) {
         return contact.facilities === state.contacts.currentFilter;
-
-      }else if(contact.gate){
+      } else if (contact.gate) {
         return contact.gate === state.contacts.currentFilter;
-
-      }else if(contact.storage){
+      } else if (contact.storage) {
         return contact.storage === state.contacts.currentFilter;
-
-      }else if(contact.store){
+      } else if (contact.store) {
         return contact.store === state.contacts.currentFilter;
-
       }
     });
 
