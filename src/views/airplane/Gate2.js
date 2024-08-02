@@ -6,6 +6,7 @@ import { fetchGates } from '../../store/apps/airplane/gateSlice';
 import BreadCrumbs from '../../layouts/breadcrumbs/BreadCrumbs';
 import './gate2.css';
 
+
 function onAfterDeleteRow2(rowKeys) {
     alert(`The rowkey you drop: ${rowKeys}`);
 }
@@ -49,37 +50,37 @@ const Gate2 = () => {
     const gateList2 = useSelector((state) => state.gates.gateList);
 
     const initialMapData2 = [
-        { id: 101, coords: "95%,47%,98%,57%", label: "Section 101" },
-        { id: 102, coords: "94%,32%,97%,42%", label: "Section 102" },
-        { id: 103, coords: "92%,70%,95%,80%", label: "Section 103" },
-        { id: 104, coords: "90.5%,20%,93.5%,30%", label: "Section 104" },
-        { id: 105, coords: "87%,74%,90%,84%", label: "Section 105" },
-        { id: 106, coords: "87%,14%,90%,24%", label: "Section 106" },
-        { id: 107, coords: "80%,74%,83%,84%", label: "Section 107" },
-        { id: 108, coords: "81%,14%,84%,24%", label: "Section 108" },
-        { id: 109, coords: "74.5%,74%,77.5%,84%", label: "Section 109" },
-        { id: 110, coords: "75%,14%,78%,24%", label: "Section 110" },
-        { id: 111, coords: "66.5%,74%,69.5%,84%", label: "Section 111" },
-        { id: 112, coords: "67%,14%,70%,24%", label: "Section 112" },
-        { id: 113, coords: "60%,74%,63%,84%", label: "Section 113" },
-        { id: 114, coords: "60%,14%,63%,24%", label: "Section 114" },
-        { id: 115, coords: "54%,74%,57%,84%", label: "Section 115" },
-        { id: 117, coords: "48%,74%,51%,84%", label: "Section 117" },
-        { id: 118, coords: "43%,14%,46%,24%", label: "Section 118" },
-        { id: 119, coords: "42%,80%,45%,90%", label: "Section 119" },
-        { id: 120, coords: "42%,90%,45%,100%", label: "Section 120" },
-        { id: 121, coords: "35%,74%,38%,84%", label: "Section 121" },
-        { id: 122, coords: "35%,14%,38%,24%", label: "Section 122" },
-        { id: 123, coords: "28.3%,74%,31.3%,84%", label: "Section 123" },
-        { id: 124, coords: "28.5%,14%,31.5%,24%", label: "Section 124" },
-        { id: 125, coords: "20.5%,74%,23.5%,84%", label: "Section 125" },
-        { id: 126, coords: "21%,14%,24%,24%", label: "Section 126" },
-        { id: 127, coords: "14%,74%,17%,84%", label: "Section 127" },
-        { id: 128, coords: "14%,14%,17%,24%", label: "Section 128" },
-        { id: 129, coords: "9%,74%,12%,84%", label: "Section 129" },
-        { id: 130, coords: "10%,14%,13%,24%", label: "Section 130" },
-        { id: 131, coords: "3%,64%,6%,74%", label: "Section 131" },
-        { id: 132, coords: "2%,40%,5%,50%", label: "Section 132" }
+        { id: 101, coords: "95%,47%,98%,57%", label: "101" },
+        { id: 102, coords: "94%,32%,97%,42%", label: "102" },
+        { id: 103, coords: "92%,70%,95%,80%", label: "103" },
+        { id: 104, coords: "90.5%,20%,93.5%,30%", label: "104" },
+        { id: 105, coords: "87%,74%,90%,84%", label: "105" },
+        { id: 106, coords: "87%,14%,90%,24%", label: "106" },
+        { id: 107, coords: "80%,74%,83%,84%", label: "107" },
+        { id: 108, coords: "81%,14%,84%,24%", label: "108" },
+        { id: 109, coords: "74.5%,74%,77.5%,84%", label: "109" },
+        { id: 110, coords: "75%,14%,78%,24%", label: "110" },
+        { id: 111, coords: "66.5%,74%,69.5%,84%", label: "111" },
+        { id: 112, coords: "67%,14%,70%,24%", label: "112" },
+        { id: 113, coords: "60%,74%,63%,84%", label: "113" },
+        { id: 114, coords: "60%,14%,63%,24%", label: "114" },
+        { id: 115, coords: "54%,74%,57%,84%", label: "115" },
+        { id: 117, coords: "48%,74%,51%,84%", label: "117" },
+        { id: 118, coords: "43%,14%,46%,24%", label: "118" },
+        { id: 119, coords: "42%,80%,45%,90%", label: "119" },
+        { id: 120, coords: "42%,90%,45%,100%", label: "120" },
+        { id: 121, coords: "35%,74%,38%,84%", label: "121" },
+        { id: 122, coords: "35%,14%,38%,24%", label: "122" },
+        { id: 123, coords: "28.3%,74%,31.3%,84%", label: "123" },
+        { id: 124, coords: "28.5%,14%,31.5%,24%", label: "124" },
+        { id: 125, coords: "20.5%,74%,23.5%,84%", label: "125" },
+        { id: 126, coords: "21%,14%,24%,24%", label: "126" },
+        { id: 127, coords: "14%,74%,17%,84%", label: "127" },
+        { id: 128, coords: "14%,14%,17%,24%", label: "128" },
+        { id: 129, coords: "9%,74%,12%,84%", label: "129" },
+        { id: 130, coords: "10%,14%,13%,24%", label: "130" },
+        { id: 131, coords: "3%,64%,6%,74%", label: "131" },
+        { id: 132, coords: "2%,40%,5%,50%", label: "132" }
 
     ];
 
@@ -144,8 +145,9 @@ const Gate2 = () => {
     };
 
     const hoveredAreaData2 = mapData2.find(area => area.id === hoveredArea2);
-    const matchedGate2 = gateList2.data.gateList.find(gate => gate.location === (hoveredAreaData2 ? hoveredAreaData2.label : ''));
+    const matchedGate2 = gateList2.data.gateList.find(gate => gate.gateCode === (hoveredAreaData2 ? hoveredAreaData2.label : ''));
 
+    console.log(matchedGate2)
     return (
         <div>
             <div className="image-map-container">
@@ -187,7 +189,7 @@ const Gate2 = () => {
                 })}
                 {mapData2.map(area => {
                     const [x1, y1, x2, y2] = area.coords.split(',').map(Number);
-                    const circleClass = gateList2.data.gateList.find(gate => gate.location === area.label) ? 'red-circle2' : 'green-circle2';
+                    const circleClass = gateList2.data.gateList.find(gate => gate.gateCode === area.label) ? 'red-circle2' : 'green-circle2';
 
                     return (
                         <div

@@ -76,6 +76,13 @@ const convertPercentToCoords = (percentCoords, imgWidth, imgHeight) => {
   }).join(',');
 };
 
+// Format date/time to a readable format
+const formatDateTime = (dateTime) => {
+  if (!dateTime) return '미정';
+  const date = new Date(dateTime);
+  return date.toLocaleString(); // or use a library like moment.js for custom formatting
+};
+
 // Component mapping
 const componentMapping = {
   Gate2,
@@ -89,14 +96,14 @@ const Datatables = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const gateList = useSelector((state) => state.gates.gateList);
-  console.log('gateList',gateList)
+  console.log('gateList', gateList);
 
   // Initial map data with coordinates in percentage
   const initialMapData = [
     { id: 1, coords: "0%,0%,100%,25%", href: "#section1", label: "Section 1", component: 'Gate2' },
     { id: 2, coords: "0%,25%,50%,55%", href: "#section2", label: "Section 2", component: 'Gate3' },
-    { id: 3, coords: "50%,25%,100%,55%", href: "#section3", label: "Section 3", component: 'Gate4' },
-    { id: 4, coords: "0%,55%,100%,100%", href: "#section4", label: "Section 4", component: 'Gate5' }
+    { id: 3, coords: "50%,25%,100%,55%", href: "#section3", component: 'Gate4' },
+    { id: 4, coords: "0%,55%,100%,100%", href: "#section4", component: 'Gate5' }
   ];
 
   const [mapData, setMapData] = useState(initialMapData);
@@ -123,6 +130,7 @@ const Datatables = () => {
 
   useEffect(() => {
     dispatch(fetchGates());
+
   }, [dispatch]);
 
   useEffect(() => {
@@ -155,7 +163,7 @@ const Datatables = () => {
   const flatGateList = gateList.data.gateList.map(gate => ({
     ...gate,
     airline: gate.airline || '미정',
-    scheduleDateTime: gate.scheduleDateTime || '미정'
+    scheduleDateTime: formatDateTime(gate.scheduleDateTime) || '미정'
   }));
 
   const handleClick = (id) => {
@@ -276,19 +284,19 @@ const Datatables = () => {
                       bordered={false}
                       className="custom-table1"
                   >
-                    <TableHeaderColumn isKey dataField="gateCode" dataSort={true} headerAlign="center" dataAlign="center">
+                    <TableHeaderColumn width="10%" isKey dataField="gateCode" dataSort={true} headerAlign="center" dataAlign="center">
                       탑승구 코드
                     </TableHeaderColumn>
-                    <TableHeaderColumn dataField="location" dataSort={true} headerAlign="center" dataAlign="center">
-                      위치
+                    <TableHeaderColumn width="20%" dataField="manager" dataSort={true} headerAlign="center" dataAlign="center">
+                      담당자
                     </TableHeaderColumn>
-                    <TableHeaderColumn dataField="status" dataSort={true} headerAlign="center" dataAlign="center" dataFormat={statusFormatter}>
+                    <TableHeaderColumn width="20%" dataField="status" dataSort={true} headerAlign="center" dataAlign="center" dataFormat={statusFormatter}>
                       상태
                     </TableHeaderColumn>
-                    <TableHeaderColumn dataField="airline" dataSort={true} headerAlign="center" dataAlign="center">
+                    <TableHeaderColumn  width="20%" dataField="airline" dataSort={true} headerAlign="center" dataAlign="center">
                       항공사
                     </TableHeaderColumn>
-                    <TableHeaderColumn dataField="scheduleDateTime" dataSort={true} headerAlign="center" dataAlign="center">
+                    <TableHeaderColumn width="20%" dataField="scheduleDateTime" dataSort={true} headerAlign="center" dataAlign="center">
                       출발/도착 시간
                     </TableHeaderColumn>
                   </BootstrapTable>
