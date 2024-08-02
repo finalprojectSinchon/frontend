@@ -1,22 +1,35 @@
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Button } from 'reactstrap';
-import { isEdit } from '../../../store/apps/approve/ContactSlice';
-import { fetchApprove } from '../../../store/apps/approve/ContactSlice';
+import { isEdit, fetchApprove } from '../../../store/apps/approve/ContactSlice';
+import axios from 'axios';
+import api from '../../../store/apps/airplane/api';
 
 const ContactDetails = () => {
   const contactDetail = useSelector(state => state.contacts.selectedContact);
   const selectedFilter = useSelector(state => state.contacts.selectedFilter);
-
   const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(fetchApprove());
-  }, [selectedFilter]);
+  }, [selectedFilter, dispatch]);
 
   if (!contactDetail) {
     return 'Please Select The contact';
   }
+
+  console.log('contactDetail',contactDetail)
+
+  const handleApproveClick = () => {
+    api.put( `http://localhost:8080/api/v1/approve/${contactDetail.approvalCode}`) 
+        .then(res =>{
+          alert('승인 요청이 성공했습니다')
+        }) 
+        .catch (error=> {
+        console.error('승인 요청 중 오류 발생', error);
+    })
+};
+
 
   const renderDetails = () => {
     if (selectedFilter === 'checkin_counter' || (selectedFilter === 'show_all' && contactDetail.checkinCounter)) {
@@ -325,36 +338,34 @@ const ContactDetails = () => {
           </tr>
         </>
       );
-    } 
+    }
   };
 
   return (
     <>
-      <div>
-        {/***********Contact Topbar**************/}
-        <div className="d-flex align-items-center p-3 border-bottom">
-          <div className="">
-            <img src={contactDetail.image} alt="user" className="rounded-circle" width="46" />
-          </div>
-          <div className="mx-2">
-            <h5 className="mb-0">
-              {contactDetail.firstname} {contactDetail.lastname}
-            </h5>
-            <small>{contactDetail.department}</small>
-          </div>
-        </div>
+        <div>
+            <div className="d-flex align-items-center p-3 border-bottom">
+                <div className="">
+                    <img src={contactDetail.image} alt="user" className="rounded-circle" width="46" />
+                </div>
+                <div className="mx-2">
+                    <h5 className="mb-0">
+                        {contactDetail.firstname} {contactDetail.lastname}
+                    </h5>
+                    <small>{contactDetail.department}</small>
+                </div>
+            </div>
 
-        {/***********Contact Detail box**************/}
-        <div className="p-4">
-          <table className="table table-borderless">
-            <tbody>
-              {renderDetails()}
-              <tr>
-                <td />
-                <td>
-                  <Button color="primary" onClick={() => dispatch(isEdit())}>
-                    승인
-                  </Button>
+            <div className="p-4">
+                <table className="table table-borderless">
+                    <tbody>
+                        {renderDetails()}
+                        <tr>
+                            <td />
+                            <td>
+                                <Button color="primary" onClick={handleApproveClick}>
+                                    승인
+                                </Button>
                 </td>
               </tr>
             </tbody>
