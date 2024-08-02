@@ -31,7 +31,10 @@ export const fetchLocation = createAsyncThunk('maintenance/fetchLocation', async
     return response.data;
 });
 
-
+export const maintenanceEquipment = createAsyncThunk('maintenance/maintenanceEquipment', async (payload) => {
+    const response = await api.put('/api/v1/maintenanceEquipment',payload);
+    return response.data;
+});
 
 const maintenanceSlice = createSlice({
     name: 'maintenances',
@@ -40,7 +43,8 @@ const maintenanceSlice = createSlice({
         maintenanceDetails: null,
         status: 'idle',
         error: null,
-        location:[]
+        location:[],
+        result :''
     },
     reducers: {},
     extraReducers: (builder) => {
@@ -85,6 +89,10 @@ const maintenanceSlice = createSlice({
             .addCase(fetchLocation.fulfilled, (state, action) => {
                 state.status = 'succeeded';
                 state.location = action.payload;
+            })
+            .addCase(maintenanceEquipment.fulfilled, (state, action) => {
+                state.status = 'succeeded';
+                state.result=action.payload;
             });
     },
 });

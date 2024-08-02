@@ -31,6 +31,7 @@ const MaintenanceRegist = () => {
     maintenanceEndDate: '',
     maintenanceDetails: '',
     reportFile: '',
+    status:''
   });
   const [structure,setStructure] = useState('');
   const locationList = useSelector(state => state.maintenances.location);
@@ -125,34 +126,17 @@ const MaintenanceRegist = () => {
                   </Col>
                   <Col md="6">
                     <FormGroup>
-                      <Label>사용 장비</Label>
+                      <Label>상태</Label>
                       <Input
-                        type="text"
-                        name="equipment"
-                        onChange={onChangeHandler}
-                      />
-                    </FormGroup>
-                  </Col>
-                </Row>
-                <Row>
-                  <Col md="6">
-                    <FormGroup>
-                      <Label>갯수</Label>
-                      <Input
-                        type="number"
-                        name="quantity"
-                        onChange={onChangeHandler}
-                      />
-                    </FormGroup>
-                  </Col>
-                  <Col md="6">
-                    <FormGroup>
-                      <Label>비용</Label>
-                      <Input
-                        type="number"
-                        name="expense"
-                        onChange={onChangeHandler}
-                      />
+                          type="select"
+                          name="status"
+                          onChange={onChangeHandler}
+                      >
+                        <option value="">상태를 선택하세요</option>
+                        <option value="정비예정">정비예정</option>
+                        <option value="정비중">정비중</option>
+                        <option value="정비완료">정비완료</option>
+                      </Input>
                     </FormGroup>
                   </Col>
                 </Row>
@@ -179,6 +163,7 @@ const MaintenanceRegist = () => {
                   </Col>
                 </Row>
                 <Row>
+
                   <Col md="12">
                     <FormGroup>
                       <Label>상세 정보</Label>
@@ -191,18 +176,7 @@ const MaintenanceRegist = () => {
                     </FormGroup>
                   </Col>
                 </Row>
-                <Row>
-                  <Col md="12">
-                    <FormGroup>
-                      <Label>보고서 파일 보기</Label>
-                      <Input
-                        type="file"
-                        name="reportFile"
-                        onChange={onChangeHandler}
-                      />
-                    </FormGroup>
-                  </Col>
-                </Row>
+
                 <Col className="d-flex justify-content-center">
                   <Button className="m-2" color="primary" onClick={handleRegisterClick}>
                     등록
