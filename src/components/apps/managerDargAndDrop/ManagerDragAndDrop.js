@@ -1,6 +1,7 @@
 import React, { useState, useCallback, useEffect } from 'react';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import api from "src/store/apps/airplane/api.js";
+import StatusProfileImg from "src/components/apps/liveStatus/StatusProfileImg.js";
 
 const getItems = (users) => users.map(user => ({
     userCode: user.userCode.toString(),
@@ -57,7 +58,6 @@ const getListStyle = (isDraggingOver) => ({
     borderRadius: '10px'
 });
 
-// Function to perform API request
 const sendApiRequest = async (AllUser, Manager, airportCode, airportType) => {
     const managerUpdateDTOList = Manager.map(user => ({
         userCode: user.userCode,
@@ -149,8 +149,7 @@ const ManagerDragAndDrop = ({ AllUser = [], Manager = [], airportCode, airportTy
                                                 {...provided.dragHandleProps}
                                                 style={getItemStyle(snapshot.isDragging, provided.draggableProps.style)}
                                             >
-                                                <img src={item.userImg} alt={item.userName} width="50"
-                                                     className="rounded-circle me-4"/>
+                                                <StatusProfileImg userCode={item.userCode} src={item.userImg} width={50}/>
                                                 <div style={{
                                                     display: 'flex',
                                                     flexDirection: 'column',

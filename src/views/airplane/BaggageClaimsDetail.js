@@ -15,6 +15,8 @@ import BreadCrumbs from '../../layouts/breadcrumbs/BreadCrumbs';
 import { useParams,useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchBaggageClaim, modifyBaggageClaim, softdeleteBaggageClaim } from '../../store/apps/airplane/baggageClaimSlice';
+import ManagerDragAndDrop from "src/components/apps/managerDargAndDrop/ManagerDragAndDrop.js";
+import api from "src/store/apps/airplane/api.js";
 
 
 const BaggageClaimsDetail = () => {
@@ -27,6 +29,22 @@ const BaggageClaimsDetail = () => {
   const BaggageClaimDetail = useSelector((state) => state.baggageClaims.baggageClaimDetail);
   const [baggageClaimInfo, setBaggageClaimInfo] = useState({});
   const [readOnly, setReadOnly] = useState(true);
+
+  const [manager, setManager] = useState([]);
+  const [airportType, setAirportType] = useState()
+
+
+  useEffect(() => {
+    api.post('/api/v1/managers',{
+      airportType : airportType,
+      airportCode : baggageClaimCode
+    })
+        .then(res => res.data)
+        .then(data => {
+          setManager(data.data)
+        })
+  }, [baggageClaimInfo]);
+
 
   const onChangeHandler = e => {
     setBaggageClaimInfo({
@@ -51,6 +69,7 @@ const BaggageClaimsDetail = () => {
     if (BaggageClaimDetail && BaggageClaimDetail.data) {
         setBaggageClaimInfo(BaggageClaimDetail.data.baggageClaim);
     }
+    setAirportType("baggageClaim")
   }, [BaggageClaimDetail]);
 
 
@@ -158,12 +177,6 @@ const BaggageClaimsDetail = () => {
                       <Input type="text" value={baggageClaimInfo.airplane?.airport} disabled />
                     </FormGroup>
                   </Col>
-                  <Col md="6">
-                    <FormGroup>
-                      <Label>담당자</Label>
-                      <Input type="text" value={baggageClaimInfo.manager } name="manager" onChange={onChangeHandler} disabled={readOnly} />
-                    </FormGroup>
-                  </Col>
                 </Row>
                 <Row>
                   <Col md="6">
@@ -171,14 +184,29 @@ const BaggageClaimsDetail = () => {
                       <Label>위치</Label>
                       <Input type="text" value={baggageClaimInfo.location} name="location" onChange={onChangeHandler} disabled={readOnly} />
                     </FormGroup>
-                  </Col>
-                  <Col md="6">
                     <FormGroup>
                       <Label>비고</Label>
                       <Input type="textarea" rows="6" value={baggageClaimInfo.note} name="note" onChange={onChangeHandler} disabled={readOnly} />
                     </FormGroup>
                   </Col>
+                  <Col md="6">
+                    <Row className="mb-3 mt-3">
+                      <Col md="6" className="d-flex justify-content-start">
+                        <h2 className="ms-5 ps-4">전체 직원</h2>
+                      </Col>
+                      <Col md="6" className="d-flex justify-content-end">
+                        <h2 className="me-5 pe-5">담당 직원</h2>
+                      </Col>
+                    </Row>
+                    <div className='mb-4'>
+                      {manager ? <ManagerDragAndDrop AllUser={manager.AllUser} Manager={manager.Manager} airportCode={baggageClaimCode}
+                                                     airportType={airportType} isEditMode={readOnly}/>
+                          : <h3>loading</h3> }
+
+                    </div>
+                  </Col>
                 </Row>
+                <Row>
                 <Col className='d-flex justify-content-center'>
                   <Button className="m-2" color="primary" onClick={handleEditClick}>
                     {readOnly ? '수정' : '저장'}
@@ -187,6 +215,7 @@ const BaggageClaimsDetail = () => {
                     삭제
                   </Button>
                 </Col>
+                </Row>
               </Form>
             </CardBody>
           </Card>

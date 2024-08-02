@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { Container, Row, Col, FormGroup, Label, Input, Alert } from "reactstrap";
 import api from "src/store/apps/airplane/api.js";
 
-const Location = () => {
+const Location = ({isModify, setIsModify, setReadOnly, code, type}) => {
 
 
     const [region, setRegion] = useState([]);
@@ -10,9 +10,37 @@ const Location = () => {
     const [location, setLocation] = useState([]);
     const [selectedRegion, setSelectedRegion] = useState("");
     const [selectedFloor, setSelectedFloor] = useState("");
+    const [selectedLocation, setSelectedLocation] = useState("");
     const [error, setError] = useState(null);
 
     useEffect(() => {
+        console.log(isModify)
+        if (isModify) {
+            if (!floor || floor.length === 0) {
+                alert("층수를 등록해주세요");
+            } else {
+                api.post('/api/v1/location', {
+                    zoneType: type,
+                    airportCode : code,
+                    region: selectedRegion,
+                    floor: selectedFloor,
+                    location: selectedLocation,
+                })
+                    .then(res => res.data)
+                    .then(data => {
+                        setIsModify(false);
+                        setReadOnly(true);
+                    })
+                    .catch(error => {
+                        console.error("Error:", error);
+
+                    });
+            }
+        }
+    }, [isModify]);
+
+    useEffect(() => {
+        // 이상한 데이터가 너무 많음
         // api
         //     .get("/api/v1/location/region")
         //     .then((res) => res.data)
@@ -67,6 +95,11 @@ const Location = () => {
         }
     }
 
+    const handleLocationChange = (e) => {
+        const selected = e.target.value;
+        setSelectedLocation(selected);
+    }
+
     return (
         <Container className="mt-4">
             <Row>
@@ -116,6 +149,7 @@ const Location = () => {
                             id="locationSelect"
                             disabled={!selectedFloor}
                             placeholder="지역을 입력해 주세요"
+                            onChange={handleLocationChange}
                         >
                             <option value="">위치를 선택하세요</option>
                             {location.map((locationItem, index) => (
