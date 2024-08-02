@@ -132,6 +132,7 @@ const MaintenanceRegist = () => {
                           name="status"
                           onChange={onChangeHandler}
                       >
+                        <option value="">상태를 선택하세요</option>
                         <option value="정비예정">정비예정</option>
                         <option value="정비중">정비중</option>
                         <option value="정비완료">정비완료</option>
