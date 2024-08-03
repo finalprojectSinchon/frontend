@@ -93,7 +93,6 @@ const BaggageClaimsDetail = () => {
       setReadOnly(false);
     } else {
       await dispatch(modifyBaggageClaim({ baggageClaimCode, baggageClaimInfo }));
-      console.log("modify 바뀌러 가니");
       setIsModify(true);
     }
   };
