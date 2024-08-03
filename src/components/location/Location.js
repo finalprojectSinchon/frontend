@@ -14,7 +14,7 @@ const Location = ({isModify, setIsModify, setReadOnly, code, type}) => {
     const [error, setError] = useState(null);
 
     useEffect(() => {
-        console.log(isModify)
+        console.log('isModify', isModify);
         if (isModify) {
             if (!floor || floor.length === 0) {
                 alert("층수를 등록해주세요");

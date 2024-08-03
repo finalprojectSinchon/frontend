@@ -9,7 +9,7 @@ import {
   FormGroup,
   Label,
   Input,
-  Button,
+  Button, FormText,
 } from 'reactstrap';
 import BreadCrumbs from '../../layouts/breadcrumbs/BreadCrumbs';
 import { useParams,useNavigate } from 'react-router-dom';
@@ -17,6 +17,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { fetchBaggageClaim, modifyBaggageClaim, softdeleteBaggageClaim } from '../../store/apps/airplane/baggageClaimSlice';
 import ManagerDragAndDrop from "src/components/apps/managerDargAndDrop/ManagerDragAndDrop.js";
 import api from "src/store/apps/airplane/api.js";
+import Location from "src/components/location/Location.js";
 
 
 const BaggageClaimsDetail = () => {
@@ -32,6 +33,9 @@ const BaggageClaimsDetail = () => {
 
   const [manager, setManager] = useState([]);
   const [airportType, setAirportType] = useState()
+
+  const [isModify, setIsModify] = useState(false);
+  const [location, setLocation] = useState()
 
 
   useEffect(() => {
@@ -73,13 +77,24 @@ const BaggageClaimsDetail = () => {
   }, [BaggageClaimDetail]);
 
 
+  useEffect(() => {
+    api.get(`/api/v1/location/baggageClaim/${baggageClaimCode}`)
+        .then(res => res.data)
+        .then(data => {
+          setLocation(data.data)
+        })
+        .catch(err => console.log(err));
 
-  const handleEditClick = () => {
+  }, [airportType]);
+
+
+  const handleEditClick = async () => {
     if (readOnly) {
       setReadOnly(false);
     } else {
-      setReadOnly(true);
-      dispatch(modifyBaggageClaim({ baggageClaimCode, baggageClaimInfo }));
+      await dispatch(modifyBaggageClaim({ baggageClaimCode, baggageClaimInfo }));
+      console.log("modify 바뀌러 가니");
+      setIsModify(true);
     }
   };
 
@@ -180,10 +195,11 @@ const BaggageClaimsDetail = () => {
                 </Row>
                 <Row>
                   <Col md="6">
-                    <FormGroup>
-                      <Label>위치</Label>
-                      <Input type="text" value={baggageClaimInfo.location} name="location" onChange={onChangeHandler} disabled={readOnly} />
-                    </FormGroup>
+                      {readOnly ? <> <Label>위치</Label>
+                            <Input type="text" placeholder="시설물 이름을 입력하세요" name='facilitiesName' onChange={onChangeHandler} readOnly={readOnly}
+                                   value={location ? location.region + " " + location.floor + " " + location.location : '위치 데이터가 없습니다.'  } /> </> :
+                          <Location isModify={isModify} setIsModify={setIsModify} setReadOnly={setReadOnly} code={baggageClaimCode} type={airportType}/>
+                      }
                     <FormGroup>
                       <Label>비고</Label>
                       <Input type="textarea" rows="6" value={baggageClaimInfo.note} name="note" onChange={onChangeHandler} disabled={readOnly} />

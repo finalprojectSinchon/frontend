@@ -30,6 +30,7 @@ const FacilitiesDetail = () => {
     const [readOnly, setreadOnly] = useState(true);
     const [manager, setManager] = useState([]);
     const [airportType, setAirportType] = useState()
+
     const [isModify, setIsModify] = useState(false);
     const [location, setLocation] = useState()
 
@@ -80,6 +81,7 @@ const FacilitiesDetail = () => {
             [e.target.name] : e.target.value
         })
     }
+
     const onClickSave = () => {
         api.put(`/api/v1/facilities/${facilitiesCode}`,facilitiesInfo)
             .then(res => {
