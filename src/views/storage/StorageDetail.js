@@ -20,6 +20,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import Cookies from 'js-cookie';
 import api from '../../store/apps/airplane/api';
 import ManagerDragAndDrop from "src/components/apps/managerDargAndDrop/ManagerDragAndDrop.js";
+import Location from "src/components/location/Location.js";
 
 const StorageDetail = () => {
 
@@ -32,7 +33,8 @@ const StorageDetail = () => {
 
     const [manager, setManager] = useState();
     const [airportType, setAirportType] = useState()
-
+    const [location, setLocation] = useState()
+    const [isModify, setIsModify] = useState(false);
 
     useEffect(() => {
 
@@ -45,6 +47,16 @@ const StorageDetail = () => {
                 setManager(data.data)
             })
     }, [storageInfo]);
+
+    useEffect(() => {
+        api.get(`/api/v1/location/storage/${storageCode}`)
+            .then(res => res.data)
+            .then(data => {
+                setLocation(data.data)
+            })
+            .catch(err => console.log(err));
+
+    }, [airportType]);
 
 
     useEffect(() => {
@@ -76,7 +88,7 @@ const onClickSave = () => {
         }
     }, )
     .then(res => {
-        alert('수정에 성공하였습니다.')
+        setIsModify(true);
     })
     .catch(error => {
         console.error('에러 : ', error);
@@ -139,19 +151,18 @@ return (
                             <Row>
                                 <Col md="6">
                                     <FormGroup>
-                                        <Label>창고위치</Label>
-                                        <Input type="text" placeholder="창고위치를 입력하세요"
-                                        name='location' onChange={onChangeHandler} readOnly={readOnly}
-                                        value={storageInfo ? storageInfo.location : '로딩중...'}/>
+                                        <Label>대분류</Label>
+                                        <Input type="text"  placeholder="대분류를 입력하세요"
+                                               name='category' onChange={onChangeHandler} readOnly={readOnly}
+                                               value={storageInfo ? storageInfo.category : '로딩중...' }/>
                                     </FormGroup>
                                 </Col>
                                 <Col md="6">
-                                    <FormGroup>
-                                        <Label>대분류</Label>
-                                        <Input type="text"  placeholder="대분류를 입력하세요" 
-                                        name='category' onChange={onChangeHandler} readOnly={readOnly}
-                                        value={storageInfo ? storageInfo.category : '로딩중...' }/>
-                                    </FormGroup>
+                                    {readOnly ? <> <Label>위치</Label>
+                                            <Input type="text" placeholder="창고 위치를 입력하세요" name='facilitiesName' onChange={onChangeHandler} readOnly={readOnly}
+                                                   value={location ? location.region + " " + location.floor + " " + location.location : '위치 데이터가 없습니다.'  } /> </> :
+                                        <Location isModify={isModify} setIsModify={setIsModify} setReadOnly={setreadOnly} code={storageCode} type={airportType}/>
+                                    }
                                 </Col>
                             </Row>
                             <Row>
@@ -162,14 +173,6 @@ return (
                                         name='department'
                                                 onChange={onChangeHandler} readOnly={readOnly}
                                                 value={storageInfo ? storageInfo.department : '로딩중...'}/>
-                                    </FormGroup>
-                                </Col>
-                                <Col md="6">
-                                    <FormGroup>
-                                        <Label>담당자</Label>
-                                        <Input type="text" placeholder="담당자를 입력하세요" 
-                                        name='manager' onChange={onChangeHandler} readOnly={readOnly}
-                                        value={storageInfo ? storageInfo.manager : '로딩중...' }/>
                                     </FormGroup>
                                 </Col>
                                 <Col md="6">

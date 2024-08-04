@@ -36,6 +36,11 @@ export const maintenanceEquipment = createAsyncThunk('maintenance/maintenanceEqu
     return response.data;
 });
 
+export const maintenance = createAsyncThunk('maintenance/maintenance', async ({maintenanceCode}) => {
+   const response = await api.get(`api/v1/maintenanceEquipment?maintenanceCode=${maintenanceCode}`);
+   return response.data;
+});
+
 const maintenanceSlice = createSlice({
     name: 'maintenances',
     initialState: {
@@ -44,7 +49,7 @@ const maintenanceSlice = createSlice({
         status: 'idle',
         error: null,
         location:[],
-        result :''
+        result :'',
     },
     reducers: {},
     extraReducers: (builder) => {
@@ -90,7 +95,7 @@ const maintenanceSlice = createSlice({
                 state.status = 'succeeded';
                 state.location = action.payload;
             })
-            .addCase(maintenanceEquipment.fulfilled, (state, action) => {
+            .addCase(maintenance.fulfilled, (state, action) => {
                 state.status = 'succeeded';
                 state.result=action.payload;
             });

@@ -16,7 +16,9 @@ import {
 import BreadCrumbs from '../../layouts/breadcrumbs/BreadCrumbs';
 import { useParams, useNavigate } from 'react-router-dom'; 
 import { useDispatch, useSelector } from 'react-redux'; 
-import { fetchEquipment, modifyEquipment, deleteEquipment } from '../../store/apps/equipment/equipmentSlice'; 
+import { fetchEquipment, modifyEquipment, deleteEquipment } from '../../store/apps/equipment/equipmentSlice';
+import ManagerDragAndDrop from "src/components/apps/managerDargAndDrop/ManagerDragAndDrop.js";
+import api from "src/store/apps/airplane/api.js";
 
 const EquipmentDetail = () => {
   const { equipmentCode } = useParams();
@@ -25,13 +27,27 @@ const EquipmentDetail = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const equipmentDetail = useSelector(state => state.equipments.equipmentDetail);
-  
+
+  const [manager, setManager] = useState([]);
+  const [airportType, setAirportType] = useState()
+
+
+
+  useEffect(() => {
+
+    api.post('/api/v1/managers',{
+      airportType : airportType,
+      airportCode : equipmentCode
+    })
+        .then(res => res.data)
+        .then(data => {
+          setManager(data.data)
+        })
+  }, [equipmentDetail]);
 
 
   useEffect(() => {
     dispatch(fetchEquipment({ equipmentCode }));
-    
-
   }, [dispatch, equipmentCode]);
 
 
@@ -39,6 +55,8 @@ const EquipmentDetail = () => {
     if (equipmentDetail && equipmentDetail.data) {
       setEquipmentInfo(equipmentDetail.data);
     }
+
+    setAirportType('equipment');
   }, [equipmentDetail]);
 
 
@@ -127,16 +145,16 @@ const EquipmentDetail = () => {
                   </Col>
                   <Col md="6">
                     <FormGroup>
-                      <Label>Manager</Label>
+                      <Label>Price</Label>
                       <Input
-                        type="text"
-                        name="manager"
-                        placeholder="이름을 입력하세요"
-                        readOnly={readOnly}
-                        onChange={onChangeHandler}
-                        value={equipmentInfo.manager || ''}
+                          type="number"
+                          name="equipmentPrice"
+                          placeholder="--원"
+                          readOnly={readOnly}
+                          onChange={onChangeHandler}
+                          value={equipmentInfo.equipmentPrice || ''}
                       />
-                      <FormText className="muted">가격은 반드시 입력해야 합니다.</FormText>
+                      <FormText className="muted">가격은 입력해야합니다.</FormText>
                     </FormGroup>
                   </Col>
                 </Row>
@@ -155,18 +173,20 @@ const EquipmentDetail = () => {
                     </FormGroup>
                   </Col>
                   <Col md="6">
-                    <FormGroup>
-                      <Label>Price</Label>
-                      <Input
-                        type="text"
-                        name="equipmentPrice"
-                        placeholder="--원"
-                        readOnly={readOnly}
-                        onChange={onChangeHandler}
-                        value={equipmentInfo.equipmentPrice || ''}
-                      />
-                      <FormText className="muted">휴대폰 번호는 반드시 입력해야 합니다.</FormText>
-                    </FormGroup>
+                      <Row className="mb-3 mt-3">
+                        <Col md="6" className="d-flex justify-content-start">
+                          <h2 className="ms-5 ps-4">전체 직원</h2>
+                        </Col>
+                        <Col md="6" className="d-flex justify-content-end">
+                          <h2 className="me-5 pe-5">담당 직원</h2>
+                        </Col>
+                      </Row>
+                      <div className='mb-4'>
+                        {manager ? <ManagerDragAndDrop AllUser={manager.AllUser} Manager={manager.Manager} airportCode={equipmentCode}
+                                                       airportType={airportType} isEditMode={readOnly}/>
+                            : <h3>loading</h3> }
+
+                      </div>
                   </Col>
                 </Row>
                 <Row>

@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Button } from 'reactstrap';
-import { isEdit, fetchApprove } from '../../../store/apps/approve/ContactSlice';
-import axios from 'axios';
+import axios from 'axios';  // axios 추가
+import { fetchApprove } from '../../../store/apps/approve/ContactSlice';
 import api from '../../../store/apps/airplane/api';
 
 const ContactDetails = () => {
@@ -12,24 +12,34 @@ const ContactDetails = () => {
 
   useEffect(() => {
     dispatch(fetchApprove());
-  }, [selectedFilter, dispatch]);
+  }, [selectedFilter, dispatch]);  // 의존성 배열에 dispatch 추가
 
   if (!contactDetail) {
     return 'Please Select The contact';
   }
-
-  console.log('contactDetail',contactDetail)
-
+  console.log('contactDetail', contactDetail)
   const handleApproveClick = () => {
-    api.put( `http://localhost:8080/api/v1/approve/${contactDetail.approvalCode}`) 
-        .then(res =>{
-          alert('승인 요청이 성공했습니다')
-        }) 
-        .catch (error=> {
-        console.error('승인 요청 중 오류 발생', error);
-    })
-};
+    if (!contactDetail.approvalCode) {
+      alert('승인 코드가 없습니다.');
+      return;
+    }
 
+    // 승인 여부를 확인하는 로직 추가
+    if (contactDetail.status === 'Y') {
+      alert('이미 승인된 시설물입니다.');
+      return;
+    }
+    api.put(`http://localhost:8080/api/v1/approve/${contactDetail.approvalCode}`)
+      .then(res => {
+        alert('승인 요청이 성공했습니다');
+        window.location.reload();
+      })
+      
+      .catch(error => {
+        console.error('승인 요청 중 오류 발생', error);
+        alert('승인 요청 중 오류 발생');
+      });
+  };
 
   const renderDetails = () => {
     if (selectedFilter === 'checkin_counter' || (selectedFilter === 'show_all' && contactDetail.checkinCounter)) {
@@ -41,47 +51,47 @@ const ContactDetails = () => {
           </tr>
           <tr>
             <td><h6>Airplane Code</h6></td>
-            <td>: {contactDetail.checkinCounter.airplane.airplaneCode}</td>
+            <td>: {contactDetail.checkinCounter.airplane?.airplaneCode || 'N/A'}</td>
           </tr>
           <tr>
             <td><h6>Checkin Counter Code</h6></td>
-            <td>: {contactDetail.checkinCounter.checkinCounterCode}</td>
+            <td>: {contactDetail.checkinCounter.checkinCounterCode || 'N/A'}</td>
           </tr>
           <tr>
             <td><h6>Created Date</h6></td>
-            <td>: {contactDetail.checkinCounter.createdDate}</td>
+            <td>: {contactDetail.checkinCounter.createdDate || 'N/A'}</td>
           </tr>
           <tr>
             <td><h6>Last Inspection Date</h6></td>
-            <td>: {contactDetail.checkinCounter.lastInspectionDate}</td>
+            <td>: {contactDetail.checkinCounter.lastInspectionDate || 'N/A'}</td>
           </tr>
           <tr>
             <td><h6>Location</h6></td>
-            <td>: {contactDetail.checkinCounter.location}</td>
+            <td>: {contactDetail.checkinCounter.location || 'N/A'}</td>
           </tr>
           <tr>
             <td><h6>Manager</h6></td>
-            <td>: {contactDetail.checkinCounter.manager}</td>
+            <td>: {contactDetail.checkinCounter.manager || 'N/A'}</td>
           </tr>
           <tr>
             <td><h6>Modified Date</h6></td>
-            <td>: {contactDetail.checkinCounter.modifiedDate}</td>
+            <td>: {contactDetail.checkinCounter.modifiedDate || 'N/A'}</td>
           </tr>
           <tr>
             <td><h6>Registration Date</h6></td>
-            <td>: {contactDetail.checkinCounter.registrationDate}</td>
+            <td>: {contactDetail.checkinCounter.registrationDate || 'N/A'}</td>
           </tr>
           <tr>
             <td><h6>Status</h6></td>
-            <td>: {contactDetail.checkinCounter.status}</td>
+            <td>: {contactDetail.checkinCounter.status || 'N/A'}</td>
           </tr>
           <tr>
             <td><h6>Type</h6></td>
-            <td>: {contactDetail.checkinCounter.type}</td>
+            <td>: {contactDetail.checkinCounter.type || 'N/A'}</td>
           </tr>
           <tr>
             <td><h6>Note</h6></td>
-            <td>: {contactDetail.checkinCounter.note}</td>
+            <td>: {contactDetail.checkinCounter.note || 'N/A'}</td>
           </tr>
         </>
       );
@@ -94,47 +104,47 @@ const ContactDetails = () => {
           </tr>
           <tr>
             <td><h6>Airplane Code</h6></td>
-            <td>: {contactDetail.baggageClaim.airplane.airplaneCode}</td>
+            <td>: {contactDetail.baggageClaim.airplane?.airplaneCode || 'N/A'}</td>
           </tr>
           <tr>
             <td><h6>Baggage Claim Code</h6></td>
-            <td>: {contactDetail.baggageClaim.baggageClaimCode}</td>
+            <td>: {contactDetail.baggageClaim.baggageClaimCode || 'N/A'}</td>
           </tr>
           <tr>
             <td><h6>Created Date</h6></td>
-            <td>: {contactDetail.baggageClaim.createdDate}</td>
+            <td>: {contactDetail.baggageClaim.createdDate || 'N/A'}</td>
           </tr>
           <tr>
             <td><h6>Last Inspection Date</h6></td>
-            <td>: {contactDetail.baggageClaim.lastInspectionDate}</td>
+            <td>: {contactDetail.baggageClaim.lastInspectionDate || 'N/A'}</td>
           </tr>
           <tr>
             <td><h6>Location</h6></td>
-            <td>: {contactDetail.baggageClaim.location}</td>
+            <td>: {contactDetail.baggageClaim.location || 'N/A'}</td>
           </tr>
           <tr>
             <td><h6>Manager</h6></td>
-            <td>: {contactDetail.baggageClaim.manager}</td>
+            <td>: {contactDetail.baggageClaim.manager || 'N/A'}</td>
           </tr>
           <tr>
             <td><h6>Modified Date</h6></td>
-            <td>: {contactDetail.baggageClaim.modifiedDate}</td>
+            <td>: {contactDetail.baggageClaim.modifiedDate || 'N/A'}</td>
           </tr>
           <tr>
             <td><h6>Registration Date</h6></td>
-            <td>: {contactDetail.baggageClaim.registrationDate}</td>
+            <td>: {contactDetail.baggageClaim.registrationDate || 'N/A'}</td>
           </tr>
           <tr>
             <td><h6>Status</h6></td>
-            <td>: {contactDetail.baggageClaim.status}</td>
+            <td>: {contactDetail.baggageClaim.status || 'N/A'}</td>
           </tr>
           <tr>
             <td><h6>Type</h6></td>
-            <td>: {contactDetail.baggageClaim.type}</td>
+            <td>: {contactDetail.baggageClaim.type || 'N/A'}</td>
           </tr>
           <tr>
             <td><h6>Note</h6></td>
-            <td>: {contactDetail.baggageClaim.note}</td>
+            <td>: {contactDetail.baggageClaim.note || 'N/A'}</td>
           </tr>
         </>
       );
@@ -147,39 +157,39 @@ const ContactDetails = () => {
           </tr>
           <tr>
             <td><h6>Facility Code</h6></td>
-            <td>: {contactDetail.facilities.facilitiesCode}</td>
+            <td>: {contactDetail.facilities.facilitiesCode || 'N/A'}</td>
           </tr>
           <tr>
             <td><h6>Created Date</h6></td>
-            <td>: {contactDetail.facilities.createdDate}</td>
+            <td>: {contactDetail.facilities.createdDate || 'N/A'}</td>
           </tr>
           <tr>
             <td><h6>Facility Class</h6></td>
-            <td>: {contactDetail.facilities.facilitiesClass}</td>
+            <td>: {contactDetail.facilities.facilitiesClass || 'N/A'}</td>
           </tr>
           <tr>
             <td><h6>Facility Name</h6></td>
-            <td>: {contactDetail.facilities.facilitiesName}</td>
+            <td>: {contactDetail.facilities.facilitiesName || 'N/A'}</td>
           </tr>
           <tr>
             <td><h6>Facilities Type</h6></td>
-            <td>: {contactDetail.facilities.facilitiesType}</td>
+            <td>: {contactDetail.facilities.facilitiesType || 'N/A'}</td>
           </tr>
           <tr>
             <td><h6>Location</h6></td>
-            <td>: {contactDetail.facilities.location}</td>
+            <td>: {contactDetail.facilities.location || 'N/A'}</td>
           </tr>
           <tr>
             <td><h6>Manager</h6></td>
-            <td>: {contactDetail.facilities.manager}</td>
+            <td>: {contactDetail.facilities.manager || 'N/A'}</td>
           </tr>
           <tr>
             <td><h6>Modified Date</h6></td>
-            <td>: {contactDetail.facilities.modifiedDate}</td>
+            <td>: {contactDetail.facilities.modifiedDate || 'N/A'}</td>
           </tr>
           <tr>
             <td><h6>Status</h6></td>
-            <td>: {contactDetail.facilities.status}</td>
+            <td>: {contactDetail.facilities.status || 'N/A'}</td>
           </tr>
         </>
       );
@@ -192,47 +202,47 @@ const ContactDetails = () => {
           </tr>
           <tr>
             <td><h6>Airplane Code</h6></td>
-            <td>: {contactDetail.gate.airplane.airplaneCode}</td>
+            <td>: {contactDetail.gate.airplane?.airplaneCode || 'N/A'}</td>
           </tr>
           <tr>
             <td><h6>Gate Code</h6></td>
-            <td>: {contactDetail.gate.gateCode}</td>
+            <td>: {contactDetail.gate.gateCode || 'N/A'}</td>
           </tr>
           <tr>
             <td><h6>Created Date</h6></td>
-            <td>: {contactDetail.gate.createdDate}</td>
+            <td>: {contactDetail.gate.createdDate || 'N/A'}</td>
           </tr>
           <tr>
             <td><h6>Last Inspection Date</h6></td>
-            <td>: {contactDetail.gate.lastInspectionDate}</td>
+            <td>: {contactDetail.gate.lastInspectionDate || 'N/A'}</td>
           </tr>
           <tr>
             <td><h6>Location</h6></td>
-            <td>: {contactDetail.gate.location}</td>
+            <td>: {contactDetail.gate.location || 'N/A'}</td>
           </tr>
           <tr>
             <td><h6>Manager</h6></td>
-            <td>: {contactDetail.gate.manager}</td>
+            <td>: {contactDetail.gate.manager || 'N/A'}</td>
           </tr>
           <tr>
             <td><h6>Modified Date</h6></td>
-            <td>: {contactDetail.gate.modifiedDate}</td>
+            <td>: {contactDetail.gate.modifiedDate || 'N/A'}</td>
           </tr>
           <tr>
             <td><h6>Registration Date</h6></td>
-            <td>: {contactDetail.gate.registrationDate}</td>
+            <td>: {contactDetail.gate.registrationDate || 'N/A'}</td>
           </tr>
           <tr>
             <td><h6>Status</h6></td>
-            <td>: {contactDetail.gate.status}</td>
+            <td>: {contactDetail.gate.status || 'N/A'}</td>
           </tr>
           <tr>
             <td><h6>Type</h6></td>
-            <td>: {contactDetail.gate.type}</td>
+            <td>: {contactDetail.gate.type || 'N/A'}</td>
           </tr>
           <tr>
             <td><h6>Note</h6></td>
-            <td>: {contactDetail.gate.note}</td>
+            <td>: {contactDetail.gate.note || 'N/A'}</td>
           </tr>
         </>
       );
@@ -245,43 +255,43 @@ const ContactDetails = () => {
           </tr>
           <tr>
             <td><h6>Storage Code</h6></td>
-            <td>: {contactDetail.storage.storageCode}</td>
+            <td>: {contactDetail.storage.storageCode || 'N/A'}</td>
           </tr>
           <tr>
             <td><h6>Created Date</h6></td>
-            <td>: {contactDetail.storage.createdDate}</td>
+            <td>: {contactDetail.storage.createdDate || 'N/A'}</td>
           </tr>
           <tr>
             <td><h6>Date</h6></td>
-            <td>: {contactDetail.storage.date}</td>
+            <td>: {contactDetail.storage.date || 'N/A'}</td>
           </tr>
           <tr>
             <td><h6>Department</h6></td>
-            <td>: {contactDetail.storage.department}</td>
+            <td>: {contactDetail.storage.department || 'N/A'}</td>
           </tr>
           <tr>
             <td><h6>Location</h6></td>
-            <td>: {contactDetail.storage.location}</td>
+            <td>: {contactDetail.storage.location || 'N/A'}</td>
           </tr>
           <tr>
-            <td><h6>Manager </h6></td>
-            <td>: {contactDetail.storage.manager}</td>
+            <td><h6>Manager</h6></td>
+            <td>: {contactDetail.storage.manager || 'N/A'}</td>
           </tr>
           <tr>
             <td><h6>Modified Date</h6></td>
-            <td>: {contactDetail.storage.modifiedDate}</td>
+            <td>: {contactDetail.storage.modifiedDate || 'N/A'}</td>
           </tr>
           <tr>
             <td><h6>Period</h6></td>
-            <td>: {contactDetail.storage.period}</td>
+            <td>: {contactDetail.storage.period || 'N/A'}</td>
           </tr>
           <tr>
             <td><h6>Status</h6></td>
-            <td>: {contactDetail.storage.status}</td>
+            <td>: {contactDetail.storage.status || 'N/A'}</td>
           </tr>
           <tr>
             <td><h6>Type</h6></td>
-            <td>: {contactDetail.storage.type}</td>
+            <td>: {contactDetail.storage.type || 'N/A'}</td>
           </tr>
         </>
       );
@@ -294,82 +304,136 @@ const ContactDetails = () => {
           </tr>
           <tr>
             <td><h6>Store Id</h6></td>
-            <td>: {contactDetail.store.storeId}</td>
+            <td>: {contactDetail.store.storeId || 'N/A'}</td>
           </tr>
           <tr>
             <td><h6>Manager</h6></td>
-            <td>: {contactDetail.store.manager}</td>
+            <td>: {contactDetail.store.manager || 'N/A'}</td>
           </tr>
           <tr>
-            <td><h6>Status </h6></td>
-            <td>: {contactDetail.store.status}</td>
+            <td><h6>Status</h6></td>
+            <td>: {contactDetail.store.status || 'N/A'}</td>
           </tr>
           <tr>
             <td><h6>Store Contact</h6></td>
-            <td>: {contactDetail.store.storeContact}</td>
+            <td>: {contactDetail.store.storeContact || 'N/A'}</td>
           </tr>
           <tr>
             <td><h6>Store Extra</h6></td>
-            <td>: {contactDetail.store.storeExtra}</td>
+            <td>: {contactDetail.store.storeExtra || 'N/A'}</td>
           </tr>
           <tr>
             <td><h6>Store Items</h6></td>
-            <td>: {contactDetail.store.storeItems}</td>
+            <td>: {contactDetail.store.storeItems || 'N/A'}</td>
           </tr>
           <tr>
-            <td><h6>Store Name </h6></td>
-            <td>: {contactDetail.store.storeName}</td>
+            <td><h6>Store Name</h6></td>
+            <td>: {contactDetail.store.storeName || 'N/A'}</td>
           </tr>
           <tr>
-            <td><h6> Store Work</h6></td>
-            <td>: {contactDetail.store.storeWork}</td>
+            <td><h6>Store Work</h6></td>
+            <td>: {contactDetail.store.storeWork || 'N/A'}</td>
           </tr>
           <tr>
             <td><h6>Type</h6></td>
-            <td>: {contactDetail.store.type}</td>
+            <td>: {contactDetail.store.type || 'N/A'}</td>
           </tr>
           <tr>
-            <td><h6>OperatingTime</h6></td>
-            <td>: {contactDetail.store.storeOperatingTime}</td>
+            <td><h6>Operating Time</h6></td>
+            <td>: {contactDetail.store.storeOperatingTime || 'N/A'}</td>
           </tr>
           <tr>
-            <td><h6>createdDate</h6></td>
-            <td>: {contactDetail.store.createdDate}</td>
+            <td><h6>Created Date</h6></td>
+            <td>: {contactDetail.store.createdDate || 'N/A'}</td>
           </tr>
         </>
       );
+    }
+    return null;
+  };
+
+  const getManagerName = () => {
+    switch (selectedFilter) {
+      case 'checkin_counter':
+        return contactDetail.checkinCounter?.manager || 'N/A';
+      case 'baggage_claim':
+        return contactDetail.baggageClaim?.manager || 'N/A';
+      case 'facilities':
+        return contactDetail.facilities?.manager || 'N/A';
+      case 'gate':
+        return contactDetail.gate?.manager || 'N/A';
+      case 'storage':
+        return contactDetail.storage?.manager || 'N/A';
+      case 'store':
+        return contactDetail.store?.manager || 'N/A';
+      case 'show_all':
+        return (
+          <>
+            {contactDetail.checkinCounter && (
+              <div>
+                <h5> {contactDetail.checkinCounter.manager || 'N/A'}</h5>
+              </div>
+            )}
+            {contactDetail.baggageClaim && (
+              <div>
+                <h5>{contactDetail.baggageClaim.manager || 'N/A'}</h5>
+              </div>
+            )}
+            {contactDetail.facilities && (
+              <div>
+                <h5>{contactDetail.facilities.manager || 'N/A'}</h5>
+              </div>
+            )}
+            {contactDetail.gate && (
+              <div>
+                <h5>{contactDetail.gate.manager || 'N/A'}</h5>
+              </div>
+            )}
+            {contactDetail.storage && (
+              <div>
+                <h5> {contactDetail.storage.manager || 'N/A'}</h5>
+              </div>
+            )}
+            {contactDetail.store && (
+              <div>
+                <h5>{contactDetail.store.manager || 'N/A'}</h5>
+              </div>
+            )}
+          </>
+        );
+      default:
+        return 'Select a valid filter';
     }
   };
 
   return (
     <>
-        <div>
-            <div className="d-flex align-items-center p-3 border-bottom">
-                <div className="">
-                    <img src={contactDetail.image} alt="user" className="rounded-circle" width="46" />
-                </div>
-                <div className="mx-2">
-                    <h5 className="mb-0">
-                        {contactDetail.firstname} {contactDetail.lastname}
-                    </h5>
-                    <small>{contactDetail.department}</small>
-                </div>
+      <div>
+        <div className="d-flex align-items-center p-3 border-bottom">
+          <div className="me-3">
+            <img src={contactDetail.image} alt="user" className="rounded-circle" width="46" />
+          </div>
+          <div>
+            <h5 className="mb-0">
+              {contactDetail.firstname} {contactDetail.lastname}
+            </h5>
+            <small>{contactDetail.department}</small>
+            <div className="mt-2">
+              <p>{getManagerName()}</p>
             </div>
-
-            <div className="p-4">
-                <table className="table table-borderless">
-                    <tbody>
-                        {renderDetails()}
-                        <tr>
-                            <td />
-                            <td>
-                                <Button color="primary" onClick={handleApproveClick}>
-                                    승인
-                                </Button>
-                </td>
-              </tr>
+          </div>
+        </div>
+        <div className="p-4">
+          <table>
+            <tbody>
+              {renderDetails()}
             </tbody>
           </table>
+        </div>
+        <div className="p-4">
+          <Button color="primary" onClick={handleApproveClick}>
+            승인
+          </Button>
         </div>
       </div>
     </>

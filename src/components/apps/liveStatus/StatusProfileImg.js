@@ -1,7 +1,7 @@
 import React from "react";
 import {useSelector} from "react-redux";
 
-const StatusProfileImg = ({userCode, src}) => {
+const StatusProfileImg = ({userCode, src, width}) => {
 
     const onlineStatus = useSelector(state => state.status.onlineStatus);
     const isOnline = onlineStatus[userCode] === 'online';
@@ -16,8 +16,8 @@ const StatusProfileImg = ({userCode, src}) => {
                     src={src}
                     alt={`profileImg`}
                     style={{
-                        width: '60px',
-                        height: '60px',
+                        width: width ? width : '60px',
+                        height: width ? width : '60px',
                         borderRadius: '50%',
                         border: `2px solid ${isOnline ? '#44b700' : '#ccc'}`,
                     }}
