@@ -1,5 +1,6 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import api from '../airplane/api';
+import {ContactSlice, getContacts} from "src/store/apps/approve/ContactSlice.js";
 
 export const fetchEquipments = createAsyncThunk('equipment/fetchEquipments', async () => {
     const response = await api.get('/api/v1/equipment');
@@ -15,7 +16,7 @@ export const fetchEquipment = createAsyncThunk('equipment/fetchEquipment', async
 
 export const modifyEquipment = createAsyncThunk('equipment/modifyEquipment', async ({ equipmentCode, equipmentInfo }) => {
     console.log('equipmentInfo',equipmentInfo)
-    const response = await api.put(`/api/v1/equipment/${equipmentCode}/update`, equipmentInfo);
+    const response = await api.put(`/api/v1/equipment/${equipmentCode}`, equipmentInfo);
     console.log("수정 결과:", response.data);
     return response.data;
 });
@@ -28,7 +29,7 @@ export const deleteEquipment = createAsyncThunk('equipment/deleteEquipment', asy
 
 export const registEquipment = createAsyncThunk('equipment/equipmentRegist', async ({ equipmentInfo }) => {
     console.log('equipmentInfoasd',equipmentInfo)
-    const response4 = await api.post(`/api/v1/equipmentRegist`,equipmentInfo);
+    const response4 = await api.post(`/api/v1/equipment`,equipmentInfo);
     console.log("등록 결과:", response4);
     return response4.data;
 });
@@ -40,8 +41,17 @@ const equipmentSlice = createSlice({
         equipmentDetail: null,
         status: 'idle',
         error: null,
+        currentFilter : "show_all",
+        epuipments : []
     },
-    reducers: {},
+    reducers: {
+        getEquipments: (state, action) => {
+            state.epuipments = action.payload;
+        },
+        setVisibilityFilter: (state, action) => {
+            state.currentFilter = action.payload;
+        },
+    },
     extraReducers: (builder) => {
         builder
             .addCase(fetchEquipments.pending, (state) => {
@@ -105,5 +115,43 @@ const equipmentSlice = createSlice({
             });
     },
 });
+export const fetchEquip = () => async (dispatch, getState) => {
+    try {
+        const state = getState();
+        const response = await api.get('/api/v1/equipment');
+        const equipments = response.data;
+
+        const filteredEquipments = equipments.filter(equip => {
+            if (state.equipments.currentFilter === 'show_all') {
+                return true;
+            } else if (equip.category=="항공기정비장비") {
+                return equip.category === state.equipments.currentFilter;
+            } else if (equip.category =="활주로및계류장유지보수장비") {
+                return contact.category === state.equipments.currentFilter;
+            } else if (contact.category == "전기및전자장비") {
+                return contact.category === state.equipments.currentFilter;
+            } else if (contact.category == "통신및네트워크장비") {
+                return contact.category === state.equipments.currentFilter;
+            } else if (contact.category == "화재및안정장비") {
+                return contact.category === state.equipments.currentFilter;
+            } else if (contact.category == "청소및환경관리장비") {
+                return contact.category === state.equipments.currentFilter;
+            } else if (contact.category == "건설및건축장비") {
+                return contact.category === state.equipments.currentFilter;
+            } else if (contact.category == "운송및물류장비") {
+                return contact.category === state.equipments.currentFilter;
+            }
+        });
+
+        dispatch(getEquipments(filteredEquipments));
+    } catch (err) {
+        console.error('Failed to fetch contacts:', err);
+    }
+};
+
+
+export const {
+    setVisibilityFilter,
+} = equipmentSlice.actions;
 
 export default equipmentSlice.reducer;
