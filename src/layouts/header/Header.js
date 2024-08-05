@@ -24,6 +24,7 @@ import { ToggleMiniSidebar, ToggleMobileSidebar } from '../../store/customizer/C
 import ProfileDD from './ProfileDD';
 import Cookies from 'js-cookie'
 import Player from "src/components/apps/audioPlayer/Player.js";
+import StatusProfileImg from "src/components/apps/liveStatus/StatusProfileImg.js";
 
 const Header = () => {
   const isDarkMode = useSelector((state) => state.customizer.isDark);
@@ -166,7 +167,7 @@ const Header = () => {
           {/******************************/}
           <UncontrolledDropdown>
             <DropdownToggle color="transparent">
-              <img src={userInfo.userImg} alt="profile" className="rounded-circle" width="30" />
+              <StatusProfileImg userCode={userInfo.userCode} src={userInfo.userImg} width={40} />
             </DropdownToggle>
             <DropdownMenu className="ddWidth profile-dd">
               <ProfileDD />

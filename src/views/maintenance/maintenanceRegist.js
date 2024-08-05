@@ -58,7 +58,7 @@ const MaintenanceRegist = () => {
 
 
   };
- console.log('maintenanceInfo',maintenanceInfo)
+  console.log('maintenanceInfo',maintenanceInfo)
   const handleRegisterClick = () => {
     dispatch(createMaintenance(maintenanceInfo));
     navigate('/maintenance');

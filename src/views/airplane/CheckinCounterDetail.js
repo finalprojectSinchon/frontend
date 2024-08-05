@@ -15,6 +15,9 @@ import BreadCrumbs from '../../layouts/breadcrumbs/BreadCrumbs';
 import { useParams,useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchChkinCounter, modifyChkinCounter, softdeleteChkinCounter } from '../../store/apps/airplane/chkinCounterSlice';
+import Location from "src/components/location/Location.js";
+import api from "src/store/apps/airplane/api.js";
+import ManagerDragAndDrop from "src/components/apps/managerDargAndDrop/ManagerDragAndDrop.js";
 
 
 const CheckinCounterDetail = () => {
@@ -25,9 +28,27 @@ const CheckinCounterDetail = () => {
 
 
   const chkinCounterDetail = useSelector((state) => state.chkinCounters.chkinCounterDetail);
-  console.log('chkinCounterDetail',chkinCounterDetail)
+
   const [checkinCounterInfo, setCheckinCounterInfo] = useState({});
   const [readOnly, setReadOnly] = useState(true);
+
+  const [manager, setManager] = useState([]);
+  const [airportType, setAirportType] = useState();
+
+  const [isModify, setIsModify] = useState(false);
+  const [location, setLocation] = useState();
+
+  useEffect(() => {
+    api.post('/api/v1/managers',{
+      airportType : airportType,
+      airportCode : checkinCounterCode
+    })
+        .then(res => res.data)
+        .then(data => {
+          setManager(data.data)
+        })
+  }, [checkinCounterInfo]);
+
 
   const onChangeHandler = e => {
     setCheckinCounterInfo({
@@ -35,6 +56,16 @@ const CheckinCounterDetail = () => {
       [e.target.name]: e.target.value
     });
   };
+
+  useEffect(() => {
+    api.get(`/api/v1/location/${airportType}/${checkinCounterCode}`)
+        .then(res => res.data)
+        .then(data => {
+          setLocation(data.data)
+        })
+        .catch(err => console.log(err));
+
+  }, [airportType]);
 
   
   const onClickHandler = () => {
@@ -46,6 +77,7 @@ const CheckinCounterDetail = () => {
 
   useEffect(() => {
     dispatch(fetchChkinCounter({ checkinCounterCode }));
+    setAirportType('checkinCounter');
   }, [dispatch, checkinCounterCode]);
 
   useEffect(() => {
@@ -56,16 +88,17 @@ const CheckinCounterDetail = () => {
 
 
 
-  const handleEditClick = () => {
+  const handleEditClick = async () => {
     if (readOnly) {
       setReadOnly(false);
     } else {
-      setReadOnly(true);
-      dispatch(modifyChkinCounter({ checkinCounterCode, checkinCounterInfo }));
+      await dispatch(modifyChkinCounter({ checkinCounterCode, checkinCounterInfo }));
+      setIsModify(true);
     }
   };
 
-  console.log('detail',checkinCounterInfo)
+
+
 
 
   return (
@@ -161,23 +194,21 @@ const CheckinCounterDetail = () => {
                   </Col>
                   <Col md="6">
                     <FormGroup>
-                      <Label>담당자</Label>
-                      <Input type="text" value={checkinCounterInfo.manager } name="manager" onChange={onChangeHandler} disabled={readOnly} />
+                      <Label>운항상태</Label>
+                      <Input type="text" value={checkinCounterInfo.airplane?.remark } disabled />
                     </FormGroup>
                   </Col>
                 </Row>
                 <Row>
                   <Col md="6">
-                    <FormGroup>
-                      <Label>위치</Label>
-                      <Input type="text" value={checkinCounterInfo.location} name="location" onChange={onChangeHandler} disabled={readOnly} />
-                    </FormGroup>
+                    {readOnly ? <> <Label>위치</Label>
+                          <Input type="text" placeholder="시설물 이름을 입력하세요" name='facilitiesName' onChange={onChangeHandler} readOnly={readOnly}
+                                 value={location ? location.region + " " + location.floor + " " + location.location : '위치 데이터가 없습니다.'  } /> </> :
+                        <Location isModify={isModify} setIsModify={setIsModify} setReadOnly={setReadOnly} code={checkinCounterCode} type={airportType}/>
+                    }
                   </Col>
                   <Col md="6">
-                    <FormGroup>
-                      <Label>운항상태</Label>
-                      <Input type="text" value={checkinCounterInfo.airplane?.remark } disabled />
-                    </FormGroup>
+
                   </Col>
              
                 </Row>
@@ -187,6 +218,22 @@ const CheckinCounterDetail = () => {
                       <Label>비고</Label>
                       <Input type="textarea" rows="6" value={checkinCounterInfo.note} name="note" onChange={onChangeHandler} disabled={readOnly} />
                     </FormGroup>
+                  </Col>
+                  <Col md="6">
+                    <Row className="mb-3 mt-3">
+                      <Col md="6" className="d-flex justify-content-start">
+                        <h2 className="ms-5 ps-4">전체 직원</h2>
+                      </Col>
+                      <Col md="6" className="d-flex justify-content-end">
+                        <h2 className="me-5 pe-5">담당 직원</h2>
+                      </Col>
+                    </Row>
+                    <div className='mb-4'>
+                      {manager ? <ManagerDragAndDrop AllUser={manager.AllUser} Manager={manager.Manager} airportCode={checkinCounterCode}
+                                                     airportType={airportType} isEditMode={readOnly}/>
+                          : <h3>loading</h3> }
+
+                    </div>
                   </Col>
                 </Row>
                 <Col className='d-flex justify-content-center'>

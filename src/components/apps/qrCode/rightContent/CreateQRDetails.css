@@ -1,0 +1,25 @@
+/* CreateQRDetails.css */
+
+.qr-code {
+    border: 2px solid #007bff; /* Blue border around QR code */
+    border-radius: 8px; /* Rounded corners for the border */
+    padding: 10px; /* Padding between QR code and border */
+    background-color: #ffffff; /* Background color for QR code area */
+}
+
+.text-primary {
+    color: #007bff !important; /* Primary color for headings */
+}
+
+.text-muted {
+    color: #6c757d !important; /* Muted color for the placeholder text */
+}
+
+.card {
+    /*border: 1px solid #007bff; !* Blue border for the card *!*/
+    border-radius: 12px; /* Rounded corners for the card */
+}
+
+.card-body {
+    background-color: #f8f9fa; /* Light background color for card body */
+}

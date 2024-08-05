@@ -1,13 +1,13 @@
-import React from 'react';
+import React, {useState} from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { ListGroup, ListGroupItem, Button, Modal, ModalHeader, UncontrolledCollapse } from 'reactstrap';
-import { setVisibilityFilter } from '../../../store/apps/approve/ContactSlice';
+import { setVisibilityFilter } from 'src/store/apps/approve/ContactSlice.js';
 import ContactAdd from './ContactAdd';
 
 const ContactFilter = () => {
   const dispatch = useDispatch();
   const active = useSelector((state) => state.contacts.currentFilter);
-  const [modal, setModal] = React.useState(false);
+  const [modal, setModal] = useState(false);
 
   const toggleModal = () => setModal(!modal);
 

@@ -22,6 +22,11 @@ const SidebarData = [
         href: '/code-issuance',
         icon: <MaterialIcon icon="radio_button_checked" />,
       },
+      {
+        title: 'QR코드 생성',
+        href: '/qrcode',
+        icon: <MaterialIcon icon="qr_code" />,
+      },
     ],
   },
   {

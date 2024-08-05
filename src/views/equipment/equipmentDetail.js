@@ -13,7 +13,7 @@ import {
     Button,
     Input,
 } from 'reactstrap';
-import BreadCrumbs from '../../layouts/breadcrumbs/BreadCrumbs';
+import BreadCrumbs from '../../layouts/breadcrumbs/BreadCrum';
 import img1 from '../../assets/images/products/s1.jpg';
 import img2 from '../../assets/images/products/s2.jpg';
 import img3 from '../../assets/images/products/s3.jpg';
@@ -23,23 +23,7 @@ import {fetchEquipment, modifyEquipment, deleteEquipment} from '../../store/apps
 import ManagerDragAndDrop from "src/components/apps/managerDargAndDrop/ManagerDragAndDrop.js";
 import api from "src/store/apps/airplane/api.js";
 
-const items = [
-    {
-        src: img1,
-        altText: 'Slide 1',
-        caption: 'Slide 1',
-    },
-    {
-        src: img2,
-        altText: 'Slide 2',
-        caption: 'Slide 2',
-    },
-    {
-        src: img3,
-        altText: 'Slide 3',
-        caption: 'Slide 3',
-    },
-];
+
 
 const EquipmentDetail = () => {
     const {equipmentCode} = useParams();
@@ -328,7 +312,7 @@ const EquipmentDetail = () => {
                             </Row>
                         </CardBody>
                     </Card>
-                </Col>
+               </Col>
             </Row>
         </div>
     );
