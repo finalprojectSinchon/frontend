@@ -30,7 +30,7 @@ const Sidebar = () => {
       <SimpleBar style={{ height: '100%' }}>
         <div className="profilebg" style={{ background: `url(${probg}) no-repeat` }}>
           <div className="p-3 d-flex">
-            <StatusProfileImg userCode={userInfo.userCode} src={userInfo.userImg}/>
+            <StatusProfileImg userCode={userInfo.userCode} src={userInfo.userImg} />
           </div>
           <div className="bg-dark text-dark-white p-2 opacity-75 text-truncate">{userInfo.userName}</div>
         </div>

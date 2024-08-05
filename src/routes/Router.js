@@ -6,6 +6,7 @@ import { element, exact } from 'prop-types';
 
 
 
+
 //import MaintenanceRegist from '../views/maintenance/maintenanceRegist';
 
 
@@ -84,9 +85,12 @@ const Certification = Loadable(lazy(() => import('../views/auth/Certification'))
 
 
 /***** Chatting Pages ****/
-const TestChatting = Loadable(lazy(() => import('../views/chat/TestChatting.js')));
+
 const LiveChatting = Loadable(lazy(() => import('../views/chat/LiveChatting.js')));
-const ManagerDragAndDrop = Loadable(lazy(() => import('src/components/apps/managerDargAndDrop/ManagerDragAndDrop')));
+const CreateQRCodeTest = Loadable(lazy(() => import("src/components/apps/qrCode/CreateQRCode.js")));
+
+// qrCode
+const CreateQRCode = Loadable(lazy(() => import("src/views/createQRCode/CreateQRCode.js")));
 
 const ForgotPwd = Loadable(lazy(() => import('../views/auth/forgotPwd.js')));
 const FindPassword = Loadable(lazy(() => import('../views/auth/findPassword.js')));
@@ -157,7 +161,13 @@ const ThemeRoutes = [
       { path: '/approve', name: 'approve', exact:true, element: <Approve/> },
       //{ path: '/ContactList', name: 'ContactList', exact: true, element: <ContactList /> }, // ContactList 경로 추가
 
-   
+
+        // QRTest 용
+      { path: '/qrtest', name: 'qrTest', exact:true, element: <CreateQRCodeTest/> },
+      // QR 발급 (관)
+      { path: '/qrcode', name: 'CreateQRCode', exact:true, element: <CreateQRCode/> },
+
+
 
 
    
