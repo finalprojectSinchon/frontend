@@ -13,9 +13,11 @@ import {
 } from 'reactstrap';
 import BreadCrumbs from '../../layouts/breadcrumbs/BreadCrumbs';
 import { useNavigate } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import { useDispatch ,useSelector} from 'react-redux';
 import { registInspection } from '../../store/apps/inspection/inspectionSlice';
 import { useLocation } from 'react-router-dom';
+import { fetchLocation } from "../../store/apps/maintenance/maintenanceSlice";
+
 
 const InspectionRegist = () => {
   const dispatch = useDispatch();
@@ -32,16 +34,26 @@ const InspectionRegist = () => {
     type: '',
     regularInspectionDate: '',
     phone: '',
-    isactive: 'Y'
-  });
+    structure:''
 
+  });
+  const [structure,setStructure] = useState('');
+  const locationList = useSelector(state => state.maintenances.location);
+  const locations = locationList?.data?.locationList  || [];
   const [all, setAll] = useState({
+
+    
     manager: '',
     status: '',
     location: '',
     text: '',
     type: '',
   });
+
+  useEffect(() => {
+    dispatch(fetchLocation(structure));
+  }, [structure]);
+
 
   useEffect(() => {
     if (info) {
@@ -57,7 +69,10 @@ const InspectionRegist = () => {
     setInspectionInfo({
       ...inspectionInfo,
       [e.target.name]: e.target.value,
-    });
+    });  
+    if(e.target.name == 'structure'){
+      setStructure(e.target.value)
+    }
   };
 
   const handleRegisterClick = () => {
@@ -83,44 +98,58 @@ const InspectionRegist = () => {
             <CardBody>
               <Form>
                 <Row>
-                  <Col md="6">
+                <Col md="6">
                     <FormGroup>
-                      <Label>Location</Label>
-                      <Input 
-                        type="text" 
-                        placeholder="안전점검 할 위치를 입력하세요" 
-                        name='location' 
-                        onChange={onChangeHandler} 
-                        value={info?.location}
-                      />
-                    </FormGroup>
-                  </Col>
-                  <Col md="6">
-                    <FormGroup>
-                      <Label>Status</Label>
-                      <Input 
-                        type="select" 
-                        name="status" 
-                        onChange={onChangeHandler} 
-                        value={info?.status}
+                      <Label>시설물</Label>
+                      <Input
+                        type="select"
+                        name="structure"
+                        onChange={onChangeHandler}
                       >
-                        <option value="정상">정상</option>
-                        <option value="점검중">점검중</option>
-                        <option value="중단">중단</option>
+                        <option value="">선택하세요</option>
+                        <option value="gate">탑승구</option>
+                        <option value="baggageClaim">수화물 수취대</option>
+                        <option value="checkinCounter">체크인 카운터</option>
+                        <option value="facilities">편의시설</option>
+                        <option value="store">점포</option>
+                        <option value="storage">창고</option>
                       </Input>
                     </FormGroup>
                   </Col>
+                  <Col md="6">
+                    <FormGroup>
+                      <Label>위치</Label>
+                      <Input
+                        type="select"
+                        name="location"
+                        onChange={onChangeHandler}
+                      >
+                        <option value="">위치를 선택하세요</option>
+                        {locations.map((location, index) => (
+                            <option key={index} value={location}>{location}</option>
+                        ))}
+                      </Input>
+                    </FormGroup>
+                  </Col>
+                
                 </Row>
                 <Row>
                   <Col md="6">
                     <FormGroup>
                       <Label>Type</Label>
                       <Input 
-                        type="text" 
+                        type="select" 
                         name='type' 
                         onChange={onChangeHandler} 
                         value={info?.type}
-                      >
+                        >
+                        <option value="">A</option>
+                        <option value="">B</option>
+                        <option value="">C</option>
+                        <option value="">D</option>
+                        
+                        
+                      
                       </Input>
                     </FormGroup>
                   </Col>
@@ -165,6 +194,21 @@ const InspectionRegist = () => {
                   </Col>
                 </Row>
                 <Row>
+                <Col md="6">
+                    <FormGroup>
+                      <Label>Status</Label>
+                      <Input 
+                        type="select" 
+                        name="status" 
+                        onChange={onChangeHandler} 
+                        value={info?.status}
+                      >
+                        <option value="정상">정상</option>
+                        <option value="점검중">점검중</option>
+                        <option value="중단">중단</option>
+                      </Input>
+                    </FormGroup>
+                  </Col>
                   <Col md="6">
                     <FormGroup>
                       <Label>비고</Label>

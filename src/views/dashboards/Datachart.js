@@ -16,17 +16,18 @@ const DataChart = () => {
     }, [dispatch]);
 
     useEffect(() => {
-        console.log('inspectionList???:', inspectionList);
+        console.log('inspectionList:', inspectionList);
         console.log('status:', status);
         console.log('error:', error);
     }, [inspectionList, status, error]);
 
-    // 데이터가 로드되지 않았을 때 빈 배열을 반환
-    const data = Array.isArray(inspectionList) ? inspectionList : [];
-    console.log('1111:', inspectionList);
-    console.log('dataasdsda', data);
-    const categories = data.map(item => item.status  || 'Unknown status ');
-    const seriesData = data.map(item => item.equipmentQuantity || 0); 
+    const data = status === 'succeeded' && inspectionList && Array.isArray(inspectionList.data) ? inspectionList.data : [];
+    useEffect(() => {
+        console.log('data:', data);
+    }, [data]);
+
+    const categories = data.map(item => item.status || 'Unknown status');
+    const seriesData = data.map(item => item.equipmentQuantity || 0);
 
     const optionscolumn = {
         colors: ['#745af2', '#263238', '#4fc3f7'],

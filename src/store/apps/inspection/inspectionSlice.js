@@ -26,7 +26,7 @@ export const deleteInspection = createAsyncThunk('inspection/deleteInspection', 
 });
 export const registInspection = createAsyncThunk('inspection/inspectionRegist', async ({ inspectionInfo }) => {
     console.log('inspectionInfo111111', inspectionInfo);
-    const response4 = await api.post(`/api/v1/inspectionRegist`, inspectionInfo);
+    const response4 = await api.post(`/api/v1/inspection`, inspectionInfo);
     console.log("등록 결과:", response4);
     return response4.data;
 });
@@ -94,7 +94,7 @@ const inspectionSlice = createSlice({
             })
             .addCase(registInspection.fulfilled, (state, action) => {
                 state.status = 'succeeded';
-                state.inspectionList.push(action.payload); // 새로 등록된 항목 추가
+                state.inspectionList=action.payload; // 새로 등록된 항목 추가
             })
             .addCase(registInspection.rejected, (state, action) => {
                 state.status = 'failed';
