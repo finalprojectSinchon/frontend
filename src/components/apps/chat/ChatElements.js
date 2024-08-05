@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import { MessageList, Navbar } from 'react-chat-elements';
 import 'react-chat-elements/dist/main.css';
 import {Input, Button, Spinner} from 'reactstrap';
@@ -21,6 +21,18 @@ const ChatElements = ({ chatData, userInfo }) => {
     const [inputValue, setInputValue] = useState('');
     const dispatch = useDispatch();
     const socketMessages = useSelector(state => state.websocket.messages);
+
+    // 스크롤 락
+    const messagesContainerRef = useRef(null);
+
+    const scrollToBottom = () => {
+        if (messagesContainerRef.current) {
+            messagesContainerRef.current.scrollTop = messagesContainerRef.current.scrollHeight;
+        }
+    };
+    useEffect(() => {
+        scrollToBottom();
+    }, [messages]);
 
     useEffect(() => {
         if (userInfo && userInfo.userCode) {
@@ -52,8 +64,8 @@ const ChatElements = ({ chatData, userInfo }) => {
                             position: 'right',
                             type: 'text',
                             text: data.message,
-                            date: new Date(data.timestamp.seconds * 1000),
-                            avatar: chatData.avatar,
+                            date: new Date(data.timestamp),
+                            avatar: userInfo.userImg,
                             title: '나'
                         };
                     });
@@ -65,7 +77,7 @@ const ChatElements = ({ chatData, userInfo }) => {
                             position: 'left',
                             type: 'text',
                             text: data.message,
-                            date: new Date(data.timestamp.seconds * 1000),
+                            date: new Date(data.timestamp),
                             avatar: chatData.avatar,
                             title: chatData.title
                         };
@@ -151,9 +163,8 @@ const ChatElements = ({ chatData, userInfo }) => {
 
 
     useEffect(() => {
-        // 상태가 업데이트 될 때마다 자동으로 호출됩니다.
         console.log("Messages updated:", messages);
-    }, [messages]); // messages 배열이 변경될 때마다 호출됩니다.
+    }, [messages]);
 
 
     const handleSendMessage = () => {
@@ -182,11 +193,18 @@ const ChatElements = ({ chatData, userInfo }) => {
         }
     };
 
+    const handleKeyPress = (e) => {
+        if (e.key === 'Enter') {
+            handleSendMessage();
+        }
+    };
+
     return (
         <div className="chat-container">
             <Navbar
                 left={
-                    <img src={chatData ? chatData.avatar : 'https://via.placeholder.com/50'} className="rounded-circle ms-2" width="50" alt="profile Img"/>
+                    <img src={chatData ? chatData.avatar : 'https://via.placeholder.com/50'}
+                         className="rounded-circle ms-2" width="50" alt="profile Img"/>
                 }
                 center={chatData ? <h3>{chatData.title}</h3> : null}
                 right={
@@ -194,17 +212,20 @@ const ChatElements = ({ chatData, userInfo }) => {
                 type={"light"}
                 className="mb-3"
             />
+            <div ref={messagesContainerRef} className="messages-container" style={{ overflowY: 'auto', maxHeight: '80vh' }}>
             <MessageList
                 className='message-list'
-                lockable={true}
+                lockable={false}
                 toBottomHeight={'100%'}
                 dataSource={messages}
             />
+            </div>
             <div className="input-container">
                 <Input
                     className="input-field"
                     value={inputValue}
                     onChange={(e) => setInputValue(e.target.value)}
+                    onKeyDown={handleKeyPress}
                     placeholder="내용을 입력하세요"
                 />
                 <Button color="primary" onClick={handleSendMessage}>Send</Button>

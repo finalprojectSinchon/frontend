@@ -129,7 +129,6 @@ const AirportStoreDetail = () => {
                         <option name="점검중">점검중</option>
                         <option name="중단">중단</option>
                       </Input>
-                      <FormText className="muted">This field has error.</FormText>
                     </FormGroup>
                   </Col>
                 </Row>
@@ -141,15 +140,13 @@ const AirportStoreDetail = () => {
                         <option name='점포'>점포</option>
                         <option name='안내소'>안내소</option>
                       </Input>
-                      <FormText className="muted">Select your type</FormText>
                     </FormGroup>
                   </Col>
                   <Col md="6">
                     <FormGroup>
-                      <Label>주요업무</Label>
-                      <Input type="text" name="storeWork" placeholder='주요업무를 입력하세요' readOnly={readOnly}
-                        onChange={onChangeHandler}  value={storeInfo ? storeInfo.storeWork :  '로딩중...' }/>
-                      <FormText className='muted'>주요업무는 반드시 입력해야햡니다.</FormText>
+                      <Label>위치</Label>
+                      <Input type="text" name="storeWork" placeholder='주요업무를 입력하세요' readOnly='true'
+                        onChange={onChangeHandler}  value={storeInfo ? storeInfo.storeLocation :  '로딩중...' }/>
                     </FormGroup>
                   </Col>
 

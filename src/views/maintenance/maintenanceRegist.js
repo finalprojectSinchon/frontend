@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   Card,
   CardBody,
@@ -13,8 +13,9 @@ import {
 } from 'reactstrap';
 import BreadCrumbs from '../../layouts/breadcrumbs/BreadCrumbs';
 import { useNavigate } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import { useDispatch ,useSelector} from 'react-redux';
 import { createMaintenance } from '../../store/apps/maintenance/maintenanceSlice';
+import { fetchLocation } from "../../store/apps/maintenance/maintenanceSlice";
 
 const MaintenanceRegist = () => {
   const dispatch = useDispatch();
@@ -30,18 +31,38 @@ const MaintenanceRegist = () => {
     maintenanceEndDate: '',
     maintenanceDetails: '',
     reportFile: '',
+    status:''
   });
+  const [structure,setStructure] = useState('');
+  const locationList = useSelector(state => state.maintenances.location);
+  const locations = locationList?.data?.locationList  || [];
+
+
+
+  useEffect(() => {
+    dispatch(fetchLocation(structure));
+  }, [structure]);
+
+
+  console.log('locationList',locationList)
+  console.log('structure',structure)
 
   const onChangeHandler = (e) => {
     setMaintenanceInfo({
       ...maintenanceInfo,
       [e.target.name]: e.target.value,
     });
-  };
+    if(e.target.name == 'structure'){
+      setStructure(e.target.value)
+    }
 
+
+  };
+ console.log('maintenanceInfo',maintenanceInfo)
   const handleRegisterClick = () => {
     dispatch(createMaintenance(maintenanceInfo));
     navigate('/maintenance');
+    window.location.reload();
   };
 
   return (
@@ -67,13 +88,12 @@ const MaintenanceRegist = () => {
                         onChange={onChangeHandler}
                       >
                         <option value="">선택하세요</option>
-                        <option value="이동수단">이동수단</option>
-                        <option value="탑승구">탑승구</option>
-                        <option value="수화물 수취대">수화물 수취대</option>
-                        <option value="체크인 카운터">체크인 카운터</option>
-                        <option value="편의시설">편의시설</option>
-                        <option value="점포">점포</option>
-                        <option value="창고">창고</option>
+                        <option value="gate">탑승구</option>
+                        <option value="baggageClaim">수화물 수취대</option>
+                        <option value="checkinCounter">체크인 카운터</option>
+                        <option value="facilities">편의시설</option>
+                        <option value="store">점포</option>
+                        <option value="storage">창고</option>
                       </Input>
                     </FormGroup>
                   </Col>
@@ -81,10 +101,15 @@ const MaintenanceRegist = () => {
                     <FormGroup>
                       <Label>위치</Label>
                       <Input
-                        type="text"
+                        type="select"
                         name="location"
                         onChange={onChangeHandler}
-                      />
+                      >
+                        <option value="">위치를 선택하세요</option>
+                        {locations.map((location, index) => (
+                            <option key={index} value={location}>{location}</option>
+                        ))}
+                      </Input>
                     </FormGroup>
                   </Col>
                 </Row>
@@ -101,34 +126,17 @@ const MaintenanceRegist = () => {
                   </Col>
                   <Col md="6">
                     <FormGroup>
-                      <Label>사용 장비</Label>
+                      <Label>상태</Label>
                       <Input
-                        type="text"
-                        name="equipment"
-                        onChange={onChangeHandler}
-                      />
-                    </FormGroup>
-                  </Col>
-                </Row>
-                <Row>
-                  <Col md="6">
-                    <FormGroup>
-                      <Label>갯수</Label>
-                      <Input
-                        type="number"
-                        name="quantity"
-                        onChange={onChangeHandler}
-                      />
-                    </FormGroup>
-                  </Col>
-                  <Col md="6">
-                    <FormGroup>
-                      <Label>비용</Label>
-                      <Input
-                        type="number"
-                        name="expense"
-                        onChange={onChangeHandler}
-                      />
+                          type="select"
+                          name="status"
+                          onChange={onChangeHandler}
+                      >
+                        <option value="">상태를 선택하세요</option>
+                        <option value="정비예정">정비예정</option>
+                        <option value="정비중">정비중</option>
+                        <option value="정비완료">정비완료</option>
+                      </Input>
                     </FormGroup>
                   </Col>
                 </Row>
@@ -155,6 +163,7 @@ const MaintenanceRegist = () => {
                   </Col>
                 </Row>
                 <Row>
+
                   <Col md="12">
                     <FormGroup>
                       <Label>상세 정보</Label>
@@ -167,18 +176,7 @@ const MaintenanceRegist = () => {
                     </FormGroup>
                   </Col>
                 </Row>
-                <Row>
-                  <Col md="12">
-                    <FormGroup>
-                      <Label>보고서 파일 보기</Label>
-                      <Input
-                        type="file"
-                        name="reportFile"
-                        onChange={onChangeHandler}
-                      />
-                    </FormGroup>
-                  </Col>
-                </Row>
+
                 <Col className="d-flex justify-content-center">
                   <Button className="m-2" color="primary" onClick={handleRegisterClick}>
                     등록

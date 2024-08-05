@@ -106,7 +106,7 @@ const AirportStore = () => {
                 exportCSV
                 headerStyle={{ width: '100%' }}
             >
-              <TableHeaderColumn width="20%" dataField="type" dataAlign="center">
+              <TableHeaderColumn width="20%" dataField="storeLocation" dataAlign="center">
                 타입
               </TableHeaderColumn>
               <TableHeaderColumn width="20%" dataField="storeName" dataAlign="center">

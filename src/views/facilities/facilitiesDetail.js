@@ -18,14 +18,11 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import api from '../../store/apps/airplane/api';
 import ManagerDragAndDrop from "src/components/apps/managerDargAndDrop/ManagerDragAndDrop.js";
-
-
+import Location from "src/components/location/Location.js";
 
 const FacilitiesDetail = () => {
 
-
     const { facilitiesCode } = useParams();
-
 
     const navigate = useNavigate();
 
@@ -33,6 +30,9 @@ const FacilitiesDetail = () => {
     const [readOnly, setreadOnly] = useState(true);
     const [manager, setManager] = useState([]);
     const [airportType, setAirportType] = useState()
+
+    const [isModify, setIsModify] = useState(false);
+    const [location, setLocation] = useState()
 
     useEffect(() => {
 
@@ -50,10 +50,20 @@ const FacilitiesDetail = () => {
         api.get(`/api/v1/facilities/${facilitiesCode}`)
             .then(res => res.data)
             .then(data => {
-                setfacilitiesInfo(data.data)
+                setfacilitiesInfo(data.data);
             })
         setAirportType('facilities')
     },[]);
+
+    useEffect(() => {
+        api.get(`/api/v1/location/facilities/${facilitiesCode}`)
+            .then(res => res.data)
+            .then(data => {
+                setLocation(data.data)
+            })
+            .catch(err => console.log(err));
+
+    }, [airportType]);
 
     const onClickDelete = () => {
         api.put(`/api/v1/facilities/${facilitiesCode}/delete`)
@@ -71,15 +81,19 @@ const FacilitiesDetail = () => {
             [e.target.name] : e.target.value
         })
     }
+
     const onClickSave = () => {
         api.put(`/api/v1/facilities/${facilitiesCode}`,facilitiesInfo)
             .then(res => {
-                alert('수정에 성공하였습니다.')
+                setIsModify(true);
+                return res.data
             })
             .catch(error => {
                 console.error('에러 : ',error);
             })
     }
+
+
     return (
         <div>
             <BreadCrumbs />
@@ -87,7 +101,6 @@ const FacilitiesDetail = () => {
             <Button color="dark" onClick={() => navigate('/inspection/inspectionRegist' , { state: { info: facilitiesInfo } })}>
             안전 점검 등록
             </Button>
-                    
             </div>
             <Row>
                 <Col md="12">
@@ -133,13 +146,12 @@ const FacilitiesDetail = () => {
                                         </FormGroup>
                                     </Col>
                                     <Col md="6">
-                                        <FormGroup>
-                                            <Label>위치</Label>
-                                            <Input type="text" name='location' placeholder="위치" onChange={onChangeHandler} readOnly={readOnly}
-                                                    value={facilitiesInfo?facilitiesInfo.location : '2asdas'} />
-                                        </FormGroup>
+                                        {readOnly ? <> <Label>위치</Label>
+                                            <Input type="text" placeholder="시설물 이름을 입력하세요" name='facilitiesName' onChange={onChangeHandler} readOnly={readOnly}
+                                                   value={location ? location.region + " " + location.floor + " " + location.location : '위치 데이터가 없습니다.'  } /> </> :
+                                            <Location isModify={isModify} setIsModify={setIsModify} setReadOnly={setreadOnly} code={facilitiesCode} type={airportType}/>
+                                        }
                                     </Col>
-
                                 </Row>
                                 <Row>
                                     <Col md="6">
@@ -204,10 +216,7 @@ const FacilitiesDetail = () => {
 
                     </Card>
                 </Col>
-
             </Row>
-
-
         </div>
     );
 };

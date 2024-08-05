@@ -26,6 +26,21 @@ export const createMaintenance = createAsyncThunk('maintenance/createMaintenance
     return response.data;
 });
 
+export const fetchLocation = createAsyncThunk('maintenance/fetchLocation', async (structure) => {
+    const response = await api.get(`/api/v1/structure?structure=${structure}`);
+    return response.data;
+});
+
+export const maintenanceEquipment = createAsyncThunk('maintenance/maintenanceEquipment', async (payload) => {
+    const response = await api.put('/api/v1/maintenanceEquipment',payload);
+    return response.data;
+});
+
+export const maintenance = createAsyncThunk('maintenance/maintenance', async ({maintenanceCode}) => {
+   const response = await api.get(`api/v1/maintenanceEquipment?maintenanceCode=${maintenanceCode}`);
+   return response.data;
+});
+
 const maintenanceSlice = createSlice({
     name: 'maintenances',
     initialState: {
@@ -33,6 +48,8 @@ const maintenanceSlice = createSlice({
         maintenanceDetails: null,
         status: 'idle',
         error: null,
+        location:[],
+        result :'',
     },
     reducers: {},
     extraReducers: (builder) => {
@@ -68,11 +85,19 @@ const maintenanceSlice = createSlice({
             })
             .addCase(createMaintenance.fulfilled, (state, action) => {
                 state.status = 'succeeded';
-                state.maintenanceList.push(action.payload);
+                state.maintenanceList=action.payload;
             })
             .addCase(createMaintenance.rejected, (state, action) => {
                 state.status = 'failed';
                 state.error = action.error.message;
+            })
+            .addCase(fetchLocation.fulfilled, (state, action) => {
+                state.status = 'succeeded';
+                state.location = action.payload;
+            })
+            .addCase(maintenance.fulfilled, (state, action) => {
+                state.status = 'succeeded';
+                state.result=action.payload;
             });
     },
 });
