@@ -15,6 +15,8 @@ import BreadCrumbs from '../../layouts/breadcrumbs/BreadCrumbs';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { registEquipment } from '../../store/apps/equipment/equipmentSlice';
+import {getDownloadURL, ref, uploadBytes} from "firebase/storage";
+import {storage} from "src/firebase.js";
 
 const EquipmentRegist = () => {
   const dispatch = useDispatch();
@@ -26,8 +28,10 @@ const EquipmentRegist = () => {
     equipmentName: null,
     equipmentQuantity: null,
     equipmentPrice: null,
-    isactive: 'Y'
+    img:''
+
   });
+  const [img,setImg] = useState(null);
 
   const onChangeHandler = (e) => {
     setEquipmentInfo({
@@ -36,15 +40,32 @@ const EquipmentRegist = () => {
     }); 
   };
 
-  const handleRegisterClick = () => {
-    console.log('equipmentInfo 값 들음?',equipmentInfo);
-    dispatch(registEquipment({equipmentInfo}));
+  const handleRegisterClick = async () => {
+    let imgUrl = '';
+
+    if (img) {
+      const img_ref = ref(storage, `equipmentImg/${equipmentInfo.equipmentName}`);
+      try {
+        await uploadBytes(img_ref, img);
+        imgUrl = await getDownloadURL(img_ref);
+      } catch (e) {
+        console.error('Image upload error:', e);
+      }
+    }
+
+    const updatedEquipmentInfo = { ...equipmentInfo, img: imgUrl };
+    setEquipmentInfo(updatedEquipmentInfo);
+
+
+    await dispatch(registEquipment({ equipmentInfo: updatedEquipmentInfo }));
     navigate('/equipment');
-    window.location.reload();
-
   };
+  const changeHandler = (e) => {
+    if(e.target.files[0]){
+      setImg(e.target.files[0])
+    }
+  }
 
-  console.log('22222222222',equipmentInfo)
   return (
     <div>
       <BreadCrumbs />
@@ -70,6 +91,19 @@ const EquipmentRegist = () => {
                         defaultValue={equipmentInfo.location } 
                       />
                     
+                    </FormGroup>
+                  </Col>
+                  <Col md="6">
+                    <FormGroup>
+                      <Label>사진ㄴ</Label>
+                      <Input
+                          type="file"
+                          placeholder="안전점검 할 위치를 입력하세요"
+                          name='location'
+                          onChange={changeHandler}
+
+                      />
+
                     </FormGroup>
                   </Col>
                   <Col md="6">
