@@ -3,7 +3,7 @@ export const websocketMiddleware = (store) => {
     let socket = null;
 
     return (next) => (action) => {
-        switch (action.type) {
+        switch (action ? action.type : null) {
             case 'websocket/connect':
                 if (socket !== null) {
                     socket.close();
