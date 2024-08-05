@@ -1,61 +1,99 @@
+// websocketSlice.js
 import { createSlice } from '@reduxjs/toolkit';
+import { updateOnlineStatus, removeUserStatus } from "src/store/apps/websocket/StatusSlice.js";
+import {useEffect} from "react";
 
-// 초기 상태 설정
+let socket = null;
+
 const initialState = {
-    socket: null,
+    isConnected: false,
     messages: [],
 };
 
-// 웹소켓 슬라이스 생성
 const websocketSlice = createSlice({
     name: 'websocket',
     initialState,
     reducers: {
-        setSocket(state, action) {
-            state.socket = action.payload;
+        setConnected(state, action) {
+            state.isConnected = action.payload;
         },
         receiveMessage(state, action) {
             state.messages.push(action.payload);
         },
         clearMessages(state) {
             state.messages = [];
-        },
+        }
     },
 });
 
-export const { setSocket, receiveMessage, clearMessages } = websocketSlice.actions;
+export const { setConnected, receiveMessage, clearMessages } = websocketSlice.actions;
 
-// WebSocket 연결 thunk
 export const connectWebSocket = (userCode) => (dispatch) => {
-    const socket = new WebSocket(`ws://localhost:8080/ws?userCode=${userCode}`);
+    if (socket) {
+        socket.close();
+    }
+
+    socket = new WebSocket(`ws://localhost:8080/ws?userCode=${userCode}`);
 
     socket.onopen = () => {
         console.log('WebSocket connected');
+        dispatch(setConnected(true));
+        socket.send(JSON.stringify({ type: 'REQUEST_ALL_STATUSES' }));
     };
 
+
     socket.onmessage = (event) => {
-        dispatch(receiveMessage(event.data));
+        const data = JSON.parse(event.data);
+        console.log("Received WebSocket message:", data);
+
+        if (data.type === 'USER_STATUS_UPDATE') {
+            if (Array.isArray(data.statusUpdates)) {
+                data.statusUpdates.forEach(update => {
+                    dispatch(updateOnlineStatus({ userCode: update.userCode, status: update.status }));
+                });
+            } else if (typeof data.statusUpdates === 'object') {
+                Object.entries(data.statusUpdates).forEach(([userCode, status]) => {
+                    dispatch(updateOnlineStatus({ userCode, status }));
+                });
+            }
+        } else if (data.type === 'USER_DISCONNECTED') {
+            dispatch(removeUserStatus(data.userCode));
+        }
+
+        dispatch(receiveMessage(data));
     };
+
+
+
 
     socket.onclose = () => {
         console.log('WebSocket disconnected');
-        dispatch(setSocket(null));
+        dispatch(setConnected(false));
     };
 
     socket.onerror = (error) => {
         console.error('WebSocket error:', error);
+        dispatch(setConnected(false));
     };
 
-    dispatch(setSocket(socket));
+    return socket;
 };
 
-// WebSocket 연결 해제 thunk
-export const disconnectWebSocket = () => (dispatch, getState) => {
-    const { socket } = getState().websocket;
+export const disconnectWebSocket = () => (dispatch) => {
     if (socket) {
         socket.close();
     }
-    dispatch(setSocket(null));
+    dispatch(setConnected(false));
 };
+
+export const sendWebSocketMessage = (message) => (dispatch) => {
+    if (socket && socket.readyState === WebSocket.OPEN) {
+        socket.send(JSON.stringify(message));
+    } else {
+        console.error('WebSocket is not connected');
+    }
+};
+
+
 
 export default websocketSlice.reducer;

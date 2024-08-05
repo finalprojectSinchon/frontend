@@ -1,46 +1,43 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
-import { Card, CardBody, CardTitle, CardSubtitle, Button } from 'reactstrap';
+import { Card, CardBody, Modal, ModalHeader, ModalBody, Button } from 'reactstrap';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchGates  } from '../../store/apps/airplane/gateSlice';
+import { fetchGates } from '../../store/apps/airplane/gateSlice';
 import { useNavigate } from 'react-router-dom';
 import BreadCrumbs from '../../layouts/breadcrumbs/BreadCrumbs';
-import { TransformWrapper, TransformComponent } from 'react-zoom-pan-pinch';
-import './img.css';
+import Gate2 from './Gate2';
+import Gate3 from './Gate3';
+import Gate4 from './Gate4';
+import Gate5 from './Gate5';
+import './gateimg2.css'; // Ensure this file contains necessary styles
 
+// Callback functions for table actions
 function onAfterDeleteRow(rowKeys) {
   alert(`The rowkey you drop: ${rowKeys}`);
 }
 
 function afterSearch(searchText, result) {
   console.log(`Your search text is ${searchText}`);
-  console.log('result',result)
+  console.log('result', result);
 }
 
-
+// Row selection properties
 const selectRowProp = {
   mode: 'checkbox',
-
 };
 
-const cellEditProp = {
-  mode: 'click',
-  blurToSave: true,
-};
+// Callback functions for the second table
+function onAfterDeleteRow2(rowKeys) {
+  alert(`Deleted row key(s): ${rowKeys}`);
+}
 
-// 좌표를 퍼센트에서 픽셀로 변환
-const convertPercentToCoords = (percentCoords, imgWidth, imgHeight) => {
-  const coordsArray = percentCoords.split(',').map(coord => parseFloat(coord));
+function afterSearch2(searchText, result) {
+  console.log(`Search text for second table: ${searchText}`);
+  console.log('Result for second table:', result);
+}
 
-  return coordsArray.map((coord, index) => {
-    return index % 2 === 0
-      ? Math.round((coord / 100) * imgWidth)
-      : Math.round((coord / 100) * imgHeight);
-  }).join(',');
-};
-
-
-const statusFormatter = (cell, row) => {
+// Status formatter for the first table
+const statusFormatter = (cell) => {
   let styleClass;
   if (cell === '고장') {
     styleClass = 'bg-danger';
@@ -49,42 +46,67 @@ const statusFormatter = (cell, row) => {
   } else {
     styleClass = 'bg-success';
   }
-  
   return (
-    <span className={`p-2 rounded-circle d-inline-block ${styleClass}`}></span>
+      <span className={`p-2 rounded-circle d-inline-block ${styleClass}`}></span>
   );
 };
 
+// Status formatter for the second table
+const statusFormatter2 = (cell) => {
+  let styleClass;
+  if (cell === '고장') {
+    styleClass = 'bg-danger';
+  } else if (cell === '점검중') {
+    styleClass = 'bg-warning';
+  } else {
+    styleClass = 'bg-success';
+  }
+  return (
+      <span className={`p-2 rounded-circle d-inline-block ${styleClass}`}></span>
+  );
+};
 
+// Convert percentage coordinates to pixel coordinates
+const convertPercentToCoords = (percentCoords, imgWidth, imgHeight) => {
+  const coordsArray = percentCoords.split(',').map(coord => parseFloat(coord));
+  return coordsArray.map((coord, index) => {
+    return index % 2 === 0
+        ? Math.round((coord / 100) * imgWidth)
+        : Math.round((coord / 100) * imgHeight);
+  }).join(',');
+};
 
+// Component mapping
+const componentMapping = {
+  Gate2,
+  Gate3,
+  Gate4,
+  Gate5,
+};
 
+// Main Datatables component
 const Datatables = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const gateList = useSelector((state) => state.gates.gateList);
   console.log('gateList',gateList)
 
-  // 초기 퍼센트 좌표 설정
+  // Initial map data with coordinates in percentage
   const initialMapData = [
-    { id: 1, coords: "83%,82%,87%,86%", href: "#section1", label: "Section 1" },
-    { id: 2, coords: "27.5%,50%,30.5%,70%", href: "#section2", label: "Section 2" },
-    { id: 3, coords: "31%,45%,34%,65%", href: "#section3", label: "Section 3" },
-    { id: 4, coords: "34.5%,40%,37.5%,60%", href: "#section4", label: "Section 4" },
-    { id: 5, coords: "39%,35%,42%,55%", href: "#section5", label: "Section 5" },
-    { id: 6, coords: "43%,30%,46%,50%", href: "#section6", label: "Section 6" },
-    { id: 7, coords: "51%,30%,55%,50%", href: "#section7", label: "Section 7" },
-    { id: 8, coords: "56%,35%,59.5%,55%", href: "#section8", label: "Section 8" },
-    { id: 9, coords: "60%,37%,63.5%,58%", href: "#section9", label: "Section 9" },
-    { id: 10, coords: "64.5%,39%,68%,60%", href: "#section10", label: "Section 10" },
-    { id: 11, coords: "68.5%,42%,72%,62%", href: "#section11", label: "Section 11" },
-    { id: 12, coords: "72.5%,47%,75%,67%", href: "#section12", label: "Section 12" },
-    { id: 13, coords: "75.5%,53%,78%,72%", href: "#section13", label: "Section 13" }
+    { id: 1, coords: "0%,0%,100%,25%", href: "#section1", label: "Section 1", component: 'Gate2' },
+    { id: 2, coords: "0%,25%,50%,55%", href: "#section2", label: "Section 2", component: 'Gate3' },
+    { id: 3, coords: "50%,25%,100%,55%", href: "#section3", label: "Section 3", component: 'Gate4' },
+    { id: 4, coords: "0%,55%,100%,100%", href: "#section4", label: "Section 4", component: 'Gate5' }
   ];
 
   const [mapData, setMapData] = useState(initialMapData);
+  const [imageLoaded, setImageLoaded] = useState(false);
+  const [openModals, setOpenModals] = useState({});
+  const [hoveredArea, setHoveredArea] = useState(null);
+
   const imageRef = useRef(null);
 
-  // 좌표 조정 함수
+  // Adjust coordinates on image load and resize
   const adjustCoords = () => {
     if (imageRef.current) {
       const imgWidth = imageRef.current.clientWidth;
@@ -92,7 +114,6 @@ const Datatables = () => {
 
       const adjustedMapData = initialMapData.map(area => {
         const newCoords = convertPercentToCoords(area.coords, imgWidth, imgHeight);
-
         return { ...area, coords: newCoords };
       });
 
@@ -100,32 +121,32 @@ const Datatables = () => {
     }
   };
 
-  // 창 크기 변경 및 초기 로딩 시 좌표 조정
-  useEffect(() => {
-    adjustCoords();
-    window.addEventListener('resize', adjustCoords);
-
-    return () => {
-      window.removeEventListener('resize', adjustCoords);
-    };
-  }, []);
-
-  const options = {
-    afterDeleteRow: onAfterDeleteRow, 
-    afterSearch, 
-    onRowClick: (row) => {
-      console.log('Row clicked: ', row);
-      navigate(`/airplane/gate/${row.gateCode}`);
-    
-    },
-  };
-
-
   useEffect(() => {
     dispatch(fetchGates());
   }, [dispatch]);
 
-  
+  useEffect(() => {
+    if (imageLoaded) {
+      adjustCoords();
+    }
+    window.addEventListener('resize', adjustCoords);
+    return () => {
+      window.removeEventListener('resize', adjustCoords);
+    };
+  }, [imageLoaded]);
+
+  const options = {
+    afterDeleteRow: onAfterDeleteRow,
+    afterSearch,
+    onRowClick: (row) => {
+      navigate(`/airplane/gate/${row.gateCode}`);
+    },
+  };
+
+  const options2 = {
+    afterDeleteRow: onAfterDeleteRow2,
+    afterSearch: afterSearch2,
+  };
 
   if (!gateList || !gateList.data || !gateList.data.gateList) {
     return <div>Loading...</div>;
@@ -133,81 +154,151 @@ const Datatables = () => {
 
   const flatGateList = gateList.data.gateList.map(gate => ({
     ...gate,
-    airline: gate.airplane.airline,
-    scheduleDateTime: gate.airplane.scheduleDateTime
+    airline: gate.airline || '미정',
+    scheduleDateTime: gate.scheduleDateTime || '미정'
   }));
 
+  const handleClick = (id) => {
+    setOpenModals(prevState => ({
+      ...prevState,
+      [id]: !prevState[id]
+    }));
+  };
 
+  const handlerRegist = (location) => () => {
+    navigate(`/airplane/gate/regist`, { state: { location: location } });
+  };
+
+  const onClickHandler = (gateCode) => () => {
+    navigate('/airplane/gate/' + gateCode);
+  };
 
   return (
-    <div>
-   
+      <div>
+        <div className="container">
+          <BreadCrumbs /> {/* Add BreadCrumbs component here */}
           <div style={{ position: 'relative' }}>
-            <img 
-              src='/2.png' 
-              useMap='#roadmap' 
-              alt='Roadmap' 
-              ref={imageRef} 
-              style={{ width: '100%', height: 'auto' }}
+            <img
+                src='/2.png'
+                useMap='#roadmap'
+                alt='Roadmap'
+                ref={imageRef}
+                style={{ width: '65%', height: 'auto' }}
+                onLoad={() => setImageLoaded(true)}
             />
             <map name='roadmap'>
               {mapData.map(area => (
-                <area 
-                  key={area.id}
-                  shape='rect'
-                  coords={area.coords}
-                  href={area.href}
-                  onClick={() => console.log(`Clicked on ${area.label}`)}
-                  alt={area.label}
-                />
+                  <area
+                      key={area.id}
+                      shape='rect'
+                      coords={area.coords}
+                      href={area.href}
+                      alt={area.label}
+                      id={`area-${area.id}`}
+                      onClick={() => handleClick(area.id)}
+                      onMouseEnter={() => setHoveredArea(area.id)}
+                      onMouseLeave={() => setHoveredArea(null)}
+                  />
               ))}
             </map>
+            {mapData.map(area => {
+              const [x1, y1, x2, y2] = area.coords.split(',').map(Number);
+              const matchedGate = flatGateList.find(gate => gate.location === area.label);
+              const circleClass = matchedGate ? 'red-circle' : 'green-circle';
+
+              // Dynamically select component based on mapping
+              const ComponentToRender = componentMapping[area.component];
+
+              return (
+                  <React.Fragment key={`visual-${area.id}`}>
+                    <div
+                        className='image-map-area'
+                        style={{
+                          left: `${x1}px`,
+                          top: `${y1}px`,
+                          width: `${x2 - x1}px`,
+                          height: `${y2 - y1}px`,
+                          backgroundColor: hoveredArea === area.id ? 'rgba(0, 0, 0, 0.3)' : 'transparent',
+                          pointerEvents: 'none'
+                        }}
+                    ></div>
+                    <div
+                        className={circleClass}
+                        style={{
+                          left: `${x1 + (x2 - x1) / 2}px`,
+                          top: `${y1 + (y2 - y1) / 2}px`,
+                          position: 'absolute',
+                          width: '15px',
+                          height: '15px',
+                          borderRadius: '50%',
+                          transform: 'translate(-50%, -50%)'
+                        }}
+                    ></div>
+                    <Modal
+                        isOpen={openModals[area.id] || false}
+                        toggle={() => handleClick(area.id)}
+                        className='custom-modal'
+                        size="xl"
+                    >
+                      <ModalHeader toggle={() => handleClick(area.id)} className='custom-modal-header'>
+                        {area.label}
+                      </ModalHeader>
+                      <ModalBody className='custom-modal-body'>
+                        {ComponentToRender && <ComponentToRender hoveredArea={hoveredArea} areaId={area.id} />}
+                        {matchedGate && (
+                            <div>
+                              <p>Location: {matchedGate.location}</p>
+                              <p>Airline: {matchedGate.airline}</p>
+                              <p>Schedule: {matchedGate.scheduleDateTime}</p>
+                              <Button onClick={handlerRegist(matchedGate.location)}>Register</Button>
+                              <Button onClick={onClickHandler(matchedGate.gateCode)}>View Details</Button>
+                            </div>
+                        )}
+                      </ModalBody>
+                    </Modal>
+                  </React.Fragment>
+              );
+            })}
+          </div>
+          <div className="row mt-3">
+            <div className="col-md-12">
+              <Card>
+                <CardBody>
+                  <BootstrapTable
+                      data={flatGateList}
+                      pagination={true}
+                      deleteRow={true}
+                      selectRow={selectRowProp}
+                      options={options}
+                      search={true}
+                      hover={true}
+                      exportCSV
+                      bordered={false}
+                      className="custom-table1"
+                  >
+                    <TableHeaderColumn isKey dataField="gateCode" dataSort={true} headerAlign="center" dataAlign="center">
+                      탑승구 코드
+                    </TableHeaderColumn>
+                    <TableHeaderColumn dataField="location" dataSort={true} headerAlign="center" dataAlign="center">
+                      위치
+                    </TableHeaderColumn>
+                    <TableHeaderColumn dataField="status" dataSort={true} headerAlign="center" dataAlign="center" dataFormat={statusFormatter}>
+                      상태
+                    </TableHeaderColumn>
+                    <TableHeaderColumn dataField="airline" dataSort={true} headerAlign="center" dataAlign="center">
+                      항공사
+                    </TableHeaderColumn>
+                    <TableHeaderColumn dataField="scheduleDateTime" dataSort={true} headerAlign="center" dataAlign="center">
+                      출발/도착 시간
+                    </TableHeaderColumn>
+                  </BootstrapTable>
+                </CardBody>
+              </Card>
+            </div>
           </div>
 
-      <Card>
-        <CardBody>
-          {/* <CardTitle tag="h5">비행기</CardTitle>
-          <CardSubtitle className="mb-2 text-muted" tag="h6">
-            탑승구
-            
-          </CardSubtitle> */}
-           <BreadCrumbs />
-          <BootstrapTable
-            hover
-            search 
-            data={flatGateList}
-            insertRow
-            deleteRow
-            selectRow={selectRowProp}
-            pagination
-            options={options}
-            tableHeaderClass="mb-10"
-            exportCSV
-            headerStyle={{ width: '100%' }}
-          >
-            <TableHeaderColumn width="14.28%" dataField="gateCode" dataAlign="center" isKey>
-              Gate Code
-            </TableHeaderColumn>
-            <TableHeaderColumn width="14.28%" dataField="location" dataAlign="center">
-              Location
-            </TableHeaderColumn>
-            <TableHeaderColumn width="14.28%" dataField="gateType" dataAlign="center">
-              Type
-            </TableHeaderColumn>
-            <TableHeaderColumn width="14.28%" dataField="airline" dataAlign="center">
-              Airline
-            </TableHeaderColumn>
-            <TableHeaderColumn width="14.28%" dataField="status" dataAlign="center" dataFormat={statusFormatter}>
-              Status
-            </TableHeaderColumn>
-            <TableHeaderColumn width="14.28%" dataField="scheduleDateTime" dataAlign="center">
-              Schedule DateTime
-            </TableHeaderColumn>
-            
-          </BootstrapTable>
-        </CardBody>
-      </Card>
-    </div>
+        </div>
+      </div>
   );
 };
 

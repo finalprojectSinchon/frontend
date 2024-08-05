@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Nav } from 'reactstrap';
 import UserListItem from './UserListItem';
 import { fetchUsers, SelectUser, DeleteUser } from '../../../store/apps/userContact/UserContactSlice';
+import UserStatus from "src/components/apps/liveStatus/UserStatus.js";
 
 const UserList = () => {
     const dispatch = useDispatch();
@@ -32,6 +33,7 @@ const UserList = () => {
         <Nav>
             {users && users.length
                 ? users.map((user) => (
+                    <>
                     <UserListItem
                         key={user.userCode}
                         {...user}
@@ -47,6 +49,7 @@ const UserList = () => {
                             month: 'short',
                         })}
                     />
+                    </>
                 ))
                 : 'no notes'}
         </Nav>

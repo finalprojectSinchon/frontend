@@ -1,16 +1,12 @@
 import React from 'react';
 import { NavItem, UncontrolledTooltip } from 'reactstrap';
 import PropTypes from 'prop-types';
+import StatusProfileImg from "src/components/apps/liveStatus/StatusProfileImg.js";
 
 const UserListItem = ({ onClick, active, user, userColor, userDatef, onDeleteClick }) => (
     <NavItem className={`border-bottom cursor-pointer ${active === user.userCode ? 'bg-light' : ''}`}>
         <div onClick={onClick} className="d-flex align-items-center p-3">
-            <img
-                src={user.userImg}
-                alt={`${user.userName}'s profile`}
-                className="rounded-circle me-3"
-                style={{ width: '60px', height: '60px', objectFit: 'cover' }}
-            />
+            <StatusProfileImg userCode={user.userCode} src={user.userImg}/>
             <div className="flex-grow-1">
                 <h5 className="text-truncate noteText mb-0 mt-1">{user.userName || '이름없음'}</h5>
                 <h6 className="text-muted mt-2">{user.userDepartment ? user.userDepartment : '소속 없음'}</h6>
