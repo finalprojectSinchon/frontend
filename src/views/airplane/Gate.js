@@ -191,7 +191,7 @@ const Datatables = () => {
                 useMap='#roadmap'
                 alt='Roadmap'
                 ref={imageRef}
-                style={{ width: '65%', height: 'auto' }}
+                style={{ width: '100em', height: '40em' }}
                 onLoad={() => setImageLoaded(true)}
             />
             <map name='roadmap'>

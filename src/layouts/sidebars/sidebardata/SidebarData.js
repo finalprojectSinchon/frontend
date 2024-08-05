@@ -4,7 +4,7 @@ const SidebarData = [
 
   {
     title: 'Dashboards',
-    href: '/dashboards',
+    href: '/dashboards/dashboard1',
     id: 1,
     icon: <MaterialIcon icon="speed" />,
     collapisble: true,
@@ -50,7 +50,7 @@ const SidebarData = [
     title: '안전 점검',
     href: '/inspection',
     icon: <MaterialIcon icon="mail_outline" />,
-    suffix: 'New',
+
     suffixColor: 'bg-success',
     id: 2.5,
     collapisble: false,

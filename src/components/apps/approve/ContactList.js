@@ -9,14 +9,21 @@ import {
   fetchApprove,
 } from '../../../store/apps/approve/ContactSlice';
 import ContactListItem from './ContactListItem';
+import './Style.css';
 
 const ContactList = () => {
   const dispatch = useDispatch();
   const [managers, setManagers] = useState([]);
+  const contacts = useSelector(state => state.contacts.contacts);
+  const selectedContactId = useSelector(state => state.contacts.selectedContactId);
+  const searchTerm = useSelector(state => state.contacts.contactSearch);
+
+  const handleClick = (contactId) => {
+    dispatch(SelectContact({ contactId }));
+  };
 
   const approves = useSelector(state => state.contacts.approveData);
   const currentFilter = useSelector(state => state.contacts.currentFilter);
-  const contactSearch = useSelector(state => state.contacts.contactSearch);
   const active = useSelector(state => state.contacts.contactContent);
 
   useEffect(() => {
@@ -53,38 +60,48 @@ const ContactList = () => {
     }
   }, [approves]);
 
-  const getVisibleContacts = (approveList, filter, contactSearch) => {
-    if (filter === 'show_all') {
-      return approveList;
+  const getVisibleContacts = (approveList, filter, searchTerm) => {
+    let filteredContacts = approveList;
+
+    if (filter !== 'show_all') {
+      filteredContacts = filteredContacts.filter(contact => {
+        if (filter === 'baggage_claim' && contact.baggageClaim) return true;
+        if (filter === 'gate' && contact.gate) return true;
+        if (filter === 'checkin_counter' && contact.checkinCounter) return true;
+        if (filter === 'store' && contact.store) return true;
+        if (filter === 'storage' && contact.storage) return true;
+        if (filter === 'facilities' && contact.facilities) return true;
+        return false;
+      });
     }
-    const filteredContacts = [];
-    if (filter === 'baggage_claim') {
-      filteredContacts.push(...approveList.filter(c => c.baggageClaim));
+
+    if (searchTerm) {
+      filteredContacts = filteredContacts.filter(contact =>
+        contact.checkinCounter?.manager.includes(searchTerm) ||
+        contact.baggageClaim?.manager.includes(searchTerm) ||
+        contact.facilities?.manager.includes(searchTerm) ||
+        contact.gate?.manager.includes(searchTerm) ||
+        contact.storage?.manager.includes(searchTerm) ||
+        contact.store?.manager.includes(searchTerm)
+      );
     }
-    if (filter === 'gate') {
-      filteredContacts.push(...approveList.filter(c => c.gate));
-    }
-    if (filter === 'checkin_counter') {
-      filteredContacts.push(...approveList.filter(c => c.checkinCounter));
-    }
-    if (filter === 'store') {
-      filteredContacts.push(...approveList.filter(c => c.store));
-    }
-    if (filter === 'storage') {
-      filteredContacts.push(...approveList.filter(c => c.storage));
-    }
-    if (filter === 'facilities') {
-      filteredContacts.push(...approveList.filter(c => c.facilities));
-    }
+
     return filteredContacts;
   };
 
   const approveList = approves?.data?.approvalList || [];
-  const visibleContacts = getVisibleContacts(approveList, currentFilter, contactSearch);
+  const visibleContacts = getVisibleContacts(approveList, currentFilter, searchTerm);
+
+  // 승인 상태에 따라 정렬
+  const sortedContacts = [...visibleContacts].sort((a, b) => {
+    if (a.status === 'Y' && b.status !== 'Y') return 1;
+    if (a.status !== 'Y' && b.status === 'Y') return -1;
+    return 0;
+  });
 
   return (
     <Nav>
-      {visibleContacts.map(contact => (
+      {sortedContacts.map(contact => (
         <ContactListItem
           key={contact.approvalCode}
           active={active}

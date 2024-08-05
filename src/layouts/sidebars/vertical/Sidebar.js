@@ -8,6 +8,7 @@ import NavItemContainer from './NavItemContainer';
 import NavSubMenu from './NavSubMenu';
 import user1 from '../../../assets/images/users/user4.jpg';
 import probg from '../../../assets/images/bg/download.jpg';
+import StatusProfileImg from "src/components/apps/liveStatus/StatusProfileImg.js";
 
 const Sidebar = () => {
   const location = useLocation();
@@ -29,7 +30,7 @@ const Sidebar = () => {
       <SimpleBar style={{ height: '100%' }}>
         <div className="profilebg" style={{ background: `url(${probg}) no-repeat` }}>
           <div className="p-3 d-flex">
-            <img src={userInfo.userImg} alt="user" width="50" className="rounded-circle" />
+            <StatusProfileImg userCode={userInfo.userCode} src={userInfo.userImg}/>
           </div>
           <div className="bg-dark text-dark-white p-2 opacity-75 text-truncate">{userInfo.userName}</div>
         </div>
