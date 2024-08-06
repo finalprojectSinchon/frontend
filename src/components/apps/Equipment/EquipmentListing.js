@@ -45,7 +45,7 @@ const EquipmentListing = () => {
         {visibleContacts.map((equipment) => (
           <Col lg="4" key={equipment.equipmentCode} className="mb-4">
               <Link to={`/equipment/${equipment.equipmentCode}`}>
-              <img  src={equipment.img} className="img-fluid rounded-3" />
+              <img  src={equipment.img} className="img-fluid rounded-3" style={{width:'150px'}} />
             </Link>
             <div className="pt-2">
               <small>{equipment.category}</small>

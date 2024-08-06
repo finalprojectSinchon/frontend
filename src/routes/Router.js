@@ -134,7 +134,7 @@ const ThemeRoutes = [
       { path: '/equipment', name: 'equipment', exact: true, element: <Equipment/> },
       { path: '/equipment/:equipmentCode', name: 'equipmentDetail', exact: true, element: <EquipmentDetail/> },
       { path: '/equipment/equipmentUpdate', name: 'equipmentUpdate', exact: true, element: <EquipmentUpdate/> },
-      { path: '/equipment/equipmentRegist', name: 'equipmentRegist', exact: true, element: <EquipmentRegist/> },
+      { path: '/equipment/regist', name: 'equipmentRegist', exact: true, element: <EquipmentRegist/> },
 
       { path: '/facilities', name: 'Facilities', exact: true, element: <Facilities /> },
       { path: '/facilities/:facilitiesCode', name: 'FacilitiesDetail', exact: true, element:<FacilitiesDetail /> },
