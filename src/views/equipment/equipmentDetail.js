@@ -13,14 +13,10 @@ import {
     Button,
     Input,
 } from 'reactstrap';
-import BreadCrumbs from '../../layouts/breadcrumbs/BreadCrum';
-import img1 from '../../assets/images/products/s1.jpg';
-import img2 from '../../assets/images/products/s2.jpg';
-import img3 from '../../assets/images/products/s3.jpg';
+import BreadCrumbs from "src/layouts/breadcrumbs/BreadCrumbs.js";
 import {useParams, useNavigate} from 'react-router-dom';
 import {useDispatch, useSelector} from 'react-redux';
 import {fetchEquipment, modifyEquipment, deleteEquipment} from '../../store/apps/equipment/equipmentSlice';
-import ManagerDragAndDrop from "src/components/apps/managerDargAndDrop/ManagerDragAndDrop.js";
 import api from "src/store/apps/airplane/api.js";
 
 
@@ -58,32 +54,7 @@ const EquipmentDetail = () => {
     const [manager, setManager] = useState([]);
     const [airportType, setAirportType] = useState()
 
-    const [activeIndex, setActiveIndex] = React.useState(0);
-    const [animating, setAnimating] = React.useState(false);
 
-    const next = () => {
-        if (animating) return;
-        const nextIndex = activeIndex === items.length - 1 ? 1 : activeIndex + 1;
-        setActiveIndex(nextIndex);
-    };
-
-    const previous = () => {
-        if (animating) return;
-        const nextIndex = activeIndex === 0 ? items.length - 1 : activeIndex - 1;
-        setActiveIndex(nextIndex);
-    };
-
-    const slides = items.map(item => {
-        return (
-            <CarouselItem
-                onExiting={() => setAnimating(true)}
-                onExited={() => setAnimating(false)}
-                key={item.src}
-            >
-                <img src={item.src} alt={item.altText} width="100%"/>
-            </CarouselItem>
-        );
-    });
     const onChangeHandler = e => {
         const {name, value} = e.target;
         setEquipmentInfo({
@@ -93,8 +64,8 @@ const EquipmentDetail = () => {
     };
     const handleSave = () => {
         dispatch(modifyEquipment({equipmentCode, equipmentInfo: equipmentInfo}))
-        // navigate('/equipment');
-        // window.location.reload();
+
+        window.location.reload();
 
     };
 
@@ -113,15 +84,10 @@ const EquipmentDetail = () => {
                         <CardBody>
                             <Row>
                                 <Col lg="6">
-                                    <Carousel activeIndex={activeIndex} next={next} previous={previous}>
-                                        {slides}
-                                        <CarouselControl
-                                            direction="prev"
-                                            directionText="Previous"
-                                            onClickHandler={previous}
-                                        />
-                                        <CarouselControl direction="next" directionText="Next" onClickHandler={next}/>
-                                    </Carousel>
+
+
+                                   <img src={equipmentInfo.img} style={{width : '540px'}}/>
+
                                 </Col>
 
                                 <Col lg="6">

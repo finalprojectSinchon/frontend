@@ -1,11 +1,12 @@
  import React, {useEffect, useState} from 'react';
-import { FormGroup, Input, Label } from 'reactstrap';
+import { FormGroup, Input, Label ,Button} from 'reactstrap';
 import {setVisibilityFilter} from "src/store/apps/equipment/equipmentSlice.js";
 import {useDispatch} from "react-redux";
+ import {useNavigate} from "react-router-dom";
 
  const EcoSidebar = () => {
      const dispatch = useDispatch();
-    const [category , setCategory] = useState('');
+    const [category , setCategory] = useState('show_all');
     console.log('category',category)
     useEffect(() => {
         dispatch(setVisibilityFilter(category));
@@ -13,13 +14,18 @@ import {useDispatch} from "react-redux";
     const handleCategoryChange = (event) => {
         dispatch(setCategory(event.target.value));
     };
+    const navigator = useNavigate();
+    const onClickHandler = () => {
+        navigator('/equipment/regist');
+    }
   return (
     <div className="p-4">
+        <Button className="float-end" onClick={onClickHandler}>등록</Button>
       <h5 className="mb-4">Category</h5>
 
         <FormGroup>
             <Label className="cursor-pointer">
-                <Input type="radio" name="category" className="me-2" value="show_all" onChange={handleCategoryChange}  /> 전체
+                <Input type="radio" name="category" className="me-2" value="show_all" onChange={handleCategoryChange} /> 전체
             </Label>
         </FormGroup>
       <FormGroup>
