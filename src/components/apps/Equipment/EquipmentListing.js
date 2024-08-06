@@ -13,13 +13,14 @@ const EquipmentListing = () => {
     console.log('equipmentList',equipmentList);
     const dispatch = useDispatch();
     const currentFilter = useSelector(state => state.equipments.currentFilter);
+    const sort = useSelector(state => state.equipments.sort);
 
-
+    console.log('sort',sort)
     useEffect(() => {
          dispatch(fetchEquipments());
      }, [dispatch]);
-    const getVisibleEquipments = (approveList, filter) => {
-        let filteredEquipments = approveList;
+    const getVisibleEquipments = (approveList, filter,sortOption) => {
+        let filteredEquipments = [...approveList];
 
         if (filter !== 'show_all') {
             filteredEquipments = filteredEquipments.filter(equip => {
@@ -34,10 +35,16 @@ const EquipmentListing = () => {
                 return false;
             });
         }
+        console.log('sortOption',sortOption)
+        if (sortOption === 'quantity_low_high') {
+           return filteredEquipments.sort((a, b) => a.equipmentQuantity - b.equipmentQuantity);
+        } else if (sortOption === 'quantity_high_low') {
+          return  filteredEquipments.sort((a, b) => b.equipmentQuantity - a.equipmentQuantity);
+        }
 
         return filteredEquipments;
     };
-    const visibleContacts = getVisibleEquipments(equipments, currentFilter);
+    const visibleContacts = getVisibleEquipments(equipments, currentFilter,sort);
 
     return (
     <div className="p-4">
