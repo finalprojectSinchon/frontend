@@ -42,7 +42,8 @@ const equipmentSlice = createSlice({
         status: 'idle',
         error: null,
         currentFilter : "show_all",
-        epuipments : []
+        epuipments : [],
+        sort : ""
     },
     reducers: {
         getEquipments: (state, action) => {
@@ -51,6 +52,9 @@ const equipmentSlice = createSlice({
         setVisibilityFilter: (state, action) => {
             state.currentFilter = action.payload;
         },
+        setSortFilter : (state,action) => {
+            state.sort = action.payload
+        }
     },
     extraReducers: (builder) => {
         builder
@@ -152,6 +156,7 @@ export const fetchEquip = () => async (dispatch, getState) => {
 
 export const {
     setVisibilityFilter,
+    setSortFilter
 } = equipmentSlice.actions;
 
 export default equipmentSlice.reducer;

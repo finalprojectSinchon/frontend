@@ -9,12 +9,24 @@ import Gate2 from './Gate2';
 import Gate3 from './Gate3';
 import Gate4 from './Gate4';
 import Gate5 from './Gate5';
-import './gateimg2.css'; // Ensure this file contains necessary styles
+import './gateimg2.css';
+import api from "src/store/apps/airplane/api.js"; // Ensure this file contains necessary styles
 
-// Callback functions for table actions
 function onAfterDeleteRow(rowKeys) {
-  alert(`The rowkey you drop: ${rowKeys}`);
+  rowKeys.forEach(deleteRow);
+
 }
+
+const deleteRow = async (gateCode) => {
+  api.put(`/api/v1/airplane/gate/${gateCode}/delete`)
+      .then(res => {
+        alert("삭제 성공")
+      })
+      .catch(err => {
+        alert("삭제 실패")
+        console.error('err',err)
+      })
+};
 
 function afterSearch(searchText, result) {
   console.log(`Your search text is ${searchText}`);

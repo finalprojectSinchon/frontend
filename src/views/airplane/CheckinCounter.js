@@ -6,10 +6,23 @@ import { fetchChkinCounters } from '../../store/apps/airplane/chkinCounterSlice'
 import { useNavigate } from 'react-router-dom';
 import BreadCrumbs from '../../layouts/breadcrumbs/BreadCrumbs';
 import './img.css';
+import api from "src/store/apps/airplane/api.js";
 
 function onAfterDeleteRow(rowKeys) {
-  alert(`The rowkey you drop: ${rowKeys}`);
+  rowKeys.forEach(deleteRow);
+
 }
+
+const deleteRow = async (checkinCounterCode) => {
+  api.put(`/api/v1/airplane/checkin-counter/${checkinCounterCode}/delete`)
+      .then(res => {
+        alert("삭제 성공")
+      })
+      .catch(err => {
+        alert("삭제 실패")
+        console.error('err',err)
+      })
+};
 
 function afterSearch(searchText, result) {
   console.log(`Your search text is ${searchText}`);
