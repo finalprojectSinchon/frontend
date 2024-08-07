@@ -1,4 +1,4 @@
-import React from 'react';
+import React ,{useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import SimpleBar from 'simplebar-react';
@@ -33,12 +33,15 @@ const Header = () => {
   const dispatch = useDispatch();
 
   let navigate = useNavigate();
-
+  const [clearNotifications, setClearNotifications] = useState(false);
   const logoutHandler = () => {
     Cookies.remove('token');
     navigate('auth/loginformik')
   }
-
+  const handleClearNotifications = () => {
+    setClearNotifications(true);
+    setTimeout(() => setClearNotifications(false), 100);
+  };
   return (
     <>
       <Navbar
@@ -125,15 +128,15 @@ const Header = () => {
             </DropdownToggle>
             <DropdownMenu className="ddWidth">
               <DropdownItem header>
-                <span className="mb-0 fs-5">Notifications</span>
+                <span className="mb-0 fs-5">알림</span>
               </DropdownItem>
               <DropdownItem divider />
               <SimpleBar style={{ maxHeight: '350px' }}>
-                <NotificationDD />
+                <NotificationDD clearNotifications={clearNotifications}  />
               </SimpleBar>
               <DropdownItem divider />
               <div className="p-2 px-3">
-                <Button color="primary" size="sm" block>
+                <Button color="primary" size="sm" block onClick={handleClearNotifications}>
                   Check All
                 </Button>
               </div>

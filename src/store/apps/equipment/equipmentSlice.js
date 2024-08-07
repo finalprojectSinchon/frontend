@@ -1,36 +1,29 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import api from '../airplane/api';
-import {ContactSlice, getContacts} from "src/store/apps/approve/ContactSlice.js";
+
 
 export const fetchEquipments = createAsyncThunk('equipment/fetchEquipments', async () => {
     const response = await api.get('/api/v1/equipment');
-    console.log("전체조회 응답 데이터:", response.data);
     return response.data;
 });
 
 export const fetchEquipment = createAsyncThunk('equipment/fetchEquipment', async ({ equipmentCode }) => {
     const response = await api.get(`/api/v1/equipment/${equipmentCode}`);
-    console.log("상세조회 응답 데이터:", response.data);
     return response.data;
 });
 
 export const modifyEquipment = createAsyncThunk('equipment/modifyEquipment', async ({ equipmentCode, equipmentInfo }) => {
-    console.log('equipmentInfo',equipmentInfo)
     const response = await api.put(`/api/v1/equipment/${equipmentCode}`, equipmentInfo);
-    console.log("수정 결과:", response.data);
     return response.data;
 });
 
 export const deleteEquipment = createAsyncThunk('equipment/deleteEquipment', async ({ equipmentCode }) => {
     const response = await api.put(`/api/v1/equipment/${equipmentCode}/delete`);
-    console.log("삭제 결과:", response.data);
     return response.data;
 });
 
 export const registEquipment = createAsyncThunk('equipment/equipmentRegist', async ({ equipmentInfo }) => {
-    console.log('equipmentInfoasd',equipmentInfo)
     const response4 = await api.post(`/api/v1/equipment`,equipmentInfo);
-    console.log("등록 결과:", response4);
     return response4.data;
 });
 
