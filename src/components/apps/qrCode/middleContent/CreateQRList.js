@@ -9,6 +9,21 @@ const ContactList = () => {
 
     const facilities = useSelector(state => state.createQR.facility);
     const [newFacility, setNewFacility] = useState([])
+    const searchResults = useSelector(state => state.createQR.searchResults);
+    const [displayList, setDisplayList] = useState([]);
+
+    useEffect(() => {
+        if(searchResults && newFacility.length > 0) {
+            const filteredFacilities = newFacility.filter(facility =>
+                facility.name.toLowerCase().includes(searchResults.toLowerCase())
+            );
+            setDisplayList(filteredFacilities);
+        } else {
+            setDisplayList(newFacility);
+        }
+
+
+    }, [searchResults, newFacility]);
 
     useEffect(() => {
 
@@ -34,9 +49,11 @@ const ContactList = () => {
 
     const active = useSelector((state) => state.createQR.facilityClick);
 
+
+
     return (
         <Nav>
-            {newFacility ? newFacility.map((facility) => (
+            {displayList.length > 0 ? displayList.map((facility) => (
                 <CreateQRListItem
                     key={facility.id}
                     active={active}
