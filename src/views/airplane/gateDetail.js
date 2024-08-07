@@ -33,7 +33,7 @@ const GateDetail = () => {
 
   const navigate = useNavigate();
   const onClickHandler = () => {
-    
+
     dispatch(softdeleteGate({gateCode}));
     navigate('/airplane/gate');
   }
@@ -57,134 +57,127 @@ const GateDetail = () => {
     }
   };
 
-  console.log('modify gateInfo', gateInfo);
 
   return (
-    <div>
-      <BreadCrumbs />
       <div>
-            <Button color="dark" onClick={() => navigate('/inspection/inspectionRegist')}>
+        <BreadCrumbs />
+        <div>
+          <Button color="dark" onClick={() => navigate('/inspection/inspectionRegist')}>
             안전 점검 등록
-            </Button>
-                    
-            </div>
-      <Row>
-        <Col md="12">
-          <Card>
-            <CardBody className="bg-light">
-              <CardTitle tag="h4" className="mb-0">
-                탑승구
-              </CardTitle>
-            </CardBody>
-            <CardBody>
-              <Form>
-                <Row>
-                  <Col md="6">
-                    <FormGroup>
-                      <Label>탑승구 코드</Label>
-                      <Input type="text" value={gateInfo.gateCode } name='gateCode' onChange={onChangeHandler}disabled/>
-                    </FormGroup>
+          </Button>
+
+        </div>
+        <Row>
+          <Col md="12">
+            <Card>
+              <CardBody className="bg-light">
+                <CardTitle tag="h4" className="mb-0">
+                  탑승구
+                </CardTitle>
+              </CardBody>
+              <CardBody>
+                <Form>
+                  <Row>
+                    <Col md="6">
+                      <FormGroup>
+                        <Label>탑승구 코드</Label>
+                        <Input type="text" value={gateInfo.gateCode } name='gateCode' onChange={onChangeHandler}disabled/>
+                      </FormGroup>
+                    </Col>
+                    <Col md="6">
+                      <FormGroup>
+                        <Label>Status</Label>
+                        <Input type="select" name="status" value={gateInfo.status } onChange={onChangeHandler} disabled={readOnly}>
+                          <option>사용가능</option>
+                          <option>사용중</option>
+                        </Input>
+                      </FormGroup>
+                    </Col>
+                  </Row>
+                  <Row>
+                    <Col md="6">
+                      <FormGroup>
+                        <Label>type</Label>
+                        <Input type="select" name="gateType" value={gateInfo.gateType } onChange={onChangeHandler} disabled={readOnly}>
+                          <option>A</option>
+                          <option>B</option>
+                          <option>C</option>
+                          <option>D</option>
+                        </Input>
+                      </FormGroup>
+                    </Col>
+                    <Col md="6">
+                      <FormGroup>
+                        <Label>항공사</Label>
+                        <Input type="text" value={gateInfo?.airline } disabled />
+                      </FormGroup>
+                    </Col>
+                  </Row>
+                  <Row>
+                    <Col md="6">
+                      <FormGroup>
+                        <Label>편명</Label>
+                        <Input type="text" value={gateInfo?.flightid} disabled/>
+                      </FormGroup>
+                    </Col>
+                    <Col md="6">
+                      <FormGroup>
+                        <Label>최근 점검일</Label>
+                        <Input type="date" value={gateInfo.lastInspectionDate } name="lastInspectionDate" onChange={onChangeHandler} disabled={readOnly} />
+                      </FormGroup>
+                    </Col>
+                  </Row>
+                  <Row>
+                    <Col md="6">
+                      <FormGroup>
+                        <Label>도착예정시간</Label>
+                        <Input type="datetime" value={gateInfo?.scheduleDateTime } name='scheduleDateTime' disabled={readOnly}/>
+                      </FormGroup>
+                    </Col>
+                    <Col md="6">
+                      <FormGroup>
+                        <Label>위치</Label>
+                        <Input type="text" value={gateInfo.gateCode + "번 탑승구"} name="location" onChange={onChangeHandler} disabled={readOnly} />
+                      </FormGroup>
+                      </Col>
+                    </Row>
+                  <Row>
+                    <Col md="6">
+                      <FormGroup>
+                        <Label>도착공항명</Label>
+                        <Input type="text" value={gateInfo.airplane?.airport} disabled />
+                      </FormGroup>
+                    </Col>
+                    <Col md="6">
+                      <FormGroup>
+                        <Label>담당자</Label>
+                        <Input type="text" value={gateInfo.manager } name="manager" onChange={onChangeHandler} disabled={readOnly} />
+                      </FormGroup>
+                    </Col>
+                  </Row>
+                  <Row>
+
+                    <Col md="6">
+                      <FormGroup>
+                        <Label>비고</Label>
+                        <Input type="textarea" rows="6" value={gateInfo.note} name="note" onChange={onChangeHandler} disabled={readOnly} />
+                      </FormGroup>
+                    </Col>
+                  </Row>
+                  <Col className='d-flex justify-content-center'>
+                    <Button className="m-2" color="primary" onClick={handleEditClick}>
+                      {readOnly ? '수정' : '저장'}
+                    </Button>
+                    <Button className="m-2 " color="danger" onClick={onClickHandler} >
+                      삭제
+                    </Button>
                   </Col>
-                  <Col md="6">
-                    <FormGroup>
-                      <Label>Status</Label>
-                      <Input type="select" name="status" value={gateInfo.status } onChange={onChangeHandler} disabled={readOnly}>
-                        <option>고장</option>
-                        <option>정상</option>
-                        <option>점검중</option>
-                      </Input>
-                    </FormGroup>
-                  </Col>
-                </Row>
-                <Row>
-                  <Col md="6">
-                    <FormGroup>
-                      <Label>type</Label>
-                      <Input type="select" name="gateType" value={gateInfo.gateType } onChange={onChangeHandler} disabled={readOnly}>
-                        <option>A</option>
-                        <option>B</option>
-                        <option>C</option>
-                        <option>D</option>
-                      </Input>
-                    </FormGroup>
-                  </Col>
-                  <Col md="6">
-                    <FormGroup>
-                      <Label>항공사</Label>
-                      <Input type="text" value={gateInfo.airplane?.airline } disabled />
-                    </FormGroup>
-                  </Col>
-                </Row>
-                <Row>
-                  <Col md="6">
-                    <FormGroup>
-                      <Label>편명</Label>
-                      <Input type="text" value={gateInfo.airplane?.flightId} disabled/>
-                    </FormGroup>
-                  </Col>
-                  <Col md="6">
-                    <FormGroup>
-                      <Label>최근 점검일</Label>
-                      <Input type="date" value={gateInfo.lastInspectionDate } name="lastInspectionDate" onChange={onChangeHandler} disabled={readOnly} />
-                    </FormGroup>
-                  </Col>
-                </Row>
-                <Row>
-                  <Col md="6">
-                    <FormGroup>
-                      <Label>도착예정시간</Label>
-                      <Input type="datetime" value={gateInfo.airplane?.scheduleDateTime } name='scheduleDateTime' disabled={readOnly}/>
-                    </FormGroup>
-                  </Col>
-                  <Col md="6">
-                    <FormGroup>
-                      <Label>지연시간</Label>
-                      <Input type="number"  value={gateInfo.delayTime }  name='delayTime' disabled={readOnly} />
-                    </FormGroup>
-                  </Col>
-                </Row>
-                <Row>
-                  <Col md="6">
-                    <FormGroup>
-                      <Label>도착공항명</Label>
-                      <Input type="text" value={gateInfo.airplane?.airport} disabled />
-                    </FormGroup>
-                  </Col>
-                  <Col md="6">
-                    <FormGroup>
-                      <Label>담당자</Label>
-                      <Input type="text" value={gateInfo.manager } name="manager" onChange={onChangeHandler} disabled={readOnly} />
-                    </FormGroup>
-                  </Col>
-                </Row>
-                <Row>
-                  <Col md="6">
-                    <FormGroup>
-                      <Label>위치</Label>
-                      <Input type="text" value={gateInfo.location} name="location" onChange={onChangeHandler} disabled={readOnly} />
-                    </FormGroup>
-                  </Col>
-                  <Col md="6">
-                    <FormGroup>
-                      <Label>비고</Label>
-                      <Input type="textarea" rows="6" value={gateInfo.note} name="note" onChange={onChangeHandler} disabled={readOnly} />
-                    </FormGroup>
-                  </Col>
-                </Row>
-                <Col className='d-flex justify-content-center'>
-                  <Button className="m-2" color="primary" onClick={handleEditClick}>
-                    {readOnly ? '수정' : '저장'}
-                  </Button>
-                  <Button className="m-2 " color="danger" onClick={onClickHandler} >
-                    삭제
-                  </Button>
-                </Col>
-              </Form>
-            </CardBody>
-          </Card>
-        </Col>
-      </Row>
-    </div>
+                </Form>
+              </CardBody>
+            </Card>
+          </Col>
+        </Row>
+      </div>
   );
 };
 
