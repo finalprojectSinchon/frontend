@@ -26,11 +26,15 @@ export const deleteInspection = createAsyncThunk('inspection/deleteInspection', 
 });
 export const registInspection = createAsyncThunk('inspection/inspectionRegist', async ({ inspectionInfo }) => {
     console.log('inspectionInfo111111', inspectionInfo);
-    const response4 = await api.post(`/api/v1/inspectionRegist`, inspectionInfo);
+    const response4 = await api.post(`/api/v1/inspection`, inspectionInfo);
     console.log("등록 결과:", response4);
     return response4.data;
 });
 
+export const statusInspection = createAsyncThunk('inspection/statusinspection', async () => {
+    const response4 = await api.get(`/api/v1/status-count`);
+    return response4.data;
+});
 const inspectionSlice = createSlice({
     name: 'inspections',
     initialState: {
@@ -38,6 +42,7 @@ const inspectionSlice = createSlice({
         inspectionDetail: null,
         status: 'idle',
         error: null,
+        chart:[]
     },
     reducers: {},
     extraReducers: (builder) => {
@@ -94,11 +99,15 @@ const inspectionSlice = createSlice({
             })
             .addCase(registInspection.fulfilled, (state, action) => {
                 state.status = 'succeeded';
-                state.inspectionList.push(action.payload); // 새로 등록된 항목 추가
+                state.inspectionList=action.payload; // 새로 등록된 항목 추가
             })
             .addCase(registInspection.rejected, (state, action) => {
                 state.status = 'failed';
                 state.error = action.error.message;
+            })
+            .addCase(statusInspection.fulfilled, (state, action) => {
+                state.status = 'succeeded';
+                state.chart=action.payload; // 새로 등록된 항목 추가
             });
     },
 });

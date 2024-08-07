@@ -97,9 +97,10 @@ const Facilities = () => {
             <Card>
                 <CardBody>
                 <div className="d-flex justify-content-between align-items-center">
-                    <CardTitle tag="h5">시설물</CardTitle>
+                    <div>
+                    <CardTitle tag="h5">편의시설</CardTitle>
                     <CardSubtitle className="mb-2 text-muted" tag="h6">
-                        편의시설
+                        편의시설 전체 조회
                     </CardSubtitle>
 
                     
@@ -110,7 +111,7 @@ const Facilities = () => {
                     <Button color="primary" onClick={ () => navigate('/facilities/regist')}>
                         등록
                     </Button>
-
+                </div>
                     <BootstrapTable
                         hover
                         search

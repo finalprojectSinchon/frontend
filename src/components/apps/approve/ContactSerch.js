@@ -1,10 +1,11 @@
 import React from 'react';
 import { Form, Input, Button } from 'reactstrap';
 import { useSelector, useDispatch } from 'react-redux';
-import { SearchContact } from '../../../store/apps/approve/ContactSlice';
+import {searchFacility} from "src/store/apps/createQR/CreateQRSlice.js";
+
 
 const ContactSearch = () => {
-  const searchTerm = useSelector((state) => state.contacts.contactSearch);
+
 
   const dispatch = useDispatch();
 
@@ -17,8 +18,7 @@ const ContactSearch = () => {
           id="searchUSer"
           name="searchUser"
           type="text"
-          onChange={(e) => dispatch(SearchContact(e.target.value))}
-          value={searchTerm}
+          onChange={(e) => dispatch(searchFacility(e.target.value))}
           placeholder="Search Contact..."
         />
       </Form>

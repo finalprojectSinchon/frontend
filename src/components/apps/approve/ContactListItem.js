@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { NavItem } from 'reactstrap';
 import PropTypes from 'prop-types';
-import { ToggleInnerRightPart } from '../../../store/customizer/CustomizerSlice';
-import './Style.css'; // 스타일 파일 임포트
+import { ToggleInnerRightPart } from 'src/store/customizer/CustomizerSlice.js';
+import 'src/components/apps/approve/Style.css'; // 스타일 파일 임포트
 
 const ContactListItem = ({
   onContactClick,

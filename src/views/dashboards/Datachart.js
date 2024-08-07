@@ -1,32 +1,40 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Col } from 'reactstrap';
 import Chart from 'react-apexcharts';
 import ComponentCard from '../../components/ComponentCard';
-import { fetchInspections } from '../../store/apps/inspection/inspectionSlice';
+import { statusInspection } from '../../store/apps/inspection/inspectionSlice';
 
 const DataChart = () => {
     const dispatch = useDispatch();
-    const inspectionList = useSelector((state) => state.inspections.inspectionList);
+    const inspectionList = useSelector((state) => state.inspections.chart);
     const status = useSelector((state) => state.inspections.status);
     const error = useSelector((state) => state.inspections.error);
 
     useEffect(() => {
-        dispatch(fetchInspections());
+        dispatch(statusInspection());
     }, [dispatch]);
 
     useEffect(() => {
-        console.log('inspectionList???:', inspectionList);
-        console.log('status:', status);
-        console.log('error:', error);
-    }, [inspectionList, status, error]);
+        console.log('inspectionList:', inspectionList);
+    }, [inspectionList]);
 
-    // 데이터가 로드되지 않았을 때 빈 배열을 반환
-    const data = Array.isArray(inspectionList) ? inspectionList : [];
-    console.log('1111:', inspectionList);
-    console.log('dataasdsda', data);
-    const categories = data.map(item => item.status  || 'Unknown status ');
-    const seriesData = data.map(item => item.equipmentQuantity || 0); 
+    // 데이터 가공
+    const structures = [...new Set(inspectionList.map(item => item.structure))];
+    const statusTypes = ['운영중', '정상', '고장'];
+
+    const seriesData = statusTypes.map(statusType => {
+        return {
+            name: statusType,
+            data: structures.map(structure => {
+                const item = inspectionList.find(item => item.structure === structure && item.status === statusType);
+                return item ? item.count : 0;
+            })
+        };
+    });
+
+    console.log('seriesData', seriesData);
+    console.log('categories', structures);
 
     const optionscolumn = {
         colors: ['#745af2', '#263238', '#4fc3f7'],
@@ -49,7 +57,7 @@ const DataChart = () => {
             colors: ['transparent'],
         },
         xaxis: {
-            categories: categories,
+            categories: structures,
             labels: {
                 style: {
                     cssClass: 'grey--text lighten-2--text fill-color',
@@ -92,20 +100,13 @@ const DataChart = () => {
         },
     };
 
-    const seriescolumn = [
-        {
-            name: 'Inspection Quantity',
-            data: seriesData,
-        },
-    ];
-
     return (
         <Col md="12">
             <ComponentCard title="안전 점검 전체 현황">
                 {status === 'loading' && <p>Loading...</p>}
                 {status === 'failed' && <p>Error: {error}</p>}
                 {status === 'succeeded' && (
-                    <Chart options={optionscolumn} series={seriescolumn} type="bar" height="280" />
+                    <Chart options={optionscolumn} series={seriesData} type="bar" height="280" />
                 )}
             </ComponentCard>
         </Col>
