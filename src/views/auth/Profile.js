@@ -76,10 +76,9 @@ const Profile = () => {
   };
 
   const onClickHandler = () => {
-    axios.post("http://localhost:8080/user", changeInfo, {
+    api.post("/user", changeInfo, {
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': Cookies.get('token'),
       }
     })
         .then(res => res.data)
@@ -119,10 +118,9 @@ const Profile = () => {
       userCode: userInfo.userCode,
       userPassword: currentPassword,
     };
-    axios.post('http://localhost:8080/api/v1/account/password-check', passwordCheckForm, {
+    api().post('/api/v1/account/password-check', passwordCheckForm, {
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': Cookies.get('token'),
       }
     })
         .then(res => res.data)
@@ -142,10 +140,9 @@ const Profile = () => {
       newPassword: newPassword,
       confirmPassword: confirmPassword,
     };
-    axios.put('http://localhost:8080/api/v1/account/change-password', ChangePasswordForm, {
+    api.put('/api/v1/account/change-password', ChangePasswordForm, {
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': Cookies.get('token'),
       }
     })
         .then(res => res.data)

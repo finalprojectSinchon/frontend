@@ -8,6 +8,7 @@ import { ReactComponent as LeftBg } from '../../assets/images/bg/login-bgleft.sv
 import { ReactComponent as RightBg } from '../../assets/images/bg/login-bg-right.svg';
 import axios from 'axios';
 import {useSelector} from "react-redux";
+import api from "src/store/apps/airplane/api.js";
 
 const RegisterFormik = () => {
 
@@ -53,7 +54,7 @@ const RegisterFormik = () => {
 
   const submitHandler = (fields) => {
     console.log(fields);
-    axios.post('http://localhost:8080/join', fields, {
+    api.post('/join', fields, {
       headers: {
          'Content-Type': 'application/json',
       } 

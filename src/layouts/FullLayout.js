@@ -11,6 +11,7 @@ import axios from 'axios';
 import Cookies from 'js-cookie';
 import { addUser } from '../store/apps/login/userSlice';
 import { connectWebSocket, disconnectWebSocket } from '../store/apps/websocket/WebSocketSlice';
+import api from "src/store/apps/airplane/api.js";
 
 const FullLayout = () => {
   const customizerToggle = useSelector((state) => state.customizer.customizerSidebar);
@@ -29,11 +30,7 @@ const FullLayout = () => {
 
   useEffect(() => {
     if (userInfo.userCode === null) {
-      axios.get('http://localhost:8080/user-info', {
-        headers: {
-          Authorization: Cookies.get('token')
-        }
-      })
+      api.get('/user-info')
           .then(res => res.data)
           .then(data => {
             dispatch(addUser(data.data));

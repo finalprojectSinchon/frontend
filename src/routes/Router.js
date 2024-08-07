@@ -140,7 +140,7 @@ const ThemeRoutes = [
       { path: '/facilities/:facilitiesCode', name: 'FacilitiesDetail', exact: true, element:<FacilitiesDetail /> },
       { path: '/facilities/regist', name: 'FacilitiesRegist', exact: true, element:<FacilitiesRegist /> },
 
-      { path: '/dashboards/dashboard1', name: 'Dashboard 1', exact: true, element: <Dashboard1 /> },
+      { path: '/main', name: 'Dashboard 1', exact: true, element: <Dashboard1 /> },
   
       { path: '/airport/store', name: 'AirportStore', exact: true, element: <AirportStore /> },
       { path: '/airport/store/:storeId', name: 'AirportStoreDetail', exact: true, element: <AirportStoreDetail /> },

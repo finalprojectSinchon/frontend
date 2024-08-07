@@ -29,7 +29,7 @@ const ContactDetails = () => {
       alert('이미 승인된 시설물입니다.');
       return;
     }
-    api.put(`http://localhost:8080/api/v1/approve/${contactDetail.approvalCode}`)
+    api.put(`/api/v1/approve/${contactDetail.approvalCode}`)
       .then(res => {
         alert('승인 요청이 성공했습니다');
         window.location.reload();

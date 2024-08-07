@@ -74,7 +74,7 @@ const LiveChatting = () => {
         // 사용자 리스트 가져오기
         const fetchUsers = async () => {
             try {
-                const response = await api.get('/api/v1/admin/contact');
+                const response = await api.get('/api/v1/contact');
                 const fetchedUsers = response.data.data;
                 setUsers(fetchedUsers);
 

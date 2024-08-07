@@ -59,7 +59,7 @@ const AirportStore = () => {
   console.log(Storedata);
 
   useEffect(() => {
-    axios.get('http://localhost:8080/api/v1/store', {
+    api.get('/api/v1/store', {
       headers: {
         Authorization: Cookies.get('token')
       }
