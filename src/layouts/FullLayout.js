@@ -41,6 +41,8 @@ const FullLayout = () => {
           });
     } else if (userInfo.isActive !== "Y"){
       navigate('/auth/permission-error')
+    } else if (userInfo.userRole === "ROLE_USER") {
+
     }
   }, [dispatch, userInfo]);
 
