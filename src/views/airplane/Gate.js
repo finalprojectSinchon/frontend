@@ -118,7 +118,9 @@ const Datatables = () => {
 
   const [mapData, setMapData] = useState(initialMapData);
   const [imageLoaded, setImageLoaded] = useState(false);
-  const [openModals, setOpenModals] = useState({});
+  const [openModals, setOpenModals] = useState({
+    1: false, 2: false, 3: false, 4: false
+  });
   const [hoveredArea, setHoveredArea] = useState(null);
 
   const imageRef = useRef(null);
@@ -182,6 +184,15 @@ const Datatables = () => {
       [id]: !prevState[id]
     }));
   };
+
+  useEffect(() => {
+    // 모든 값이 false인지 확인하는 함수
+    const allFalse = Object.values(openModals).every(value => value === false);
+
+    if (allFalse) {
+      dispatch(fetchGates());
+    }
+  }, [openModals, dispatch]);
 
   const handlerRegist = (location) => () => {
     navigate(`/airplane/gate/regist`, { state: { location: location } });

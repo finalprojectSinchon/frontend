@@ -53,7 +53,10 @@ const formatDateTime = (dateTime) => {
 const Gate2 = () => {
     const dispatch2 = useDispatch();
     const gateList2 = useSelector((state) => state.gates.gateList);
-
+    console.log(gateList2.data.gateList[0].gateCode , "aaa")
+    // initialMapData2.map(data => {
+    //     const circleClass = gateList2.data.gateList.find(gate => gate.gateCode === data.id ).status === "사용가능" ? "green-circle2" : "red-circle2"
+    // })
     const initialMapData2 = [
         { id: 101, coords: "95%,47%,98%,57%", label: "101" },
         { id: 102, coords: "94%,32%,97%,42%", label: "102" },
@@ -194,7 +197,18 @@ const Gate2 = () => {
                 })}
                 {mapData2.map(area => {
                     const [x1, y1, x2, y2] = area.coords.split(',').map(Number);
-                    const circleClass = gateList2.data.gateList.find(gate => gate.gateCode === area.label) ? 'green-circle2' : 'red-circle2';
+                    // const circleClass = gateList2.data.gateList.find(gate => gate.gateCode === area.label).status == "사용가능" ? 'green-circle2' : 'red-circle2';
+                    const circleClass = (() => {
+                        const matchedGate = gateList2.data.gateList.find(gate => gate.gateCode == area.label);
+
+                        if (!matchedGate) {
+                            // 만약 매칭되는 항목이 없으면 기본 색상으로 설정
+                            console.warn(`Gate with code ${area.label} not found.`);
+                            return 'red-circle2';
+                        }
+
+                        return matchedGate.status === "사용가능" ? 'green-circle2' : 'red-circle2';
+                    })();
 
                     return (
                         <div
@@ -254,6 +268,7 @@ const Gate2 = () => {
             <Card>
                 <CardBody>
                     <BootstrapTable
+
                         data={gateList2.data.gateList.map(gate => ({
                             ...gate,
                             airline: gate.airline || '미정',
