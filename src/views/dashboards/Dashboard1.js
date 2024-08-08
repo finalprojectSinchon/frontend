@@ -1,13 +1,12 @@
 import { Row, Col } from 'reactstrap';
 import BreadCrumbs from '../../layouts/breadcrumbs/BreadCrumbs';
-
-
-
 import React from "react";
 import NoiseChart from "src/views/dashboards/NoiseChart.js";
 import WeatherCard from "./WeatherCard";
 import AirQuality from "src/views/dashboards/AirQuality.js";
 import DataChart from './Datachart';
+import EquipmentChart from './EquipmentChart';
+
 
 
 const Dashboard1 = () => {
@@ -16,6 +15,7 @@ const Dashboard1 = () => {
     <>
       <BreadCrumbs />
       <DataChart/>
+      <EquimentChart/>
       <Row>
         <AirQuality/>
       </Row>
@@ -24,6 +24,9 @@ const Dashboard1 = () => {
           <WeatherCard/>
         </Col>
           <NoiseChart/>
+      </Row>
+      <Row>
+        <EquipmentChart/>
       </Row>
 
 

@@ -9,24 +9,12 @@ import Gate2 from './Gate2';
 import Gate3 from './Gate3';
 import Gate4 from './Gate4';
 import Gate5 from './Gate5';
-import './gateimg2.css';
-import api from "src/store/apps/airplane/api.js"; // Ensure this file contains necessary styles
+import './gateimg2.css'; // Ensure this file contains necessary styles
 
+// Callback functions for table actions
 function onAfterDeleteRow(rowKeys) {
-  rowKeys.forEach(deleteRow);
-
+  alert(`The rowkey you drop: ${rowKeys}`);
 }
-
-const deleteRow = async (gateCode) => {
-  api.put(`/api/v1/airplane/gate/${gateCode}/delete`)
-      .then(res => {
-        alert("삭제 성공")
-      })
-      .catch(err => {
-        alert("삭제 실패")
-        console.error('err',err)
-      })
-};
 
 function afterSearch(searchText, result) {
   console.log(`Your search text is ${searchText}`);
@@ -51,12 +39,12 @@ function afterSearch2(searchText, result) {
 // Status formatter for the first table
 const statusFormatter = (cell) => {
   let styleClass;
-  if (cell === '고장') {
+  if (cell === '사용중') {
     styleClass = 'bg-danger';
-  } else if (cell === '점검중') {
-    styleClass = 'bg-warning';
+  } else if (cell === '사용가능') {
+    styleClass = 'bg-success1';
   } else {
-    styleClass = 'bg-success';
+    styleClass = 'bg-success1';
   }
   return (
       <span className={`p-2 rounded-circle d-inline-block ${styleClass}`}></span>
@@ -88,6 +76,13 @@ const convertPercentToCoords = (percentCoords, imgWidth, imgHeight) => {
   }).join(',');
 };
 
+// Format date/time to a readable format
+const formatDateTime = (dateTime) => {
+  if (!dateTime) return '미정';
+  const date = new Date(dateTime);
+  return date.toLocaleString(); // or use a library like moment.js for custom formatting
+};
+
 // Component mapping
 const componentMapping = {
   Gate2,
@@ -102,6 +97,7 @@ const Datatables = () => {
   const navigate = useNavigate();
   const gateList = useSelector((state) => state.gates.gateList);
 
+
   const userInfo = useSelector((state) => state.userInfo)
 
   useEffect(() => {
@@ -110,12 +106,14 @@ const Datatables = () => {
     }
   }, [userInfo, navigate]);
 
+
+
   // Initial map data with coordinates in percentage
   const initialMapData = [
     { id: 1, coords: "0%,0%,100%,25%", href: "#section1", label: "Section 1", component: 'Gate2' },
     { id: 2, coords: "0%,25%,50%,55%", href: "#section2", label: "Section 2", component: 'Gate3' },
-    { id: 3, coords: "50%,25%,100%,55%", href: "#section3", label: "Section 3", component: 'Gate4' },
-    { id: 4, coords: "0%,55%,100%,100%", href: "#section4", label: "Section 4", component: 'Gate5' }
+    { id: 3, coords: "50%,25%,100%,55%", href: "#section3", component: 'Gate4' },
+    { id: 4, coords: "0%,55%,100%,100%", href: "#section4", component: 'Gate5' }
   ];
 
   const [mapData, setMapData] = useState(initialMapData);
@@ -142,6 +140,7 @@ const Datatables = () => {
 
   useEffect(() => {
     dispatch(fetchGates());
+
   }, [dispatch]);
 
   useEffect(() => {
@@ -174,7 +173,7 @@ const Datatables = () => {
   const flatGateList = gateList.data.gateList.map(gate => ({
     ...gate,
     airline: gate.airline || '미정',
-    scheduleDateTime: gate.scheduleDateTime || '미정'
+    scheduleDateTime: formatDateTime(gate.scheduleDateTime) || '미정'
   }));
 
   const handleClick = (id) => {
@@ -295,19 +294,19 @@ const Datatables = () => {
                       bordered={false}
                       className="custom-table1"
                   >
-                    <TableHeaderColumn isKey dataField="gateCode" dataSort={true} headerAlign="center" dataAlign="center">
+                    <TableHeaderColumn width="10%" isKey dataField="gateCode" dataSort={true} headerAlign="center" dataAlign="center">
                       탑승구 코드
                     </TableHeaderColumn>
-                    <TableHeaderColumn dataField="location" dataSort={true} headerAlign="center" dataAlign="center">
-                      위치
+                    <TableHeaderColumn width="20%" dataField="manager" dataSort={true} headerAlign="center" dataAlign="center">
+                      담당자
                     </TableHeaderColumn>
-                    <TableHeaderColumn dataField="status" dataSort={true} headerAlign="center" dataAlign="center" dataFormat={statusFormatter}>
+                    <TableHeaderColumn width="20%" dataField="status" dataSort={true} headerAlign="center" dataAlign="center" dataFormat={statusFormatter}>
                       상태
                     </TableHeaderColumn>
-                    <TableHeaderColumn dataField="airline" dataSort={true} headerAlign="center" dataAlign="center">
+                    <TableHeaderColumn  width="20%" dataField="airline" dataSort={true} headerAlign="center" dataAlign="center">
                       항공사
                     </TableHeaderColumn>
-                    <TableHeaderColumn dataField="scheduleDateTime" dataSort={true} headerAlign="center" dataAlign="center">
+                    <TableHeaderColumn width="20%" dataField="scheduleDateTime" dataSort={true} headerAlign="center" dataAlign="center">
                       출발/도착 시간
                     </TableHeaderColumn>
                   </BootstrapTable>

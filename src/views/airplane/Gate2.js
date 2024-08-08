@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
 import { Card, CardBody, CardTitle, Table, Button } from 'reactstrap';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchGates } from '../../store/apps/airplane/gateSlice';
+import { fetchGates1 } from '../../store/apps/airplane/gateSlice';
 import BreadCrumbs from '../../layouts/breadcrumbs/BreadCrumbs';
 import './gate2.css';
 
@@ -31,10 +31,10 @@ const convertPercentToCoords2 = (percentCoords, imgWidth, imgHeight) => {
 
 const statusFormatter2 = (cell, row) => {
     let styleClass;
-    if (cell === '고장') {
+    if (cell === '사용중') {
         styleClass = 'bg-danger2';
-    } else if (cell === '점검중') {
-        styleClass = 'bg-warning2';
+    } else if (cell === '사용가능') {
+        styleClass = 'bg-success2';
     } else {
         styleClass = 'bg-success2';
     }
@@ -44,43 +44,48 @@ const statusFormatter2 = (cell, row) => {
     );
 };
 
+const formatDateTime = (dateTime) => {
+    if (!dateTime || dateTime === '미정') return '미정';
+    const date = new Date(dateTime);
+    return date.toLocaleString();
+};
+
 const Gate2 = () => {
     const dispatch2 = useDispatch();
     const gateList2 = useSelector((state) => state.gates.gateList);
 
     const initialMapData2 = [
-        { id: 101, coords: "95%,47%,98%,57%", label: "Section 101" },
-        { id: 102, coords: "94%,32%,97%,42%", label: "Section 102" },
-        { id: 103, coords: "92%,70%,95%,80%", label: "Section 103" },
-        { id: 104, coords: "90.5%,20%,93.5%,30%", label: "Section 104" },
-        { id: 105, coords: "87%,74%,90%,84%", label: "Section 105" },
-        { id: 106, coords: "87%,14%,90%,24%", label: "Section 106" },
-        { id: 107, coords: "80%,74%,83%,84%", label: "Section 107" },
-        { id: 108, coords: "81%,14%,84%,24%", label: "Section 108" },
-        { id: 109, coords: "74.5%,74%,77.5%,84%", label: "Section 109" },
-        { id: 110, coords: "75%,14%,78%,24%", label: "Section 110" },
-        { id: 111, coords: "66.5%,74%,69.5%,84%", label: "Section 111" },
-        { id: 112, coords: "67%,14%,70%,24%", label: "Section 112" },
-        { id: 113, coords: "60%,74%,63%,84%", label: "Section 113" },
-        { id: 114, coords: "60%,14%,63%,24%", label: "Section 114" },
-        { id: 115, coords: "54%,74%,57%,84%", label: "Section 115" },
-        { id: 117, coords: "48%,74%,51%,84%", label: "Section 117" },
-        { id: 118, coords: "43%,14%,46%,24%", label: "Section 118" },
-        { id: 119, coords: "42%,80%,45%,90%", label: "Section 119" },
-        { id: 120, coords: "42%,90%,45%,100%", label: "Section 120" },
-        { id: 121, coords: "35%,74%,38%,84%", label: "Section 121" },
-        { id: 122, coords: "35%,14%,38%,24%", label: "Section 122" },
-        { id: 123, coords: "28.3%,74%,31.3%,84%", label: "Section 123" },
-        { id: 124, coords: "28.5%,14%,31.5%,24%", label: "Section 124" },
-        { id: 125, coords: "20.5%,74%,23.5%,84%", label: "Section 125" },
-        { id: 126, coords: "21%,14%,24%,24%", label: "Section 126" },
-        { id: 127, coords: "14%,74%,17%,84%", label: "Section 127" },
-        { id: 128, coords: "14%,14%,17%,24%", label: "Section 128" },
-        { id: 129, coords: "9%,74%,12%,84%", label: "Section 129" },
-        { id: 130, coords: "10%,14%,13%,24%", label: "Section 130" },
-        { id: 131, coords: "3%,64%,6%,74%", label: "Section 131" },
-        { id: 132, coords: "2%,40%,5%,50%", label: "Section 132" }
-
+        { id: 101, coords: "95%,47%,98%,57%", label: "101" },
+        { id: 102, coords: "94%,32%,97%,42%", label: "102" },
+        { id: 103, coords: "92%,70%,95%,80%", label: "103" },
+        { id: 104, coords: "90.5%,20%,93.5%,30%", label: "104" },
+        { id: 105, coords: "87%,74%,90%,84%", label: "105" },
+        { id: 106, coords: "87%,14%,90%,24%", label: "106" },
+        { id: 107, coords: "80%,74%,83%,84%", label: "107" },
+        { id: 108, coords: "81%,14%,84%,24%", label: "108" },
+        { id: 109, coords: "74.5%,74%,77.5%,84%", label: "109" },
+        { id: 110, coords: "75%,14%,78%,24%", label: "110" },
+        { id: 111, coords: "66.5%,74%,69.5%,84%", label: "111" },
+        { id: 112, coords: "67%,14%,70%,24%", label: "112" },
+        { id: 113, coords: "60%,74%,63%,84%", label: "113" },
+        { id: 114, coords: "60%,14%,63%,24%", label: "114" },
+        { id: 115, coords: "54%,74%,57%,84%", label: "115" },
+        { id: 117, coords: "48%,74%,51%,84%", label: "117" },
+        { id: 118, coords: "43%,14%,46%,24%", label: "118" },
+        { id: 119, coords: "42%,80%,45%,90%", label: "119" },
+        { id: 120, coords: "42%,90%,45%,100%", label: "120" },
+        { id: 121, coords: "35%,74%,38%,84%", label: "121" },
+        { id: 122, coords: "35%,14%,38%,24%", label: "122" },
+        { id: 123, coords: "28.3%,74%,31.3%,84%", label: "123" },
+        { id: 124, coords: "28.5%,14%,31.5%,24%", label: "124" },
+        { id: 125, coords: "20.5%,74%,23.5%,84%", label: "125" },
+        { id: 126, coords: "21%,14%,24%,24%", label: "126" },
+        { id: 127, coords: "14%,74%,17%,84%", label: "127" },
+        { id: 128, coords: "14%,14%,17%,24%", label: "128" },
+        { id: 129, coords: "9%,74%,12%,84%", label: "129" },
+        { id: 130, coords: "10%,14%,13%,24%", label: "130" },
+        { id: 131, coords: "3%,64%,6%,74%", label: "131" },
+        { id: 132, coords: "2%,40%,5%,50%", label: "132" }
     ];
 
     const [mapData2, setMapData2] = useState(initialMapData2);
@@ -104,7 +109,7 @@ const Gate2 = () => {
     };
 
     useEffect(() => {
-        dispatch2(fetchGates());
+        dispatch2(fetchGates1());
     }, [dispatch2]);
 
     useEffect(() => {
@@ -144,8 +149,10 @@ const Gate2 = () => {
     };
 
     const hoveredAreaData2 = mapData2.find(area => area.id === hoveredArea2);
-    const matchedGate2 = gateList2.data.gateList.find(gate => gate.location === (hoveredAreaData2 ? hoveredAreaData2.label : ''));
+    const matchedGate2 = gateList2.data.gateList.find(gate => gate.gateCode === (hoveredAreaData2 ? hoveredAreaData2.label : ''));
 
+
+    console.log(matchedGate2,"ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ")
     return (
         <div>
             <div className="image-map-container">
@@ -187,7 +194,7 @@ const Gate2 = () => {
                 })}
                 {mapData2.map(area => {
                     const [x1, y1, x2, y2] = area.coords.split(',').map(Number);
-                    const circleClass = gateList2.data.gateList.find(gate => gate.location === area.label) ? 'red-circle2' : 'green-circle2';
+                    const circleClass = gateList2.data.gateList.find(gate => gate.gateCode === area.label) ? 'green-circle2' : 'red-circle2';
 
                     return (
                         <div
@@ -229,7 +236,7 @@ const Gate2 = () => {
                                     </tr>
                                     <tr>
                                         <td><strong>출발/도착 시간:</strong></td>
-                                        <td>{matchedGate2.scheduleDateTime || '미정'}</td>
+                                        <td>{formatDateTime(matchedGate2.scheduleDateTime)}</td>
                                     </tr>
                                     </tbody>
                                 </Table>
@@ -250,7 +257,7 @@ const Gate2 = () => {
                         data={gateList2.data.gateList.map(gate => ({
                             ...gate,
                             airline: gate.airline || '미정',
-                            scheduleDateTime: gate.scheduleDateTime || '미정'
+                            scheduleDateTime: formatDateTime(gate.scheduleDateTime)
                         }))}
                         pagination={true}
                         deleteRow={true}
@@ -265,19 +272,19 @@ const Gate2 = () => {
                         bordered={false}
                         className="custom-table2"
                     >
-                        <TableHeaderColumn isKey dataField="gateCode" dataSort={true} headerAlign="center" dataAlign="center">
+                        <TableHeaderColumn width="10%" isKey dataField="gateCode" dataSort={true} headerAlign="center" dataAlign="center">
                             탑승구 코드
                         </TableHeaderColumn>
-                        <TableHeaderColumn dataField="location" dataSort={true} headerAlign="center" dataAlign="center">
-                            위치
+                        <TableHeaderColumn width="20%" dataField="manager" dataSort={true} headerAlign="center" dataAlign="center">
+                            담당자
                         </TableHeaderColumn>
-                        <TableHeaderColumn dataField="status" dataSort={true} headerAlign="center" dataAlign="center" dataFormat={statusFormatter2}>
+                        <TableHeaderColumn width="20%" dataField="status" dataSort={true} headerAlign="center" dataAlign="center" dataFormat={statusFormatter2}>
                             상태
                         </TableHeaderColumn>
-                        <TableHeaderColumn dataField="airline" dataSort={true} headerAlign="center" dataAlign="center">
+                        <TableHeaderColumn width="20%" dataField="airline" dataSort={true} headerAlign="center" dataAlign="center">
                             항공사
                         </TableHeaderColumn>
-                        <TableHeaderColumn dataField="scheduleDateTime" dataSort={true} headerAlign="center" dataAlign="center">
+                        <TableHeaderColumn width="20%" dataField="scheduleDateTime" dataSort={true} headerAlign="center" dataAlign="center">
                             출발/도착 시간
                         </TableHeaderColumn>
                     </BootstrapTable>

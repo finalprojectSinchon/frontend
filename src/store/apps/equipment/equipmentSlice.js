@@ -1,6 +1,6 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import api from '../airplane/api';
-import {ContactSlice, getContacts} from "src/store/apps/approve/ContactSlice.js";
+
 
 export const fetchEquipments = createAsyncThunk('equipment/fetchEquipments', async () => {
     const response = await api.get('/api/v1/equipment');
@@ -19,7 +19,6 @@ export const modifyEquipment = createAsyncThunk('equipment/modifyEquipment', asy
 
 export const deleteEquipment = createAsyncThunk('equipment/deleteEquipment', async ({ equipmentCode }) => {
     const response = await api.put(`/api/v1/equipment/${equipmentCode}/delete`);
-
     return response.data;
 });
 

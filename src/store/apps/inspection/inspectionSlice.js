@@ -31,6 +31,10 @@ export const registInspection = createAsyncThunk('inspection/inspectionRegist', 
     return response4.data;
 });
 
+export const statusInspection = createAsyncThunk('inspection/statusinspection', async () => {
+    const response4 = await api.get(`/api/v1/status-count`);
+    return response4.data;
+});
 const inspectionSlice = createSlice({
     name: 'inspections',
     initialState: {
@@ -38,6 +42,7 @@ const inspectionSlice = createSlice({
         inspectionDetail: null,
         status: 'idle',
         error: null,
+        chart:[]
     },
     reducers: {},
     extraReducers: (builder) => {
@@ -99,6 +104,10 @@ const inspectionSlice = createSlice({
             .addCase(registInspection.rejected, (state, action) => {
                 state.status = 'failed';
                 state.error = action.error.message;
+            })
+            .addCase(statusInspection.fulfilled, (state, action) => {
+                state.status = 'succeeded';
+                state.chart=action.payload; // 새로 등록된 항목 추가
             });
     },
 });
