@@ -7,6 +7,7 @@ const initialState = {
     selectpk: "", // 두번째 컬럼 클릭
     hoveredFacilityId: null, // 호버된 시설 ID
     rightContent : null,
+    searchResults: "",
 };
 
 const CreateQRSlice = createSlice({
@@ -30,6 +31,9 @@ const CreateQRSlice = createSlice({
         },
         setRightContent: (state, action) => {
             state.rightContent = action.payload;
+        },
+        searchFacility: (state, action) => {
+            state.searchResults = action.payload;
         }
     },
 });
@@ -41,6 +45,7 @@ export const {
     setSelectpk,
     setHoveredFacilityId,
     setRightContent,
+    searchFacility,
 } = CreateQRSlice.actions;
 
 export default CreateQRSlice.reducer;

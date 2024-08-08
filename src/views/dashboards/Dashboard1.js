@@ -1,8 +1,5 @@
 import { Row, Col } from 'reactstrap';
 import BreadCrumbs from '../../layouts/breadcrumbs/BreadCrumbs';
-
-
-
 import React from "react";
 import NoiseChart from "src/views/dashboards/NoiseChart.js";
 import WeatherCard from "./WeatherCard";
@@ -11,12 +8,14 @@ import DataChart from './Datachart';
 import EquipmentChart from './EquipmentChart';
 
 
+
 const Dashboard1 = () => {
 
     return (
     <>
       <BreadCrumbs />
       <DataChart/>
+      <EquimentChart/>
       <Row>
         <AirQuality/>
       </Row>
