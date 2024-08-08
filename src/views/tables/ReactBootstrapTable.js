@@ -13,9 +13,7 @@ function onAfterDeleteRow(rowKeys) {
   alert(`The rowkey you drop: ${rowKeys}`);
 }
 
-//This is for the Search item
 function afterSearch(searchText, result) {
-  console.log(`Your search text is ${searchText}`)
 }
 const options = {
   afterDeleteRow: onAfterDeleteRow, // A hook for after droping rows.

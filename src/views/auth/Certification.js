@@ -20,6 +20,7 @@ import img1 from '../../assets/images/users/user4.jpg';
 import axios from "axios";
 import {useDispatch} from "react-redux";
 import {addAuthCode} from "src/store/apps/login/userSlice.js";
+import api from "src/store/apps/airplane/api.js";
 
 const Certification = () => {
 
@@ -37,7 +38,7 @@ const Certification = () => {
     });
 
     const submitHandler = (fields) => {
-        axios.post("http://localhost:8080/api/v1/auth",fields)
+        api.post("/api/v1/auth",fields)
             .then(res => {
                 dispatch(addAuthCode(fields))
                 navigate('/auth/registerformik')

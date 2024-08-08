@@ -57,6 +57,14 @@ const Datatables = () => {
     },
   };
 
+  const { status, error } = useSelector((state) => state.airplanes);
+
+  useEffect(() => {
+    if (status === 'failed' && error) {
+      navigate('/auth/permission-error');
+    }
+  }, [status, error, navigate]);
+
   useEffect(() => {
     dispatch(fetchAirplanes());
   }, [dispatch]);

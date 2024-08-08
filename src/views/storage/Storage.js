@@ -4,16 +4,13 @@ import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
 import { Card, CardBody, CardTitle, CardSubtitle, Table, CardHeader, Button } from 'reactstrap';
 import Cookies from 'js-cookie';
 import { Link, useNavigate } from 'react-router-dom'
+import api from "src/store/apps/airplane/api.js";
 
 // This is for the Delete row
 function onAfterDeleteRow(rowKeys) {
     alert(`The rowkey you drop: ${rowKeys}`);
 }
 
-// This is for the Search item
-function afterSearch(SearchText, result) {
-    console.log(`Your search text is ${SearchText}`)
-}
 
 const selectRowProp = {
     mode: 'checkbox',
@@ -46,17 +43,12 @@ const Storage = () => {
     const navigate = useNavigate();
 
     const [storageData, setStorageData] = useState([]);
-    console.log("11", storageData)
+
 
     useEffect(() => {
-        axios.get('http://localhost:8080/api/v1/storage', {
-            headers:{
-                Authorization: Cookies.get('token')
-            }
-        })
+        api.get('/api/v1/storage')
         .then(res => res.data)
         .then(data => {
-            console.log("22", data)
             setStorageData(data.data);
         })
     }, []);
@@ -64,9 +56,7 @@ const Storage = () => {
 
     const options = {
         afterDeleteRow: onAfterDeleteRow,
-        afterSearch,
         onRowClick: (row) => {
-            console.log('Row clicked: ', row.storageCode);
             navigate(`/storage/${row.storageCode}`);
         }
 

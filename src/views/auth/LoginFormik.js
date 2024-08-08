@@ -9,6 +9,7 @@ import { ReactComponent as RightBg } from '../../assets/images/bg/login-bg-right
 import axios from 'axios';
 import { useDispatch } from 'react-redux';
 import Cookies from 'js-cookie';
+import api from "src/store/apps/airplane/api.js";
 
 const LoginFormik = () => {
   const navigate = useNavigate();
@@ -44,7 +45,7 @@ const LoginFormik = () => {
       localStorage.removeItem('rememberMe')
     }
 
-    axios.post('http://localhost:8080/login', fields, {
+    api.post('/login', fields, {
       headers: {
         'Content-Type': 'multipart/form-data',
       }
@@ -52,7 +53,7 @@ const LoginFormik = () => {
       .then(res => res.data)
       .then((data) => {
         Cookies.set('token',data.data.Authorization,{ expires: 1 })
-        navigate('/dashboards/dashboard1');
+        navigate('/main');
       })
       .catch((error) => {
         console.error('로그인 에러:', error);

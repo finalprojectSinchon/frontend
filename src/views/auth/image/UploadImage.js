@@ -37,7 +37,6 @@ const Demo = ({ classes }) => {
                 croppedAreaPixels,
                 rotation
             )
-            console.log('donee', { croppedImage })
             setCroppedImage(croppedImage)
         } catch (e) {
             console.error(e)

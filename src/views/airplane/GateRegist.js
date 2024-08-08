@@ -27,8 +27,6 @@ const GateRegist = () => {
   const GateList = useSelector((state) => state.gates.gateList);
   const airplanes = AirplaneList?.data?.airplaneList || [];
   const gates = GateList?.data?.gateList;
-  console.log('gates',gates)
-  console.log('GateList',GateList)
 
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -147,7 +145,6 @@ const GateRegist = () => {
       }));
     }
   };
-  console.log('gateInfo',gateInfo)
 
   return (
     <div>

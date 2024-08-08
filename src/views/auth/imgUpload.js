@@ -59,9 +59,7 @@ const ProfileUploader = () => {
         const querySnapshot = await getDocs(q);
         if (!querySnapshot.empty) {
           const userData = querySnapshot.docs[0].data();
-          console.log("사용자 데이터:", userData);
         } else {
-          console.log("해당 사용자를 찾을 수 없습니다.");
         }
       }
     };

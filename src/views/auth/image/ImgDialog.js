@@ -79,7 +79,6 @@ function ImgDialog(props) {
     }
 
     const handleUpload = async () => {
-        console.log('click?')
 
         // Ensure `img` is a Blob URL and convert it to File object
         if (img && userCode) {
