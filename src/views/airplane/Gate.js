@@ -101,10 +101,10 @@ const Datatables = () => {
   const userInfo = useSelector((state) => state.userInfo)
 
   useEffect(() => {
-    if (userInfo.userRole !== "ROLE_ADMIN" && userInfo.userRole !== "ROLE_AIRPLANE") {
+    if (userInfo && userInfo.userRole !== "ROLE_ADMIN" && userInfo.userRole !== "ROLE_AIRPLANE") {
       navigate('/auth/permission-error');
     }
-  }, [userInfo, navigate]);
+  }, [userInfo]);
 
 
 
