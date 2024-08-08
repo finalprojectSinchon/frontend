@@ -130,15 +130,10 @@ const Datatables = () => {
     }
   };
 
-  console.log('open',openModals)
   useEffect(() => {
-    // 모든 값이 false인지 확인하는 함수
-    const allFalse = Object.values(openModals).every(value => value === false);
+    dispatch(fetchGates());
 
-    if (allFalse) {
-      dispatch(fetchGates());
-    }
-  }, [openModals, dispatch]);
+  }, [dispatch]);
 
   useEffect(() => {
     if (imageLoaded) {
@@ -170,7 +165,7 @@ const Datatables = () => {
   const flatGateList = gateList.data.gateList.map(gate => ({
     ...gate,
     airline: gate.airline || '미정',
-    scheduleDateTime: formatDateTime(gate.scheduleDateTime) || null
+    scheduleDateTime: formatDateTime(gate.scheduleDateTime) || '미정'
   }));
 
   const handleClick = (id) => {
@@ -180,7 +175,6 @@ const Datatables = () => {
     }));
   };
 
-  console.log('open',openModals)
   useEffect(() => {
     // 모든 값이 false인지 확인하는 함수
     const allFalse = Object.values(openModals).every(value => value === false);
@@ -189,6 +183,7 @@ const Datatables = () => {
       dispatch(fetchGates());
     }
   }, [openModals, dispatch]);
+
   const handlerRegist = (location) => () => {
     navigate(`/airplane/gate/regist`, { state: { location: location } });
   };
