@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
 import { Card, CardBody, CardTitle, Table, Button } from 'reactstrap';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchGates } from '../../store/apps/airplane/gateSlice';
+import { fetchGates2 } from '../../store/apps/airplane/gateSlice';
 import BreadCrumbs from '../../layouts/breadcrumbs/BreadCrumbs';
 import './gate.css';
 
@@ -31,10 +31,10 @@ const convertPercentToCoords2 = (percentCoords, imgWidth, imgHeight) => {
 
 const statusFormatter2 = (cell, row) => {
     let styleClass;
-    if (cell === '고장') {
+    if (cell === '사용중') {
         styleClass = 'bg-danger2';
-    } else if (cell === '점검중') {
-        styleClass = 'bg-warning2';
+    } else if (cell === '사용가능') {
+        styleClass = 'bg-success2';
     } else {
         styleClass = 'bg-success2';
     }
@@ -43,24 +43,28 @@ const statusFormatter2 = (cell, row) => {
         <span className={`p-2 rounded-circle d-inline-block ${styleClass}`}></span>
     );
 };
-
+const formatDateTime = (dateTime) => {
+    if (!dateTime || dateTime === '미정') return '미정';
+    const date = new Date(dateTime);
+    return date.toLocaleString();
+};
 const Gate3 = () => {
     const dispatch2 = useDispatch();
     const gateList2 = useSelector((state) => state.gates.gateList);
 
     const initialMapData2 = [
-        { id: 30, coords: "75%,82%,82%,92%", label: "Section 30" },
-        { id: 31, coords: "72%,63%,79%,73%", label: "Section 31" },
-        { id: 32, coords: "70%,45%,77%,55%", label: "Section 32" },
-        { id: 33, coords: "66%,27%,74%,37%", label: "Section 33" },
-        { id: 34, coords: "60%,15%,68%,25%", label: "Section 34" },
-        { id: 35, coords: "48%,6%,56%,16%", label: "Section 35" },
-        { id: 36, coords: "37%,6%,45%,16%", label: "Section 36" },
-        { id: 37, coords: "28%,13%,36%,23%", label: "Section 37" },
-        { id: 38, coords: "21%,27%,29%,37%", label: "Section 38" },
-        { id: 39, coords: "22%,44%,30%,54%", label: "Section 39" },
-        { id: 40, coords: "28%,60%,36%,70%", label: "Section 40" },
-        { id: 41, coords: "34%,80%,42%,90%", label: "Section 41" },
+        { id: 30, coords: "75%,82%,82%,92%", label: "30" },
+        { id: 31, coords: "72%,63%,79%,73%", label: "31" },
+        { id: 32, coords: "70%,45%,77%,55%", label: "32" },
+        { id: 33, coords: "66%,27%,74%,37%", label: "33" },
+        { id: 34, coords: "60%,15%,68%,25%", label: "34" },
+        { id: 35, coords: "48%,6%,56%,16%", label: "35" },
+        { id: 36, coords: "37%,6%,45%,16%", label: "36" },
+        { id: 37, coords: "28%,13%,36%,23%", label: "37" },
+        { id: 38, coords: "21%,27%,29%,37%", label: "38" },
+        { id: 39, coords: "22%,44%,30%,54%", label: "39" },
+        { id: 40, coords: "28%,60%,36%,70%", label: "40" },
+        { id: 41, coords: "34%,80%,42%,90%", label: "41" },
 
 
     ];
@@ -86,7 +90,7 @@ const Gate3 = () => {
     };
 
     useEffect(() => {
-        dispatch2(fetchGates());
+        dispatch2(fetchGates2());
     }, [dispatch2]);
 
     useEffect(() => {
@@ -169,8 +173,17 @@ const Gate3 = () => {
                 })}
                 {mapData2.map(area => {
                     const [x1, y1, x2, y2] = area.coords.split(',').map(Number);
-                    const circleClass = gateList2.data.gateList.find(gate => gate.location === area.label) ? 'red-circle2' : 'green-circle2';
+                    const circleClass = (() => {
+                        const matchedGate = gateList2.data.gateList.find(gate => gate.gateCode == area.label);
 
+                        if (!matchedGate) {
+                            // 만약 매칭되는 항목이 없으면 기본 색상으로 설정
+                            console.warn(`Gate with code ${area.label} not found.`);
+                            return 'red-circle2';
+                        }
+
+                        return matchedGate.status === "사용가능" ? 'green-circle2' : 'red-circle2';
+                    })();
                     return (
                         <div
                             key={`circle-${area.id}`}
@@ -232,7 +245,7 @@ const Gate3 = () => {
                         data={gateList2.data.gateList.map(gate => ({
                             ...gate,
                             airline: gate.airline || '미정',
-                            scheduleDateTime: gate.scheduleDateTime || '미정'
+                            scheduleDateTime: formatDateTime(gate.scheduleDateTime)
                         }))}
                         pagination={true}
                         deleteRow={true}
@@ -247,19 +260,19 @@ const Gate3 = () => {
                         bordered={false}
                         className="custom-table2"
                     >
-                        <TableHeaderColumn isKey dataField="gateCode" dataSort={true} headerAlign="center" dataAlign="center">
+                        <TableHeaderColumn width="10%" isKey dataField="gateCode" dataSort={true} headerAlign="center" dataAlign="center">
                             탑승구 코드
                         </TableHeaderColumn>
-                        <TableHeaderColumn dataField="location" dataSort={true} headerAlign="center" dataAlign="center">
-                            위치
+                        <TableHeaderColumn width="20%" dataField="manager" dataSort={true} headerAlign="center" dataAlign="center">
+                            담당자
                         </TableHeaderColumn>
-                        <TableHeaderColumn dataField="status" dataSort={true} headerAlign="center" dataAlign="center" dataFormat={statusFormatter2}>
+                        <TableHeaderColumn width="20%" dataField="status" dataSort={true} headerAlign="center" dataAlign="center" dataFormat={statusFormatter2}>
                             상태
                         </TableHeaderColumn>
-                        <TableHeaderColumn dataField="airline" dataSort={true} headerAlign="center" dataAlign="center">
+                        <TableHeaderColumn width="20%" dataField="airline" dataSort={true} headerAlign="center" dataAlign="center">
                             항공사
                         </TableHeaderColumn>
-                        <TableHeaderColumn dataField="scheduleDateTime" dataSort={true} headerAlign="center" dataAlign="center">
+                        <TableHeaderColumn width="20%" dataField="scheduleDateTime" dataSort={true} headerAlign="center" dataAlign="center">
                             출발/도착 시간
                         </TableHeaderColumn>
                     </BootstrapTable>
