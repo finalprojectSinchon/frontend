@@ -33,7 +33,7 @@ export const connectWebSocket = (userCode) => (dispatch) => {
         socket.close();
     }
 
-    socket = new WebSocket(`ws://192.168.0.209:8080/ws?userCode=${userCode}`);
+    socket = new WebSocket(`ws://localhost:8080/ws?userCode=${userCode}`);
 
     socket.onopen = () => {
         console.log('WebSocket connected');

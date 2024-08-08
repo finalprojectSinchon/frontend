@@ -101,7 +101,14 @@ const Datatables = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const gateList = useSelector((state) => state.gates.gateList);
-  console.log('gateList',gateList)
+
+  const userInfo = useSelector((state) => state.userInfo)
+
+  useEffect(() => {
+    if (userInfo.userRole !== "ROLE_ADMIN" && userInfo.userRole !== "ROLE_AIRPLANE") {
+      navigate('/auth/permission-error');
+    }
+  }, [userInfo, navigate]);
 
   // Initial map data with coordinates in percentage
   const initialMapData = [

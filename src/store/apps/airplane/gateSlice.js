@@ -17,7 +17,6 @@ export const modifyGate = createAsyncThunk('gates/modifyGate', async ({ gateCode
 });
 
 export const softdeleteGate = createAsyncThunk('gates/softDelete', async ({gateCode}) => {
-  console.log(gateCode)
   const response = await api.put(`/api/v1/airplane/gate/${gateCode}/delete`);
   return response.data
 })

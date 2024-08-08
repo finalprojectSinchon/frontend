@@ -7,6 +7,7 @@ import { element, exact } from 'prop-types';
 
 
 
+
 //import MaintenanceRegist from '../views/maintenance/maintenanceRegist';
 
 
@@ -41,7 +42,7 @@ const Profile = Loadable(lazy(() => import('../views/auth/Profile')));
 
 const AuthCode = Loadable(lazy(() => import('../views/auth/AuthCode.js')));
 const UserContact = Loadable(lazy(() => import('../views/auth/userlist/UserContact.js')));
-
+const RegistRole = Loadable(lazy(() => import("src/views/auth/RegistRole.js")));
 
 
 const Inspection = Loadable(lazy(() => import('../views/inspection/inspection')));
@@ -87,7 +88,6 @@ const Certification = Loadable(lazy(() => import('../views/auth/Certification'))
 /***** Chatting Pages ****/
 
 const LiveChatting = Loadable(lazy(() => import('../views/chat/LiveChatting.js')));
-const CreateQRCodeTest = Loadable(lazy(() => import("src/components/apps/qrCode/CreateQRCode.js")));
 
 // qrCode
 const CreateQRCode = Loadable(lazy(() => import("src/views/createQRCode/CreateQRCode.js")));
@@ -156,14 +156,13 @@ const ThemeRoutes = [
       { path: '/chatting', name: 'chatting', exact: true, element: <LiveChatting /> },
 
       { path: '/code-issuance', name: 'test', exact: true, element: <AuthCode /> },
+      { path: '/role', name: 'registRole', exact: true, element: <RegistRole /> },
+
 
       
       { path: '/approve', name: 'approve', exact:true, element: <Approve/> },
       //{ path: '/ContactList', name: 'ContactList', exact: true, element: <ContactList /> }, // ContactList 경로 추가
 
-
-        // QRTest 용
-      { path: '/qrtest', name: 'qrTest', exact:true, element: <CreateQRCodeTest/> },
       // QR 발급 (관)
       { path: '/qrcode', name: 'CreateQRCode', exact:true, element: <CreateQRCode/> },
 

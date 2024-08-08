@@ -100,7 +100,7 @@ const onClickDelete = () => {
     })
 
 }
-console.log('storageInfo',storageInfo);
+
 return (
     <div>
         <BreadCrumbs />

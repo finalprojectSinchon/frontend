@@ -11,10 +11,6 @@ function onAfterDeleteRow(rowKeys) {
     alert(`The rowkey you drop: ${rowKeys}`);
 }
 
-// This is for the Search item
-function afterSearch(SearchText, result) {
-    console.log(`Your search text is ${SearchText}`)
-}
 
 const selectRowProp = {
     mode: 'checkbox',
@@ -47,7 +43,7 @@ const Storage = () => {
     const navigate = useNavigate();
 
     const [storageData, setStorageData] = useState([]);
-    console.log("11", storageData)
+
 
     useEffect(() => {
         api.get('/api/v1/storage')
@@ -60,9 +56,7 @@ const Storage = () => {
 
     const options = {
         afterDeleteRow: onAfterDeleteRow,
-        afterSearch,
         onRowClick: (row) => {
-            console.log('Row clicked: ', row.storageCode);
             navigate(`/storage/${row.storageCode}`);
         }
 

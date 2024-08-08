@@ -55,7 +55,7 @@ const ForgotPwd = () => {
                 setModalType('error');
                 setModalOpen(true);
             });
-        console.log(fields);
+
     };
 
     const handleCloseModal = () => {

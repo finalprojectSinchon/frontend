@@ -32,8 +32,6 @@ function TestChatting() {
         return () => unsubscribe();
     }, [userInfo, userDetails]);
 
-    console.log('chat', chat);
-
     useEffect(() => {
         if (userInfo && userInfo.userCode) {
             dispatch(connectWebSocket(userInfo.userCode));

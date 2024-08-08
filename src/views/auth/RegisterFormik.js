@@ -15,10 +15,10 @@ const RegisterFormik = () => {
   let navigate = useNavigate();
 
   const userInfo = useSelector(state => state.userInfo);
-  console.log(userInfo.authCode);
+
 
   useEffect(() => {
-    console.log(userInfo);
+
     if(!userInfo.authCode) {
       navigate('/auth/certification')
     }
@@ -35,7 +35,7 @@ const RegisterFormik = () => {
     authCode : parseInt(userInfo.authCode),
   };
 
-  console.log(initialValues);
+
   const validationSchema = Yup.object().shape({
     userId: Yup.string().required('아이디를 입력해주세요'),
     userName: Yup.string().required('이름을 입력해주세요'),
@@ -61,7 +61,6 @@ const RegisterFormik = () => {
     })
     .then(res => res.data)
     .then(data => {
-        console.log('1111',data)
       if(data.status == 201) {
         alert(data.message);
         navigate('/auth/loginformik')

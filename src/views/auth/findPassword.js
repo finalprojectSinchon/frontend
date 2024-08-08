@@ -47,7 +47,7 @@ const FindPassword = () => {
             .catch(error => {
                 alert('오류!! )\n\n' + JSON.stringify(error.response.data, null, 4));
             });
-        console.log(fields);
+
     };
 
     return (
