@@ -16,6 +16,8 @@ import StatusReducer from './apps/websocket/StatusSlice.js';
 
 import approveReducer from './apps/approve/ContactSlice.js';
 
+import createQRReducer from './apps/createQR/CreateQRSlice.js'
+
 export const store = configureStore({
   reducer: {
     userInfo: UserInfoReducer,
@@ -28,11 +30,12 @@ export const store = configureStore({
     baggageClaims: BaggageClaimReducer,
     airplanes: AirplaneReducer,
     userContact: UserContactReducer,
-    websocket: websocketReducer, // 웹소켓 리듀서 추가
+    websocket: websocketReducer,
     status: StatusReducer,
-    contacts: approveReducer
+    contacts: approveReducer,
+    createQR : createQRReducer
   },
-  middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(websocketMiddleware), // 웹소켓 미들웨어 추가
+  middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(websocketMiddleware),
 });
 
 export default store;

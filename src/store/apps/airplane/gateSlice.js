@@ -6,6 +6,31 @@ export const fetchGates = createAsyncThunk('gates/fetchGates', async () => {
   return response.data;
 });
 
+export const fetchGates1 = createAsyncThunk('gates/fetchGates', async () => {
+  const response = await api.get('/api/v1/airplane/gate1');
+  return response.data;
+});
+
+export const fetchGates2 = createAsyncThunk('gates/fetchGates', async () => {
+  const response = await api.get('/api/v1/airplane/gate2');
+  return response.data;
+});
+
+
+export const fetchGates3 = createAsyncThunk('gates/fetchGates', async () => {
+  const response = await api.get('/api/v1/airplane/gate3');
+  return response.data;
+});
+
+
+export const fetchGates4 = createAsyncThunk('gates/fetchGates', async () => {
+  const response = await api.get('/api/v1/airplane/gate4');
+  return response.data;
+});
+
+
+
+
 export const fetchGate = createAsyncThunk('gates/fetchGate', async ({ gateCode }) => {
   const response = await api.get(`/api/v1/airplane/gate/${gateCode}`);
   return response.data;
@@ -17,7 +42,6 @@ export const modifyGate = createAsyncThunk('gates/modifyGate', async ({ gateCode
 });
 
 export const softdeleteGate = createAsyncThunk('gates/softDelete', async ({gateCode}) => {
-  console.log(gateCode)
   const response = await api.put(`/api/v1/airplane/gate/${gateCode}/delete`);
   return response.data
 })

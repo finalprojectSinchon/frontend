@@ -11,7 +11,7 @@ const Logo = () => {
   const toggleMiniSidebar = useSelector((state) => state.customizer.isMiniSidebar);
   const activeTopbarBg = useSelector((state) => state.customizer.topbarBg);
   return (
-    <Link to="/dashboards/dashboard1" className="d-flex align-items-center gap-2">
+    <Link to="/main" className="d-flex align-items-center gap-2">
       {isDarkMode || activeTopbarBg !== 'white' ? (
         <>
           <LogoWhiteIcon />

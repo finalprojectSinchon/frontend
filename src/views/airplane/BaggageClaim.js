@@ -6,11 +6,27 @@ import { fetchBaggageClaims  } from '../../store/apps/airplane/baggageClaimSlice
 import { useNavigate } from 'react-router-dom';
 import BreadCrumbs from '../../layouts/breadcrumbs/BreadCrumbs';
 import './img.css';
+import api from "src/store/apps/airplane/api.js";
+
+
 
 
 function onAfterDeleteRow(rowKeys) {
-  alert(`The rowkey you drop: ${rowKeys}`);
+  rowKeys.forEach(deleteRow);
+
 }
+
+const deleteRow = async (baggageClaimCode) => {
+  api.put(`/api/v1/airplane/baggage-claim/${baggageClaimCode}/delete`)
+      .then(res => {
+        alert("삭제 성공")
+      })
+      .catch(err => {
+        alert("삭제 실패")
+        console.error('err',err)
+      })
+};
+
 
 function afterSearch(searchText, result) {
   console.log(`Your search text is ${searchText}`);
@@ -59,6 +75,14 @@ const Datatables = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const baggageClaimList = useSelector((state) => state.baggageClaims.baggageClaimList);
+
+  const userInfo = useSelector((state) => state.userInfo)
+
+  useEffect(() => {
+    if (userInfo.userRole !== "ROLE_ADMIN" && userInfo.userRole !== "ROLE_AIRPLANE") {
+      navigate('/auth/permission-error');
+    }
+  }, [userInfo, navigate]);
 
   // 초기 퍼센트 좌표 설정
   const initialMapData = [

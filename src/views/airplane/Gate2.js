@@ -2,10 +2,9 @@ import React, { useState, useRef, useEffect } from 'react';
 import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
 import { Card, CardBody, CardTitle, Table, Button } from 'reactstrap';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchGates } from '../../store/apps/airplane/gateSlice';
+import { fetchGates1 } from '../../store/apps/airplane/gateSlice';
 import BreadCrumbs from '../../layouts/breadcrumbs/BreadCrumbs';
 import './gate2.css';
-
 
 function onAfterDeleteRow2(rowKeys) {
     alert(`The rowkey you drop: ${rowKeys}`);
@@ -32,10 +31,10 @@ const convertPercentToCoords2 = (percentCoords, imgWidth, imgHeight) => {
 
 const statusFormatter2 = (cell, row) => {
     let styleClass;
-    if (cell === '고장') {
+    if (cell === '사용중') {
         styleClass = 'bg-danger2';
-    } else if (cell === '점검중') {
-        styleClass = 'bg-warning2';
+    } else if (cell === '사용가능') {
+        styleClass = 'bg-success2';
     } else {
         styleClass = 'bg-success2';
     }
@@ -45,10 +44,19 @@ const statusFormatter2 = (cell, row) => {
     );
 };
 
+const formatDateTime = (dateTime) => {
+    if (!dateTime || dateTime === '미정') return '미정';
+    const date = new Date(dateTime);
+    return date.toLocaleString();
+};
+
 const Gate2 = () => {
     const dispatch2 = useDispatch();
     const gateList2 = useSelector((state) => state.gates.gateList);
-
+    console.log(gateList2.data.gateList[0].gateCode , "aaa")
+    // initialMapData2.map(data => {
+    //     const circleClass = gateList2.data.gateList.find(gate => gate.gateCode === data.id ).status === "사용가능" ? "green-circle2" : "red-circle2"
+    // })
     const initialMapData2 = [
         { id: 101, coords: "95%,47%,98%,57%", label: "101" },
         { id: 102, coords: "94%,32%,97%,42%", label: "102" },
@@ -81,7 +89,6 @@ const Gate2 = () => {
         { id: 130, coords: "10%,14%,13%,24%", label: "130" },
         { id: 131, coords: "3%,64%,6%,74%", label: "131" },
         { id: 132, coords: "2%,40%,5%,50%", label: "132" }
-
     ];
 
     const [mapData2, setMapData2] = useState(initialMapData2);
@@ -105,7 +112,7 @@ const Gate2 = () => {
     };
 
     useEffect(() => {
-        dispatch2(fetchGates());
+        dispatch2(fetchGates1());
     }, [dispatch2]);
 
     useEffect(() => {
@@ -147,7 +154,8 @@ const Gate2 = () => {
     const hoveredAreaData2 = mapData2.find(area => area.id === hoveredArea2);
     const matchedGate2 = gateList2.data.gateList.find(gate => gate.gateCode === (hoveredAreaData2 ? hoveredAreaData2.label : ''));
 
-    console.log(matchedGate2)
+
+    console.log(matchedGate2,"ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ")
     return (
         <div>
             <div className="image-map-container">
@@ -189,7 +197,18 @@ const Gate2 = () => {
                 })}
                 {mapData2.map(area => {
                     const [x1, y1, x2, y2] = area.coords.split(',').map(Number);
-                    const circleClass = gateList2.data.gateList.find(gate => gate.gateCode === area.label) ? 'red-circle2' : 'green-circle2';
+                    // const circleClass = gateList2.data.gateList.find(gate => gate.gateCode === area.label).status == "사용가능" ? 'green-circle2' : 'red-circle2';
+                    const circleClass = (() => {
+                        const matchedGate = gateList2.data.gateList.find(gate => gate.gateCode == area.label);
+
+                        if (!matchedGate) {
+                            // 만약 매칭되는 항목이 없으면 기본 색상으로 설정
+                            console.warn(`Gate with code ${area.label} not found.`);
+                            return 'red-circle2';
+                        }
+
+                        return matchedGate.status === "사용가능" ? 'green-circle2' : 'red-circle2';
+                    })();
 
                     return (
                         <div
@@ -231,7 +250,7 @@ const Gate2 = () => {
                                     </tr>
                                     <tr>
                                         <td><strong>출발/도착 시간:</strong></td>
-                                        <td>{matchedGate2.scheduleDateTime || '미정'}</td>
+                                        <td>{formatDateTime(matchedGate2.scheduleDateTime)}</td>
                                     </tr>
                                     </tbody>
                                 </Table>
@@ -249,10 +268,11 @@ const Gate2 = () => {
             <Card>
                 <CardBody>
                     <BootstrapTable
+
                         data={gateList2.data.gateList.map(gate => ({
                             ...gate,
                             airline: gate.airline || '미정',
-                            scheduleDateTime: gate.scheduleDateTime || '미정'
+                            scheduleDateTime: formatDateTime(gate.scheduleDateTime)
                         }))}
                         pagination={true}
                         deleteRow={true}
@@ -267,19 +287,19 @@ const Gate2 = () => {
                         bordered={false}
                         className="custom-table2"
                     >
-                        <TableHeaderColumn isKey dataField="gateCode" dataSort={true} headerAlign="center" dataAlign="center">
+                        <TableHeaderColumn width="10%" isKey dataField="gateCode" dataSort={true} headerAlign="center" dataAlign="center">
                             탑승구 코드
                         </TableHeaderColumn>
-                        <TableHeaderColumn dataField="location" dataSort={true} headerAlign="center" dataAlign="center">
-                            위치
+                        <TableHeaderColumn width="20%" dataField="manager" dataSort={true} headerAlign="center" dataAlign="center">
+                            담당자
                         </TableHeaderColumn>
-                        <TableHeaderColumn dataField="status" dataSort={true} headerAlign="center" dataAlign="center" dataFormat={statusFormatter2}>
+                        <TableHeaderColumn width="20%" dataField="status" dataSort={true} headerAlign="center" dataAlign="center" dataFormat={statusFormatter2}>
                             상태
                         </TableHeaderColumn>
-                        <TableHeaderColumn dataField="airline" dataSort={true} headerAlign="center" dataAlign="center">
+                        <TableHeaderColumn width="20%" dataField="airline" dataSort={true} headerAlign="center" dataAlign="center">
                             항공사
                         </TableHeaderColumn>
-                        <TableHeaderColumn dataField="scheduleDateTime" dataSort={true} headerAlign="center" dataAlign="center">
+                        <TableHeaderColumn width="20%" dataField="scheduleDateTime" dataSort={true} headerAlign="center" dataAlign="center">
                             출발/도착 시간
                         </TableHeaderColumn>
                     </BootstrapTable>

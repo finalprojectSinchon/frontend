@@ -5,6 +5,7 @@ import { Card, CardBody, CardTitle, CardSubtitle, Button } from 'reactstrap';
 import Cookies from 'js-cookie';
 import { useNavigate } from 'react-router-dom';
 import api from "src/store/apps/airplane/api.js";
+import {useSelector} from "react-redux";
 
 const deleteStore = async (storeId) => {
   api.put(`/api/v1/store/${storeId}/delete`)
@@ -18,13 +19,11 @@ const deleteStore = async (storeId) => {
 };
 
 
-// This is for the Delete row
 function onAfterDeleteRow(rowKeys) {
-  // Call the deleteStore function for each selected row
   rowKeys.forEach(deleteStore);
 }
 
-// This is for the Search item
+
 function afterSearch(searchText, result) {
   console.log(`Your search text is ${searchText}`);
 }
@@ -56,10 +55,18 @@ const statusFormatter = (cell, row) => {
 const AirportStore = () => {
   const navigate = useNavigate();
   const [Storedata, setStoredata] = useState([]);
-  console.log(Storedata);
+
+  const userInfo = useSelector((state) => state.userInfo)
 
   useEffect(() => {
-    axios.get('http://localhost:8080/api/v1/store', {
+    if (userInfo.userRole !== "ROLE_ADMIN" && userInfo.userRole !== "ROLE_STORE") {
+      navigate('/auth/permission-error');
+    }
+  }, [userInfo, navigate]);
+
+
+  useEffect(() => {
+    api.get('/api/v1/store', {
       headers: {
         Authorization: Cookies.get('token')
       }

@@ -81,7 +81,6 @@ const AuthCode = () => {
                 alert(data.message);
             })
             .catch((error) => {
-                console.log('err', error);
             })
             .finally(() => {
                 setSubmitting(false); // Reset submitting state

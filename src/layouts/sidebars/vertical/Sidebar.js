@@ -20,7 +20,7 @@ const Sidebar = () => {
   // };
 
   const userInfo = useSelector(state => state.userInfo);
-
+  const data = SidebarData();
   const activeBg = useSelector((state) => state.customizer.sidebarBg);
   const isFixed = useSelector((state) => state.customizer.isSidebarFixed);
   // const dispatch = useDispatch();
@@ -30,14 +30,14 @@ const Sidebar = () => {
       <SimpleBar style={{ height: '100%' }}>
         <div className="profilebg" style={{ background: `url(${probg}) no-repeat` }}>
           <div className="p-3 d-flex">
-            <StatusProfileImg userCode={userInfo.userCode} src={userInfo.userImg}/>
+            <StatusProfileImg userCode={userInfo.userCode} src={userInfo.userImg} />
           </div>
           <div className="bg-dark text-dark-white p-2 opacity-75 text-truncate">{userInfo.userName}</div>
         </div>
         {/********Sidebar Content*******/}
         <div className="p-3 pt-1 mt-2">
           <Nav vertical className={activeBg === 'white' ? '' : 'lightText'}>
-            {SidebarData.map((navi) => {
+            {data.map((navi) => {
               if (navi.caption) {
                 return (
                   <div className="navCaption text-uppercase mt-4" key={navi.caption}>

@@ -6,6 +6,8 @@ import { element, exact } from 'prop-types';
 
 
 
+
+
 //import MaintenanceRegist from '../views/maintenance/maintenanceRegist';
 
 
@@ -40,13 +42,13 @@ const Profile = Loadable(lazy(() => import('../views/auth/Profile')));
 
 const AuthCode = Loadable(lazy(() => import('../views/auth/AuthCode.js')));
 const UserContact = Loadable(lazy(() => import('../views/auth/userlist/UserContact.js')));
-
+const RegistRole = Loadable(lazy(() => import("src/views/auth/RegistRole.js")));
 
 
 const Inspection = Loadable(lazy(() => import('../views/inspection/inspection')));
 const InspectionDetail = Loadable(lazy(() => import('../views/inspection/inspectionDetail')));
 const InspectionUpdate = Loadable(lazy(() => import('../views/inspection/inspectionUpdate')));
-// const InspectionRegist = Loadable(lazy(() => import('../views/inspection/')));
+const InspectionRegist = Loadable(lazy(() => import('../views/inspection/inspectionRegist')));
 
 const Equipment = Loadable(lazy(() => import('../views/equipment/equipment')));
 const EquipmentDetail = Loadable(lazy(() => import('../views/equipment/equipmentDetail')));
@@ -84,9 +86,11 @@ const Certification = Loadable(lazy(() => import('../views/auth/Certification'))
 
 
 /***** Chatting Pages ****/
-const TestChatting = Loadable(lazy(() => import('../views/chat/TestChatting.js')));
+
 const LiveChatting = Loadable(lazy(() => import('../views/chat/LiveChatting.js')));
-const ManagerDragAndDrop = Loadable(lazy(() => import('src/components/apps/managerDargAndDrop/ManagerDragAndDrop')));
+
+// qrCode
+const CreateQRCode = Loadable(lazy(() => import("src/views/createQRCode/CreateQRCode.js")));
 
 const ForgotPwd = Loadable(lazy(() => import('../views/auth/forgotPwd.js')));
 const FindPassword = Loadable(lazy(() => import('../views/auth/findPassword.js')));
@@ -125,18 +129,18 @@ const ThemeRoutes = [
       { path: '/inspection', name: 'inspection', exact: true, element: <Inspection/> },
       { path: '/inspection/:inspectionCode', name: 'inspectionDetail', exact: true, element: <InspectionDetail/> },
       { path: '/inspection/inspectionUpdate', name: 'inspectionUpdate', exact: true, element: <InspectionUpdate/> },
-      // { path: '/inspection/inspectionRegist', name: 'inspectionRegist', exact: true, element: <InspectionRegist/> },
+      { path: '/inspection/inspectionRegist', name: 'inspectionRegist', exact: true, element: <InspectionRegist/> },
 
       { path: '/equipment', name: 'equipment', exact: true, element: <Equipment/> },
       { path: '/equipment/:equipmentCode', name: 'equipmentDetail', exact: true, element: <EquipmentDetail/> },
       { path: '/equipment/equipmentUpdate', name: 'equipmentUpdate', exact: true, element: <EquipmentUpdate/> },
-      { path: '/equipment/equipmentRegist', name: 'equipmentRegist', exact: true, element: <EquipmentRegist/> },
+      { path: '/equipment/regist', name: 'equipmentRegist', exact: true, element: <EquipmentRegist/> },
 
       { path: '/facilities', name: 'Facilities', exact: true, element: <Facilities /> },
       { path: '/facilities/:facilitiesCode', name: 'FacilitiesDetail', exact: true, element:<FacilitiesDetail /> },
       { path: '/facilities/regist', name: 'FacilitiesRegist', exact: true, element:<FacilitiesRegist /> },
 
-      { path: '/dashboards/dashboard1', name: 'Dashboard 1', exact: true, element: <Dashboard1 /> },
+      { path: '/main', name: 'Dashboard 1', exact: true, element: <Dashboard1 /> },
   
       { path: '/airport/store', name: 'AirportStore', exact: true, element: <AirportStore /> },
       { path: '/airport/store/:storeId', name: 'AirportStoreDetail', exact: true, element: <AirportStoreDetail /> },
@@ -152,12 +156,17 @@ const ThemeRoutes = [
       { path: '/chatting', name: 'chatting', exact: true, element: <LiveChatting /> },
 
       { path: '/code-issuance', name: 'test', exact: true, element: <AuthCode /> },
+      { path: '/role', name: 'registRole', exact: true, element: <RegistRole /> },
+
 
       
       { path: '/approve', name: 'approve', exact:true, element: <Approve/> },
       //{ path: '/ContactList', name: 'ContactList', exact: true, element: <ContactList /> }, // ContactList 경로 추가
 
-   
+      // QR 발급 (관)
+      { path: '/qrcode', name: 'CreateQRCode', exact:true, element: <CreateQRCode/> },
+
+
 
 
    

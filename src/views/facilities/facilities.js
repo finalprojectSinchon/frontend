@@ -11,7 +11,6 @@ import api from "src/store/apps/airplane/api.js";
 
 
 function onAfterDeleteRow(rowKeys) {
-    // Call the deleteStore function for each selected row
     rowKeys.forEach(deletefacilities);
 }
 
@@ -26,9 +25,6 @@ const deletefacilities = async (facilitiesCode) => {
         })
 };
 
-function afterSearch(searchText, result) {
-    console.log(`Your search text is ${searchText}`)
-}
 
 const selectRowProp = {
     mode: 'checkbox',
@@ -68,27 +64,20 @@ const Facilities = () => {
     const navigate = useNavigate();
     const options = {
         afterDeleteRow: onAfterDeleteRow,
-        afterSearch,
         onRowClick: (row) => {
-            console.log('sssssssssssssssssss' , row.facilitiesCode)
             navigate(`/facilities/${row.facilitiesCode}`);
         }
     };
 
     const [FacilitiesData, setFacilitiesData ] = useState([]);
-    console.log('ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ ', FacilitiesData)
+
 
     useEffect(() => {
-        axios.get('http://localhost:8080/api/v1/facilities',{
-            headers:{
-                Authorization: Cookies.get('token')
-            }
-        })
+        api.get('/api/v1/facilities')
             .then(res => res.data)
             .then(res => {
                 setFacilitiesData(res.data)
             })
-
     }, []);
 
 
@@ -97,9 +86,10 @@ const Facilities = () => {
             <Card>
                 <CardBody>
                 <div className="d-flex justify-content-between align-items-center">
-                    <CardTitle tag="h5">시설물</CardTitle>
+                    <div>
+                    <CardTitle tag="h5">편의시설</CardTitle>
                     <CardSubtitle className="mb-2 text-muted" tag="h6">
-                        편의시설
+                        편의시설 전체 조회
                     </CardSubtitle>
 
                     
@@ -110,7 +100,7 @@ const Facilities = () => {
                     <Button color="primary" onClick={ () => navigate('/facilities/regist')}>
                         등록
                     </Button>
-
+                </div>
                     <BootstrapTable
                         hover
                         search

@@ -39,12 +39,12 @@ function afterSearch2(searchText, result) {
 // Status formatter for the first table
 const statusFormatter = (cell) => {
   let styleClass;
-  if (cell === '고장') {
+  if (cell === '사용중') {
     styleClass = 'bg-danger';
-  } else if (cell === '점검중') {
-    styleClass = 'bg-warning';
+  } else if (cell === '사용가능') {
+    styleClass = 'bg-success1';
   } else {
-    styleClass = 'bg-success';
+    styleClass = 'bg-success1';
   }
   return (
       <span className={`p-2 rounded-circle d-inline-block ${styleClass}`}></span>
@@ -96,7 +96,17 @@ const Datatables = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const gateList = useSelector((state) => state.gates.gateList);
-  console.log('gateList', gateList);
+
+
+  const userInfo = useSelector((state) => state.userInfo)
+
+  useEffect(() => {
+    if (userInfo && userInfo.userRole !== "ROLE_ADMIN" && userInfo.userRole !== "ROLE_AIRPLANE") {
+      navigate('/auth/permission-error');
+    }
+  }, [userInfo]);
+
+
 
   // Initial map data with coordinates in percentage
   const initialMapData = [
@@ -108,7 +118,9 @@ const Datatables = () => {
 
   const [mapData, setMapData] = useState(initialMapData);
   const [imageLoaded, setImageLoaded] = useState(false);
-  const [openModals, setOpenModals] = useState({});
+  const [openModals, setOpenModals] = useState({
+    1: false, 2: false, 3: false, 4: false
+  });
   const [hoveredArea, setHoveredArea] = useState(null);
 
   const imageRef = useRef(null);
@@ -172,6 +184,15 @@ const Datatables = () => {
       [id]: !prevState[id]
     }));
   };
+
+  useEffect(() => {
+    // 모든 값이 false인지 확인하는 함수
+    const allFalse = Object.values(openModals).every(value => value === false);
+
+    if (allFalse) {
+      dispatch(fetchGates());
+    }
+  }, [openModals, dispatch]);
 
   const handlerRegist = (location) => () => {
     navigate(`/airplane/gate/regist`, { state: { location: location } });

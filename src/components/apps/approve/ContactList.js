@@ -7,13 +7,15 @@ import {
   DeleteContact,
   toggleStarredContact,
   fetchApprove,
-} from '../../../store/apps/approve/ContactSlice';
+} from 'src/store/apps/approve/ContactSlice.js';
 import ContactListItem from './ContactListItem';
 import './Style.css';
 
 const ContactList = () => {
   const dispatch = useDispatch();
   const [managers, setManagers] = useState([]);
+
+
   const contacts = useSelector(state => state.contacts.contacts);
   const selectedContactId = useSelector(state => state.contacts.selectedContactId);
   const searchTerm = useSelector(state => state.contacts.contactSearch);

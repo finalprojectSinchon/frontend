@@ -1,7 +1,7 @@
 import { Card, CardBody } from 'reactstrap';
 import TwoColumn from '../../../components/twoColumn/TwoColumn';
-import ShopListing from '../../../components/apps/ecommerce/ShopListing';
-import EcoSidebar from '../../../components/apps/ecommerce/EcoSidebar';
+import ShopListing from '../../../components/apps/Equipment/EquipmentListing.js';
+import EcoSidebar from '../../../components/apps/Equipment/EcoSidebar';
 
 const Shop = () => {
   return (

@@ -6,10 +6,23 @@ import { fetchChkinCounters } from '../../store/apps/airplane/chkinCounterSlice'
 import { useNavigate } from 'react-router-dom';
 import BreadCrumbs from '../../layouts/breadcrumbs/BreadCrumbs';
 import './img.css';
+import api from "src/store/apps/airplane/api.js";
 
 function onAfterDeleteRow(rowKeys) {
-  alert(`The rowkey you drop: ${rowKeys}`);
+  rowKeys.forEach(deleteRow);
+
 }
+
+const deleteRow = async (checkinCounterCode) => {
+  api.put(`/api/v1/airplane/checkin-counter/${checkinCounterCode}/delete`)
+      .then(res => {
+        alert("삭제 성공")
+      })
+      .catch(err => {
+        alert("삭제 실패")
+        console.error('err',err)
+      })
+};
 
 function afterSearch(searchText, result) {
   console.log(`Your search text is ${searchText}`);
@@ -49,7 +62,14 @@ const Datatables = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const chkinCounterList = useSelector((state) => state.chkinCounters.chkinCounterList);
-  console.log('chkinCounterList',chkinCounterList)
+
+  const userInfo = useSelector((state) => state.userInfo)
+
+  useEffect(() => {
+    if (userInfo.userRole !== "ROLE_ADMIN" && userInfo.userRole !== "ROLE_AIRPLANE") {
+      navigate('/auth/permission-error');
+    }
+  }, [userInfo, navigate]);
 
   const initialMapData = [
     { id: 1, coords: "12.5%,58%,16%,80%", href: "#section1", label: "N" },
