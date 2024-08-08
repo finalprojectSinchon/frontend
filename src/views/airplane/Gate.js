@@ -108,7 +108,9 @@ const Datatables = () => {
 
   const [mapData, setMapData] = useState(initialMapData);
   const [imageLoaded, setImageLoaded] = useState(false);
-  const [openModals, setOpenModals] = useState({});
+  const [openModals, setOpenModals] = useState({
+    1: false, 2: false, 3: false, 4: false
+  });
   const [hoveredArea, setHoveredArea] = useState(null);
 
   const imageRef = useRef(null);
@@ -128,10 +130,15 @@ const Datatables = () => {
     }
   };
 
+  console.log('open',openModals)
   useEffect(() => {
-    dispatch(fetchGates());
+    // 모든 값이 false인지 확인하는 함수
+    const allFalse = Object.values(openModals).every(value => value === false);
 
-  }, [dispatch]);
+    if (allFalse) {
+      dispatch(fetchGates());
+    }
+  }, [openModals, dispatch]);
 
   useEffect(() => {
     if (imageLoaded) {
@@ -163,7 +170,7 @@ const Datatables = () => {
   const flatGateList = gateList.data.gateList.map(gate => ({
     ...gate,
     airline: gate.airline || '미정',
-    scheduleDateTime: formatDateTime(gate.scheduleDateTime) || '미정'
+    scheduleDateTime: formatDateTime(gate.scheduleDateTime) || null
   }));
 
   const handleClick = (id) => {
@@ -173,6 +180,15 @@ const Datatables = () => {
     }));
   };
 
+  console.log('open',openModals)
+  useEffect(() => {
+    // 모든 값이 false인지 확인하는 함수
+    const allFalse = Object.values(openModals).every(value => value === false);
+
+    if (allFalse) {
+      dispatch(fetchGates());
+    }
+  }, [openModals, dispatch]);
   const handlerRegist = (location) => () => {
     navigate(`/airplane/gate/regist`, { state: { location: location } });
   };
