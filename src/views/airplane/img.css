@@ -98,3 +98,14 @@
   text-align: center; /* 버튼 내 텍스트 중앙 정렬 */
 }
 
+.bg-danger2 {
+  background-color: #dc3545;
+}
+
+.bg-warning2 {
+  background-color: #ffc107;
+}
+
+.bg-success2 {
+  background-color: #28a745;
+}
