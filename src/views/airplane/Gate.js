@@ -73,6 +73,19 @@ const Datatables = () => {
       [id]: !prevState[id]
     }));
   };
+  const statusFormatter = (cell) => {
+    let styleClass;
+    if (cell === '사용중') {
+      styleClass = 'bg-danger';
+    } else if (cell === '사용가능') {
+      styleClass = 'bg-success1';
+    } else {
+      styleClass = 'bg-success1';
+    }
+    return (
+        <span className={`p-2 rounded-circle d-inline-block ${styleClass}`}></span>
+    );
+  };
 
   if (!gateList || !gateList.data || !gateList.data.gateList) {
     return <div>Loading...</div>;
@@ -226,9 +239,10 @@ const convertPercentToCoords = (percentCoords, imgWidth, imgHeight) => {
   )).join(',');
 };
 
-const formatDateTime = (scheduleDateTime) => {
-  // Define your date formatting logic here
-  return scheduleDateTime;
+const formatDateTime = (dateTime) => {
+  if (!dateTime || dateTime === '미정') return '미정';
+  const date = new Date(dateTime);
+  return date.toLocaleString();
 };
 
 const statusFormatter = (cell, row) => {

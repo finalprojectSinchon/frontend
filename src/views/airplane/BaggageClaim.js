@@ -57,12 +57,12 @@ const convertPercentToCoords = (percentCoords, imgWidth, imgHeight) => {
 
 const statusFormatter = (cell, row) => {
   let styleClass;
-  if (cell === '고장') {
-    styleClass = 'bg-danger';
-  } else if (cell === '점검중') {
-    styleClass = 'bg-warning';
+  if (cell === '사용중') {
+    styleClass = 'bg-success2';
+  } else if (cell === '사용가능') {
+    styleClass = 'bg-danger2';
   } else {
-    styleClass = 'bg-success';
+    styleClass = 'bg-success2';
   }
   
   return (
@@ -70,7 +70,11 @@ const statusFormatter = (cell, row) => {
   );
 };
 
-
+const formatDateTime = (dateTime) => {
+  if (!dateTime || dateTime === '미정') return '미정';
+  const date = new Date(dateTime);
+  return date.toLocaleString();
+};
 const Datatables = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -161,8 +165,8 @@ const Datatables = () => {
 
   const flatBaggageClaimList = baggageClaimList.data.baggageClaimList.map(baggageClaim => ({
     ...baggageClaim,
-    airline: baggageClaim.airplane?.airline,
-    scheduleDateTime: baggageClaim.airplane?.scheduleDateTime
+    airline: baggageClaim?.airline,
+    scheduleDateTime: formatDateTime(baggageClaim.scheduleDateTime)
   }));
 
   const handleMouseEnter = (id) => {
@@ -213,9 +217,19 @@ const Datatables = () => {
           </map>
           {mapData.map(area => {
             const [x1, y1, x2, y2] = area.coords.split(',').map(Number);
-            const matchedCounter = flatBaggageClaimList.find(chkincounter => chkincounter.location === area.label);
-            const circleClass = matchedCounter ? 'red-circle' : 'green-circle'; // 조건에 따른 동그라미 색상
+            // const matchedCounter = flatBaggageClaimList.find(chkincounter => chkincounter.baggageClaimCode === area.id);
+            // const circleClass = matchedCounter ? 'red-circle' : 'green-circle'; // 조건에 따른 동그라미 색상
+            const circleClass = (() => {
+              const matchedCounter = flatBaggageClaimList.find(chkincounter => chkincounter.baggageClaimCode == area.id);
 
+              if (!matchedCounter) {
+                // 만약 매칭되는 항목이 없으면 기본 색상으로 설정
+                console.warn(`Gate with code ${area.id} not found.`);
+                return 'red-circle';
+              }
+
+              return matchedCounter.status === "사용가능" ? 'green-circle' : 'red-circle';
+            })();
             return (
               <div
                 key={`circle-${area.id}`}
@@ -326,23 +340,20 @@ const Datatables = () => {
             exportCSV
             headerStyle={{ width: '100%' }}
           >
-            <TableHeaderColumn width="14.28%" dataField="baggageClaimCode" dataAlign="center" isKey>
-            BaggageClaim Code
+            <TableHeaderColumn width="20.00%" dataField="baggageClaimCode" dataAlign="center" isKey>
+              수화물 수취대번호
             </TableHeaderColumn>
-            <TableHeaderColumn width="14.28%" dataField="location" dataAlign="center">
-              Location
+                 <TableHeaderColumn width="20.00%" dataField="manager" dataAlign="center">
+              담당자
             </TableHeaderColumn>
-            <TableHeaderColumn width="14.28%" dataField="manager" dataAlign="center">
-              Manager
+            <TableHeaderColumn width="20.00%" dataField="airline" dataAlign="center">
+              항공사
             </TableHeaderColumn>
-            <TableHeaderColumn width="14.28%" dataField="airline" dataAlign="center">
-              Airline
+            <TableHeaderColumn width="20.00%" dataField="status" dataAlign="center" dataFormat={statusFormatter}>
+              상태
             </TableHeaderColumn>
-            <TableHeaderColumn width="14.28%" dataField="status" dataAlign="center" dataFormat={statusFormatter}>
-              Status
-            </TableHeaderColumn>
-            <TableHeaderColumn width="14.28%" dataField="scheduleDateTime" dataAlign="center">
-              Schedule DateTime
+            <TableHeaderColumn width="20.00%" dataField="scheduleDateTime" dataAlign="center">
+              비행기 도착시간
             </TableHeaderColumn>
             
           </BootstrapTable>
