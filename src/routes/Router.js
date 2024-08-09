@@ -99,7 +99,7 @@ const FindPassword = Loadable(lazy(() => import('../views/auth/findPassword.js')
 const Approve = Loadable(lazy(() => import('../views/approve/Contacts.js')));
 //const ContactList = Loadable(lazy(() => import('../apps/approve/ContactList.js'))); // ContactList 경로 추가
 
-
+const Calendar = Loadable(lazy(() => import('../views/calendar/CalendarApp')));
 
 /*****Routes******/
 
@@ -166,6 +166,7 @@ const ThemeRoutes = [
       // QR 발급 (관)
       { path: '/qrcode', name: 'CreateQRCode', exact:true, element: <CreateQRCode/> },
 
+      { path: '/calendar', name: 'calendar', exact: true, element: <Calendar /> },
 
 
 

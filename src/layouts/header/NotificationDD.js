@@ -10,8 +10,7 @@ const NotificationDD = ({ clearNotifications }) => {
     const approves = ApproveData?.data.approvalList || [];
     const [message, setMessage] = useState([]);
     const userInfo = useSelector((state) => state.userInfo);
-console.log('userInfo',userInfo)
-    console.log('approves',approves)
+
 
     useEffect(() => {
         dispatch(fetchApprove());

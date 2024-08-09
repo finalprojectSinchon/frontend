@@ -19,6 +19,14 @@ const SidebarData = () => {
       id: 3,
       collapisble: false,
     },
+      {
+    title: '캘린더',
+    href: '/calendar',
+    id: 15,
+    icon: <MaterialIcon  icon="calendar_today" />,
+    collapisble: true,
+
+  },
     {
       title: '사원조회',
       href: '/contact',
@@ -56,6 +64,7 @@ const SidebarData = () => {
       collapisble: false,
     },
   ];
+
 
 
   if (userInfo.userRole === 'ROLE_ADMIN') {

@@ -6,7 +6,7 @@ import WeatherCard from "./WeatherCard";
 import AirQuality from "src/views/dashboards/AirQuality.js";
 import DataChart from './Datachart';
 import EquipmentChart from './EquipmentChart';
-
+import EquimentChart from './EquimentCharts.js'
 
 
 const Dashboard1 = () => {
