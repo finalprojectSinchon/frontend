@@ -59,11 +59,12 @@ const AirportStore = () => {
   const userInfo = useSelector((state) => state.userInfo)
 
   useEffect(() => {
-    if (userInfo.userRole !== "ROLE_ADMIN" && userInfo.userRole !== "ROLE_STORE") {
-      navigate('/auth/permission-error');
+    if (userInfo && userInfo.userRole) {
+      if (userInfo.userRole !== "ROLE_ADMIN" && userInfo.userRole !== "ROLE_STORE") {
+        navigate('/auth/permission-error');
+      }
     }
   }, [userInfo, navigate]);
-
 
   useEffect(() => {
     api.get('/api/v1/store', {

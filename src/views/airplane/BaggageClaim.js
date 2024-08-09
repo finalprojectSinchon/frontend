@@ -83,10 +83,12 @@ const Datatables = () => {
   const userInfo = useSelector((state) => state.userInfo)
 
   useEffect(() => {
-    if (userInfo && userInfo.userRole !== "ROLE_ADMIN" && userInfo.userRole !== "ROLE_AIRPLANE") {
-      navigate('/auth/permission-error');
+    if (userInfo && userInfo.userRole) {
+      if (userInfo.userRole !== "ROLE_ADMIN" && userInfo.userRole !== "ROLE_AIRPLANE") {
+        navigate('/auth/permission-error');
+      }
     }
-  }, [userInfo]);
+  }, [userInfo, navigate]);
 
   // 초기 퍼센트 좌표 설정
   const initialMapData = [
@@ -334,7 +336,7 @@ const Datatables = () => {
             insertRow
             deleteRow
             selectRow={selectRowProp}
-            pagination
+            // pagination
             options={options}
             tableHeaderClass="mb-10"
             exportCSV

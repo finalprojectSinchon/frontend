@@ -9,7 +9,7 @@ import HorizontalSidebar from './sidebars/horizontal/HorizontalSidebar';
 import {useEffect, useState} from 'react';
 import axios from 'axios';
 import Cookies from 'js-cookie';
-import { addUser } from '../store/apps/login/userSlice';
+import {addUser, fetchUsers} from '../store/apps/login/userSlice';
 import { connectWebSocket, disconnectWebSocket } from '../store/apps/websocket/WebSocketSlice';
 import api from "src/store/apps/airplane/api.js";
 
@@ -29,22 +29,8 @@ const FullLayout = () => {
   const [isWebSocketConnected, setIsWebSocketConnected] = useState(false);
 
   useEffect(() => {
-    if (userInfo.userCode === null) {
-      api.get('/user-info')
-          .then(res => res.data)
-          .then(data => {
-            dispatch(addUser(data.data));
-          })
-          .catch(error => {
-            console.error('Error fetching user info:', error);
-            navigate('/auth/loginformik')
-          });
-    } else if (userInfo.isActive !== "Y"){
-      navigate('/auth/permission-error')
-    } else if (userInfo.userRole === "ROLE_USER") {
-
-    }
-  }, [dispatch, userInfo]);
+    dispatch(fetchUsers());
+  }, []);
 
   useEffect(() => {
     if (userInfo.userCode && !isWebSocketConnected) {

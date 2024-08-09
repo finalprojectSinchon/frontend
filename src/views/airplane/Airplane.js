@@ -47,6 +47,7 @@ const Datatables = () => {
   const navigate = useNavigate();
   const AirplaneList = useSelector((state) => state.airplanes.airplaneList);
 
+
   const formatDateTime = (timestamp) => {
     const date = new Date(timestamp);
     return date.toLocaleString();
@@ -63,8 +64,6 @@ const Datatables = () => {
       setUpdateList(updatedList);
     }
   }, [AirplaneList]);
-
-
 
 
   const options = {

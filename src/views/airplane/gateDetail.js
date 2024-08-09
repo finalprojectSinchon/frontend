@@ -15,6 +15,8 @@ import BreadCrumbs from '../../layouts/breadcrumbs/BreadCrumbs';
 import { useParams,useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchGate, modifyGate, softdeleteGate } from '../../store/apps/airplane/gateSlice';
+import ManagerDragAndDrop from "src/components/apps/managerDargAndDrop/ManagerDragAndDrop.js";
+import api from "src/store/apps/airplane/api.js";
 
 
 const GateDetail = () => {
@@ -23,6 +25,23 @@ const GateDetail = () => {
   const gateDetail = useSelector((state) => state.gates.gateDetail);
   const [gateInfo, setGateInfo] = useState({});
   const [readOnly, setReadOnly] = useState(true);
+
+  const [manager, setManager] = useState([])
+  const [airportType, setAirportType] = useState()
+
+
+  useEffect(() => {
+
+    api.post('/api/v1/managers',{
+      airportType : "gate",
+      airportCode : gateCode
+    })
+        .then(res => res.data)
+        .then(data => {
+          setManager(data.data)
+        })
+
+  }, [gateInfo]);
 
   const onChangeHandler = e => {
     setGateInfo({
@@ -40,6 +59,7 @@ const GateDetail = () => {
 
   useEffect(() => {
     dispatch(fetchGate({ gateCode }));
+    setAirportType('gate');
   }, [dispatch, gateCode]);
 
   useEffect(() => {
@@ -150,10 +170,7 @@ const GateDetail = () => {
                       </FormGroup>
                     </Col>
                     <Col md="6">
-                      <FormGroup>
-                        <Label>담당자</Label>
-                        <Input type="text" value={gateInfo.manager } name="manager" onChange={onChangeHandler} disabled={readOnly} />
-                      </FormGroup>
+
                     </Col>
                   </Row>
                   <Row>
@@ -163,6 +180,21 @@ const GateDetail = () => {
                         <Label>비고</Label>
                         <Input type="textarea" rows="6" value={gateInfo.note} name="note" onChange={onChangeHandler} disabled={readOnly} />
                       </FormGroup>
+                    </Col>
+                    <Col md="6">
+                      <Row className="mb-3 mt-3">
+                        <Col md="6" className="d-flex justify-content-start">
+                          <h2 className="ms-5 ps-4">전체 직원</h2>
+                        </Col>
+                        <Col md="6" className="d-flex justify-content-end">
+                          <h2 className="me-5 pe-5">담당 직원</h2>
+                        </Col>
+                      </Row>
+                      <div className='mb-4'>
+                        {manager ? <ManagerDragAndDrop AllUser={manager.AllUser} Manager={manager.Manager} airportCode={gateCode}
+                                                       airportType={airportType} isEditMode={readOnly}/>
+                            : <h3>loading</h3> }
+                      </div>
                     </Col>
                   </Row>
                   <Col className='d-flex justify-content-center'>
