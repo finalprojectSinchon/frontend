@@ -191,6 +191,10 @@ const ContactDetails = () => {
             <td><h6>Status</h6></td>
             <td>: {contactDetail.facilities.status || 'N/A'}</td>
           </tr>
+          <tr>
+            <td><h6>Note</h6></td>
+            <td>: {contactDetail.facilities.note || 'N/A'}</td>
+          </tr>
         </>
       );
     } else if (selectedFilter === 'gate' || (selectedFilter === 'show_all' && contactDetail.gate)) {
@@ -293,6 +297,10 @@ const ContactDetails = () => {
             <td><h6>Type</h6></td>
             <td>: {contactDetail.storage.type || 'N/A'}</td>
           </tr>
+          <tr>
+            <td><h6>Note</h6></td>
+            <td>: {contactDetail.storage.note || 'N/A'}</td>
+          </tr>
         </>
       );
     } else if (selectedFilter === 'store' || (selectedFilter === 'show_all' && contactDetail.store)) {
@@ -345,6 +353,10 @@ const ContactDetails = () => {
           <tr>
             <td><h6>Created Date</h6></td>
             <td>: {contactDetail.store.createdDate || 'N/A'}</td>
+          </tr>
+          <tr>
+            <td><h6>Note</h6></td>
+            <td>: {contactDetail.store.note || 'N/A'}</td>
           </tr>
         </>
       );

@@ -93,6 +93,7 @@ const BaggageClaimsDetail = () => {
       setReadOnly(false);
     } else {
       await dispatch(modifyBaggageClaim({ baggageClaimCode, baggageClaimInfo }));
+      alert("해당 수하물 수취대 수정 승인을 요청했습니다."); 
       setIsModify(true);
     }
   };

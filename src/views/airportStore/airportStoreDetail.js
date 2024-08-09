@@ -75,7 +75,7 @@ const AirportStoreDetail = () => {
   const onClickSave = () => {
     api.put(`/api/v1/store/${storeId}`,storeInfo)
     .then(res => {
-        alert('수정에 성공하였습니다.')
+        alert('해당 점포 수정 승인을 요청했습니다.')
       setreadOnly(true);
     })
     .catch(error => {

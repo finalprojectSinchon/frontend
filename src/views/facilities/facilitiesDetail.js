@@ -11,11 +11,9 @@ import {
     Input,
     FormText,
     Button,
-    FormFeedback,
 } from 'reactstrap';
 import BreadCrumbs from '../../layouts/breadcrumbs/BreadCrumbs';
 import { useNavigate, useParams } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
 import api from '../../store/apps/airplane/api';
 import ManagerDragAndDrop from "src/components/apps/managerDargAndDrop/ManagerDragAndDrop.js";
 import Location from "src/components/location/Location.js";
@@ -23,34 +21,31 @@ import Location from "src/components/location/Location.js";
 const FacilitiesDetail = () => {
 
     const { facilitiesCode } = useParams();
-
     const navigate = useNavigate();
 
-    const [facilitiesInfo, setfacilitiesInfo] = useState();
-    const [readOnly, setreadOnly] = useState(true);
+    const [facilitiesInfo, setFacilitiesInfo] = useState();
+    const [readOnly, setReadOnly] = useState(true);
     const [manager, setManager] = useState([]);
     const [airportType, setAirportType] = useState()
-
     const [isModify, setIsModify] = useState(false);
     const [location, setLocation] = useState()
 
     useEffect(() => {
-
         api.post('/api/v1/managers',{
             airportType : "facilities",
             airportCode : facilitiesCode
         })
-            .then(res => res.data)
-            .then(data => {
-                setManager(data.data)
-            })
+        .then(res => res.data)
+        .then(data => {
+            setManager(data.data)
+        })
     }, [facilitiesInfo]);
 
     useEffect(() =>{
         api.get(`/api/v1/facilities/${facilitiesCode}`)
             .then(res => res.data)
             .then(data => {
-                setfacilitiesInfo(data.data);
+                setFacilitiesInfo(data.data);
             })
         setAirportType('facilities')
     },[]);
@@ -62,7 +57,6 @@ const FacilitiesDetail = () => {
                 setLocation(data.data)
             })
             .catch(err => console.log(err));
-
     }, [airportType]);
 
     const onClickDelete = () => {
@@ -75,24 +69,25 @@ const FacilitiesDetail = () => {
                 console.error('에러 : ', error);
             })
     }
+
     const onChangeHandler = e => {
-        setfacilitiesInfo({
+        setFacilitiesInfo({
             ...facilitiesInfo,
             [e.target.name] : e.target.value
         })
     }
 
     const onClickSave = () => {
-        api.put(`/api/v1/facilities/${facilitiesCode}`,facilitiesInfo)
+        api.put(`/api/v1/facilities/${facilitiesCode}`, facilitiesInfo)
             .then(res => {
                 setIsModify(true);
-                return res.data
+                alert("해당 편의시설 수정 승인을 요청했습니다."); 
+                return res.data;
             })
             .catch(error => {
-                console.error('에러 : ',error);
+                console.error('에러 : ', error);
             })
     }
-
 
     return (
         <div>
@@ -117,7 +112,7 @@ const FacilitiesDetail = () => {
                                         <FormGroup>
                                             <Label>시설물</Label>
                                             <Input type="text" placeholder="시설물 이름을 입력하세요" name='facilitiesName' onChange={onChangeHandler} readOnly={readOnly}
-                                                    value={facilitiesInfo ? facilitiesInfo.facilitiesName : '로딩중,.,.'  } />
+                                                   value={facilitiesInfo ? facilitiesInfo.facilitiesName : '로딩중...'  } />
                                         </FormGroup>
                                     </Col>
                                     <Col md="6">
@@ -149,7 +144,7 @@ const FacilitiesDetail = () => {
                                         {readOnly ? <> <Label>위치</Label>
                                             <Input type="text" placeholder="시설물 이름을 입력하세요" name='facilitiesName' onChange={onChangeHandler} readOnly={readOnly}
                                                    value={location ? location.region + " " + location.floor + " " + location.location : '위치 데이터가 없습니다.'  } /> </> :
-                                            <Location isModify={isModify} setIsModify={setIsModify} setReadOnly={setreadOnly} code={facilitiesCode} type={airportType}/>
+                                            <Location isModify={isModify} setIsModify={setIsModify} setReadOnly={setReadOnly} code={facilitiesCode} type={airportType}/>
                                         }
                                     </Col>
                                 </Row>
@@ -158,8 +153,8 @@ const FacilitiesDetail = () => {
                                         <FormGroup>
                                             <Label>분류</Label>
                                             <Input type="select" name='type' placeholder='취급품목을 입력하세요'
-                                                    disabled={readOnly} onChange={onChangeHandler}
-                                                    value={facilitiesInfo ? facilitiesInfo.type : 'asd2'}>
+                                                   disabled={readOnly} onChange={onChangeHandler}
+                                                   value={facilitiesInfo ? facilitiesInfo.type : 'asd2'}>
                                                 <option name='엘리베이터'>엘리베이터</option>
                                                 <option name='에스컬레이터'>에스컬레이터</option>
                                                 <option name='무빙워크'>무빙워크</option>
@@ -201,7 +196,7 @@ const FacilitiesDetail = () => {
                                             삭제하기
                                         </Button>
                                         {readOnly ? (
-                                            <Button className="btn" color="primary" onClick={() => setreadOnly(false)}>
+                                            <Button className="btn" color="primary" onClick={() => setReadOnly(false)}>
                                                 수정하기
                                             </Button>
                                         ) : (

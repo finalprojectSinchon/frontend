@@ -54,6 +54,7 @@ const GateDetail = () => {
     } else {
       setReadOnly(true);
       dispatch(modifyGate({ gateCode, gateInfo }));
+      alert("해당 게이트 수정 승인을 요청했습니다. ")
     }
   };
 

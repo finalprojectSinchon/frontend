@@ -81,6 +81,8 @@ const onClickSave = () => {
     api().put(`/api/v1/storage/${storageCode}`, storageInfo)
     .then(res => {
         setIsModify(true);
+        alert("해당 창고 수정 승인을 요청했습니다.");
+        return res.data;
     })
     .catch(error => {
         console.error('에러 : ', error);

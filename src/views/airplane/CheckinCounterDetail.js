@@ -93,6 +93,7 @@ const CheckinCounterDetail = () => {
       setReadOnly(false);
     } else {
       await dispatch(modifyChkinCounter({ checkinCounterCode, checkinCounterInfo }));
+      alert("해당 체크인 카운터 수정 승인을 요청했습니다.")
       setIsModify(true);
     }
   };
