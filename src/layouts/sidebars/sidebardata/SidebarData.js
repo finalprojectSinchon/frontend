@@ -48,13 +48,13 @@ const SidebarData = () => {
       id: 10,
       collapisble: true,
     },
-    {
-      title: 'Logout',
-      href: '/logout',
-      icon: <MaterialIcon icon="logout" />,
-      id: 12,
-      collapisble: false,
-    },
+    // {
+    //   title: 'Logout',
+    //   href: '/logout',
+    //   icon: <MaterialIcon icon="logout" />,
+    //   id: 12,
+    //   collapisble: false,
+    // },
   ];
 
 
