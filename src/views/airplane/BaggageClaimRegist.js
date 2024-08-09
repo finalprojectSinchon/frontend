@@ -1,4 +1,4 @@
-import React, { useState ,useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   Card,
   CardBody,
@@ -10,144 +10,137 @@ import {
   Label,
   Input,
   Button,
-  FormText 
+  FormText
 } from 'reactstrap';
 import BreadCrumbs from '../../layouts/breadcrumbs/BreadCrumbs';
-import { useNavigate,useLocation } from 'react-router-dom';
-import { useDispatch, useSelector  } from 'react-redux';
+import { useNavigate, useLocation } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
 import { fetchAirplanes } from '../../store/apps/airplane/airplaneSlice';
-import { fetchBaggageClaims,registBaggageClaim } from '../../store/apps/airplane/baggageClaimSlice';
+import { fetchBaggageClaims, registBaggageClaim } from '../../store/apps/airplane/baggageClaimSlice';
 
 const BaggageClaimsRegist = () => {
-    const location = useLocation();
-    const state = location.state || {}; 
-    const dispatch = useDispatch();
-    const navigate = useNavigate();
+  const location = useLocation();
+  const state = location.state || {};
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
-    const AirplaneList = useSelector((state) => state.airplanes.airplaneList);
-    const airplanes = AirplaneList?.data?.airplaneList || [];
-    const BaggageClaimList = useSelector((state) => state.baggageClaims.baggageClaimList);
-    const baggageClaims = BaggageClaimList?.data?.baggageClaimList
+  const AirplaneList = useSelector((state) => state.airplanes.airplaneList);
+  const airplanes = AirplaneList?.data?.airplaneList || [];
+  const BaggageClaimList = useSelector((state) => state.baggageClaims.baggageClaimList);
+  const baggageClaims = BaggageClaimList?.data?.baggageClaimList;
 
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(null);
-  
-    const [selectedAirline, setSelectedAirline] = useState('');
-    const [selectedSchedule, setSelectedSchedule] = useState('');
-    const [selectedAirport, setSelectedAirport] = useState('');
-    const [arrivalTimes, setArrivalTimes] = useState([]);
-    const [flightId, setFlightId] = useState('');
-    const [airports, setAirports] = useState([]);
-    const [baggageClaimInfo, setBaggageClaimInfo] = useState({
-      location: state.location || '',
-      status: null,
-      lastInspectionDate: null,
-      delayTime: null,
-      manager: null,
-      note: null,
-      airplaneCode: null,
-      type:null
-    });
-    
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
-    useEffect(() => {
-      const fetchData = async () => {
-        try {
-          await dispatch(fetchAirplanes());
-          await dispatch(fetchBaggageClaims());
-        } catch (err) {
-          setError(err.message || '데이터 로딩 실패');
-        } finally {
-          setLoading(false);
-        }
-      };
-  
-      fetchData();
-    }, [dispatch]);
+  const [selectedAirline, setSelectedAirline] = useState('');
+  const [selectedSchedule, setSelectedSchedule] = useState('');
+  const [selectedAirport, setSelectedAirport] = useState('');
+  const [arrivalTimes, setArrivalTimes] = useState([]);
+  const [flightId, setFlightId] = useState('');
+  const [airports, setAirports] = useState([]);
+  const [baggageClaimInfo, setBaggageClaimInfo] = useState({
+    location: state.location || '',
+    status: null,
+    lastInspectionDate: null,
+    delayTime: null,
+    manager: null,
+    note: null,
+    airplaneCode: null,
+    type: null
+  });
 
-    useEffect(() => {
-      const filteredTimes = airplanes
-        .filter(airplane => airplane.airline === selectedAirline)
-        .map(airplane => airplane.scheduleDateTime);
-        
-      setArrivalTimes(filteredTimes);
-      setSelectedSchedule(''); 
-    }, [selectedAirline, airplanes]);
-
-    useEffect(() => {
-      if (selectedAirline && selectedSchedule) {
-        const filteredAirports = airplanes
-          .filter(airplane => airplane.airline == selectedAirline && airplane.scheduleDateTime == selectedSchedule)
-          .map(airplane => airplane.airport);
-  
-          console.log('filteredAirports',filteredAirports)
-        setAirports(filteredAirports);
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        await dispatch(fetchAirplanes());
+        await dispatch(fetchBaggageClaims());
+      } catch (err) {
+        setError(err.message || '데이터 로딩 실패');
+      } finally {
+        setLoading(false);
       }
-    }, [selectedAirline, selectedSchedule, airplanes]);
-
-    useEffect(() => {
-      const selectedAirplane = airplanes.find(airplane =>
-        airplane.airline == selectedAirline &&
-        airplane.scheduleDateTime == selectedSchedule &&
-        airplane.airport == selectedAirport
-      );
-
-  
-      setFlightId(selectedAirplane ? selectedAirplane.flightId : '');
-      setBaggageClaimInfo(prevInfo => ({
-        ...prevInfo,
-        airplaneCode: selectedAirplane?.airplaneCode || ''
-    
-      }));
-
-    }, [selectedAirline, selectedSchedule, airplanes,selectedAirport]);
-  
-    const onClickHandler =  ()  => {
-      if (baggageClaims.some(baggageClaim =>
-        baggageClaim.airplaneCode == baggageClaimInfo.airplaneCode 
-      )) {
-        alert("이미 등록된 수화물 수취대 입니다");
-        return;
-      }
-  
-       dispatch(registBaggageClaim(baggageClaimInfo));
-       navigate('/airplane/baggage-claim')
-       window.location.reload();
     };
 
-  
-  const uniqueAirlines = [...new Set(airplanes.map(airplane => airplane.airline))];
-  const uniqueTimes = [...new Set(arrivalTimes.map(time => time))]
-  const ChangeHandler = (event) => {
-    const { name, value } = event.target;
-   
-  
-      if (name === 'airline') {
-        setSelectedAirline(value);
-        setSelectedSchedule('');
-        setSelectedAirport('');
-      } else if (name === 'scheduleDateTime') {
-        setSelectedSchedule(value);
-        setSelectedAirport('');
-      } else if (name === 'airport') {
-        setSelectedAirport(value);
-      } else {
-        setBaggageClaimInfo(prevInfo => ({
-          ...prevInfo,
-          [name]: value // 특정 필드만 업데이트
-        }));
-      }
-    
+    fetchData();
+  }, [dispatch]);
+
+  useEffect(() => {
+    const filteredTimes = airplanes
+      .filter(airplane => airplane.airline === selectedAirline)
+      .map(airplane => airplane.scheduleDateTime);
+
+    setArrivalTimes(filteredTimes);
+    setSelectedSchedule('');
+  }, [selectedAirline, airplanes]);
+
+  useEffect(() => {
+    if (selectedAirline && selectedSchedule) {
+      const filteredAirports = airplanes
+        .filter(airplane => airplane.airline === selectedAirline && airplane.scheduleDateTime === selectedSchedule)
+        .map(airplane => airplane.airport);
+
+      console.log('filteredAirports', filteredAirports);
+      setAirports(filteredAirports);
+    }
+  }, [selectedAirline, selectedSchedule, airplanes]);
+
+  useEffect(() => {
+    const selectedAirplane = airplanes.find(airplane =>
+      airplane.airline === selectedAirline &&
+      airplane.scheduleDateTime === selectedSchedule &&
+      airplane.airport === selectedAirport
+    );
+
+    setFlightId(selectedAirplane ? selectedAirplane.flightId : '');
+    setBaggageClaimInfo(prevInfo => ({
+      ...prevInfo,
+      airplaneCode: selectedAirplane?.airplaneCode || ''
+    }));
+  }, [selectedAirline, selectedSchedule, airplanes, selectedAirport]);
+
+  const onClickHandler = () => {
+    if (baggageClaims.some(baggageClaim =>
+      baggageClaim.airplaneCode === baggageClaimInfo.airplaneCode
+    )) {
+      alert("이미 등록된 수화물 수취대 입니다");
+      return;
+    }
+
+    dispatch(registBaggageClaim(baggageClaimInfo));
+    alert("수하물 수취대 등록 승인을 요청했습니다."); 
+    navigate('/airplane/baggage-claim');
+    window.location.reload();
   };
 
+  const uniqueAirlines = [...new Set(airplanes.map(airplane => airplane.airline))];
+  const uniqueTimes = [...new Set(arrivalTimes.map(time => time))];
+  const ChangeHandler = (event) => {
+    const { name, value } = event.target;
 
-    if (loading) {
-      return <div>Loading...</div>;
+    if (name === 'airline') {
+      setSelectedAirline(value);
+      setSelectedSchedule('');
+      setSelectedAirport('');
+    } else if (name === 'scheduleDateTime') {
+      setSelectedSchedule(value);
+      setSelectedAirport('');
+    } else if (name === 'airport') {
+      setSelectedAirport(value);
+    } else {
+      setBaggageClaimInfo(prevInfo => ({
+        ...prevInfo,
+        [name]: value // 특정 필드만 업데이트
+      }));
     }
-  
-    if (error) {
-      return <div>Error: {error}</div>;
-    }
+  };
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
+  if (error) {
+    return <div>Error: {error}</div>;
+  }
 
   return (
     <div>
@@ -161,7 +154,7 @@ const BaggageClaimsRegist = () => {
               </CardTitle>
             </CardBody>
             <CardBody>
-            <Form>
+              <Form>
                 <Row>
                   <Col md="6">
                     <FormGroup>
@@ -169,7 +162,7 @@ const BaggageClaimsRegist = () => {
                       <FormText color="muted" style={{ marginLeft: '15px' }}>
                         * 항공사를 먼저 선택해주세요.
                       </FormText>
-                      <Input type="text" name="location" value={state.location || ''}  readOnly/>
+                      <Input type="text" name="location" value={state.location || ''} readOnly />
                     </FormGroup>
                   </Col>
                   <Col md="6">
@@ -224,7 +217,7 @@ const BaggageClaimsRegist = () => {
                   <Col md="6">
                     <FormGroup>
                       <Label>최근 점검일</Label>
-                      <Input type="date" name="lastInspectionDate" onChange={ChangeHandler}/>
+                      <Input type="date" name="lastInspectionDate" onChange={ChangeHandler} />
                     </FormGroup>
                   </Col>
                 </Row>
@@ -257,7 +250,7 @@ const BaggageClaimsRegist = () => {
                   <Col md="6">
                     <FormGroup>
                       <Label>담당자</Label>
-                      <Input type="text" name="manager" onChange={ChangeHandler}/>
+                      <Input type="text" name="manager" onChange={ChangeHandler} />
                     </FormGroup>
                   </Col>
                 </Row>

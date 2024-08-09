@@ -117,13 +117,14 @@ const CheckinCounterRegist = () => {
     if (chkincounters.some(counter =>
       counter.airplaneCode == checkinCounterInfo.airplaneCode 
     )) {
-      alert("이미 등록된 수화물 수취대 입니다");
+      alert("이미 등록된 체크인 카운터 입니다.");
       return;
     }
 
-     dispatch(registChkinCounter(checkinCounterInfo));
-     navigate('/airplane/checkin-counter')
-     window.location.reload();
+    dispatch(registChkinCounter(checkinCounterInfo));
+    alert("체크인 카운터 등록 승인을 요청했습니다.");
+    navigate('/airplane/checkin-counter');
+    window.location.reload();
   };
 
   const uniqueAirlines = [...new Set(airplanes.map(airplane => airplane.airline))];

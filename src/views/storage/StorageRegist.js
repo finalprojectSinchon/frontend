@@ -41,6 +41,7 @@ import {
     const handleRegistClick = () => {
         dispatch(createStorage(storageInfo));
         navigate('/storage');
+        alert("해당 창고 등록 승인을 요청했습니다.")
     };
 
 

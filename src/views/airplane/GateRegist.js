@@ -113,13 +113,15 @@ const GateRegist = () => {
     if (gates.some(gate =>
         gate.airplaneCode == gateInfo.airplaneCode 
     )) {
-      alert("이미 등록된 수화물 수취대 입니다");
+      alert("이미 등록된 게이트 입니다");
       return;
     }
+    dispatch(registGate(gateInfo));
+    alert("게이트 등록 승인을 요청했습니다.");
 
      dispatch(registGate(gateInfo));
      navigate('/airplane/gate')
-    //  window.location.reload();
+     window.location.reload();
   };
 
   const uniqueAirlines = [...new Set(airplanes.map(airplane => airplane.airline))];
