@@ -62,8 +62,11 @@ import {
                                     <Col md="6">
                                     <FormGroup>
                                         <Label>창고타입</Label>
-                                        <Input type="text" name='type' onChange={onChangeHandler}
-                                        />
+                                        <Input type="select" name='type' onChange={onChangeHandler}>
+                                            <option name="타입A">타입A</option>
+                                            <option name="타입B">타입B</option>
+                                            <option name="타입C">타입C</option>
+                                        </Input>
                                     </FormGroup>
                                     </Col>
                                     <Col>
@@ -120,7 +123,7 @@ import {
                                 <Col md="6">
                                     <FormGroup>
                                         <Label>마지막 점검날짜</Label>
-                                        <Input type="text" name='date' onChange={onChangeHandler}
+                                        <Input type="date" name='date' onChange={onChangeHandler}
                                         />
                                     </FormGroup>
                                 </Col>

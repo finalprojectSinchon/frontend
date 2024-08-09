@@ -41,11 +41,11 @@ const FindPassword = () => {
         api.post('/account/newPassword', fields)
 
             .then(response => {
-                alert('성공!! )\n\n' + JSON.stringify(response.data, null, 4));
+                alert('성공!! )\n\n' + JSON.stringify(response.data.message));
                 navigate('/');
             })
             .catch(error => {
-                alert('오류!! )\n\n' + JSON.stringify(error.response.data, null, 4));
+                alert('오류!! )\n\n' + JSON.stringify(error.response.data));
             });
 
     };
@@ -79,7 +79,6 @@ const FindPassword = () => {
                                                     className={`form-control${
                                                         errors.userId && touched.userId ? ' is-invalid' : ''
                                                     }`}
-                                                    readOnly
                                                 />
                                                 <ErrorMessage name="userId" component="div" className="invalid-feedback" />
                                             </FormGroup>

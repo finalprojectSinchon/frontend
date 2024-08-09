@@ -32,6 +32,7 @@ import MDEditor from '@uiw/react-md-editor';
 import ReactMarkdown from "react-markdown";
 import api from "src/store/apps/airplane/api.js";
 import rehypeRaw from "rehype-raw";
+import DaumPost from "src/components/apps/daumpost/DaumPost.js";
 
 const Profile = () => {
   const [activeTab, setActiveTab] = useState('1');
@@ -42,7 +43,7 @@ const Profile = () => {
   const [isPasswordValid, setIsPasswordValid] = useState(false);
   const [mdContent, setMdContent] = useState('');
   const [isEditing, setIsEditing] = useState(false); // 상태 추가: 에디터 활성화 여부
-
+  const [newRole, setNewRole] = useState("");
 
 
   const userInfo = useSelector((state) => state.userInfo);
@@ -61,6 +62,19 @@ const Profile = () => {
   useEffect(() => {
     setMdContent(userInfo.userAbout || '');
   }, [userInfo.userAbout]);
+
+  useEffect(() => {
+    if(userInfo) {
+      switch(userInfo.userRole) {
+        case "ROLE_ADMIN" : setNewRole("관리자"); break;
+        case "ROLE_STORE": setNewRole("점포"); break;
+        case "ROLE_AIRPLANE" : setNewRole("비행"); break;
+        default : setNewRole("지정되지 않음"); break;
+      }
+      // userInfo.userRole = newRole;
+    }
+
+  }, [userInfo]);
 
   const toggle = (tab) => {
     if (activeTab !== tab) {
@@ -118,7 +132,7 @@ const Profile = () => {
       userCode: userInfo.userCode,
       userPassword: currentPassword,
     };
-    api().post('/api/v1/account/password-check', passwordCheckForm, {
+    api.post('/api/v1/account/password-check', passwordCheckForm, {
       headers: {
         'Content-Type': 'application/json',
       }
@@ -194,7 +208,8 @@ const Profile = () => {
                     {userInfo.userName}
                   </CardTitle>
                   <CardSubtitle className="text-muted">
-                    {userInfo.userRole === "ROLE_USER" ? '일반회원' : '관리자'}
+                    {/*{userInfo.userRole === "ROLE_USER" ? '일반회원' : '관리자'}*/}
+                    {newRole}
                   </CardSubtitle>
                   <Row className="text-center justify-content-md-center mt-3">
                     <Col xs="4">
@@ -261,7 +276,7 @@ const Profile = () => {
                         toggle('1');
                       }}
                   >
-                    타임라인
+                    내 소개
                   </NavLink>
                 </NavItem>
                 <NavItem>
@@ -399,8 +414,9 @@ const Profile = () => {
                           <FormGroup>
                             <Label>주소</Label>
                             <InputGroup>
-                              <Input type="text" placeholder={userInfo.userAddress} name='userAddress' onChange={onChangeHandler} />
-                              <Button color='success' onClick="">주소찾기</Button>
+                              <Input type="text" placeholder={userInfo.userAddress} name='userAddress'
+                                     value={changeInfo.userAddress} onChange={onChangeHandler} />
+                              <DaumPost changeInfo={changeInfo} setChangeInfo={setChangeInfo}/>
                             </InputGroup>
                           </FormGroup>
                           <Button color="primary" onClick={onClickHandler}>수정하기</Button>
