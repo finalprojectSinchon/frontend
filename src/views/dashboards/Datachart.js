@@ -37,7 +37,7 @@ const DataChart = () => {
     console.log('categories', structures);
 
     const optionscolumn = {
-        colors: ['#745af2', '#263238', '#4fc3f7'],
+        colors: ['#9eb4dd', '#2e4cab', '#4777db'],
         chart: {
             fontFamily: "'Rubik', sans-serif",
         },
