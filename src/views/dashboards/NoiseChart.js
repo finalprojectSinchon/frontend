@@ -83,7 +83,7 @@ const NoiseChart = () => {
     ];
     return(
 
-          <Col md="6">
+          <Col md="15">
             <ComponentCard title="공항 소음 정보">
                 <Chart options={optionsbar} series={seriesbar} type="bar" height="500" />
             </ComponentCard>

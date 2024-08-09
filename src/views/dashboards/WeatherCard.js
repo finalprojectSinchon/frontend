@@ -47,7 +47,7 @@ const WeatherCard = () => {
             </CardImgOverlay>
             <div className="p-3">
                 <Row>
-                    <Col xs="12">
+                    <Col xs="15">
                         <div className="d-flex justify-content-around">
                             <div className="d-flex align-items-center text-center">
                                 <div className="display-6 text-primary">

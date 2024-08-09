@@ -19,6 +19,7 @@ const SidebarData = () => {
       id: 3,
       collapisble: false,
     },
+
     {
       title: '캘린더',
       href: '/calendar',
@@ -26,6 +27,16 @@ const SidebarData = () => {
       icon: <MaterialIcon icon="event" />,
       collapisble: true,
     },
+
+      {
+    title: '캘린더',
+    href: '/calendar',
+    id: 3.6,
+    icon: <MaterialIcon  icon="calendar_today" />,
+    collapisble: true,
+
+  },
+
     {
       title: '사원조회',
       href: '/contact',
