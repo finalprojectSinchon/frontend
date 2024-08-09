@@ -22,6 +22,7 @@ import AuthLogo from '../../layouts/logo/AuthLogo';
 import { ReactComponent as LeftBg } from '../../assets/images/bg/login-bgleft.svg';
 import { ReactComponent as RightBg } from '../../assets/images/bg/login-bg-right.svg';
 import img1 from '../../assets/images/users/user4.jpg';
+import api from "src/store/apps/airplane/api.js";
 
 const ForgotPwd = () => {
     const navigate = useNavigate();
@@ -42,20 +43,19 @@ const ForgotPwd = () => {
     });
 
     const handleSubmit = (fields) => {
-        axios.post('http://localhost:8080/account/search-id', fields)
+        api.post('/account/search-id', fields)
             .then(response => {
                 localStorage.setItem('userId', response.data.data);
                 setModalData(`아이디는 '${response.data.data}' 입니다.`);
                 setModalType('success');
                 setModalOpen(true);
-
             })
             .catch(error => {
                 setModalData('이름 혹은 이메일이 틀렸습니다.');
                 setModalType('error');
                 setModalOpen(true);
             });
-        console.log(fields);
+
     };
 
     const handleCloseModal = () => {

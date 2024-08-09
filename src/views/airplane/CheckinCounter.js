@@ -62,7 +62,14 @@ const Datatables = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const chkinCounterList = useSelector((state) => state.chkinCounters.chkinCounterList);
-  console.log('chkinCounterList',chkinCounterList)
+
+  const userInfo = useSelector((state) => state.userInfo)
+
+  useEffect(() => {
+    if (userInfo.userRole !== "ROLE_ADMIN" && userInfo.userRole !== "ROLE_AIRPLANE") {
+      navigate('/auth/permission-error');
+    }
+  }, [userInfo, navigate]);
 
   const initialMapData = [
     { id: 1, coords: "12.5%,58%,16%,80%", href: "#section1", label: "N" },

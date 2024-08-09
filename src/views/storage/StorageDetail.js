@@ -60,11 +60,7 @@ const StorageDetail = () => {
 
 
     useEffect(() => {
-            axios.get(`http://localhost:8080/api/v1/storage/${storageCode}`, {
-                headers:{
-                    Authorization: Cookies.get('token')
-                }
-            })
+            api().get(`/api/v1/storage/${storageCode}`)
             .then(res => res.data)
             .then(data => {
                 setstorageInfo(data.data)
@@ -82,11 +78,7 @@ const onChangeHandler = e => {
 
 // 수정
 const onClickSave = () => {
-    axios.put(`http://localhost:8080/api/v1/storage/${storageCode}`, storageInfo, {
-        headers:{
-            Authorization: Cookies.get('token')
-        }
-    }, )
+    api().put(`/api/v1/storage/${storageCode}`, storageInfo)
     .then(res => {
         setIsModify(true);
     })
@@ -108,7 +100,7 @@ const onClickDelete = () => {
     })
 
 }
-console.log('storageInfo',storageInfo);
+
 return (
     <div>
         <BreadCrumbs />

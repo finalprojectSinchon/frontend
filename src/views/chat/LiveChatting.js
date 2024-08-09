@@ -17,13 +17,13 @@ import StatusProfileImg from "src/components/apps/liveStatus/StatusProfileImg.js
 const convertTimestampToDate = (timestamp) => {
 
     if (timestamp instanceof Timestamp) {
-        console.log('Timestamp is an instance of Timestamp');
+
         return timestamp.toDate();
     } else if (typeof timestamp === 'string') {
-        console.log('Timestamp is a string');
+
         return new Date(timestamp);
     } else {
-        console.log('Timestamp is of an unknown type');
+
         return new Date(); // 기본값
     }
 };
@@ -74,7 +74,7 @@ const LiveChatting = () => {
         // 사용자 리스트 가져오기
         const fetchUsers = async () => {
             try {
-                const response = await api.get('/api/v1/admin/contact');
+                const response = await api.get('/api/v1/contact');
                 const fetchedUsers = response.data.data;
                 setUsers(fetchedUsers);
 

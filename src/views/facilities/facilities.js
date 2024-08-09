@@ -11,7 +11,6 @@ import api from "src/store/apps/airplane/api.js";
 
 
 function onAfterDeleteRow(rowKeys) {
-    // Call the deleteStore function for each selected row
     rowKeys.forEach(deletefacilities);
 }
 
@@ -26,9 +25,6 @@ const deletefacilities = async (facilitiesCode) => {
         })
 };
 
-function afterSearch(searchText, result) {
-    console.log(`Your search text is ${searchText}`)
-}
 
 const selectRowProp = {
     mode: 'checkbox',
@@ -68,27 +64,20 @@ const Facilities = () => {
     const navigate = useNavigate();
     const options = {
         afterDeleteRow: onAfterDeleteRow,
-        afterSearch,
         onRowClick: (row) => {
-            console.log('sssssssssssssssssss' , row.facilitiesCode)
             navigate(`/facilities/${row.facilitiesCode}`);
         }
     };
 
     const [FacilitiesData, setFacilitiesData ] = useState([]);
-    console.log('ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ ', FacilitiesData)
+
 
     useEffect(() => {
-        axios.get('http://localhost:8080/api/v1/facilities',{
-            headers:{
-                Authorization: Cookies.get('token')
-            }
-        })
+        api.get('/api/v1/facilities')
             .then(res => res.data)
             .then(res => {
                 setFacilitiesData(res.data)
             })
-
     }, []);
 
 

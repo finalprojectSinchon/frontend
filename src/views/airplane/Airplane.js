@@ -47,6 +47,25 @@ const Datatables = () => {
   const navigate = useNavigate();
   const AirplaneList = useSelector((state) => state.airplanes.airplaneList);
 
+  const formatDateTime = (timestamp) => {
+    const date = new Date(timestamp);
+    return date.toLocaleString();
+  };
+
+  const [updateList, setUpdateList] = useState([])
+
+  useEffect(() => {
+    if (AirplaneList && AirplaneList.data && AirplaneList.data.airplaneList) {
+      const updatedList = AirplaneList.data.airplaneList.map((airplane) => ({
+        ...airplane,
+        scheduleDateTime: formatDateTime(airplane.scheduleDateTime),
+      }));
+      setUpdateList(updatedList);
+    }
+  }, [AirplaneList]);
+
+
+
 
   const options = {
     afterDeleteRow: onAfterDeleteRow,
@@ -56,6 +75,14 @@ const Datatables = () => {
       navigate(`/airplane/${row.airplaneCode}`);
     },
   };
+
+  const { status, error } = useSelector((state) => state.airplanes);
+
+  useEffect(() => {
+    if (status === 'failed' && error) {
+      navigate('/auth/permission-error');
+    }
+  }, [status, error, navigate]);
 
   useEffect(() => {
     dispatch(fetchAirplanes());
@@ -74,7 +101,7 @@ const Datatables = () => {
           <BootstrapTable
             hover
             search 
-            data={AirplaneList.data.airplaneList}
+            data={updateList}
             insertRow
             deleteRow
             selectRow={selectRowProp}

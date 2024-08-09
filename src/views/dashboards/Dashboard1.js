@@ -15,7 +15,7 @@ const Dashboard1 = () => {
     <>
       <BreadCrumbs />
       <DataChart/>
-      <EquimentChart/>
+      <EquipmentChart/>
       <Row>
         <AirQuality/>
       </Row>

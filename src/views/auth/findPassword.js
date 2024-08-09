@@ -17,6 +17,7 @@ import axios from 'axios';
 import AuthLogo from '../../layouts/logo/AuthLogo';
 import { ReactComponent as LeftBg } from '../../assets/images/bg/login-bgleft.svg';
 import { ReactComponent as RightBg } from '../../assets/images/bg/login-bg-right.svg';
+import api from "src/store/apps/airplane/api.js";
 
 const FindPassword = () => {
     const navigate = useNavigate();
@@ -37,7 +38,7 @@ const FindPassword = () => {
     });
 
     const handleSubmit = (fields) => {
-        axios.post('http://localhost:8080/account/newPassword', fields)
+        api.post('/account/newPassword', fields)
 
             .then(response => {
                 alert('성공!! )\n\n' + JSON.stringify(response.data, null, 4));
@@ -46,7 +47,7 @@ const FindPassword = () => {
             .catch(error => {
                 alert('오류!! )\n\n' + JSON.stringify(error.response.data, null, 4));
             });
-        console.log(fields);
+
     };
 
     return (

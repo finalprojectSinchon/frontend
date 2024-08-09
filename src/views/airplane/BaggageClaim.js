@@ -76,6 +76,14 @@ const Datatables = () => {
   const navigate = useNavigate();
   const baggageClaimList = useSelector((state) => state.baggageClaims.baggageClaimList);
 
+  const userInfo = useSelector((state) => state.userInfo)
+
+  useEffect(() => {
+    if (userInfo && userInfo.userRole !== "ROLE_ADMIN" && userInfo.userRole !== "ROLE_AIRPLANE") {
+      navigate('/auth/permission-error');
+    }
+  }, [userInfo]);
+
   // 초기 퍼센트 좌표 설정
   const initialMapData = [
     { id: 1, coords: "24%,55%,27%,75%", href: "#section1", label: "N" },

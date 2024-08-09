@@ -51,7 +51,7 @@ export const { getUsers, SearchUsers, SelectUser, DeleteUser, UpdateUser, addUse
 
 export const fetchUsers = () => async (dispatch) => {
     try {
-        const response = await api.get('/api/v1/admin/contact');
+        const response = await api.get('/api/v1/contact');
         dispatch(getUsers(response.data.data));
     } catch (err) {
         throw new Error(err);
