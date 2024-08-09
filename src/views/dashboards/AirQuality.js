@@ -40,12 +40,12 @@ const AirQuality = () => {
         console.log('info', info)
         if (info?.pm10 < 50) {
             return (
-                <i className="bi-emoji-smile" style={{fontSize: '65px', color: 'green'}}/>
+                <i className="bi-emoji-smile" style={{fontSize: '65px', color: '#2e4cab'}}/>
             );
         } else if (info?.pm10 < 100) {
-            <i className="bi-emoji-neutral" style={{fontSize: '65px', color: 'orange'}}/>
+            <i className="bi-emoji-neutral" style={{fontSize: '65px', color: '#2e4cab'}}/>
         } else {
-            <i className="bi-emoji-angry" style={{fontSize: '65px', color: 'red'}}/>
+            <i className="bi-emoji-angry" style={{fontSize: '65px', color: '#2e4cab'}}/>
         }
     }
 
