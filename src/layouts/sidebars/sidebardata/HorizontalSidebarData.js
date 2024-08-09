@@ -26,6 +26,14 @@ const SidebarData = [
     collapisble: false,
   },
   {
+    title: '캘린더',
+    href: '/calendar',
+    id: 15,
+    icon: <MaterialIcon  icon="calendar_today"  />,
+    collapisble: true,
+
+  },
+  {
     title: '사원조회',
     href: '/contact',
     icon: <MaterialIcon icon="calendar_today" />,
