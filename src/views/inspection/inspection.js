@@ -1,10 +1,11 @@
 import axios from 'axios';
-import React, { useEffect } from 'react';
+import React, {useEffect, useState} from 'react';
 import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
 import { Card, CardBody, CardTitle, CardSubtitle, Button } from 'reactstrap';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchInspections } from '../../store/apps/inspection/inspectionSlice';
+import {Timestamp} from "firebase/firestore";
 
 function onAfterDeleteRow(rowKeys) {
     alert(`The rowkey you drop: ${rowKeys}`);
@@ -52,14 +53,37 @@ const statusFormatter = (cell) => {
     );
 };
 
+const convertTimestampToDate = (timestamp) => {
+    if (timestamp instanceof Timestamp) {
+        return timestamp.toDate().toLocaleDateString();
+    } else if (typeof timestamp === 'string') {
+        return new Date(timestamp).toLocaleDateString();
+    } else {
+        return new Date().toLocaleDateString();
+    }
+};
+
+
 const Datatables = () => {
     const navigate = useNavigate(); // useNavigate 추가
     const dispatch = useDispatch();
     const inspectionList = useSelector((state) => state.inspections.inspectionList);
-
+    const [convertedInspectionList, setConvertedInspectionList] = useState([]);
     useEffect(() => {
         dispatch(fetchInspections());
     }, [dispatch]);
+
+
+
+    useEffect(() => {
+        if (inspectionList && inspectionList.data) {
+            const updatedList = inspectionList.data.map((inspection) => ({
+                ...inspection,
+                regularInspectionDate: convertTimestampToDate(inspection.regularInspectionDate),
+            }));
+            setConvertedInspectionList(updatedList);
+        }
+    }, [inspectionList]);
 
 
 
@@ -67,7 +91,7 @@ const Datatables = () => {
         afterDeleteRow: onAfterDeleteRow,
         afterSearch,
         onRowClick: (row) => {
-            navigate(`/inspection/${row.inspectionCode}`); // 페이지 네비게이션
+            navigate(`/inspection/${row.inspectionCode}`);
         },
     };
 
@@ -89,7 +113,7 @@ const Datatables = () => {
                     <BootstrapTable
                         hover
                         search
-                        data={inspectionList.data}
+                        data={convertedInspectionList}
                         keyField='inspectionCode'
                         insertRow
                         deleteRow

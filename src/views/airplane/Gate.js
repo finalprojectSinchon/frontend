@@ -16,6 +16,16 @@ const Datatables = () => {
   const navigate = useNavigate();
   const gateList = useSelector((state) => state.gates.gateList);
 
+  const userInfo = useSelector((state) => state.userInfo)
+
+  useEffect(() => {
+    if (userInfo && userInfo.userRole) {
+      if (userInfo.userRole !== "ROLE_ADMIN" && userInfo.userRole !== "ROLE_AIRPLANE") {
+        navigate('/auth/permission-error');
+      }
+    }
+  }, [userInfo, navigate]);
+
   const initialMapData = [
     { id: 1, coords: "0%,0%,100%,25%", href: "#section1", label: "Section 1", component: 'Gate2' },
     { id: 2, coords: "0%,25%,50%,55%", href: "#section2", label: "Section 2", component: 'Gate3' },
