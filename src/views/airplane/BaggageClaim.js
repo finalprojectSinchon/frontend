@@ -185,8 +185,6 @@ const Datatables = () => {
   }
 
 
-
-
   return (
     
     <div>

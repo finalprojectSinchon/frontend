@@ -112,7 +112,6 @@ const ChatElements = ({ chatData, userInfo }) => {
 
             setMessages(prevMessages => {
                 const updatedMessages = [...prevMessages, ...newMessages];
-                console.log("Updated messages:", updatedMessages);
                 return updatedMessages;
             });
 
@@ -161,10 +160,6 @@ const ChatElements = ({ chatData, userInfo }) => {
         }
     };
 
-
-    useEffect(() => {
-        console.log("Messages updated:", messages);
-    }, [messages]);
 
 
     const handleSendMessage = () => {
