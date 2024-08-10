@@ -92,19 +92,19 @@ const Datatables = () => {
 
   // 초기 퍼센트 좌표 설정
   const initialMapData = [
-    { id: 1, coords: "24%,55%,27%,75%", href: "#section1", label: "N" },
-    { id: 2, coords: "27.5%,50%,30.5%,70%", href: "#section2", label: "M" },
-    { id: 3, coords: "31%,45%,34%,65%", href: "#section3", label: "L" },
-    { id: 4, coords: "34.5%,40%,37.5%,60%", href: "#section4", label: "K" },
-    { id: 5, coords: "39%,35%,42%,55%", href: "#section5", label: "J" },
-    { id: 6, coords: "43%,30%,46%,50%", href: "#section6", label: "H" },
-    { id: 7, coords: "51%,30%,55%,50%", href: "#section7", label: "G" },
-    { id: 8, coords: "56%,35%,59.5%,55%", href: "#section8", label: "F" },
-    { id: 9, coords: "60%,37%,63.5%,58%", href: "#section9", label: "E" },
-    { id: 10, coords: "64.5%,39%,68%,60%", href: "#section10", label: "D" },
-    { id: 11, coords: "68.5%,42%,72%,62%", href: "#section11", label: "C" },
-    { id: 12, coords: "72.5%,47%,75%,67%", href: "#section12", label: "B" },
-    { id: 13, coords: "75.5%,53%,78%,72%", href: "#section13", label: "A" }
+    { id: 1, coords: "24%,55%,27%,75%", href: "#section1", label: "13" },
+    { id: 2, coords: "27.5%,50%,30.5%,70%", href: "#section2", label: "12" },
+    { id: 3, coords: "31%,45%,34%,65%", href: "#section3", label: "11" },
+    { id: 4, coords: "34.5%,40%,37.5%,60%", href: "#section4", label: "10" },
+    { id: 5, coords: "39%,35%,42%,55%", href: "#section5", label: "9" },
+    { id: 6, coords: "43%,30%,46%,50%", href: "#section6", label: "8" },
+    { id: 7, coords: "51%,30%,55%,50%", href: "#section7", label: "7" },
+    { id: 8, coords: "56%,35%,59.5%,55%", href: "#section8", label: "6" },
+    { id: 9, coords: "60%,37%,63.5%,58%", href: "#section9", label: "5" },
+    { id: 10, coords: "64.5%,39%,68%,60%", href: "#section10", label: "4" },
+    { id: 11, coords: "68.5%,42%,72%,62%", href: "#section11", label: "3" },
+    { id: 12, coords: "72.5%,47%,75%,67%", href: "#section12", label: "2" },
+    { id: 13, coords: "75.5%,53%,78%,72%", href: "#section13", label: "1" }
   ];
 
   const [mapData, setMapData] = useState(initialMapData);
@@ -139,9 +139,6 @@ const Datatables = () => {
       window.removeEventListener('resize', adjustCoords);
     };
   }, [imageLoaded]);
-
-
-
 
 
   const options = {
@@ -246,7 +243,7 @@ const Datatables = () => {
           })}
           {mapData.map(area => {
             const [x1, y1, x2, y2] = area.coords.split(',').map(Number);
-            const matchedCounter = flatBaggageClaimList.find(chkincounter => chkincounter.location === area.label);
+            const matchedCounter = flatBaggageClaimList.find(chkincounter => chkincounter.baggageClaimCode == area.label);
 
             return (
               <Popover

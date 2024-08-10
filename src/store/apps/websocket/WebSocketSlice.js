@@ -28,11 +28,14 @@ const websocketSlice = createSlice({
         },
         clearSosAlert(state) {
             state.sosAlert = null;
+        },
+        toastMessage(state, action) {
+            state.toastMessage = action.payload;
         }
     },
 });
 
-export const { setConnected, receiveMessage, clearMessages,  receiveSosAlert, clearSosAlert } = websocketSlice.actions;
+export const { setConnected, receiveMessage, clearMessages,  receiveSosAlert, clearSosAlert, toastMessage } = websocketSlice.actions;
 
 export const connectWebSocket = (userCode) => (dispatch) => {
     if (socket) {
