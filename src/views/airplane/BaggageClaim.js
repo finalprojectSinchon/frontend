@@ -29,8 +29,7 @@ const deleteRow = async (baggageClaimCode) => {
 
 
 function afterSearch(searchText, result) {
-  console.log(`Your search text is ${searchText}`);
-  console.log('result',result)
+
 }
 
 

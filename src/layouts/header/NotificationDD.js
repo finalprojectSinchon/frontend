@@ -95,7 +95,7 @@ const NotificationDD = ({ clearNotifications }) => {
     }, [clearNotifications]);
 
     const onClickHandler = (code) => {
-        console.log('code', code);
+
         dispatch(notiChecked({ code }));
     };
 

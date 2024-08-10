@@ -27,7 +27,7 @@ const InspectionDetail = () => {
       .then(res => res.data)
       .then(data => {
         setinspectionInfo(data.data);
-        console.log('API response!@#!@#:', res.data); 
+
 
       });
   }, [inspectionCode]);

@@ -7,7 +7,7 @@ export const fetchApprove = createAsyncThunk('contacts/fetchManager', async () =
 });
 
 export const notiChecked = createAsyncThunk('contacts/notiChecked', async ({code}) => {
-  console.log('approveCode',code)
+
   const response = await api.get(`/api/v1/noti-checked?approveCode=${code}`);
   return response.data;
 });

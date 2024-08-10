@@ -32,7 +32,7 @@ const MaintenanceDetails = () => {
   const [equipmentRegistered, setEquipmentRegistered] = useState(false); // New state for equipment registration
   const result = useSelector((state) => state.maintenances.result);
 
-  console.log('result', result);
+
 
   const toggleModal = () => setModal(!modal);
 

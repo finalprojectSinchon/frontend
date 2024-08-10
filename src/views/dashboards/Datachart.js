@@ -16,7 +16,7 @@ const DataChart = () => {
     }, [dispatch]);
 
     useEffect(() => {
-        console.log('inspectionList:', inspectionList);
+
     }, [inspectionList]);
 
     // 데이터 가공
@@ -33,8 +33,6 @@ const DataChart = () => {
         };
     });
 
-    console.log('seriesData', seriesData);
-    console.log('categories', structures);
 
     const optionscolumn = {
         colors: ['#9eb4dd', '#2e4cab', '#4777db'],

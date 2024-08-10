@@ -15,7 +15,7 @@ const statusSlice = createSlice({
                 ...state.onlineStatus,
                 [userCode]: status
             };
-            console.log("Updated online status:", state.onlineStatus);  // 디버깅을 위한 로그 추가
+
         },
         removeUserStatus(state, action) {
             const userCode = action.payload;

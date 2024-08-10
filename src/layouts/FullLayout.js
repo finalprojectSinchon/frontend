@@ -30,8 +30,7 @@ const FullLayout = () => {
 
   const toastMessage = useSelector(state => state.websocket.toastMessage);
 
-  console.log('tM from',toastMessage?.from)
-  console.log('tm messaga',toastMessage?.message)
+
 
   useEffect(() => {
     dispatch(fetchUsers());

@@ -25,8 +25,7 @@ const deleteRow = async (checkinCounterCode) => {
 };
 
 function afterSearch(searchText, result) {
-  console.log(`Your search text is ${searchText}`);
-  console.log('result',result)
+
 }
 
 const selectRowProp = {

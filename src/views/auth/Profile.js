@@ -161,7 +161,7 @@ const Profile = () => {
     })
         .then(res => res.data)
         .then(data => {
-          console.log(data.message);
+
           alert('비밀번호 변경에 성공하였습니다. 다시 로그인해주세요');
           navigate("/auth/loginformik");
         })
