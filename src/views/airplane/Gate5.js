@@ -143,7 +143,7 @@ const Gate4 = () => {
     };
 
     const hoveredAreaData2 = mapData2.find(area => area.id === hoveredArea2);
-    const matchedGate2 = gateList2.data.gateList.find(gate => gate.location === (hoveredAreaData2 ? hoveredAreaData2.label : ''));
+    const matchedGate2 = gateList2.data.gateList.find(gate => gate.gateCode == (hoveredAreaData2 ? hoveredAreaData2.label : ''));
 
     return (
         <div>
@@ -229,7 +229,7 @@ const Gate4 = () => {
                                     </tr>
                                     <tr>
                                         <td><strong>위치:</strong></td>
-                                        <td>{matchedGate2.location}</td>
+                                        <td>{`${matchedGate2.gateCode} 번 탑승구`}</td>
                                     </tr>
                                     <tr>
                                         <td><strong>상태:</strong></td>
@@ -237,7 +237,7 @@ const Gate4 = () => {
                                     </tr>
                                     <tr>
                                         <td><strong>출발/도착 시간:</strong></td>
-                                        <td>{matchedGate2.scheduleDateTime || '미정'}</td>
+                                        <td>{formatDateTime(matchedGate2.scheduleDateTime)}</td>
                                     </tr>
                                     </tbody>
                                 </Table>
