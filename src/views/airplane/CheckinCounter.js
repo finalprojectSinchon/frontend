@@ -33,6 +33,11 @@ const selectRowProp = {
   mode: 'checkbox',
 
 };
+const formatDateTime = (dateTime) => {
+  if (!dateTime || dateTime === '미정') return '미정';
+  const date = new Date(dateTime);
+  return date.toLocaleString();
+};
 const convertPercentToCoords = (percentCoords, imgWidth, imgHeight) => {
   const coordsArray = percentCoords.split(',').map(coord => parseFloat(coord));
 
@@ -45,16 +50,23 @@ const convertPercentToCoords = (percentCoords, imgWidth, imgHeight) => {
 
 const statusFormatter = (cell, row) => {
   let styleClass;
-  if (cell === '고장') {
+
+  // 항공사가 미정일 경우 상태와 상관없이 bg-danger로 설정
+  if (row.airline === '미정') {
     styleClass = 'bg-danger';
-  } else if (cell === '점검중') {
-    styleClass = 'bg-warning';
   } else {
-    styleClass = 'bg-success';
+    // 기존 상태에 따른 스타일 설정
+    if (cell === '고장') {
+      styleClass = 'bg-danger';
+    } else if (cell === '점검중') {
+      styleClass = 'bg-warning';
+    } else {
+      styleClass = 'bg-success2';
+    }
   }
 
   return (
-    <span className={`p-2 rounded-circle d-inline-block ${styleClass}`}></span>
+      <span className={`p-2 rounded-circle d-inline-block ${styleClass}`}></span>
   );
 };
 
@@ -138,9 +150,9 @@ const Datatables = () => {
 
   const flatChkinCounterList = chkinCounterList.data.chkinCounterList.map(chkincounter => ({
     ...chkincounter,
-    airline: chkincounter.airplane?.airline,
-    scheduleDateTime: chkincounter.airplane?.scheduleDateTime,
-    remark:chkincounter.airplane?.remark
+    airline: chkincounter?.airline,
+    scheduleDateTime: chkincounter?.scheduleDateTime,
+    remark:chkincounter?.remark
   }));
 
   const handleMouseEnter = (id) => {
@@ -235,7 +247,7 @@ const Datatables = () => {
                         </tr>
                         <tr>
                           <td><strong>출발/도착시간:</strong></td>
-                          <td>{matchedCounter.scheduleDateTime}</td>
+                          <td>{formatDateTime(matchedCounter.scheduleDateTime)}</td>
                         </tr>
                         <tr>
                           <td><strong>위치:</strong></td>
@@ -284,7 +296,11 @@ const Datatables = () => {
           <BootstrapTable
             hover
             search
-            data={flatChkinCounterList}
+            data={flatChkinCounterList.map(data =>({
+              ...data,
+              airline: data.airline || '미정',
+              scheduleDateTime: formatDateTime(data.scheduleDateTime)
+            }))}
             insertRow
             deleteRow
             selectRow={selectRowProp}
@@ -294,26 +310,23 @@ const Datatables = () => {
             exportCSV
             headerStyle={{ width: '100%' }}
           >
-            <TableHeaderColumn width="14.28%" dataField="checkinCounterCode" dataAlign="center" isKey>
-              Counter Code
+            <TableHeaderColumn width="5%" dataField="checkinCounterCode" dataAlign="center" isKey>
+              번호
             </TableHeaderColumn>
-            <TableHeaderColumn width="14.28%" dataField="location" dataAlign="center">
-              Location
+            <TableHeaderColumn width="20%" dataField="location" dataAlign="center">
+              카운터
             </TableHeaderColumn>
-            <TableHeaderColumn width="14.28%" dataField="manager" dataAlign="center">
-              Manager
+            <TableHeaderColumn width="20%" dataField="airline" dataAlign="center">
+              항공사
             </TableHeaderColumn>
-            <TableHeaderColumn width="14.28%" dataField="airline" dataAlign="center">
-              Airline
+            <TableHeaderColumn width="25%" dataField="scheduleDateTime" dataAlign="center">
+              출발시간
             </TableHeaderColumn>
-            <TableHeaderColumn width="14.28%" dataField="scheduleDateTime" dataAlign="center">
-              Schedule Date Time
+            <TableHeaderColumn width="20%" dataField="manager" dataAlign="center">
+              담당자
             </TableHeaderColumn>
-            <TableHeaderColumn width="14.28%" dataField="status" dataAlign="center" dataFormat={statusFormatter}>
-              Status
-            </TableHeaderColumn>
-            <TableHeaderColumn width="14.28%" dataField="remark" dataAlign="center">
-              Remark
+            <TableHeaderColumn width="20%" dataField="status" dataAlign="center" dataFormat={statusFormatter}>
+              상태
             </TableHeaderColumn>
           </BootstrapTable>
         </CardBody>
