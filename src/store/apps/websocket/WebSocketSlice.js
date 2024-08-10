@@ -8,6 +8,7 @@ const initialState = {
     isConnected: false,
     messages: [],
     sosAlert : false,
+    toastMessage : null
 };
 
 const websocketSlice = createSlice({
@@ -72,6 +73,7 @@ export const connectWebSocket = (userCode) => (dispatch) => {
         }
 
         dispatch(receiveMessage(data));
+        dispatch(toastMessage(data));
     };
 
 

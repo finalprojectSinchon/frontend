@@ -1,6 +1,6 @@
 import { Outlet, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import {Button, Container, Modal, ModalBody, ModalHeader} from 'reactstrap';
+import {Button, Container, Modal, ModalBody, ModalHeader, Toast, ToastBody, ToastHeader} from 'reactstrap';
 import Header from './header/Header';
 import Customizer from './customizer/Customizer';
 import Sidebar from './sidebars/vertical/Sidebar';
@@ -27,6 +27,11 @@ const FullLayout = () => {
   const userInfo = useSelector((state) => state.userInfo);
 
   const [isWebSocketConnected, setIsWebSocketConnected] = useState(false);
+
+  const toastMessage = useSelector(state => state.websocket.toastMessage);
+
+  console.log('tM from',toastMessage?.from)
+  console.log('tm messaga',toastMessage?.message)
 
   useEffect(() => {
     dispatch(fetchUsers());
@@ -70,12 +75,49 @@ const FullLayout = () => {
     }
   }, [dispatch, userInfo]);
 
+  const [showToast, setShowToast] = useState(false);
+  const [toastImg, setToastImg] = useState()
+
+  useEffect(() => {
+    if (toastMessage?.message) {
+       setShowToast(true);
+       api.get(`/api/v1/chat/img/${toastMessage.from}`)
+          .then(res => res.data)
+          .then(data => {
+            setToastImg(data.data);
+            const timer = setTimeout(() => setShowToast(false), 5000);
+            return () => clearTimeout(timer);
+          })
+          .catch(error => console.error('err!',error))
+      // 3초 후에 토스트 메시지 숨기기
+    }
+  }, [toastMessage]);
+
 
   return (
       <main>
         <div
             className={`pageWrapper d-md-block d-lg-flex ${toggleMiniSidebar ? 'isMiniSidebar' : ''}`}
         >
+          <Toast isOpen={showToast} style={{ position: 'fixed', bottom : '20px', right: '20px', zIndex: 9999 }}>
+            <ToastHeader toggle={() => setShowToast(false)}>
+              새 메시지
+            </ToastHeader>
+            <ToastBody>
+              <div className="d-flex align-items-center">
+                <img
+                    src={toastImg?.toastImg || 'default-profile-image.jpg'}
+                    alt="User Profile"
+                    style={{ width: '40px', height: '40px', borderRadius: '50%', marginRight: '10px' }}
+                />
+                <div>
+                  <strong>{toastImg?.toastName || '알 수 없는 사용자'}</strong>
+                  <p className="mb-0">{toastMessage?.message}</p>
+                </div>
+              </div>
+            </ToastBody>
+          </Toast>
+
           {/******** Sidebar **********/}
           {LayoutHorizontal ? (
               ''
