@@ -1,6 +1,6 @@
 import { Outlet, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { Container } from 'reactstrap';
+import {Button, Container, Modal, ModalBody, ModalHeader} from 'reactstrap';
 import Header from './header/Header';
 import Customizer from './customizer/Customizer';
 import Sidebar from './sidebars/vertical/Sidebar';
@@ -10,7 +10,7 @@ import {useEffect, useState} from 'react';
 import axios from 'axios';
 import Cookies from 'js-cookie';
 import {addUser, fetchUsers} from '../store/apps/login/userSlice';
-import { connectWebSocket, disconnectWebSocket } from '../store/apps/websocket/WebSocketSlice';
+import {clearSosAlert, connectWebSocket, disconnectWebSocket} from '../store/apps/websocket/WebSocketSlice';
 import api from "src/store/apps/airplane/api.js";
 
 const FullLayout = () => {
@@ -46,6 +46,30 @@ const FullLayout = () => {
     };
   }, [dispatch, userInfo.userCode, isWebSocketConnected]);
 
+  const sosAlert = useSelector(state => state.websocket.sosAlert);
+
+  const handleCloseAlert = () => {
+    dispatch(clearSosAlert());
+  };
+
+  useEffect(() => {
+    if (userInfo.userCode === null) {
+      api.get('/user-info')
+          .then(res => res.data)
+          .then(data => {
+            dispatch(addUser(data.data));
+          })
+          .catch(error => {
+            console.error('Error fetching user info:', error);
+            navigate('/auth/loginformik')
+          });
+    } else if (userInfo.isActive !== "Y"){
+      navigate('/auth/permission-error')
+    } else if (userInfo.userRole === "ROLE_USER") {
+
+    }
+  }, [dispatch, userInfo]);
+
 
   return (
       <main>
@@ -75,6 +99,15 @@ const FullLayout = () => {
               {showMobileSidebar || customizerToggle ? <div className="sidebarOverlay" /> : ''}
             </Container>
           </div>
+          <Modal isOpen={!!sosAlert} toggle={handleCloseAlert}>
+            <ModalHeader toggle={handleCloseAlert}>긴급 알림</ModalHeader>
+            <ModalBody>
+              <p style={{color: 'red', fontSize: '30px', marginTop: '10px', textAlign: 'center'}}>
+                {sosAlert}
+              </p>
+              <Button color="danger" onClick={handleCloseAlert}>확인</Button>
+            </ModalBody>
+          </Modal>
         </div>
       </main>
   );

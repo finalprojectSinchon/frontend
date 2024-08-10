@@ -1,13 +1,13 @@
 // websocketSlice.js
 import { createSlice } from '@reduxjs/toolkit';
 import { updateOnlineStatus, removeUserStatus } from "src/store/apps/websocket/StatusSlice.js";
-import {useEffect} from "react";
 
 let socket = null;
 
 const initialState = {
     isConnected: false,
     messages: [],
+    sosAlert : false,
 };
 
 const websocketSlice = createSlice({
@@ -22,11 +22,17 @@ const websocketSlice = createSlice({
         },
         clearMessages(state) {
             state.messages = [];
+        },
+        receiveSosAlert(state, action) {
+            state.sosAlert = action.payload;
+        },
+        clearSosAlert(state) {
+            state.sosAlert = null;
         }
     },
 });
 
-export const { setConnected, receiveMessage, clearMessages } = websocketSlice.actions;
+export const { setConnected, receiveMessage, clearMessages,  receiveSosAlert, clearSosAlert } = websocketSlice.actions;
 
 export const connectWebSocket = (userCode) => (dispatch) => {
     if (socket) {
@@ -58,12 +64,12 @@ export const connectWebSocket = (userCode) => (dispatch) => {
             }
         } else if (data.type === 'USER_DISCONNECTED') {
             dispatch(removeUserStatus(data.userCode));
+        } else if (data.type === 'SOS_ALERT') {
+            dispatch(receiveSosAlert(data.message));
         }
 
         dispatch(receiveMessage(data));
     };
-
-
 
 
     socket.onclose = () => {
@@ -89,6 +95,14 @@ export const disconnectWebSocket = () => (dispatch) => {
 export const sendWebSocketMessage = (message) => (dispatch) => {
     if (socket && socket.readyState === WebSocket.OPEN) {
         socket.send(JSON.stringify(message));
+    } else {
+        console.error('WebSocket is not connected');
+    }
+};
+
+export const sendSosAlert = (message) => (dispatch) => {
+    if (socket && socket.readyState === WebSocket.OPEN) {
+        socket.send(JSON.stringify({ type: 'SOS_ALERT', message }));
     } else {
         console.error('WebSocket is not connected');
     }

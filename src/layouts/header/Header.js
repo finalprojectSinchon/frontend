@@ -11,7 +11,7 @@ import {
   DropdownToggle,
   DropdownMenu,
   DropdownItem,
-  Button,
+  Button, Input,
 } from 'reactstrap';
 import * as Icon from 'react-feather';
 import { ReactComponent as LogoWhite } from '../../assets/images/logos/white-logo-icon.svg';
@@ -25,6 +25,8 @@ import ProfileDD from './ProfileDD';
 import Cookies from 'js-cookie'
 import Player from "src/components/apps/audioPlayer/Player.js";
 import StatusProfileImg from "src/components/apps/liveStatus/StatusProfileImg.js";
+import SosIcon from '@mui/icons-material/Sos';
+import {sendSosAlert} from "src/store/apps/websocket/WebSocketSlice.js";
 
 const Header = () => {
   const isDarkMode = useSelector((state) => state.customizer.isDark);
@@ -42,6 +44,22 @@ const Header = () => {
     setClearNotifications(true);
     setTimeout(() => setClearNotifications(false), 100);
   };
+
+  const [reason, setReason] = useState('');
+
+  const handleSosClick = () => {
+    if(reason) {
+      dispatch(sendSosAlert('긴급 상황 발생! \n' + `\n 사유 : ${reason}`));
+    } else {
+      dispatch(sendSosAlert('긴급 상황 발생!'));
+    }
+    setReason('');
+  }
+
+  const handleInputClick = (e) => {
+    e.stopPropagation(); // 이벤트 전파 중지
+  };
+
   return (
     <>
       <Navbar
@@ -143,26 +161,41 @@ const Header = () => {
             </DropdownMenu>
           </UncontrolledDropdown>
           {/******************************/}
-          {/**********Message DD**********/}
+          {/**********SOS DD**********/}
           {/******************************/}
           <UncontrolledDropdown className="mx-1">
             <DropdownToggle className="bg-transparent border-0" color={topbarColor}>
-              <Icon.Mail size={18} />
+              <SosIcon size={18} />
             </DropdownToggle>
             <DropdownMenu className="ddWidth">
               <DropdownItem header>
-                <span className="mb-0 fs-5">Messages</span>
+                <span className="mb-0 fs-5">SOS 버튼</span>
               </DropdownItem>
               <DropdownItem divider />
-              <SimpleBar style={{ maxHeight: '350px' }}>
-                <MessageDD />
+              <SimpleBar style={{ height: '380px' }}>
+                <div className="px-3"> {/* DropdownItem 대신 div 사용 */}
+                  <img
+                      src="https://i.postimg.cc/mrFKBHq0/2024-08-10-6-32-40.png"
+                      alt="Siren"
+                      style={{ width: '100%', marginBottom: '10px', cursor: 'pointer' }}
+                      onClick={handleSosClick}
+                  />
+                </div>
+                <DropdownItem divider />
+                <div className="px-3 py-2"> {/* DropdownItem 대신 div 사용 */}
+                  <Input
+                      type="text"
+                      placeholder="호출 사유를 입력해주세요"
+                      value={reason}
+                      onChange={(e) => setReason(e.target.value)}
+                      onClick={handleInputClick} // 클릭 이벤트 처리
+                      style={{ marginBottom: '10px' }}
+                  />
+                  <p style={{ color: 'red', fontSize: '14px', marginTop: '10px', textAlign: 'center' }}>
+                    반드시 위급 상황시에만 눌러주세요!
+                  </p>
+                </div>
               </SimpleBar>
-              <DropdownItem divider />
-              <div className="p-2 px-3">
-                <Button color="primary" size="sm" block>
-                  Check All
-                </Button>
-              </div>
             </DropdownMenu>
           </UncontrolledDropdown>
           {/******************************/}
