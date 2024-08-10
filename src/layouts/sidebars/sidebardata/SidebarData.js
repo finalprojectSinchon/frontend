@@ -35,13 +35,20 @@ const SidebarData = () => {
     icon: <MaterialIcon  icon="calendar_today" />,
     collapisble: true,
 
-  },
+    },
 
     {
       title: '사원조회',
       href: '/contact',
       icon: <MaterialIcon icon="contacts" />,
       id: 4,
+      collapisble: false,
+    },
+    {
+      title: 'AI - 손님응대',
+      href: '/ai-question',
+      icon: <MaterialIcon icon="smart_toy" />,
+      id: 4.1,
       collapisble: false,
     },
     {

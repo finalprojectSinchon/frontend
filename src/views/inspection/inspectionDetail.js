@@ -69,7 +69,7 @@ const InspectionDetail = () => {
   };
 
   const exportAsPDF = () => {
-    const input = document.getElementById('markdown-content');
+    const input = document.getElementById('markdown-download-pdf');
     html2canvas(input).then((canvas) => {
       const imgData = canvas.toDataURL('image/png');
       const pdf = new jsPDF();
@@ -90,7 +90,7 @@ const InspectionDetail = () => {
   };
 
   return (
-      <div>
+      <div className="download-pdf">
         <BreadCrumbs />
         <Row>
           <Col md="12">

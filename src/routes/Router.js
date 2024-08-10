@@ -8,6 +8,7 @@ import { element, exact } from 'prop-types';
 
 
 
+
 //import MaintenanceRegist from '../views/maintenance/maintenanceRegist';
 
 
@@ -91,6 +92,7 @@ const LiveChatting = Loadable(lazy(() => import('../views/chat/LiveChatting.js')
 
 // qrCode
 const CreateQRCode = Loadable(lazy(() => import("src/views/createQRCode/CreateQRCode.js")));
+const AiQuestion = Loadable(lazy(() => import("src/views/aiquestion/AiQuestion.js")));
 
 const ForgotPwd = Loadable(lazy(() => import('../views/auth/forgotPwd.js')));
 const FindPassword = Loadable(lazy(() => import('../views/auth/findPassword.js')));
@@ -167,6 +169,9 @@ const ThemeRoutes = [
       { path: '/qrcode', name: 'CreateQRCode', exact:true, element: <CreateQRCode/> },
 
       { path: '/calendar', name: 'calendar', exact: true, element: <Calendar /> },
+
+      { path: '/ai-question', name: 'AiQuestion', exact: true, element: <AiQuestion/> },
+
 
 
 
