@@ -14,7 +14,7 @@ import api from "src/store/apps/airplane/api.js";
 const LoginFormik = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  
+
   const [rememberMe, setRememberMe] = useState(false);
 
   useEffect(() => {
@@ -30,8 +30,8 @@ const LoginFormik = () => {
   const validationSchema = Yup.object().shape({
     userId: Yup.string().required('아이디는 반드시 입력해야합니다.'),
     userPassword: Yup.string()
-      .min(8, '비밀번호는 8글자 이상을 입력해야합니다.')
-      .required('비밀번호는 반드시 입력해야합니다.'),
+        .min(8, '비밀번호는 8글자 이상을 입력해야합니다.')
+        .required('비밀번호는 반드시 입력해야합니다.'),
   });
 
   const submitHandler = (fields) => {
@@ -50,83 +50,83 @@ const LoginFormik = () => {
         'Content-Type': 'multipart/form-data',
       }
     })
-      .then(res => res.data)
-      .then((data) => {
-        Cookies.set('token',data.data.Authorization,{ expires: 1 })
-        navigate('/main');
-      })
-      .catch((error) => {
-        console.error('로그인 에러:', error);
-        alert('로그인에 실패하였습니다. 다시 시도해주세요');
-      });
+        .then(res => res.data)
+        .then((data) => {
+          Cookies.set('token',data.data.Authorization,{ expires: 1 })
+          navigate('/main');
+        })
+        .catch((error) => {
+          console.error('로그인 에러:', error);
+          alert('로그인에 실패하였습니다. 다시 시도해주세요');
+        });
   };
 
   return (
-    <div className="loginBox">
-      <LeftBg className="position-absolute left bottom-0" />
-      <RightBg className="position-absolute end-0 top" />
-      <Container fluid className="h-100">
-        <Row className="justify-content-center align-items-center h-100">
-          <Col lg="12" className="loginContainer">
-            <AuthLogo />
-            <Card>
-              <CardBody className="p-4 m-1">
-                <h4 className="mb-0 fw-bold">Login</h4>
-                <small className="pb-4 d-block">
-                  Do not have an account? <Link to="/auth/registerformik">Sign Up</Link>
-                </small>
-                <Formik
-                  initialValues={initialValues}
-                  validationSchema={validationSchema}
-                  onSubmit={submitHandler}
-                >
-                  {({ errors, touched, values }) => (
-                    <Form>
-                      <FormGroup>
-                        <Label htmlFor="userId">ID</Label>
-                        <Field
-                          name="userId"
-                          type="text"
-                          className={`form-control${errors.userId && touched.userId ? ' is-invalid' : ''}`}
-                        />
-                        <ErrorMessage name="userId" component="div" className="invalid-feedback" />
-                      </FormGroup>
-                      <FormGroup>
-                        <Label htmlFor="userPassword">Password</Label>
-                        <Field
-                          name="userPassword"
-                          type="password"
-                          className={`form-control${errors.userPassword && touched.userPassword ? ' is-invalid' : ''}`}
-                        />
-                        <ErrorMessage name="userPassword" component="div" className="invalid-feedback" />
-                      </FormGroup>
-                      <FormGroup className="form-check d-flex" inline>
-                        <Label check>
-                          <Input 
-                            type="checkbox" 
-                            checked={rememberMe} 
-                            onChange={() => setRememberMe(!rememberMe)} 
-                          />
-                          Remember me
-                        </Label>
-                        <Link className="ms-auto text-decoration-none" to="/auth/forgotPwd">
-                          <small>Forgot Pwd?</small>
-                        </Link>
-                      </FormGroup>
-                      <FormGroup>
-                        <Button type="submit" color="primary" className="me-2">
-                          Login
-                        </Button>
-                      </FormGroup>
-                    </Form>
-                  )}
-                </Formik>
-              </CardBody>
-            </Card>
-          </Col>
-        </Row>
-      </Container>
-    </div>
+      <div className="loginBox">
+        <LeftBg className="position-absolute left bottom-0" />
+        <RightBg className="position-absolute end-0 top" />
+        <Container fluid className="h-100">
+          <Row className="justify-content-center align-items-center h-100">
+            <Col lg="12" className="loginContainer">
+              <AuthLogo />
+              <Card>
+                <CardBody className="p-4 m-1">
+                  <h4 className="mb-0 fw-bold">로그인</h4>
+                  <small className="pb-4 d-block">
+                    아이디가 없으신가요? <Link to="/auth/registerformik">회원가입</Link>
+                  </small>
+                  <Formik
+                      initialValues={initialValues}
+                      validationSchema={validationSchema}
+                      onSubmit={submitHandler}
+                  >
+                    {({ errors, touched, values }) => (
+                        <Form>
+                          <FormGroup>
+                            <Label htmlFor="userId">ID</Label>
+                            <Field
+                                name="userId"
+                                type="text"
+                                className={`form-control${errors.userId && touched.userId ? ' is-invalid' : ''}`}
+                            />
+                            <ErrorMessage name="userId" component="div" className="invalid-feedback" />
+                          </FormGroup>
+                          <FormGroup>
+                            <Label htmlFor="userPassword">Password</Label>
+                            <Field
+                                name="userPassword"
+                                type="password"
+                                className={`form-control${errors.userPassword && touched.userPassword ? ' is-invalid' : ''}`}
+                            />
+                            <ErrorMessage name="userPassword" component="div" className="invalid-feedback" />
+                          </FormGroup>
+                          <FormGroup className="form-check d-flex" inline>
+                            <Label check>
+                              <Input
+                                  type="checkbox"
+                                  checked={rememberMe}
+                                  onChange={() => setRememberMe(!rememberMe)}
+                              />
+                              로그인 정보 저장
+                            </Label>
+                            <Link className="ms-auto text-decoration-none" to="/auth/forgotPwd">
+                              <small>아이디를 잊어버렸나요?</small>
+                            </Link>
+                          </FormGroup>
+                          <FormGroup>
+                            <Button type="submit" color="primary" className="me-2">
+                              로그인
+                            </Button>
+                          </FormGroup>
+                        </Form>
+                    )}
+                  </Formik>
+                </CardBody>
+              </Card>
+            </Col>
+          </Row>
+        </Container>
+      </div>
   );
 };
 
