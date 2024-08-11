@@ -211,20 +211,6 @@ const Profile = () => {
                     {/*{userInfo.userRole === "ROLE_USER" ? '일반회원' : '관리자'}*/}
                     {newRole}
                   </CardSubtitle>
-                  <Row className="text-center justify-content-md-center mt-3">
-                    <Col xs="4">
-                      <a href="/" className="text-dark fw-bold text-decoration-none">
-                        <i className="bi bi-person text-muted"></i>
-                        <span className="font-medium ms-2">254</span>
-                      </a>
-                    </Col>
-                    <Col xs="4">
-                      <a href="/" className="text-dark fw-bold text-decoration-none">
-                        <i className="bi bi-columns text-muted"></i>
-                        <span className="font-medium ms-2">54</span>
-                      </a>
-                    </Col>
-                  </Row>
                 </div>
               </CardBody>
               <CardBody className="border-top p-4">
@@ -240,28 +226,7 @@ const Profile = () => {
 
                   <CardSubtitle className="text-muted fs-5 mt-3">Address</CardSubtitle>
                   <CardTitle tag="h5">{userInfo.userAddress}</CardTitle>
-                  <div>
-                    <Iframe
-                        className="position-relative"
-                        url="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3162.9478695734483!2d126.93466157662166!3d37.55629197204114!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x357ca2e75d4a7c41%3A0x4916c3cc69cb6c2f!2z7ZWY7J2066-465SU7Ja07Lu07ZOo7YSw7ZWZ7JuQ7Iug7LSM7KCQ!5e0!3m2!1sko!2skr!4v1721114979780!5m2!1sko!2skr"
-                        width="280"
-                        height="150"
-                        frameborder="0"
-                        allowfullscreen
-                    />
-                  </div>
-                  <CardSubtitle className="text-muted fs-5 mt-3 mb-2">Social Profile</CardSubtitle>
-                  <div className="d-flex align-items-center gap-2">
-                    <Button className="btn-circle" color="info">
-                      <i className="bi bi-facebook"></i>
-                    </Button>
-                    <Button className="btn-circle" color="success">
-                      <i className="bi bi-twitter"></i>
-                    </Button>
-                    <Button className="btn-circle" color="danger">
-                      <i className="bi bi-youtube"></i>
-                    </Button>
-                  </div>
+
                 </div>
               </CardBody>
             </Card>
@@ -371,24 +336,24 @@ const Profile = () => {
                         <p className="mt-4">
 
                         </p>
-                        <h4 className="font-medium mt-4">Skill Set</h4>
-                        <hr />
-                        <h5 className="mt-4">
-                          Wordpress <span className="float-end">80%</span>
-                        </h5>
-                        <Progress value={80} />
-                        <h5 className="mt-4">
-                          HTML 5 <span className="float-end">90%</span>
-                        </h5>
-                        <Progress color="success" value={90} />
-                        <h5 className="mt-4">
-                          jQuery <span className="float-end">50%</span>
-                        </h5>
-                        <Progress color="info" value={50} />
-                        <h5 className="mt-4">
-                          Photoshop <span className="float-end">70%</span>
-                        </h5>
-                        <Progress color="warning" value={70} />
+                        {/*<h4 className="font-medium mt-4">Skill Set</h4>*/}
+                        {/*<hr />*/}
+                        {/*<h5 className="mt-4">*/}
+                        {/*  Wordpress <span className="float-end">80%</span>*/}
+                        {/*</h5>*/}
+                        {/*<Progress value={80} />*/}
+                        {/*<h5 className="mt-4">*/}
+                        {/*  HTML 5 <span className="float-end">90%</span>*/}
+                        {/*</h5>*/}
+                        {/*<Progress color="success" value={90} />*/}
+                        {/*<h5 className="mt-4">*/}
+                        {/*  jQuery <span className="float-end">50%</span>*/}
+                        {/*</h5>*/}
+                        {/*<Progress color="info" value={50} />*/}
+                        {/*<h5 className="mt-4">*/}
+                        {/*  Photoshop <span className="float-end">70%</span>*/}
+                        {/*</h5>*/}
+                        {/*<Progress color="warning" value={70} />*/}
                       </div>
                     </Col>
                   </Row>

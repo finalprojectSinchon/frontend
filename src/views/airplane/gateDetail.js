@@ -23,7 +23,7 @@ const GateDetail = () => {
   const dispatch = useDispatch();
   const { gateCode } = useParams();
   const gateDetail = useSelector((state) => state.gates.gateDetail);
-  const userInfo = useSelector((state) => state.user.userInfo);
+  const userInfo = useSelector((state) => state.userInfo);
   const [gateInfo, setGateInfo] = useState({});
   const [readOnly, setReadOnly] = useState(true);
 
