@@ -55,9 +55,9 @@ const statusFormatter = (cell, row) => {
     styleClass = 'bg-danger';
   } else {
     // 기존 상태에 따른 스타일 설정
-    if (cell === '고장') {
-      styleClass = 'bg-danger';
-    } else if (cell === '점검중') {
+    if (cell === '사용가능') {
+      styleClass = 'bg-success2';
+    } else if (cell === '사용중') {
       styleClass = 'bg-warning';
     } else {
       styleClass = 'bg-success2';
@@ -198,7 +198,10 @@ const Datatables = () => {
           {mapData.map(area => {
             const [x1, y1, x2, y2] = area.coords.split(',').map(Number);
             const matchedCounter = flatChkinCounterList.find(chkincounter => chkincounter.location === area.label);
-            const circleClass = matchedCounter ? 'red-circle' : 'green-circle'; // 조건에 따른 동그라미 색상
+            if (!matchedCounter) {
+
+            }
+            const circleClass = matchedCounter ? 'green-circle' : 'red-circle'; // 조건에 따른 동그라미 색상 red-circle  green-circle
 
             return (
               <div

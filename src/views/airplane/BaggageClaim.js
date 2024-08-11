@@ -56,9 +56,9 @@ const convertPercentToCoords = (percentCoords, imgWidth, imgHeight) => {
 
 const statusFormatter = (cell, row) => {
   let styleClass;
-  if (cell === '사용중') {
+  if (cell === '사용가능') {
     styleClass = 'bg-success2';
-  } else if (cell === '사용가능') {
+  } else if (cell === '사용중') {
     styleClass = 'bg-danger2';
   } else {
     styleClass = 'bg-success2';
@@ -91,19 +91,19 @@ const Datatables = () => {
 
   // 초기 퍼센트 좌표 설정
   const initialMapData = [
-    { id: 1, coords: "24%,55%,27%,75%", href: "#section1", label: "13" },
-    { id: 2, coords: "27.5%,50%,30.5%,70%", href: "#section2", label: "12" },
-    { id: 3, coords: "31%,45%,34%,65%", href: "#section3", label: "11" },
-    { id: 4, coords: "34.5%,40%,37.5%,60%", href: "#section4", label: "10" },
-    { id: 5, coords: "39%,35%,42%,55%", href: "#section5", label: "9" },
-    { id: 6, coords: "43%,30%,46%,50%", href: "#section6", label: "8" },
+    { id: 13, coords: "24%,55%,27%,75%", href: "#section1", label: "13" },
+    { id: 12, coords: "27.5%,50%,30.5%,70%", href: "#section2", label: "12" },
+    { id: 11, coords: "31%,45%,34%,65%", href: "#section3", label: "11" },
+    { id: 10, coords: "34.5%,40%,37.5%,60%", href: "#section4", label: "10" },
+    { id: 9, coords: "39%,35%,42%,55%", href: "#section5", label: "9" },
+    { id: 8, coords: "43%,30%,46%,50%", href: "#section6", label: "8" },
     { id: 7, coords: "51%,30%,55%,50%", href: "#section7", label: "7" },
-    { id: 8, coords: "56%,35%,59.5%,55%", href: "#section8", label: "6" },
-    { id: 9, coords: "60%,37%,63.5%,58%", href: "#section9", label: "5" },
-    { id: 10, coords: "64.5%,39%,68%,60%", href: "#section10", label: "4" },
-    { id: 11, coords: "68.5%,42%,72%,62%", href: "#section11", label: "3" },
-    { id: 12, coords: "72.5%,47%,75%,67%", href: "#section12", label: "2" },
-    { id: 13, coords: "75.5%,53%,78%,72%", href: "#section13", label: "1" }
+    { id: 6, coords: "56%,35%,59.5%,55%", href: "#section8", label: "6" },
+    { id: 5, coords: "60%,37%,63.5%,58%", href: "#section9", label: "5" },
+    { id: 4, coords: "64.5%,39%,68%,60%", href: "#section10", label: "4" },
+    { id: 3, coords: "68.5%,42%,72%,62%", href: "#section11", label: "3" },
+    { id: 2, coords: "72.5%,47%,75%,67%", href: "#section12", label: "2" },
+    { id: 1, coords: "75.5%,53%,78%,72%", href: "#section13", label: "1" }
   ];
 
   const [mapData, setMapData] = useState(initialMapData);
