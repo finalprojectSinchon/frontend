@@ -14,14 +14,17 @@ const Logo = () => {
     <Link to="/main" className="d-flex align-items-center gap-2">
       {isDarkMode || activeTopbarBg !== 'white' ? (
         <>
-          <LogoWhiteIcon />
+          {/*<LogoWhiteIcon />*/}
+          <img src='https://github.com/user-attachments/assets/1eb2f4c2-a270-4edb-a7f4-f90f301a822e' alt="logo"  width={45}/>
           {toggleMiniSidebar ? '' : <LogoWhiteText />}
         </>
       ) : (
-        <>
-          <LogoDarkIcon />
-          {toggleMiniSidebar ? '' : <LogoDarkText />}
-        </>
+          <>
+            {/*<LogoDarkIcon />*/}
+            <img src='https://github.com/user-attachments/assets/1eb2f4c2-a270-4edb-a7f4-f90f301a822e' alt="logo"
+                 width={45}/>
+            {toggleMiniSidebar ? '' : <LogoDarkText/>}
+          </>
       )}
     </Link>
   );
