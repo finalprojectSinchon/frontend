@@ -54,7 +54,7 @@ const InspectionDetail = () => {
 
   const handleSave = () => {
     dispatch(modifyInspection({ inspectionCode, inspectionInfo: inspectionInfo }))
-    console.log('inspectionInfoasd', inspectionInfo);
+
     navigate('/inspection');
     window.location.reload();
   };

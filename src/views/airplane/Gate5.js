@@ -11,8 +11,7 @@ function onAfterDeleteRow2(rowKeys) {
 }
 
 function afterSearch2(searchText, result) {
-    console.log(`Your search text is ${searchText}`);
-    console.log('result', result);
+
 }
 
 const selectRowProp2 = {

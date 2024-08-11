@@ -65,7 +65,7 @@ const AirplaneDetail = () => {
     }
   };
 
-  console.log('detail',airplaneInfo)
+
 
 
   return (

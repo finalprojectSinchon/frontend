@@ -50,7 +50,7 @@ const EquipmentDetail = () => {
 
     const [equipmentInfo, setEquipmentInfo] = useState({});
     const [readOnly, setReadOnly] = useState(true);
-    console.log('equipmentInfo', equipmentInfo);
+
 
     const [manager, setManager] = useState([]);
     const [airportType, setAirportType] = useState()

@@ -299,11 +299,11 @@ const afterSearch = (searchText) => {
 };
 
 const handlerRegist = (location) => () => {
-  console.log("Register for location: ", location);
+
 };
 
 const onClickHandler = (gateCode) => () => {
-  console.log("View details for gateCode: ", gateCode);
+
 };
 
 const selectRowProp = {

@@ -23,7 +23,7 @@ const CalendarApp = () => {
         dispatch(fetchMaintenances());
     }, [dispatch]);
 
-    console.log('maintenances', maintenances);
+
 
     useEffect(() => {
         const myMaintenance = maintenances.filter((maintenance) => {
@@ -39,7 +39,7 @@ const CalendarApp = () => {
         setMaintenanceInfo(myMaintenance);
     }, [maintenanceList, userInfo]);
 
-    console.log('maintenanceInfo', maintenanceInfo);
+
 
     useEffect(() => {
         const newCalendarData = maintenanceInfo.map(date => {
@@ -61,7 +61,7 @@ const CalendarApp = () => {
         setCalenderData([...newCalendarData]);
     }, [maintenanceInfo]);
 
-    console.log('calenderData', calenderData);
+
 
     const eventColors = (event) => {
         if (event.color) {

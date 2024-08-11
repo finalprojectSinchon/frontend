@@ -30,8 +30,8 @@ const Customizer = ({ className }) => {
       <Row>
         <Col>
           <div className="p-3 border-bottom">
-            <h5 className="mb-0">Theme Customizer</h5>
-            <small>Customize & Preview in Real Time</small>
+            <h5 className="mb-0">설정</h5>
+            <small>커스텀</small>
           </div>
           <SimpleBar style={{ height: 'calc(100vh - 85px)' }}>
             <div className="p-3">
@@ -43,7 +43,7 @@ const Customizer = ({ className }) => {
               >
                 {customtoggle ? <i className="bi bi-x" /> : <i className="bi bi-gear" />}
               </Button>
-              <h6>Topbar Color</h6>
+              <h6>색깔 선택</h6>
               <div className="button-group">
                 {ColorsBg.map((colorbg) => (
                   <Button
@@ -63,7 +63,7 @@ const Customizer = ({ className }) => {
               <br />
               <br />
 
-              <h6>Change Direction</h6>
+              <h6>좌우 반전</h6>
               <ButtonGroup>
                 <Button
                   outline={!!direction}
@@ -85,7 +85,7 @@ const Customizer = ({ className }) => {
               <br />
               <br />
               <br />
-              <h6>Change Mode</h6>
+              <h6>다크 모드</h6>
               <ButtonGroup>
                 <Button
                   outline={!!isDarkMode}
@@ -93,7 +93,7 @@ const Customizer = ({ className }) => {
                   size="sm"
                   onClick={() => dispatch(ChangeDarkMode(false)) && window.location.reload(false)}
                 >
-                  Light
+                  라이트
                 </Button>
                 <Button
                   color="primary"
@@ -101,12 +101,12 @@ const Customizer = ({ className }) => {
                   outline={!isDarkMode}
                   onClick={() => dispatch(ChangeDarkMode(true))}
                 >
-                  Dark
+                  다크
                 </Button>
               </ButtonGroup>
               <br />
               <br />
-              <h6>Change Layout</h6>
+              <h6>레이아웃</h6>
               <ButtonGroup>
                 <Button
                   outline={!!LayoutHorizontal}
@@ -114,7 +114,7 @@ const Customizer = ({ className }) => {
                   size="sm"
                   onClick={() => dispatch(ToggleHorizontal(false))}
                 >
-                  Vertical
+                  좌,우
                 </Button>
                 <Button
                   color="primary"
@@ -122,13 +122,13 @@ const Customizer = ({ className }) => {
                   outline={!LayoutHorizontal}
                   onClick={() => dispatch(ToggleHorizontal(true))}
                 >
-                  Horziontal
+                  상단
                 </Button>
               </ButtonGroup>
               <br />
               <br />
               <br />
-              <h6>Change sidebar Color</h6>
+              <h6>레이아웃 색깔</h6>
               <div className="button-group">
                 {SidebarColorsBg.map((colorbg) => (
                   <Button
@@ -148,47 +148,49 @@ const Customizer = ({ className }) => {
               <br />
               <br />
 
-              <h6>Topbar Type</h6>
+              <h6>상단바 고정</h6>
 
               <ButtonGroup>
-                <Button
-                  outline={!!topbarFixed}
-                  color="primary"
-                  size="sm"
-                  onClick={() => dispatch(ToggleTopbar(false))}
-                >
-                  Static
-                </Button>
+
                 <Button
                   color="primary"
                   size="sm"
                   outline={!topbarFixed}
                   onClick={() => dispatch(ToggleTopbar(true))}
                 >
-                  Fixed
+                  고정
+                </Button>
+                <Button
+                    outline={!!topbarFixed}
+                    color="primary"
+                    size="sm"
+                    onClick={() => dispatch(ToggleTopbar(false))}
+                >
+                  해체
                 </Button>
               </ButtonGroup>
               <br />
               <br />
-              <h6>Sidebar Type</h6>
+              <h6>사이드바 고정</h6>
 
               <ButtonGroup>
+                <Button
+                    color="primary"
+                    size="sm"
+                    outline={!isSidebarFixed}
+                    onClick={() => dispatch(FixedSidebar(true))}
+                >
+                  고정
+                </Button>
                 <Button
                   outline={!!isSidebarFixed}
                   color="primary"
                   size="sm"
                   onClick={() => dispatch(FixedSidebar(false))}
                 >
-                  Static
+                  해제
                 </Button>
-                <Button
-                  color="primary"
-                  size="sm"
-                  outline={!isSidebarFixed}
-                  onClick={() => dispatch(FixedSidebar(true))}
-                >
-                  Fixed
-                </Button>
+
               </ButtonGroup>
             </div>
           </SimpleBar>

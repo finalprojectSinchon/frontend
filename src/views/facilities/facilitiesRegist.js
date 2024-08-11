@@ -42,7 +42,7 @@ const FacilitiesRegist = () => {
         navigate('/facilities');
         alert("해당 편의시설 등록 승인을 요청했습니다.")
     };
-    console.log("fdfdfdfdfdfd", facilitiesInfo)
+
 
     return (
         <div>

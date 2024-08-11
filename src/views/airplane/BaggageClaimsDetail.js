@@ -99,7 +99,7 @@ const BaggageClaimsDetail = () => {
     }
   };
 
-  console.log('detail',baggageClaimInfo)
+
 
 
   return (

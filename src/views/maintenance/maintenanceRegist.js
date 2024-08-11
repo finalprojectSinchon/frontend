@@ -44,8 +44,6 @@ const MaintenanceRegist = () => {
   }, [structure]);
 
 
-  console.log('locationList',locationList)
-  console.log('structure',structure)
 
   const onChangeHandler = (e) => {
     setMaintenanceInfo({
@@ -58,7 +56,7 @@ const MaintenanceRegist = () => {
 
 
   };
-  console.log('maintenanceInfo',maintenanceInfo)
+
   const handleRegisterClick = () => {
     dispatch(createMaintenance(maintenanceInfo));
     navigate('/maintenance');

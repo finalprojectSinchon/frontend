@@ -24,7 +24,7 @@ const InspectionRegist = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const { info } = location.state || {};
-  console.log('info',info)
+
 
   const [inspectionInfo, setInspectionInfo] = useState({
     manager: '',
@@ -76,13 +76,13 @@ const InspectionRegist = () => {
   };
 
   const handleRegisterClick = () => {
-    console.log('inspectionInfo 값 들음?', inspectionInfo);
+
     dispatch(registInspection({ inspectionInfo }));
     navigate('/inspection');
     window.location.reload();
   };
 
-  console.log('22222222222', inspectionInfo);
+
 
   return (
     <div>
