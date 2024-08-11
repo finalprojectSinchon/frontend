@@ -28,6 +28,7 @@ const BaggageClaimsDetail = () => {
 
 
   const BaggageClaimDetail = useSelector((state) => state.baggageClaims.baggageClaimDetail);
+  const userInfo = useSelector((state) => state.userInfo);
   const [baggageClaimInfo, setBaggageClaimInfo] = useState({});
   const [readOnly, setReadOnly] = useState(true);
 
@@ -227,9 +228,10 @@ const BaggageClaimsDetail = () => {
                   <Button className="m-2" color="primary" onClick={handleEditClick}>
                     {readOnly ? '수정' : '저장'}
                   </Button>
-                  <Button className="m-2 " color="danger" onClick={onClickHandler} >
+                  {userInfo.userRole === "ROLE_ADMIN" ?    <Button className="m-2 " color="danger" onClick={onClickHandler} >
                     삭제
-                  </Button>
+                  </Button> : null}
+
                 </Col>
                 </Row>
               </Form>

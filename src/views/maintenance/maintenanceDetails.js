@@ -31,8 +31,7 @@ const MaintenanceDetails = () => {
   const [modal, setModal] = useState(false);
   const [equipmentRegistered, setEquipmentRegistered] = useState(false); // New state for equipment registration
   const result = useSelector((state) => state.maintenances.result);
-
-  console.log('result', result);
+  const userInfo = useSelector((state) => state.userInfo);
 
   const toggleModal = () => setModal(!modal);
 
@@ -216,9 +215,9 @@ const MaintenanceDetails = () => {
                     <Button className="m-2" color="primary" onClick={handleEditClick} disabled={equipmentRegistered || result === 1}>
                       {readOnly ? '수정' : '저장'}
                     </Button>
-                    <Button className="m-2" color="danger" onClick={onClickHandler}>
+                    {userInfo.userRole ?     <Button className="m-2" color="danger" onClick={onClickHandler}>
                       삭제
-                    </Button>
+                    </Button> : null }
                   </Col>
                 </Form>
               </CardBody>
