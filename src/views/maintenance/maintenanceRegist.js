@@ -52,6 +52,7 @@ const MaintenanceRegist = () => {
   }, [structure]);
 
 
+
   const onChangeHandler = (e) => {
     setMaintenanceInfo({
       ...maintenanceInfo,

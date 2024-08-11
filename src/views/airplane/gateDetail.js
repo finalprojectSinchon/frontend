@@ -30,6 +30,7 @@ const GateDetail = () => {
   const dispatch = useDispatch();
   const { gateCode } = useParams();
   const gateDetail = useSelector((state) => state.gates.gateDetail);
+  const userInfo = useSelector((state) => state.userInfo);
   const [gateInfo, setGateInfo] = useState({});
   const [readOnly, setReadOnly] = useState(true);
 
@@ -216,9 +217,9 @@ const GateDetail = () => {
                     <Button className="m-2" color="primary" onClick={handleEditClick}>
                       {readOnly ? '수정' : '저장'}
                     </Button>
-                    <Button className="m-2 " color="danger" onClick={onClickHandler} >
+                    {userInfo.userRole === "ROLE_ADMIN" ?     <Button className="m-2 " color="danger" onClick={onClickHandler} >
                       삭제
-                    </Button>
+                    </Button> : null}
                   </Col>
                 </Form>
               </CardBody>

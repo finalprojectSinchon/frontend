@@ -86,6 +86,7 @@ const BaggageClaimsRegist = () => {
         .filter(airplane => airplane.airline === selectedAirline && airplane.scheduleDateTime === selectedSchedule)
         .map(airplane => airplane.airport);
 
+
       setAirports(filteredAirports);
     }
   }, [selectedAirline, selectedSchedule, airplanes]);

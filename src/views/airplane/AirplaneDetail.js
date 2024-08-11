@@ -31,6 +31,7 @@ const AirplaneDetail = () => {
 
 
   const airplaneDetail = useSelector((state) => state.airplanes.airplaneDetail);
+  const userInfo = useSelector(state => state.userInfo);
   const [airplaneInfo, setAirplaneInfo] = useState({});
   const [readOnly, setReadOnly] = useState(true);
 
@@ -77,7 +78,7 @@ const AirplaneDetail = () => {
     }
   };
 
-  console.log('detail',airplaneInfo)
+
 
 
   return (
@@ -173,9 +174,14 @@ const AirplaneDetail = () => {
                   <Button className="m-2" color="primary"  onClick={() => { handleEditClick();  }}>
                     {readOnly ? '수정' : '저장'}
                   </Button>
+
                   <Button className="m-2 " color="danger"  onClick={() => { onClickHandler(); }} >
+
+                  {userInfo.userRole === "ROLE_ADMIN" ?<Button className="m-2 " color="danger" onClick={onClickHandler} >
+
                     삭제
-                  </Button>
+                  </Button> : null }
+
                 </Col>
               </Form>
             </CardBody>

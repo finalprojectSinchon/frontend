@@ -43,7 +43,7 @@ const MaintenanceChart = () => {
         },
     };
 
-    console.log('chartData',chartData)
+
     const doughnutData = {
         labels: chartData.doughnutData.labels,
         datasets: [

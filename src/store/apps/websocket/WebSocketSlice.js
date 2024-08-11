@@ -46,7 +46,7 @@ export const connectWebSocket = (userCode) => (dispatch) => {
     socket = new WebSocket(`ws://localhost:8080/ws?userCode=${userCode}`);
 
     socket.onopen = () => {
-        console.log('WebSocket connected');
+
         dispatch(setConnected(true));
         socket.send(JSON.stringify({ type: 'REQUEST_ALL_STATUSES' }));
     };
@@ -54,7 +54,7 @@ export const connectWebSocket = (userCode) => (dispatch) => {
 
     socket.onmessage = (event) => {
         const data = JSON.parse(event.data);
-        console.log("Received WebSocket message:", data);
+
 
         if (data.type === 'USER_STATUS_UPDATE') {
             if (Array.isArray(data.statusUpdates)) {
@@ -78,7 +78,7 @@ export const connectWebSocket = (userCode) => (dispatch) => {
 
 
     socket.onclose = () => {
-        console.log('WebSocket disconnected');
+
         dispatch(setConnected(false));
     };
 

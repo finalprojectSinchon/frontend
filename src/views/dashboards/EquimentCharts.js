@@ -13,7 +13,7 @@ const ProjectTables = () => {
     const equipments = useSelector(state => state.equipments.equipmentList);
     const equipmentList = equipments.data || [];
 
-    console.log('equipments', equipments);
+
 
     return (
         <div>

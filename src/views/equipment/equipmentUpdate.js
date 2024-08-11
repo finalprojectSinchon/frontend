@@ -27,7 +27,7 @@ const EquipmentDetail = () => {
       .then(res => res.data)
       .then(data => {
         setEquipmentInfo(data.data);
-        console.log('API response:', res.data); 
+
       });
   }, [equipmentCode]);
 

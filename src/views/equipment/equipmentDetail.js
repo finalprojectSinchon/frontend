@@ -33,6 +33,7 @@ const EquipmentDetail = () => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const equipmentDetail = useSelector(state => state.equipments.equipmentDetail);
+    const userInfo = useSelector(state => state.users.userInfo);
 
     useEffect(() => {
         dispatch(fetchEquipment({equipmentCode}));
@@ -56,7 +57,7 @@ const EquipmentDetail = () => {
 
     const [equipmentInfo, setEquipmentInfo] = useState({});
     const [readOnly, setReadOnly] = useState(true);
-    console.log('equipmentInfo', equipmentInfo);
+
 
     const [manager, setManager] = useState([]);
     const [airportType, setAirportType] = useState()
@@ -201,9 +202,10 @@ const EquipmentDetail = () => {
                                             <Button className="btn" color="success" onClick={handleSave}>
                                                 저장
                                             </Button>
-                                            <Button className="btn" color="secondary" onClick={handleDelete}>
+                                            {userInfo.userRole === "ROLE_ADMIN" ?   <Button className="btn" color="secondary" onClick={handleDelete}>
                                                 삭제
-                                            </Button>
+                                            </Button> : null}
+
                                         </>
                                     )}
                                 </Col>

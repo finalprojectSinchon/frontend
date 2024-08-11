@@ -11,8 +11,7 @@ function onAfterDeleteRow(rowKeys) {
 }
 
 function afterSearch(searchText, result) {
-  console.log(`Your search text is ${searchText}`);
-  console.log('result', result);
+
 }
 
 const selectRowProp = {
@@ -33,7 +32,7 @@ const Datatables = () => {
     afterDeleteRow: onAfterDeleteRow,
     afterSearch,
     onRowClick: (row) => {
-      console.log('Row clicked: ', row);
+
       navigate(`/maintenance/${row.maintenanceCode}`);
     },
   };
@@ -46,7 +45,7 @@ const Datatables = () => {
     return <div>Loading...</div>;
   }
 
-  console.log('11', maintenanceList);
+
 
   return (
     <div>

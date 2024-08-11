@@ -12,8 +12,7 @@ function onAfterDeleteRow(rowKeys) {
 }
 
 function afterSearch(searchText, result) {
-    console.log(`Your search text is ${searchText}`);
-    console.log('result', result);
+
 }
 
 const selectRowProp = {
@@ -22,12 +21,11 @@ const selectRowProp = {
     bgColor: 'rgba(0,0,0,0.1)',
     clickToExpand: true,
     onSelect: (row, isSelected, rowIndex, e) => {
-        console.log(`Row selected: ${isSelected}, rowIndex: ${rowIndex}`);
-        console.log('Selected row: ', row);
+
     },
     onSelectAll: (isSelected, rows) => {
-        console.log(`All rows selected: ${isSelected}`);
-        console.log('Selected rows: ', rows);
+
+
     }
 };
 

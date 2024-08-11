@@ -25,7 +25,7 @@ const AirQuality = () => {
                 console.error('error : ', error)
             })
     }, []);
-    console.log('airqualityData',airqualityData)
+
 
     useEffect(() => {
         const info = airqualityData.map(air => ({
@@ -37,7 +37,7 @@ const AirQuality = () => {
 
 
     const icon = (info) => {
-        console.log('info', info)
+
         if (info?.pm10 < 50) {
             return (
                 <i className="bi-emoji-smile" style={{fontSize: '65px', color: '#2e4cab'}}/>

@@ -31,7 +31,7 @@ const InspectionRegist = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const { info } = location.state || {};
-  console.log('info',info)
+
 
   const [inspectionInfo, setInspectionInfo] = useState({
     manager: '',
@@ -83,10 +83,12 @@ const InspectionRegist = () => {
   };
 
   const handleRegisterClick = () => {
+
     setType('등록');
     setContent('안전점검이 등록되었습니다.')
     toggleModal();
     setTimeout(() => {
+
     dispatch(registInspection({ inspectionInfo }));
     navigate('/inspection');
     window.location.reload();
