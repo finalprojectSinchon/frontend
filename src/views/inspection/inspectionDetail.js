@@ -89,6 +89,9 @@ const InspectionDetail = () => {
     });
   };
 
+
+
+
   return (
       <div className="download-pdf">
         <BreadCrumbs />

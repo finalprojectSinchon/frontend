@@ -30,8 +30,6 @@ const FullLayout = () => {
 
   const toastMessage = useSelector(state => state.websocket.toastMessage);
 
-  console.log('tM from',toastMessage?.from)
-  console.log('tm messaga',toastMessage?.message)
 
   useEffect(() => {
     dispatch(fetchUsers());
@@ -78,18 +76,22 @@ const FullLayout = () => {
   const [showToast, setShowToast] = useState(false);
   const [toastImg, setToastImg] = useState()
 
+
+
   useEffect(() => {
-    if (toastMessage?.message) {
-       setShowToast(true);
-       api.get(`/api/v1/chat/img/${toastMessage.from}`)
-          .then(res => res.data)
-          .then(data => {
-            setToastImg(data.data);
-            const timer = setTimeout(() => setShowToast(false), 5000);
-            return () => clearTimeout(timer);
-          })
-          .catch(error => console.error('err!',error))
-      // 3초 후에 토스트 메시지 숨기기
+    if(toastMessage?.type !== "SOS_ALERT") {
+      if (toastMessage?.message) {
+        setShowToast(true);
+        api.get(`/api/v1/chat/img/${toastMessage.from}`)
+            .then(res => res.data)
+            .then(data => {
+              setToastImg(data.data);
+              const timer = setTimeout(() => setShowToast(false), 5000);
+              return () => clearTimeout(timer);
+            })
+            .catch(error => console.error('err!', error))
+        // 3초 후에 토스트 메시지 숨기기
+      }
     }
   }, [toastMessage]);
 
