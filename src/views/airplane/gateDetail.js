@@ -12,19 +12,18 @@ import {
   Button,
 } from 'reactstrap';
 import BreadCrumbs from '../../layouts/breadcrumbs/BreadCrumbs';
-import { useParams,useNavigate } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchGate, modifyGate, softdeleteGate } from '../../store/apps/airplane/gateSlice';
 import ManagerDragAndDrop from "src/components/apps/managerDargAndDrop/ManagerDragAndDrop.js";
 import api from "src/store/apps/airplane/api.js";
-import CustomModal  from "src/views/CustomModal.js";
-
+import CustomModal from "src/views/CustomModal.js";
+import { fetchApprove } from "src/store/apps/approve/ContactSlice.js";
 
 const GateDetail = () => {
-
   const [modal, setModal] = useState(false);
   const toggleModal = () => setModal(!modal);
-  const [type,setType] = useState('');
+  const [type, setType] = useState('');
   const [content, setContent] = useState('');
 
   const dispatch = useDispatch();
@@ -34,21 +33,20 @@ const GateDetail = () => {
   const [gateInfo, setGateInfo] = useState({});
   const [readOnly, setReadOnly] = useState(true);
 
-  const [manager, setManager] = useState([])
-  const [airportType, setAirportType] = useState()
-
+  const [manager, setManager] = useState([]);
+  const [airportType, setAirportType] = useState();
+  const approves = useSelector((state) => state.contacts.approveData);
+  const approve = approves?.data?.approvalList || [];
 
   useEffect(() => {
-
-    api.post('/api/v1/managers',{
-      airportType : "gate",
-      airportCode : gateCode
+    api.post('/api/v1/managers', {
+      airportType: "gate",
+      airportCode: gateCode
     })
         .then(res => res.data)
         .then(data => {
-          setManager(data.data)
-        })
-
+          setManager(data.data);
+        });
   }, [gateInfo]);
 
   const onChangeHandler = e => {
@@ -61,12 +59,12 @@ const GateDetail = () => {
   const navigate = useNavigate();
   const onClickHandler = () => {
     setType('삭제');
-    setContent('수화물 수취대가 삭제되었습니다.');
+    setContent('탑승구가 삭제되었습니다.');
     toggleModal();
 
     setTimeout(() => {
-    dispatch(softdeleteGate({gateCode}));
-    navigate('/airplane/gate');
+      dispatch(softdeleteGate({ gateCode }));
+      navigate('/airplane/gate');
       window.location.reload();
     }, 3000);
   }
@@ -74,13 +72,39 @@ const GateDetail = () => {
   useEffect(() => {
     dispatch(fetchGate({ gateCode }));
     setAirportType('gate');
+    dispatch(fetchApprove());
   }, [dispatch, gateCode]);
 
   useEffect(() => {
-    if (gateDetail && gateDetail.data && gateDetail.data.gate) {
-      setGateInfo(gateDetail.data.gate);
+    if (gateDetail && gateDetail.data) {
+      const gateData = gateDetail.data.gate;
+
+
+      if (gateCode) {
+        const gateApproval = approve.find(a => {
+          return a.gate && a.gate.gateCode === gateCode && a.checked === 'N';
+        });
+
+
+        if (gateApproval) {
+          setGateInfo({
+            ...gateData,
+            status: '',
+            type: '',
+            lastInspectionDate: '',
+            note: ''
+          });
+        } else {
+          setGateInfo(gateData);
+        }
+      } else {
+        setGateInfo(gateData);
+      }
     }
-  }, [gateDetail]);
+    setAirportType("gate");
+  }, [gateDetail, approve, gateCode]);
+
+
 
   const handleEditClick = async () => {
     if (readOnly) {
@@ -89,11 +113,10 @@ const GateDetail = () => {
       setReadOnly(true);
       await dispatch(modifyGate({ gateCode, gateInfo }));
       setType('수정');
-      setContent('해당 탑승구가 수정 승인 요청되었습니다.')
+      setContent('해당 탑승구가 수정 승인 요청되었습니다.');
       toggleModal();
     }
   };
-
 
   return (
       <div>
@@ -102,7 +125,6 @@ const GateDetail = () => {
           <Button color="dark" onClick={() => navigate('/inspection/inspectionRegist')}>
             안전 점검 등록
           </Button>
-
         </div>
         <Row>
           <Col md="12">
@@ -118,13 +140,13 @@ const GateDetail = () => {
                     <Col md="6">
                       <FormGroup>
                         <Label>탑승구 코드</Label>
-                        <Input type="text" value={gateInfo.gateCode } name='gateCode' onChange={onChangeHandler}disabled/>
+                        <Input type="text" value={gateInfo.gateCode} name='gateCode' onChange={onChangeHandler} disabled />
                       </FormGroup>
                     </Col>
                     <Col md="6">
                       <FormGroup>
                         <Label>Status</Label>
-                        <Input type="select" name="status" value={gateInfo.status } onChange={onChangeHandler} disabled={readOnly}>
+                        <Input type="select" name="status" value={gateInfo.status} onChange={onChangeHandler} disabled={readOnly}>
                           <option>사용가능</option>
                           <option>사용중</option>
                         </Input>
@@ -135,7 +157,7 @@ const GateDetail = () => {
                     <Col md="6">
                       <FormGroup>
                         <Label>type</Label>
-                        <Input type="select" name="gateType" value={gateInfo.gateType } onChange={onChangeHandler} disabled={readOnly}>
+                        <Input type="select" name="gateType" value={gateInfo.gateType} onChange={onChangeHandler} disabled={readOnly}>
                           <option>A</option>
                           <option>B</option>
                           <option>C</option>
@@ -146,7 +168,7 @@ const GateDetail = () => {
                     <Col md="6">
                       <FormGroup>
                         <Label>항공사</Label>
-                        <Input type="text" value={gateInfo?.airline } disabled />
+                        <Input type="text" value={gateInfo?.airline} disabled />
                       </FormGroup>
                     </Col>
                   </Row>
@@ -154,13 +176,13 @@ const GateDetail = () => {
                     <Col md="6">
                       <FormGroup>
                         <Label>편명</Label>
-                        <Input type="text" value={gateInfo?.flightid} disabled/>
+                        <Input type="text" value={gateInfo?.flightid} disabled />
                       </FormGroup>
                     </Col>
                     <Col md="6">
                       <FormGroup>
                         <Label>최근 점검일</Label>
-                        <Input type="date" value={gateInfo.lastInspectionDate } name="lastInspectionDate" onChange={onChangeHandler} disabled={readOnly} />
+                        <Input type="date" value={gateInfo.lastInspectionDate} name="lastInspectionDate" onChange={onChangeHandler} disabled={readOnly} />
                       </FormGroup>
                     </Col>
                   </Row>
@@ -168,7 +190,7 @@ const GateDetail = () => {
                     <Col md="6">
                       <FormGroup>
                         <Label>도착예정시간</Label>
-                        <Input type="datetime" value={gateInfo?.scheduleDateTime } name='scheduleDateTime' disabled={readOnly}/>
+                        <Input type="datetime" value={gateInfo?.scheduleDateTime} name='scheduleDateTime' disabled={readOnly} />
                       </FormGroup>
                     </Col>
                     <Col md="6">
@@ -176,8 +198,8 @@ const GateDetail = () => {
                         <Label>위치</Label>
                         <Input type="text" value={gateInfo.gateCode + "번 탑승구"} name="location" onChange={onChangeHandler} disabled={readOnly} />
                       </FormGroup>
-                      </Col>
-                    </Row>
+                    </Col>
+                  </Row>
                   <Row>
                     <Col md="6">
                       <FormGroup>
@@ -186,11 +208,10 @@ const GateDetail = () => {
                       </FormGroup>
                     </Col>
                     <Col md="6">
-
+                      {/* 다른 필드 추가 가능 */}
                     </Col>
                   </Row>
                   <Row>
-
                     <Col md="6">
                       <FormGroup>
                         <Label>비고</Label>
@@ -208,8 +229,8 @@ const GateDetail = () => {
                       </Row>
                       <div className='mb-4'>
                         {manager ? <ManagerDragAndDrop AllUser={manager.AllUser} Manager={manager.Manager} airportCode={gateCode}
-                                                       airportType={airportType} isEditMode={readOnly}/>
-                            : <h3>loading</h3> }
+                                                       airportType={airportType} isEditMode={readOnly} />
+                            : <h3>loading</h3>}
                       </div>
                     </Col>
                   </Row>
@@ -217,7 +238,7 @@ const GateDetail = () => {
                     <Button className="m-2" color="primary" onClick={handleEditClick}>
                       {readOnly ? '수정' : '저장'}
                     </Button>
-                    {userInfo.userRole === "ROLE_ADMIN" ?     <Button className="m-2 " color="danger" onClick={onClickHandler} >
+                    {userInfo.userRole === "ROLE_ADMIN" ? <Button className="m-2 " color="danger" onClick={onClickHandler} >
                       삭제
                     </Button> : null}
                   </Col>
@@ -226,7 +247,7 @@ const GateDetail = () => {
             </Card>
           </Col>
         </Row>
-        <CustomModal  isOpen={modal} toggle={toggleModal} type = {type} content={content}/>
+        <CustomModal isOpen={modal} toggle={toggleModal} type={type} content={content} />
 
       </div>
   );

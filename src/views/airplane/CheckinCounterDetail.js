@@ -19,7 +19,7 @@ import Location from "src/components/location/Location.js";
 import api from "src/store/apps/airplane/api.js";
 import ManagerDragAndDrop from "src/components/apps/managerDargAndDrop/ManagerDragAndDrop.js";
 import CustomModal  from "src/views/CustomModal.js";
-
+import { fetchApprove } from "src/store/apps/approve/ContactSlice.js";
 
 const CheckinCounterDetail = () => {
 
@@ -31,6 +31,9 @@ const CheckinCounterDetail = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { checkinCounterCode } = useParams();
+
+  const approves = useSelector((state) => state.contacts.approveData);
+  const approve = approves?.data?.approvalList || [];
 
 
   const chkinCounterDetail = useSelector((state) => state.chkinCounters.chkinCounterDetail);
@@ -90,13 +93,39 @@ const CheckinCounterDetail = () => {
   useEffect(() => {
     dispatch(fetchChkinCounter({ checkinCounterCode }));
     setAirportType('checkinCounter');
+    dispatch(fetchApprove());
   }, [dispatch, checkinCounterCode]);
 
+
   useEffect(() => {
-    if (chkinCounterDetail && chkinCounterDetail.data && chkinCounterDetail.data.chkinCounter) {
-        setCheckinCounterInfo(chkinCounterDetail.data.chkinCounter);
+    if (chkinCounterDetail && chkinCounterDetail.data) {
+      const checkinCounterData = chkinCounterDetail.data.chkinCounter;
+
+
+      if (checkinCounterCode) {
+        const checkinCounterApproval = approve.find(a => {
+          return a.checkinCounter && a.checkinCounter.checkinCounterCode === checkinCounterCode && a.checked === 'N';
+        });
+
+
+
+        if (checkinCounterApproval) {
+          setCheckinCounterInfo({
+            ...checkinCounterData,
+            status: '',
+            type: '',
+            lastInspectionDate: '',
+            note: ''
+          });
+        } else {
+          setCheckinCounterInfo(checkinCounterData);
+        }
+      } else {
+        setCheckinCounterInfo(checkinCounterData);
+      }
     }
-  }, [chkinCounterDetail]);
+
+  }, [chkinCounterDetail, approve, checkinCounterCode]);
 
 
 
