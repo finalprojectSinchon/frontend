@@ -7,7 +7,7 @@ const Player = () => (
     <AudioPlayer
         autoPlay={false}
         volume={0.7}
-        src="/music/miruni.mp3"
+        src="/music/airport.mp3"
         onPlay={e => console.log("onPlay")}
         // other props here
     />
