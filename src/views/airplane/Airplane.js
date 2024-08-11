@@ -24,6 +24,7 @@ const deleteRow = async (airplaneCode) => {
       })
 };
 
+
 function afterSearch(searchText, result) {
 
 }
