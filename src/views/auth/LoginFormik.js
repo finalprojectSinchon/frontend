@@ -71,9 +71,9 @@ const LoginFormik = () => {
             <AuthLogo />
             <Card>
               <CardBody className="p-4 m-1">
-                <h4 className="mb-0 fw-bold">Login</h4>
+                <h4 className="mb-0 fw-bold">로그인</h4>
                 <small className="pb-4 d-block">
-                  Do not have an account? <Link to="/auth/registerformik">Sign Up</Link>
+                  아이디가 없으신가요? <Link to="/auth/registerformik">회원가입</Link>
                 </small>
                 <Formik
                   initialValues={initialValues}
@@ -107,15 +107,15 @@ const LoginFormik = () => {
                             checked={rememberMe} 
                             onChange={() => setRememberMe(!rememberMe)} 
                           />
-                          Remember me
+                          로그인 정보 저장
                         </Label>
                         <Link className="ms-auto text-decoration-none" to="/auth/forgotPwd">
-                          <small>Forgot Pwd?</small>
+                          <small>아이디를 잊어버렸나요?</small>
                         </Link>
                       </FormGroup>
                       <FormGroup>
                         <Button type="submit" color="primary" className="me-2">
-                          Login
+                          로그인
                         </Button>
                       </FormGroup>
                     </Form>
