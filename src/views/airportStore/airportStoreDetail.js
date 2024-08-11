@@ -33,6 +33,7 @@ const AirportStoreDetail = () => {
   const [readOnly, setreadOnly] = useState(true);
   const [manager, setManager] = useState([])
   const [airportType, setAirportType] = useState()
+  const userInfo = useSelector(state => state.userInfo)
 
 
 
@@ -203,9 +204,9 @@ const AirportStoreDetail = () => {
                 </Row>
                 <Col className="d-flex justify-content-center align-items-center">
                 <div className="d-flex">
-                    <Button className="me-2" color="danger" onClick={onClickDelete}>
+                  {userInfo.userRole === "ROLE_ADMIN" ?   <Button className="me-2" color="danger" onClick={onClickDelete}>
                     삭제하기
-                    </Button>
+                  </Button> : null }
                     {readOnly ? (
                     <Button className="btn" color="primary" onClick={() => setreadOnly(false)}>
                         수정하기

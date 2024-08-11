@@ -35,6 +35,7 @@ const InspectionDetail = () => {
   const dispatch = useDispatch();
   const inspectionDetail = useSelector(state => state.inspections.inspectionDetail);
   const [activeTab, setActiveTab] = useState('1');
+  const userInfo = useSelector(state => state.userInfo);
 
   useEffect(() => {
     dispatch(fetchInspection({ inspectionCode }));
@@ -249,9 +250,9 @@ const InspectionDetail = () => {
                             <Button className="btn" color="success" onClick={handleSave}>
                               저장
                             </Button>
-                            <Button className="btn" color="secondary" onClick={handleDelete}>
+                            {userInfo.userRole === "ROLE_ADMIN" ?          <Button className="btn" color="secondary" onClick={handleDelete}>
                               삭제
-                            </Button>
+                            </Button> : null}
                           </>
                         )}
                       </Col>
