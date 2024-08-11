@@ -17,8 +17,14 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchAirplanes } from '../../store/apps/airplane/airplaneSlice';
 import { fetchGates,registGate } from '../../store/apps/airplane/gateSlice';
+import CustomModal  from "src/views/CustomModal.js";
 
 const GateRegist = () => {
+
+  const [modal, setModal] = useState(false);
+  const toggleModal = () => setModal(!modal);
+  const [type,setType] = useState('');
+  const [content, setContent] = useState('');
   
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -113,15 +119,19 @@ const GateRegist = () => {
     if (gates.some(gate =>
         gate.airplaneCode == gateInfo.airplaneCode 
     )) {
-      alert("이미 등록된 게이트 입니다");
+      setType('등록');
+      setContent('이미 등록된 탑승구 입니다')
+      toggleModal();
       return;
     }
-    dispatch(registGate(gateInfo));
-    alert("게이트 등록 승인을 요청했습니다.");
-
+    setType('등록');
+    setContent('수하물 수취대 등록 승인을 요청했습니다.')
+    toggleModal();
+    setTimeout(() => {
      dispatch(registGate(gateInfo));
      navigate('/airplane/gate')
      window.location.reload();
+    }, 3000);
   };
 
   const uniqueAirlines = [...new Set(airplanes.map(airplane => airplane.airline))];
@@ -280,6 +290,8 @@ const GateRegist = () => {
           </Card>
         </Col>
       </Row>
+      <CustomModal  isOpen={modal} toggle={toggleModal} type = {type} content={content}/>
+
     </div>
   );
 };

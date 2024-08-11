@@ -21,8 +21,16 @@ import {
   softdeleteMaintenance,
 } from '../../store/apps/maintenance/maintenanceSlice';
 import EquipmentStock from "src/views/maintenance/EquipmentStock.js";
+import CustomModal  from "src/views/CustomModal.js";
+
 
 const MaintenanceDetails = () => {
+
+  const [customModal, setCustomModal] = useState(false);
+  const toggleCustomModal = () => setModal(!modal);
+  const [type,setType] = useState('');
+  const [content, setContent] = useState('');
+
   const dispatch = useDispatch();
   const { maintenanceCode } = useParams();
   const maintenanceDetails = useSelector((state) => state.maintenances.maintenanceDetails);
@@ -32,7 +40,9 @@ const MaintenanceDetails = () => {
   const [equipmentRegistered, setEquipmentRegistered] = useState(false); // New state for equipment registration
   const result = useSelector((state) => state.maintenances.result);
 
+
   const userInfo = useSelector((state) => state.userInfo);
+
 
 
   const toggleModal = () => setModal(!modal);
@@ -46,8 +56,15 @@ const MaintenanceDetails = () => {
 
   const navigate = useNavigate();
   const onClickHandler = () => {
+    setType('삭제');
+    setContent('해당 정비가 삭제되었습니다.');
+    toggleCustomModal();
+
+    setTimeout(() => {
     dispatch(softdeleteMaintenance({ maintenanceCode }));
     navigate('/maintenance');
+      window.location.reload();
+    }, 3000);
   };
 
   useEffect(() => {
@@ -65,6 +82,9 @@ const MaintenanceDetails = () => {
     if (readOnly) {
       setReadOnly(false);
     } else {
+      setType('수정');
+      setContent('해당 정비 수정되었습니다.')
+      toggleCustomModal();
       setReadOnly(true);
       dispatch(modifyMaintenance({ maintenanceCode, maintenanceInfo }));
     }
@@ -227,6 +247,8 @@ const MaintenanceDetails = () => {
           </Col>
         </Row>
         <EquipmentStock isOpen={modal} toggle={toggleModal} maintenance={maintenanceInfo} onEquipmentRegistered={handleEquipmentRegistered} />
+        <CustomModal  isOpen={customModal} toggle={toggleCustomModal()} type = {type} content={content}/>
+
       </div>
   );
 };

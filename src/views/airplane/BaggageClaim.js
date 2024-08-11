@@ -55,6 +55,7 @@ const convertPercentToCoords = (percentCoords, imgWidth, imgHeight) => {
 };
 
 const statusFormatter = (cell, row) => {
+  console.log('cell',cell)
   let styleClass;
   if (cell === '사용가능') {
     styleClass = 'bg-success2';
@@ -224,6 +225,7 @@ const Datatables = () => {
                 return 'red-circle';
               }
 
+              console.log('matchedCounter',matchedCounter)
               return matchedCounter.status === "사용가능" ? 'green-circle' : 'red-circle';
             })();
             return (

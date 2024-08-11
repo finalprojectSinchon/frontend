@@ -15,9 +15,16 @@ import {
   import { useNavigate } from 'react-router-dom';
   import { useDispatch } from 'react-redux';
   import { createStorage } from '../../store/apps/storage/storageSlice';
-  
+import CustomModal  from "src/views/CustomModal.js";
 
-  const StorageRegist = () => {
+
+const StorageRegist = () => {
+
+    const [modal, setModal] = useState(false);
+    const toggleModal = () => setModal(!modal);
+    const [type,setType] = useState('');
+    const [content, setContent] = useState('');
+
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const [storageInfo, setStorageInfo] = useState({
@@ -39,9 +46,14 @@ import {
     };
 
     const handleRegistClick = () => {
+        setType('등록');
+        setContent('수하물 수취대 등록 승인을 요청했습니다.')
+        toggleModal();
+        setTimeout(() => {
         dispatch(createStorage(storageInfo));
         navigate('/storage');
-        alert("해당 창고 등록 승인을 요청했습니다.")
+            window.location.reload();
+        }, 3000);
     };
 
 
@@ -138,6 +150,8 @@ import {
                     </Card>
                 </Col>
             </Row>
+            <CustomModal  isOpen={modal} toggle={toggleModal} type = {type} content={content}/>
+
         </div>
     );
   };

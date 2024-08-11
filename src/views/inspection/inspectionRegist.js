@@ -17,9 +17,16 @@ import { useDispatch ,useSelector} from 'react-redux';
 import { registInspection } from '../../store/apps/inspection/inspectionSlice';
 import { useLocation } from 'react-router-dom';
 import { fetchLocation } from "../../store/apps/maintenance/maintenanceSlice";
+import CustomModal  from "src/views/CustomModal.js";
 
 
 const InspectionRegist = () => {
+
+  const [modal, setModal] = useState(false);
+  const toggleModal = () => setModal(!modal);
+  const [type,setType] = useState('');
+  const [content, setContent] = useState('');
+
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const location = useLocation();
@@ -77,9 +84,15 @@ const InspectionRegist = () => {
 
   const handleRegisterClick = () => {
 
+    setType('등록');
+    setContent('안전점검이 등록되었습니다.')
+    toggleModal();
+    setTimeout(() => {
+
     dispatch(registInspection({ inspectionInfo }));
     navigate('/inspection');
     window.location.reload();
+    }, 3000);
   };
 
 
@@ -233,6 +246,8 @@ const InspectionRegist = () => {
           </Card>
         </Col>
       </Row>
+      <CustomModal  isOpen={modal} toggle={toggleModal} type = {type} content={content}/>
+
     </div>
   );
 };

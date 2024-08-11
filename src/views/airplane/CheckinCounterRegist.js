@@ -17,8 +17,15 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchAirplanes } from '../../store/apps/airplane/airplaneSlice';
 import { fetchChkinCounters, registChkinCounter } from '../../store/apps/airplane/chkinCounterSlice';
+import CustomModal from "src/views/CustomModal.js";
 
 const CheckinCounterRegist = () => {
+
+  const [modal, setModal] = useState(false);
+  const toggleModal = () => setModal(!modal);
+  const [type,setType] = useState('');
+  const [content, setContent] = useState('');
+
   const location = useLocation();
   const state = location.state || {};
   const dispatch = useDispatch();
@@ -117,14 +124,21 @@ const CheckinCounterRegist = () => {
     if (chkincounters.some(counter =>
       counter.airplaneCode == checkinCounterInfo.airplaneCode 
     )) {
-      alert("이미 등록된 체크인 카운터 입니다.");
+      setType('등록');
+      setContent('이미 등록된 체크인 카운터 입니다')
+      toggleModal();
       return;
     }
 
+    setType('등록');
+    setContent('체크인 카운터 등록 승인을 요청했습니다.')
+    toggleModal();
+    setTimeout(() => {
+
     dispatch(registChkinCounter(checkinCounterInfo));
-    alert("체크인 카운터 등록 승인을 요청했습니다.");
     navigate('/airplane/checkin-counter');
     window.location.reload();
+    }, 3000);
   };
 
   const uniqueAirlines = [...new Set(airplanes.map(airplane => airplane.airline))];
@@ -283,6 +297,8 @@ const CheckinCounterRegist = () => {
           </Card>
         </Col>
       </Row>
+      <CustomModal  isOpen={modal} toggle={toggleModal} type = {type} content={content}/>
+
     </div>
   );
 };

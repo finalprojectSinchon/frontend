@@ -1,11 +1,19 @@
-import React, { useEffect } from 'react';
+import React, {useEffect, useState} from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Button } from 'reactstrap';
 import axios from 'axios';  // axios 추가
 import { fetchApprove } from '../../../store/apps/approve/ContactSlice';
 import api from '../../../store/apps/airplane/api';
+import CustomModal  from "src/views/CustomModal.js";
+
 
 const ContactDetails = () => {
+
+    const [modal, setModal] = useState(false);
+    const toggleModal = () => setModal(!modal);
+    const [type,setType] = useState('');
+    const [content, setContent] = useState('');
+
   const contactDetail = useSelector(state => state.contacts.selectedContact);
   const selectedFilter = useSelector(state => state.contacts.selectedFilter);
   const dispatch = useDispatch();
@@ -20,24 +28,34 @@ const ContactDetails = () => {
   console.log('contactDetail', contactDetail)
   const handleApproveClick = () => {
     if (!contactDetail.approvalCode) {
-      alert('승인 코드가 없습니다.');
+        setType('승인');
+        setContent('승인 코드가 없습니다.');
+        toggleModal();
       return;
     }
 
     // 승인 여부를 확인하는 로직 추가
     if (contactDetail.status === 'Y') {
-      alert('이미 승인된 시설물입니다.');
+        setType('승인');
+        setContent('이미 승인된 시설물입니다.');
+        toggleModal();
       return;
     }
     api.put(`/api/v1/approve/${contactDetail.approvalCode}`)
       .then(res => {
-        alert('승인 요청이 성공했습니다');
+          setType('승인');
+          setContent('승인 요청이 성공했습니다');
+          toggleModal();
+          setTimeout(() => {
         window.location.reload();
+          }, 3000);
       })
       
       .catch(error => {
         console.error('승인 요청 중 오류 발생', error);
-        alert('승인 요청 중 오류 발생');
+          setType('승인');
+          setContent('승인 요청 중 오류 발생');
+          toggleModal();
       });
   };
 
@@ -447,6 +465,8 @@ const ContactDetails = () => {
             승인
           </Button>
         </div>
+          <CustomModal  isOpen={modal} toggle={toggleModal} type = {type} content={content}/>
+
       </div>
     </>
   );

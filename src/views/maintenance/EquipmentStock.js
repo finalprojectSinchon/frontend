@@ -14,8 +14,15 @@ import {
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchEquipments } from 'src/store/apps/equipment/equipmentSlice.js';
 import { maintenanceEquipment} from "src/store/apps/maintenance/maintenanceSlice.js";
+import CustomModal from "src/views/CustomModal.js";
 
 const EquipmentStock = ({ isOpen, toggle ,maintenance, onEquipmentRegistered }) => {
+
+    const [modal, setModal] = useState(false);
+    const toggleModal = () => setModal(!modal);
+    const [type,setType] = useState('');
+    const [content, setContent] = useState('');
+
     const dispatch = useDispatch();
 
     useEffect(() => {
@@ -44,7 +51,10 @@ const EquipmentStock = ({ isOpen, toggle ,maintenance, onEquipmentRegistered }) 
         if (name === 'equipment') {
             const isDuplicate = values.some((field, idx) => field.equipment === value && idx !== index);
             if (isDuplicate) {
-                alert('같은 장비를 두 번 선택할 수 없습니다.');
+                setType('등록');
+                setContent('같은 장비를 두 번 선택할 수 없습니다.')
+                toggleModal();
+
                 return;
             }
         }
@@ -64,14 +74,21 @@ const EquipmentStock = ({ isOpen, toggle ,maintenance, onEquipmentRegistered }) 
         });
 
         if (isInvalid) {
-            alert("등록된 장비의 갯수를 초과할 수 없습니다.");
+            setType('등록');
+            setContent('등록된 장비의 갯수를 초과할 수 없습니다.')
+            toggleModal();
             return;
         }
 
+        setType('등록');
+        setContent('정비 장비를 등록 하였습니다.')
+        toggleModal();
+        setTimeout(() => {
         dispatch(maintenanceEquipment(payload));
         toggle();
         onEquipmentRegistered();
         window.location.reload();
+        }, 3000);
     };
 
     return (
@@ -132,6 +149,8 @@ const EquipmentStock = ({ isOpen, toggle ,maintenance, onEquipmentRegistered }) 
                     Cancel
                 </Button>
             </ModalFooter>
+            <CustomModal  isOpen={modal} toggle={toggleModal} type = {type} content={content}/>
+
         </Modal>
     );
 };

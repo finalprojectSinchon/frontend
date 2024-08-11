@@ -15,15 +15,17 @@ import {
 } from 'reactstrap';
 import BreadCrumbs from '../../layouts/breadcrumbs/BreadCrumbs';
 import { useNavigate, useParams } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
 import api from '../../store/apps/airplane/api';
 import ManagerDragAndDrop from "src/components/apps/managerDargAndDrop/ManagerDragAndDrop.js";
-import axios from "axios";
-import Cookies from 'js-cookie';
+import CustomModal  from "src/views/CustomModal.js";
 
 
 const AirportStoreDetail = () => {
 
+  const [modal, setModal] = useState(false);
+  const toggleModal = () => setModal(!modal);
+  const [type,setType] = useState('');
+  const [content, setContent] = useState('');
 
   const { storeId } = useParams();
 
@@ -76,7 +78,9 @@ const AirportStoreDetail = () => {
   const onClickSave = () => {
     api.put(`/api/v1/store/${storeId}`,storeInfo)
     .then(res => {
-        alert('해당 점포 수정 승인을 요청했습니다.')
+      setType('수정');
+      setContent('해당 점포가 수정 승인 요청되었습니다.')
+      toggleModal();
       setreadOnly(true);
     })
     .catch(error => {
@@ -87,8 +91,13 @@ const AirportStoreDetail = () => {
   const onClickDelete = () => {
     api.put(`/api/v1/store/${storeId}/delete`)
     .then(res => {
-        alert('삭제에 성공하였습니다.')
+      setType('삭제');
+      setContent('점포가 삭제되었습니다.');
+      toggleModal();
+      setTimeout(() => {
         navigate('/airport/store')
+        window.location.reload();
+      }, 3000);
     })
     .catch(error => {
         console.error('에러 : ', error);
@@ -226,6 +235,7 @@ const AirportStoreDetail = () => {
 
       </Row>
 
+      <CustomModal  isOpen={modal} toggle={toggleModal} type = {type} content={content}/>
 
     </div>
   );
