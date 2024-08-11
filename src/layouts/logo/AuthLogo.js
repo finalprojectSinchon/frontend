@@ -13,14 +13,15 @@ const AuthLogo = () => {
     <div className="p-4 d-flex justify-content-center gap-2">
       {isDarkMode !== false ? (
         <>
-          <LogoWhiteIcon />
-          <LogoWhiteText />
+          <img src='https://i.postimg.cc/9fFXv5R3/login-Logo.png' alt="logo"  width={100}/>
+          {/*<LogoWhiteText />*/}
         </>
       ) : (
-        <>
-          <LogoDarkIcon />
-          <LogoDarkText />
-        </>
+          <>
+            <img src='https://i.postimg.cc/9fFXv5R3/login-Logo.png' alt="logo"
+                 width={300} />
+            {/*<LogoDarkText/>*/}
+          </>
       )}
     </div>
   );
