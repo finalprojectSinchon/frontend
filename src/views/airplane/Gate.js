@@ -83,6 +83,27 @@ const Datatables = () => {
       [id]: !prevState[id]
     }));
   };
+
+  const styles = {
+    container: {
+      display: 'flex',
+      flexDirection: 'column',
+      justifyContent: 'center',
+      alignItems: 'center',
+      height: '100vh',  // Full viewport height to center content vertically
+    },
+    image: {
+      width: '300px', // Adjust the size of the image
+      height: 'auto',
+    },
+    text: {
+      marginTop: '10px',
+      fontSize: '30px',
+      color: '#555',
+    },
+  };
+
+
   const statusFormatter = (cell) => {
     let styleClass;
     if (cell === '사용중') {
@@ -98,7 +119,16 @@ const Datatables = () => {
   };
 
   if (!gateList || !gateList.data || !gateList.data.gateList) {
-    return <div>Loading...</div>;
+    return (
+        <div style={styles.container}>
+          <img
+              src='https://i.postimg.cc/nzMSGBVr/plane-6593-256.gif'
+              alt='loading,...'
+              style={styles.image}
+          />
+          <p style={styles.text}>로딩중...</p>
+        </div>
+    );
   }
 
   const flatGateList = gateList.data.gateList.map(gate => ({

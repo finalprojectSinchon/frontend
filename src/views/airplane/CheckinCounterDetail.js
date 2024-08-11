@@ -28,6 +28,7 @@ const CheckinCounterDetail = () => {
 
 
   const chkinCounterDetail = useSelector((state) => state.chkinCounters.chkinCounterDetail);
+  const userInfo = useSelector((state) => state.userInfo);
 
   const [checkinCounterInfo, setCheckinCounterInfo] = useState({});
   const [readOnly, setReadOnly] = useState(true);
@@ -241,9 +242,10 @@ const CheckinCounterDetail = () => {
                   <Button className="m-2" color="primary" onClick={handleEditClick}>
                     {readOnly ? '수정' : '저장'}
                   </Button>
-                  <Button className="m-2 " color="danger" onClick={onClickHandler} >
+                  {userInfo.userRole === "ROLE_ADMIN" ?       <Button className="m-2 " color="danger" onClick={onClickHandler} >
                     삭제
-                  </Button>
+                  </Button> : null }
+
                 </Col>
               </Form>
             </CardBody>
