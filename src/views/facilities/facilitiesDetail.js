@@ -17,8 +17,15 @@ import { useNavigate, useParams } from 'react-router-dom';
 import api from '../../store/apps/airplane/api';
 import ManagerDragAndDrop from "src/components/apps/managerDargAndDrop/ManagerDragAndDrop.js";
 import Location from "src/components/location/Location.js";
+import CustomModal  from "src/views/CustomModal.js";
+
 
 const FacilitiesDetail = () => {
+
+    const [modal, setModal] = useState(false);
+    const toggleModal = () => setModal(!modal);
+    const [type,setType] = useState('');
+    const [content, setContent] = useState('');
 
     const { facilitiesCode } = useParams();
     const navigate = useNavigate();
@@ -62,8 +69,12 @@ const FacilitiesDetail = () => {
     const onClickDelete = () => {
         api.put(`/api/v1/facilities/${facilitiesCode}/delete`)
             .then(res => {
-                alert('삭제에 성공하였습니다.')
+                setType('삭제');
+                setContent('해당 편의시설이 삭제되었습니다.');
+                toggleModal();
+                setTimeout(() => {
                 navigate('/facilities')
+                }, 3000);
             })
             .catch(error => {
                 console.error('에러 : ', error);
@@ -80,8 +91,10 @@ const FacilitiesDetail = () => {
     const onClickSave = () => {
         api.put(`/api/v1/facilities/${facilitiesCode}`, facilitiesInfo)
             .then(res => {
+                setType('수정');
+                setContent('해당 편의시설 수정 승인을 요청했습니다..')
+                toggleModal();
                 setIsModify(true);
-                alert("해당 편의시설 수정 승인을 요청했습니다."); 
                 return res.data;
             })
             .catch(error => {
@@ -212,6 +225,8 @@ const FacilitiesDetail = () => {
                     </Card>
                 </Col>
             </Row>
+            <CustomModal  isOpen={modal} toggle={toggleModal} type = {type} content={content}/>
+
         </div>
     );
 };

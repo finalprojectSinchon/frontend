@@ -17,9 +17,16 @@ import { useDispatch, useSelector } from 'react-redux';
 import { fetchGate, modifyGate, softdeleteGate } from '../../store/apps/airplane/gateSlice';
 import ManagerDragAndDrop from "src/components/apps/managerDargAndDrop/ManagerDragAndDrop.js";
 import api from "src/store/apps/airplane/api.js";
+import CustomModal  from "src/views/CustomModal.js";
 
 
 const GateDetail = () => {
+
+  const [modal, setModal] = useState(false);
+  const toggleModal = () => setModal(!modal);
+  const [type,setType] = useState('');
+  const [content, setContent] = useState('');
+
   const dispatch = useDispatch();
   const { gateCode } = useParams();
   const gateDetail = useSelector((state) => state.gates.gateDetail);
@@ -52,9 +59,15 @@ const GateDetail = () => {
 
   const navigate = useNavigate();
   const onClickHandler = () => {
+    setType('삭제');
+    setContent('수화물 수취대가 삭제되었습니다.');
+    toggleModal();
 
+    setTimeout(() => {
     dispatch(softdeleteGate({gateCode}));
     navigate('/airplane/gate');
+      window.location.reload();
+    }, 3000);
   }
 
   useEffect(() => {
@@ -68,13 +81,15 @@ const GateDetail = () => {
     }
   }, [gateDetail]);
 
-  const handleEditClick = () => {
+  const handleEditClick = async () => {
     if (readOnly) {
       setReadOnly(false);
     } else {
       setReadOnly(true);
-      dispatch(modifyGate({ gateCode, gateInfo }));
-      alert("해당 게이트 수정 승인을 요청했습니다. ")
+      await dispatch(modifyGate({ gateCode, gateInfo }));
+      setType('수정');
+      setContent('해당 탑승구가 수정 승인 요청되었습니다.')
+      toggleModal();
     }
   };
 
@@ -210,6 +225,8 @@ const GateDetail = () => {
             </Card>
           </Col>
         </Row>
+        <CustomModal  isOpen={modal} toggle={toggleModal} type = {type} content={content}/>
+
       </div>
   );
 };

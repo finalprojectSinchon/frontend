@@ -34,7 +34,7 @@ const MaintenanceChart = () => {
             count: value,
         }));
         setStatus(statusArray);
-    }, [maintences]);
+    }, [maintenceList]);
 
     const chartData = {
         doughnutData: {

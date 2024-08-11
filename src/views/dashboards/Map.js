@@ -14,7 +14,7 @@ const Map = () => {
           //ref={(e) => { this.map = e; }}
           containerStyle={{
             width: '100%',
-            height: '225px',
+            height: '215px',
           }}
           regionStyle={{
             initial: {

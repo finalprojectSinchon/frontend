@@ -18,10 +18,17 @@ import {useParams, useNavigate} from 'react-router-dom';
 import {useDispatch, useSelector} from 'react-redux';
 import {fetchEquipment, modifyEquipment, deleteEquipment} from '../../store/apps/equipment/equipmentSlice';
 import api from "src/store/apps/airplane/api.js";
+import CustomModal  from "src/views/CustomModal.js";
 
 
 
 const EquipmentDetail = () => {
+
+    const [modal, setModal] = useState(false);
+    const toggleModal = () => setModal(!modal);
+    const [type,setType] = useState('');
+    const [content, setContent] = useState('');
+
     const {equipmentCode} = useParams();
     const navigate = useNavigate();
     const dispatch = useDispatch();
@@ -62,17 +69,26 @@ const EquipmentDetail = () => {
             [name]: value
         });
     };
-    const handleSave = () => {
-        dispatch(modifyEquipment({equipmentCode, equipmentInfo: equipmentInfo}))
+    const handleSave = async () => {
+        await  dispatch(modifyEquipment({equipmentCode, equipmentInfo: equipmentInfo}))
+        setType('수정');
+        setContent('해당 장비가 수정되었습니다.')
+        toggleModal();
 
-        window.location.reload();
 
     };
 
     const handleDelete = () => {
+        setType('삭제');
+        setContent('해당 장비가 삭제되었습니다.');
+        toggleModal();
+
+        setTimeout(() => {
+
         dispatch(deleteEquipment({equipmentCode}))
         navigate('/equipment');
         window.location.reload();
+        }, 3000);
     };
 
     return (
@@ -280,6 +296,8 @@ const EquipmentDetail = () => {
                     </Card>
                </Col>
             </Row>
+            <CustomModal  isOpen={modal} toggle={toggleModal} type = {type} content={content}/>
+
         </div>
     );
 };

@@ -18,9 +18,15 @@ import { fetchBaggageClaim, modifyBaggageClaim, softdeleteBaggageClaim } from '.
 import ManagerDragAndDrop from "src/components/apps/managerDargAndDrop/ManagerDragAndDrop.js";
 import api from "src/store/apps/airplane/api.js";
 import Location from "src/components/location/Location.js";
+import CustomModal  from "src/views/CustomModal.js";
 
 
 const BaggageClaimsDetail = () => {
+
+  const [modal, setModal] = useState(false);
+  const toggleModal = () => setModal(!modal);
+  const [type,setType] = useState('');
+  const [content, setContent] = useState('');
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -59,10 +65,15 @@ const BaggageClaimsDetail = () => {
 
   
   const onClickHandler = () => {
-    
+    setType('삭제');
+    setContent('수화물 수취대가 삭제되었습니다.');
+    toggleModal();
+
+    setTimeout(() => {
     dispatch(softdeleteBaggageClaim({baggageClaimCode}));
     navigate('/airplane/baggage-claim');
     window.location.reload();
+    }, 3000);
   }
 
   useEffect(() => {
@@ -93,12 +104,13 @@ const BaggageClaimsDetail = () => {
       setReadOnly(false);
     } else {
       await dispatch(modifyBaggageClaim({ baggageClaimCode, baggageClaimInfo }));
-      alert("해당 수하물 수취대 수정 승인을 요청했습니다."); 
+      setType('수정');
+      setContent('해당 수화물 수취대가 수정 승인 요청되었습니다.')
+      toggleModal();
       setIsModify(true);
     }
   };
 
-  console.log('detail',baggageClaimInfo)
 
 
   return (
@@ -237,6 +249,8 @@ const BaggageClaimsDetail = () => {
           </Card>
         </Col>
       </Row>
+      <CustomModal  isOpen={modal} toggle={toggleModal} type = {type} content={content}/>
+
     </div>
   );
 };

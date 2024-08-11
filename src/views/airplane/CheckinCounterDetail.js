@@ -18,9 +18,15 @@ import { fetchChkinCounter, modifyChkinCounter, softdeleteChkinCounter } from '.
 import Location from "src/components/location/Location.js";
 import api from "src/store/apps/airplane/api.js";
 import ManagerDragAndDrop from "src/components/apps/managerDargAndDrop/ManagerDragAndDrop.js";
+import CustomModal  from "src/views/CustomModal.js";
 
 
 const CheckinCounterDetail = () => {
+
+  const [modal, setModal] = useState(false);
+  const toggleModal = () => setModal(!modal);
+  const [type,setType] = useState('');
+  const [content, setContent] = useState('');
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -69,10 +75,15 @@ const CheckinCounterDetail = () => {
 
   
   const onClickHandler = () => {
-    
+    setType('삭제');
+    setContent('해당 체크인카운터가 삭제되었습니다.');
+    toggleModal();
+
+    setTimeout(() => {
     dispatch(softdeleteChkinCounter({checkinCounterCode}));
     navigate('/airplane/checkin-counter');
     window.location.reload();
+    }, 3000);
   }
 
   useEffect(() => {
@@ -93,7 +104,9 @@ const CheckinCounterDetail = () => {
       setReadOnly(false);
     } else {
       await dispatch(modifyChkinCounter({ checkinCounterCode, checkinCounterInfo }));
-      alert("해당 체크인 카운터 수정 승인을 요청했습니다.")
+      setType('수정');
+      setContent('해당 체크인 카운터 수정 승인을 요청했습니다..')
+      toggleModal();
       setIsModify(true);
     }
   };
@@ -250,6 +263,8 @@ const CheckinCounterDetail = () => {
           </Card>
         </Col>
       </Row>
+      <CustomModal  isOpen={modal} toggle={toggleModal} type = {type} content={content}/>
+
     </div>
   );
 };

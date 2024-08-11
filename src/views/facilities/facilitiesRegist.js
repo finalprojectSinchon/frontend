@@ -15,8 +15,16 @@ import BreadCrumbs from '../../layouts/breadcrumbs/BreadCrumbs';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { createFacilities } from '../../store/apps/facilities/facilitiesSlice';
+import CustomModal  from "src/views/CustomModal.js";
+
 
 const FacilitiesRegist = () => {
+
+    const [modal, setModal] = useState(false);
+    const toggleModal = () => setModal(!modal);
+    const [type,setType] = useState('');
+    const [content, setContent] = useState('');
+
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const [facilitiesInfo, setFacilitiesInfo] = useState({
@@ -38,11 +46,16 @@ const FacilitiesRegist = () => {
     };
 
     const handleRegistClick = () => {
+        setType('등록');
+        setContent('편의시설 등록 승인을 요청했습니다.')
+        toggleModal();
+        setTimeout(() => {
         dispatch(createFacilities({facilitiesInfo}));
         navigate('/facilities');
-        alert("해당 편의시설 등록 승인을 요청했습니다.")
+        window.location.reload();
+        }, 3000);
     };
-    console.log("fdfdfdfdfdfd", facilitiesInfo)
+
 
     return (
         <div>
@@ -127,6 +140,8 @@ const FacilitiesRegist = () => {
                     </CardBody>
                 </Card>
             </Row>
+            <CustomModal  isOpen={modal} toggle={toggleModal} type = {type} content={content}/>
+
         </div>
     );
 };

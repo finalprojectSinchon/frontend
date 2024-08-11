@@ -15,10 +15,17 @@ import {
 import BreadCrumbs from '../../layouts/breadcrumbs/BreadCrumbs';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchAirplanes } from '../../store/apps/airplane/airplaneSlice';
+import {fetchAirplanes, softdeleteAirplane} from '../../store/apps/airplane/airplaneSlice';
 import { fetchBaggageClaims, registBaggageClaim } from '../../store/apps/airplane/baggageClaimSlice';
+import CustomModal  from "src/views/CustomModal.js";
 
 const BaggageClaimsRegist = () => {
+
+  const [modal, setModal] = useState(false);
+  const toggleModal = () => setModal(!modal);
+  const [type,setType] = useState('');
+  const [content, setContent] = useState('');
+
   const location = useLocation();
   const state = location.state || {};
   const dispatch = useDispatch();
@@ -79,7 +86,6 @@ const BaggageClaimsRegist = () => {
         .filter(airplane => airplane.airline === selectedAirline && airplane.scheduleDateTime === selectedSchedule)
         .map(airplane => airplane.airport);
 
-      console.log('filteredAirports', filteredAirports);
       setAirports(filteredAirports);
     }
   }, [selectedAirline, selectedSchedule, airplanes]);
@@ -102,14 +108,21 @@ const BaggageClaimsRegist = () => {
     if (baggageClaims.some(baggageClaim =>
       baggageClaim.airplaneCode === baggageClaimInfo.airplaneCode
     )) {
-      alert("이미 등록된 수화물 수취대 입니다");
+      setType('등록');
+      setContent('이미 등록된 수화물 수취대 입니다')
+      toggleModal();
       return;
     }
 
-    dispatch(registBaggageClaim(baggageClaimInfo));
-    alert("수하물 수취대 등록 승인을 요청했습니다."); 
-    navigate('/airplane/baggage-claim');
-    window.location.reload();
+    setType('등록');
+    setContent('수하물 수취대 등록 승인을 요청했습니다.')
+    toggleModal();
+    setTimeout(() => {
+      dispatch(registBaggageClaim(baggageClaimInfo));
+      navigate('/airplane/baggage-claim');
+      window.location.reload();
+    }, 3000);
+
   };
 
   const uniqueAirlines = [...new Set(airplanes.map(airplane => airplane.airline))];
@@ -272,6 +285,7 @@ const BaggageClaimsRegist = () => {
           </Card>
         </Col>
       </Row>
+      <CustomModal  isOpen={modal} toggle={toggleModal} type = {type} content={content}/>
     </div>
   );
 };

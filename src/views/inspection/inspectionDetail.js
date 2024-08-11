@@ -26,8 +26,16 @@ import ReactMarkdown from "react-markdown";
 import rehypeRaw from "rehype-raw";
 import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
+import CustomModal  from "src/views/CustomModal.js";
+
 
 const InspectionDetail = () => {
+
+  const [modal, setModal] = useState(false);
+  const toggleModal = () => setModal(!modal);
+  const [type,setType] = useState('');
+  const [content, setContent] = useState('');
+
   const { inspectionCode } = useParams();
   const [readOnly, setReadOnly] = useState(true);
   const [inspectionInfo, setInspectionInfo] = useState({});
@@ -59,9 +67,16 @@ const InspectionDetail = () => {
   };
 
   const handleDelete = () => {
+
+    setType('삭제');
+    setContent('해당 안전점검이 삭제되었습니다.');
+    toggleModal();
+
+    setTimeout(() => {
     dispatch(deleteInspection({ inspectionCode }))
     navigate('/inspection');
     window.location.reload();
+    }, 3000);
   };
 
   const toggleTab = tab => {
@@ -262,6 +277,8 @@ const InspectionDetail = () => {
             </Card>
           </Col>
         </Row>
+        <CustomModal  isOpen={modal} toggle={toggleModal} type = {type} content={content}/>
+
       </div>
   );
 };

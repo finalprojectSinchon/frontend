@@ -18,8 +18,16 @@ import { registEquipment, fetchEquipments } from '../../store/apps/equipment/equ
 import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
 import { storage } from 'src/firebase.js';
 import api from 'src/store/apps/airplane/api.js';
+import CustomModal  from "src/views/CustomModal.js";
+
 
 const EquipmentRegist = () => {
+
+  const [modal, setModal] = useState(false);
+  const toggleModal = () => setModal(!modal);
+  const [type,setType] = useState('');
+  const [content, setContent] = useState('');
+
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [equipmentInfo, setEquipmentInfo] = useState({
@@ -58,7 +66,9 @@ const EquipmentRegist = () => {
   const handleRegisterClick = async () => {
     const isDuplicate = existingEquipments.some(equipment => equipment.equipmentName === equipmentInfo.equipmentName);
     if (isDuplicate) {
-      alert('중복된 이름의 장비가 이미 존재합니다.');
+      setType('등록');
+      setContent('중복된 이름의 장비가 이미 존재합니다.')
+      toggleModal();
       return;
     }
 
@@ -77,9 +87,15 @@ const EquipmentRegist = () => {
     const updatedEquipmentInfo = { ...equipmentInfo, img: imgUrl };
     setEquipmentInfo(updatedEquipmentInfo);
 
-    await dispatch(registEquipment({ equipmentInfo: updatedEquipmentInfo }));
+    setType('등록');
+    setContent('수하물 수취대 등록 승인을 요청했습니다.')
+    toggleModal();
+    setTimeout(() => {
+
+    dispatch(registEquipment({ equipmentInfo: updatedEquipmentInfo }));
     navigate('/equipment');
     window.location.reload();
+    }, 3000);
   };
 
   const changeHandler = (e) => {
@@ -226,6 +242,8 @@ const EquipmentRegist = () => {
             </Card>
           </Col>
         </Row>
+        <CustomModal  isOpen={modal} toggle={toggleModal} type = {type} content={content}/>
+
       </div>
   );
 };

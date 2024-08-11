@@ -56,10 +56,11 @@ const convertPercentToCoords = (percentCoords, imgWidth, imgHeight) => {
 };
 
 const statusFormatter = (cell, row) => {
+  console.log('cell',cell)
   let styleClass;
-  if (cell === '사용중') {
+  if (cell === '사용가능') {
     styleClass = 'bg-success2';
-  } else if (cell === '사용가능') {
+  } else if (cell === '사용중') {
     styleClass = 'bg-danger2';
   } else {
     styleClass = 'bg-success2';
@@ -225,6 +226,7 @@ const Datatables = () => {
                 return 'red-circle';
               }
 
+              console.log('matchedCounter',matchedCounter)
               return matchedCounter.status === "사용가능" ? 'green-circle' : 'red-circle';
             })();
             return (

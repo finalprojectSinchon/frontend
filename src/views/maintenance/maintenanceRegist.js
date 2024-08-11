@@ -16,8 +16,16 @@ import { useNavigate } from 'react-router-dom';
 import { useDispatch ,useSelector} from 'react-redux';
 import { createMaintenance } from '../../store/apps/maintenance/maintenanceSlice';
 import { fetchLocation } from "../../store/apps/maintenance/maintenanceSlice";
+import CustomModal  from "src/views/CustomModal.js";
+
 
 const MaintenanceRegist = () => {
+
+  const [modal, setModal] = useState(false);
+  const toggleModal = () => setModal(!modal);
+  const [type,setType] = useState('');
+  const [content, setContent] = useState('');
+
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [maintenanceInfo, setMaintenanceInfo] = useState({
@@ -44,9 +52,6 @@ const MaintenanceRegist = () => {
   }, [structure]);
 
 
-  console.log('locationList',locationList)
-  console.log('structure',structure)
-
   const onChangeHandler = (e) => {
     setMaintenanceInfo({
       ...maintenanceInfo,
@@ -58,11 +63,16 @@ const MaintenanceRegist = () => {
 
 
   };
-  console.log('maintenanceInfo',maintenanceInfo)
+
   const handleRegisterClick = () => {
+    setType('등록');
+    setContent('정비가 등록되었습니다.')
+    toggleModal();
+    setTimeout(() => {
     dispatch(createMaintenance(maintenanceInfo));
     navigate('/maintenance');
     window.location.reload();
+    }, 3000);
   };
 
   return (
@@ -187,6 +197,8 @@ const MaintenanceRegist = () => {
           </Card>
         </Col>
       </Row>
+      <CustomModal  isOpen={modal} toggle={toggleModal} type = {type} content={content}/>
+
     </div>
   );
 };
