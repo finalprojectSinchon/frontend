@@ -11,7 +11,7 @@ const InfoCard = ({ title, onClick }) => (
     <Card className="mb-3">
         <CardBody>
             <CardTitle tag="h5">{title}</CardTitle>
-            <Button color="primary" onClick={onClick}>상세보기</Button>
+            <Button color="primary" onClick={onClick}>질문하기</Button>
         </CardBody>
     </Card>
 );
@@ -64,7 +64,7 @@ const AiQuestion = () => {
 
 
     const cardInfo = [
-        { title: '오늘 비행기 정보', value: 'airplane' },
+        { title: '공항 관련 정보', value: 'airport' },
         { title: '체크인 카운터 정보', value: 'checkInCounter' },
         { title: '탑승구 정보', value: 'gate' },
         { title: '수화물 수취대 정보', value: 'baggageClaim' },
@@ -83,7 +83,7 @@ const AiQuestion = () => {
                 messages: [
                     { role: "user", content: question }
                 ],
-                model: "gpt-3.5-turbo"
+                model: "gpt-4-32k"
             });
 
             if (response.data && response.data.data && response.data.data.choices && response.data.data.choices.length > 0) {
