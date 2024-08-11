@@ -254,4 +254,5 @@ const CheckinCounterDetail = () => {
   );
 };
 
+
 export default CheckinCounterDetail;
