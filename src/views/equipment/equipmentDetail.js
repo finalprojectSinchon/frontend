@@ -16,7 +16,12 @@ import {
 import BreadCrumbs from "src/layouts/breadcrumbs/BreadCrumbs.js";
 import {useParams, useNavigate} from 'react-router-dom';
 import {useDispatch, useSelector} from 'react-redux';
-import {fetchEquipment, modifyEquipment, deleteEquipment} from '../../store/apps/equipment/equipmentSlice';
+import {
+    fetchEquipment,
+    modifyEquipment,
+    deleteEquipment,
+    fetchEquipments
+} from '../../store/apps/equipment/equipmentSlice';
 import api from "src/store/apps/airplane/api.js";
 import CustomModal  from "src/views/CustomModal.js";
 
@@ -33,7 +38,8 @@ const EquipmentDetail = () => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const equipmentDetail = useSelector(state => state.equipments.equipmentDetail);
-    const userInfo = useSelector(state => state.users.userInfo);
+    const userInfo = useSelector(state => state.userInfo);
+    const [location, setLocation] = useState([])
 
     useEffect(() => {
         dispatch(fetchEquipment({equipmentCode}));
@@ -79,6 +85,15 @@ const EquipmentDetail = () => {
 
     };
 
+    useEffect(() => {
+        api.get('/api/v1/equipment/storage')
+            .then(res => res.data)
+            .then(data => {
+                setLocation(data.data);
+            });
+
+    }, [dispatch]);
+
     const handleDelete = () => {
         setType('삭제');
         setContent('해당 장비가 삭제되었습니다.');
@@ -90,6 +105,13 @@ const EquipmentDetail = () => {
         navigate('/equipment');
         window.location.reload();
         }, 3000);
+    };
+
+    const handleRegionChange = (e) => {
+        setEquipmentInfo({
+            ...equipmentInfo,
+            location: e.target.value,
+        });
     };
 
     return (
@@ -117,15 +139,27 @@ const EquipmentDetail = () => {
                                         <Col md="6">
                                             <FormGroup>
                                                 <Label>Location</Label>
-                                                <Input
+                                                {readOnly ?          <Input
                                                     type="text"
                                                     placeholder="장비 재고의 위치를 입력하세요"
                                                     name="location"
                                                     onChange={onChangeHandler}
                                                     readOnly={readOnly}
                                                     value={equipmentInfo.location || ''}
-                                                />
-
+                                                /> : <Input
+                                                    type="select"
+                                                    id="regionSelect"
+                                                    name="location"
+                                                    onChange={handleRegionChange}
+                                                    placeholder="지역을 입력해 주세요"
+                                                >
+                                                    <option value="">지역을 선택하세요</option>
+                                                    {location.map((regionItem) => (
+                                                        <option key={regionItem.code} value={regionItem.location}>
+                                                            {regionItem.location}
+                                                        </option>
+                                                    ))}
+                                                </Input>}
                                             </FormGroup>
                                         </Col>
                                         <Col md="6">

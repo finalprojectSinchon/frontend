@@ -45,7 +45,7 @@ const EquipmentRegist = () => {
   const [existingEquipments, setExistingEquipments] = useState([]);
 
   useEffect(() => {
-    api.get('/api/v1/location/storage')
+    api.get('/api/v1/equipment/storage')
         .then(res => res.data)
         .then(data => {
           setLocation(data.data);
@@ -56,6 +56,8 @@ const EquipmentRegist = () => {
     });
   }, [dispatch]);
 
+
+
   const onChangeHandler = (e) => {
     setEquipmentInfo({
       ...equipmentInfo,
@@ -64,7 +66,7 @@ const EquipmentRegist = () => {
   };
 
   const handleRegisterClick = async () => {
-    const isDuplicate = existingEquipments.some(equipment => equipment.equipmentName === equipmentInfo.equipmentName);
+    const isDuplicate = existingEquipments.some(equipment => equipment.equipmentName == equipmentInfo.equipmentName);
     if (isDuplicate) {
       setType('등록');
       setContent('중복된 이름의 장비가 이미 존재합니다.')
@@ -105,14 +107,9 @@ const EquipmentRegist = () => {
   };
 
   const handleRegionChange = (e) => {
-    const selectedZone = location.find(
-        (regionItem) => regionItem.zone === e.target.value
-    );
-
     setEquipmentInfo({
       ...equipmentInfo,
-      location: selectedZone.zone,
-      zoneCode: selectedZone.zoneCode,
+      location: e.target.value,
     });
   };
 
@@ -136,13 +133,14 @@ const EquipmentRegist = () => {
                         <Input
                             type="select"
                             id="regionSelect"
+                            name="location"
                             onChange={handleRegionChange}
                             placeholder="지역을 입력해 주세요"
                         >
                           <option value="">지역을 선택하세요</option>
                           {location.map((regionItem) => (
-                              <option key={regionItem.zoneCode} value={regionItem.zone}>
-                                {regionItem.zone}
+                              <option key={regionItem.code} value={regionItem.location}>
+                                {regionItem.location}
                               </option>
                           ))}
                         </Input>
