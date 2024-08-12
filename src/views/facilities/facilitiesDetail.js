@@ -98,6 +98,7 @@ const FacilitiesDetail = () => {
     const onChangeHandler = e => {
         setFacilitiesInfo({
             ...facilitiesInfo,
+            approvalRequester:userInfo,
             [e.target.name] : e.target.value
         })
     }
@@ -119,11 +120,6 @@ const FacilitiesDetail = () => {
     return (
         <div>
             <BreadCrumbs />
-            <div>
-            <Button color="dark" onClick={() => navigate('/inspection/inspectionRegist' , { state: { info: facilitiesInfo } })}>
-            안전 점검 등록
-            </Button>
-            </div>
             <Row>
                 <Col md="12">
                     <Card>

@@ -18,6 +18,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import api from '../../store/apps/airplane/api';
 import ManagerDragAndDrop from "src/components/apps/managerDargAndDrop/ManagerDragAndDrop.js";
 import CustomModal  from "src/views/CustomModal.js";
+import {useSelector} from "react-redux";
 
 
 const AirportStoreDetail = () => {
@@ -69,6 +70,7 @@ const AirportStoreDetail = () => {
   const onChangeHandler = e => {
     setstoreInfo({
         ...storeInfo,
+      approvalRequester:userInfo,
         [e.target.name] : e.target.value
     })
   }
@@ -107,12 +109,6 @@ const AirportStoreDetail = () => {
   return (
     <div>
       <BreadCrumbs />
-      <div>
-            <Button color="dark" onClick={() => navigate('/inspection/inspectionRegist', { state: { info: storeInfo } })}>
-            안전 점검 등록
-            </Button>
-                    
-            </div>
       <Row>
         <Col md="12">
           <Card>

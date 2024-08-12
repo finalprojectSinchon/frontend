@@ -44,6 +44,7 @@ const BaggageClaimsDetail = () => {
   const approves = useSelector((state) => state.contacts.approveData);
   const approve = approves?.data?.approvalList || [];
 
+
   useEffect(() => {
     api.post('/api/v1/managers', {
       airportType: airportType,
@@ -58,6 +59,7 @@ const BaggageClaimsDetail = () => {
   const onChangeHandler = e => {
     setBaggageClaimInfo({
       ...baggageClaimInfo,
+      approvalRequester : userInfo,
       [e.target.name]: e.target.value
     });
   };
@@ -87,7 +89,7 @@ const BaggageClaimsDetail = () => {
 
       if (baggageClaimCode) {
         const baggageClaimApproval = approve.find(a => {
-          return a.baggageClaim && a.baggageClaim.baggageClaimCode === baggageClaimCode && a.checked === 'N';
+          return a.baggageClaim && a.baggageClaim.baggageClaimCode == baggageClaimCode && a.checked == 'N';
         });
 
 
@@ -134,11 +136,7 @@ const BaggageClaimsDetail = () => {
   return (
       <div>
         <BreadCrumbs />
-        <div>
-          <Button color="dark" onClick={() => navigate('/inspection/inspectionRegist')}>
-            안전 점검 등록
-          </Button>
-        </div>
+
         <Row>
           <Col md="12">
             <Card>
@@ -160,9 +158,9 @@ const BaggageClaimsDetail = () => {
                       <FormGroup>
                         <Label>Status</Label>
                         <Input type="select" name="status" value={baggageClaimInfo.status} onChange={onChangeHandler} disabled={readOnly}>
-                          <option>고장</option>
-                          <option>정상</option>
-                          <option>점검중</option>
+                          <option value="고장">고장</option>
+                          <option value="정상">정상</option>
+                          <option value="점검중">점검중</option>
                         </Input>
                       </FormGroup>
                     </Col>
@@ -171,11 +169,11 @@ const BaggageClaimsDetail = () => {
                     <Col md="6">
                       <FormGroup>
                         <Label>type</Label>
-                        <Input type="select" name="gateType" value={baggageClaimInfo.type} onChange={onChangeHandler} disabled={readOnly}>
-                          <option>A</option>
-                          <option>B</option>
-                          <option>C</option>
-                          <option>D</option>
+                        <Input type="select" name="type" value={baggageClaimInfo.type} onChange={onChangeHandler} disabled={readOnly}>
+                          <option value="A">A</option>
+                          <option value="B">B</option>
+                          <option value="C" >C</option>
+                          <option value="D" >D</option>
                         </Input>
                       </FormGroup>
                     </Col>

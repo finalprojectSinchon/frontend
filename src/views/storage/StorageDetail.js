@@ -80,6 +80,7 @@ const StorageDetail = () => {
 const onChangeHandler = e => {
     setstorageInfo({
         ...storageInfo,
+        approvalRequester:userInfo,
         [e.target.name] : e.target.value
     })
 }
