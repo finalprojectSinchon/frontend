@@ -64,6 +64,12 @@ const BaggageClaimsDetail = () => {
     });
   };
 
+
+  const formatDateTime = (dateTime) => {
+    if (!dateTime || dateTime === '미정') return '미정';
+    const date = new Date(dateTime);
+    return date.toLocaleString();
+  };
   const onClickHandler = () => {
     setType('삭제');
     setContent('수화물 수취대가 삭제되었습니다.');
@@ -158,9 +164,11 @@ const BaggageClaimsDetail = () => {
                       <FormGroup>
                         <Label>Status</Label>
                         <Input type="select" name="status" value={baggageClaimInfo.status} onChange={onChangeHandler} disabled={readOnly}>
-                          <option value="고장">고장</option>
-                          <option value="정상">정상</option>
-                          <option value="점검중">점검중</option>
+
+                          <option>정상</option>
+                          <option>고장</option>
+                          <option>점검중</option>
+
                         </Input>
                       </FormGroup>
                     </Col>
@@ -180,7 +188,7 @@ const BaggageClaimsDetail = () => {
                     <Col md="6">
                       <FormGroup>
                         <Label>항공사</Label>
-                        <Input type="text" value={baggageClaimInfo.airplane?.airline} disabled />
+                        <Input type="text" value={baggageClaimInfo?.airline} disabled />
                       </FormGroup>
                     </Col>
                   </Row>
@@ -188,7 +196,7 @@ const BaggageClaimsDetail = () => {
                     <Col md="6">
                       <FormGroup>
                         <Label>편명</Label>
-                        <Input type="text" value={baggageClaimInfo.airplane?.flightId} disabled />
+                        <Input type="text" value={baggageClaimInfo?.flightid} disabled />
                       </FormGroup>
                     </Col>
                     <Col md="6">
@@ -202,25 +210,9 @@ const BaggageClaimsDetail = () => {
                     <Col md="6">
                       <FormGroup>
                         <Label>도착예정시간</Label>
-                        <Input type="datetime" value={baggageClaimInfo.airplane?.scheduleDateTime} name='scheduleDateTime' disabled={readOnly} />
+                        <Input type="datetime" value={formatDateTime(baggageClaimInfo?.scheduleDateTime)} name='scheduleDateTime' disabled={readOnly} />
                       </FormGroup>
                     </Col>
-                    <Col md="6">
-                      <FormGroup>
-                        <Label>지연시간</Label>
-                        <Input type="number" value={baggageClaimInfo.airplane?.delayTime} name='delayTime' disabled={readOnly} />
-                      </FormGroup>
-                    </Col>
-                  </Row>
-                  <Row>
-                    <Col md="6">
-                      <FormGroup>
-                        <Label>도착공항명</Label>
-                        <Input type="text" value={baggageClaimInfo.airplane?.airport} disabled />
-                      </FormGroup>
-                    </Col>
-                  </Row>
-                  <Row>
                     <Col md="6">
                       {readOnly ? (
                           <>
@@ -237,6 +229,19 @@ const BaggageClaimsDetail = () => {
                       ) : (
                           <Location isModify={isModify} setIsModify={setIsModify} setReadOnly={setReadOnly} code={baggageClaimCode} type={airportType} />
                       )}
+                    </Col>
+                  </Row>
+                  <Row>
+                    <Col md="6">
+                      <FormGroup>
+                        <Label>도착공항명</Label>
+                        <Input type="text" value={baggageClaimInfo?.airport} disabled />
+                      </FormGroup>
+                    </Col>
+                  </Row>
+                  <Row>
+
+                      <Col md="6">
                       <FormGroup>
                         <Label>비고</Label>
                         <Input type="textarea" rows="6" value={baggageClaimInfo.note} name="note" onChange={onChangeHandler} disabled={readOnly} />
