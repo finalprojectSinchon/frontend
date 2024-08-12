@@ -43,6 +43,8 @@ const EquipmentRegist = () => {
   const [img, setImg] = useState(null);
   const [location, setLocation] = useState([]);
   const [existingEquipments, setExistingEquipments] = useState([]);
+  const equipment = useSelector(state => state.equipments.equipmentList)
+  console.log('equipment',equipment)
 
   useEffect(() => {
     api.get('/api/v1/equipment/storage')
@@ -51,13 +53,17 @@ const EquipmentRegist = () => {
           setLocation(data.data);
         });
 
-    dispatch(fetchEquipments()).then(response => {
-      setExistingEquipments(response.payload.data);
-    });
   }, [dispatch]);
 
+  useEffect(() => {
+    dispatch(fetchEquipments());
+  }, [dispatch]);
 
+  useEffect(() => {
+    setExistingEquipments(equipment);
+  }, [equipment]);
 
+  console.log('11',existingEquipments)
   const onChangeHandler = (e) => {
     setEquipmentInfo({
       ...equipmentInfo,
@@ -66,12 +72,18 @@ const EquipmentRegist = () => {
   };
 
   const handleRegisterClick = async () => {
-    const isDuplicate = existingEquipments.some(equipment => equipment.equipmentName == equipmentInfo.equipmentName);
-    if (isDuplicate) {
-      setType('등록');
-      setContent('중복된 이름의 장비가 이미 존재합니다.')
-      toggleModal();
-      return;
+    if (existingEquipments ) {
+
+      const isDuplicate = existingEquipments.data.some(
+          equipment => equipment.equipmentName === equipmentInfo.equipmentName
+      );
+
+      if (isDuplicate) {
+        setType('등록');
+        setContent('중복된 이름의 장비가 이미 존재합니다.');
+        toggleModal();
+        return;
+      }
     }
 
     let imgUrl = '';
@@ -90,7 +102,7 @@ const EquipmentRegist = () => {
     setEquipmentInfo(updatedEquipmentInfo);
 
     setType('등록');
-    setContent('수하물 수취대 등록 승인을 요청했습니다.')
+    setContent('장비가 등록되었습니다.')
     toggleModal();
     setTimeout(() => {
 
