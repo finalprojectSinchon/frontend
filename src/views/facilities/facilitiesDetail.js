@@ -66,6 +66,7 @@ const FacilitiesDetail = () => {
         api.get(`/api/v1/facilities/${facilitiesCode}`)
             .then(res => res.data)
             .then(data => {
+                console.log('data',data)
                 setFacilitiesInfo(data.data);
             })
         setAirportType('facilities')
@@ -103,6 +104,7 @@ const FacilitiesDetail = () => {
         })
     }
 
+    console.log('121212',facilitiesInfo)
     const onClickSave = () => {
         api.put(`/api/v1/facilities/${facilitiesCode}`, facilitiesInfo)
             .then(res => {
@@ -202,7 +204,7 @@ const FacilitiesDetail = () => {
                                         <Col md="12">
                                             <FormGroup>
                                                 <Label>비고</Label>
-                                                <Input type="textarea" placeholder="특이사항을 입력하세요"  rows="6" name='' readOnly={readOnly}/>
+                                                <Input type="textarea" placeholder="특이사항을 입력하세요" value={facilitiesInfo?.note}  rows="6" name='note' readOnly={readOnly} onChange={onChangeHandler}/>
                                             </FormGroup>
                                         </Col>
                                     </Col>

@@ -44,7 +44,7 @@ const EquipmentRegist = () => {
   const [location, setLocation] = useState([]);
   const [existingEquipments, setExistingEquipments] = useState([]);
   const equipment = useSelector(state => state.equipments.equipmentList)
-  console.log('equipment',equipment)
+
 
   useEffect(() => {
     api.get('/api/v1/equipment/storage')
@@ -63,7 +63,7 @@ const EquipmentRegist = () => {
     setExistingEquipments(equipment);
   }, [equipment]);
 
-  console.log('11',existingEquipments)
+
   const onChangeHandler = (e) => {
     setEquipmentInfo({
       ...equipmentInfo,
