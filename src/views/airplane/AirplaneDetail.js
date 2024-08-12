@@ -15,15 +15,12 @@ import BreadCrumbs from '../../layouts/breadcrumbs/BreadCrumbs';
 import { useParams,useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchAirplane, modifyAirplane, softdeleteAirplane } from '../../store/apps/airplane/airplaneSlice';
-import CustomModal  from "src/views/CustomModal.js";
+
 
 
 const AirplaneDetail = () => {
 
-  const [modal, setModal] = useState(false);
-  const toggleModal = () => setModal(!modal);
-  const [type,setType] = useState('');
-  const [content,setContent] = useState('');
+ 
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -35,24 +32,8 @@ const AirplaneDetail = () => {
   const [airplaneInfo, setAirplaneInfo] = useState({});
   const [readOnly, setReadOnly] = useState(true);
 
-  const onChangeHandler = e => {
-    setAirplaneInfo({
-      ...airplaneInfo,
-      [e.target.name]: e.target.value
-    });
-  };
 
-  const onClickHandler = () => {
-    setType('삭제');
-    setContent('비행기가 삭제되었습니다.');
-    toggleModal();
 
-    setTimeout(() => {
-      dispatch(softdeleteAirplane({ airplaneCode }));
-      navigate('/airplane');
-      window.location.reload();
-    }, 3000);
-  }
 
   useEffect(() => {
     dispatch(fetchAirplane({ airplaneCode }));
@@ -63,20 +44,6 @@ const AirplaneDetail = () => {
         setAirplaneInfo(airplaneDetail.data.airplane);
     }
   }, [airplaneDetail]);
-
-
-
-  const handleEditClick = () => {
-    if (readOnly) {
-      setReadOnly(false);
-    } else {
-      setReadOnly(true);
-      dispatch(modifyAirplane({ airplaneCode, airplaneInfo }));
-      setType('수정');
-      setContent('비행기 수정 승인 요청되었습니다.')
-      toggleModal();
-    }
-  };
 
 
 
@@ -170,7 +137,7 @@ const AirplaneDetail = () => {
           </Card>
         </Col>
       </Row>
-      <CustomModal  isOpen={modal} toggle={toggleModal} type = {type} content={content}/>
+   
     </div>
   );
 };
