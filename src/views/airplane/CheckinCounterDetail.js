@@ -58,7 +58,11 @@ const CheckinCounterDetail = () => {
           setManager(data.data)
         })
   }, [checkinCounterInfo]);
-
+  const formatDateTime = (dateTime) => {
+    if (!dateTime || dateTime === '미정') return '미정';
+    const date = new Date(dateTime);
+    return date.toLocaleString();
+  };
 
   const onChangeHandler = e => {
     setCheckinCounterInfo({
@@ -167,13 +171,13 @@ const CheckinCounterDetail = () => {
                 <Row>
                   <Col md="6">
                     <FormGroup>
-                      <Label>Counter Code</Label>
+                      <Label>카운터 코드</Label>
                       <Input type="text" value={checkinCounterInfo.checkinCounterCode } name='checkinCounterCode' onChange={onChangeHandler} disabled/>
                     </FormGroup>
                   </Col>
                   <Col md="6">
                     <FormGroup>
-                      <Label>Status</Label>
+                      <Label>상태</Label>
                       <Input type="select" name="status" value={checkinCounterInfo.status } onChange={onChangeHandler} disabled={readOnly}>
                         <option>고장</option>
                         <option>정상</option>
@@ -185,7 +189,7 @@ const CheckinCounterDetail = () => {
                 <Row>
                   <Col md="6">
                     <FormGroup>
-                      <Label>type</Label>
+                      <Label>타입</Label>
                       <Input type="select" name="type" value={checkinCounterInfo.type } onChange={onChangeHandler} disabled={readOnly}>
                         <option>A</option>
                         <option>B</option>
@@ -197,7 +201,7 @@ const CheckinCounterDetail = () => {
                   <Col md="6">
                     <FormGroup>
                       <Label>항공사</Label>
-                      <Input type="text" value={checkinCounterInfo.airplane?.airline } disabled />
+                      <Input type="text" value={checkinCounterInfo?.airline } disabled />
                     </FormGroup>
                   </Col>
                 </Row>
@@ -205,7 +209,7 @@ const CheckinCounterDetail = () => {
                   <Col md="6">
                     <FormGroup>
                       <Label>편명</Label>
-                      <Input type="text" value={checkinCounterInfo.airplane?.flightId} disabled/>
+                      <Input type="text" value={checkinCounterInfo?.flightid} disabled/>
                     </FormGroup>
                   </Col>
                   <Col md="6">
@@ -219,13 +223,13 @@ const CheckinCounterDetail = () => {
                   <Col md="6">
                     <FormGroup>
                       <Label>도착예정시간</Label>
-                      <Input type="datetime" value={checkinCounterInfo.airplane?.scheduleDateTime } name='scheduleDateTime' disabled={readOnly}/>
+                      <Input type="datetime" value={formatDateTime(checkinCounterInfo?.scheduleDateTime) } name='scheduleDateTime' disabled={readOnly}/>
                     </FormGroup>
                   </Col>
                   <Col md="6">
                     <FormGroup>
-                      <Label>지연시간</Label>
-                      <Input type="number"  value={checkinCounterInfo.airplane?.delayTime }  name='delayTime' disabled={readOnly} />
+                      <Label>운항상태</Label>
+                      <Input type="text" value={checkinCounterInfo?.remark } disabled />
                     </FormGroup>
                   </Col>
                 </Row>
@@ -233,17 +237,9 @@ const CheckinCounterDetail = () => {
                   <Col md="6">
                     <FormGroup>
                       <Label>도착공항명</Label>
-                      <Input type="text" value={checkinCounterInfo.airplane?.airport} disabled/>
+                      <Input type="text" value={checkinCounterInfo?.airport} disabled/>
                     </FormGroup>
                   </Col>
-                  <Col md="6">
-                    <FormGroup>
-                      <Label>운항상태</Label>
-                      <Input type="text" value={checkinCounterInfo.airplane?.remark } disabled />
-                    </FormGroup>
-                  </Col>
-                </Row>
-                <Row>
                   <Col md="6">
                     {readOnly ? <> <Label>위치</Label>
                           <Input type="text" placeholder="시설물 이름을 입력하세요" name='facilitiesName' onChange={onChangeHandler} readOnly={readOnly}
@@ -251,6 +247,9 @@ const CheckinCounterDetail = () => {
                         <Location isModify={isModify} setIsModify={setIsModify} setReadOnly={setReadOnly} code={checkinCounterCode} type={airportType}/>
                     }
                   </Col>
+                </Row>
+                <Row>
+
                   <Col md="6">
 
                   </Col>
@@ -266,10 +265,10 @@ const CheckinCounterDetail = () => {
                   <Col md="6">
                     <Row className="mb-3 mt-3">
                       <Col md="6" className="d-flex justify-content-start">
-                        <h2 className="ms-5 ps-4">전체 직원</h2>
+                        <h4 className="ms-5 ps-4">전체 직원</h4>
                       </Col>
                       <Col md="6" className="d-flex justify-content-end">
-                        <h2 className="me-5 pe-5">담당 직원</h2>
+                        <h4 className="me-5 pe-5">담당 직원</h4>
                       </Col>
                     </Row>
                     <div className='mb-4'>
