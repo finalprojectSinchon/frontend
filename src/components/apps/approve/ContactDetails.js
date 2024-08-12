@@ -448,32 +448,32 @@ const ContactDetails = () => {
           <>
             {contactDetail.checkinCounter && (
               <div>
-                <h5> {contactDetail.checkinCounter.manager || 'N/A'}</h5>
+                <h5> {contactDetail.checkinCounter.approvalRequester.userName || 'N/A'}</h5>
               </div>
             )}
             {contactDetail.baggageClaim && (
               <div>
-                <h5>{contactDetail.baggageClaim.manager || 'N/A'}</h5>
+                <h5>{contactDetail.baggageClaim.approvalRequester.userName  || 'N/A'}</h5>
               </div>
             )}
             {contactDetail.facilities && (
               <div>
-                <h5>{contactDetail.facilities.manager || 'N/A'}</h5>
+                <h5>{contactDetail.facilities.approvalRequester.userName  || 'N/A'}</h5>
               </div>
             )}
             {contactDetail.gate && (
               <div>
-                <h5>{contactDetail.gate.manager || 'N/A'}</h5>
+                <h5>{contactDetail.gate.approvalRequester.userName  || 'N/A'}</h5>
               </div>
             )}
             {contactDetail.storage && (
               <div>
-                <h5> {contactDetail.storage.manager || 'N/A'}</h5>
+                <h5> {contactDetail.storage.approvalRequester.userName  || 'N/A'}</h5>
               </div>
             )}
             {contactDetail.store && (
               <div>
-                <h5>{contactDetail.store.manager || 'N/A'}</h5>
+                <h5>{contactDetail.store.approvalRequester.userName  || 'N/A'}</h5>
               </div>
             )}
           </>
@@ -482,13 +482,20 @@ const ContactDetails = () => {
         return 'Select a valid filter';
     }
   };
-
+console.log('contactDetail',contactDetail)
   return (
     <>
       <div>
         <div className="d-flex align-items-center p-3 border-bottom">
           <div className="me-3">
-            <img src={contactDetail.image} alt="user" className="rounded-circle" width="46" />
+            <img   src={
+                contactDetail.checkinCounter?.approvalRequester?.userImg ||
+                contactDetail.storage?.approvalRequester?.userImg ||
+                contactDetail.facilities?.approvalRequester?.userImg ||
+                contactDetail.baggageClaim?.approvalRequester?.userImg ||
+                contactDetail.gate?.approvalRequester?.userImg ||
+                contactDetail.store?.approvalRequester?.userImg
+            } alt="user" className="rounded-circle" width="46" />
           </div>
           <div>
             <h5 className="mb-0">

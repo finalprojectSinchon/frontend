@@ -80,7 +80,7 @@ const FacilitiesRegist = () => {
             <BreadCrumbs />
             <Row>
                 <Card>
-                    <CardBody className="bg-light">
+                    <CardBody >
                         <CardTitle tag="h4" className="mb-0">
                             편의시설 등록
                         </CardTitle>
@@ -118,19 +118,10 @@ const FacilitiesRegist = () => {
                                 </Col>
                                 <Col md="6">
                                     <FormGroup>
-                                        <Label>위치</Label>
-                                        {/*<Input type="text" name="facilitiesLocation" value={facilitiesInfo.facilitiesLocation} onChange={onChangeHandler} />*/}
-                                        <Location setLocationState={setLocationState} />
-                                    </FormGroup>
-                                </Col>
-                            </Row>
-                            <Row>
-                                <Col md="6">
-                                    <FormGroup>
                                         <Label>분류</Label>
                                         <Input type="select" name='facilitiesType'
-                                                onChange={onChangeHandler}
-                                                value={facilitiesInfo ? facilitiesInfo.facilitiesType : 'asd2'}>
+                                               onChange={onChangeHandler}
+                                               value={facilitiesInfo ? facilitiesInfo.facilitiesType : 'asd2'}>
                                             <option>취급품목을 입력하세요</option>
                                             <option name='엘리베이터'>엘리베이터</option>
                                             <option name='에스컬레이터'>에스컬레이터</option>
@@ -142,13 +133,24 @@ const FacilitiesRegist = () => {
                                             <option name='여자화장실'>여자화장실</option>
                                         </Input>
                                     </FormGroup>
-                                        <Col md="12">
-                                            <FormGroup>
-                                                <Label>비고</Label>
-                                                <Input type="textarea" rows="6" name='' />
-                                            </FormGroup>
-                                        </Col>
                                 </Col>
+                                <Col md="6">
+                                   
+                                        {/*<Input type="text" name="facilitiesLocation" value={facilitiesInfo.facilitiesLocation} onChange={onChangeHandler} />*/}
+                                        <Location setLocationState={setLocationState} />
+
+                                </Col>
+                                <Col md="6">
+                                    <FormGroup>
+                                        <Label>비고</Label>
+                                        <Input type="textarea" rows="6" name='' />
+                                    </FormGroup>
+                                </Col>
+
+                            </Row>
+                            <Row>
+
+
                             </Row>
                             <Col className="d-flex justify-content-center">
                                 <Button className="m-2" color="primary" onClick={handleRegistClick}>

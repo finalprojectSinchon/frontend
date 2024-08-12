@@ -66,7 +66,6 @@ const FacilitiesDetail = () => {
         api.get(`/api/v1/facilities/${facilitiesCode}`)
             .then(res => res.data)
             .then(data => {
-                console.log('data',data)
                 setFacilitiesInfo(data.data);
             })
         setAirportType('facilities')
@@ -104,7 +103,6 @@ const FacilitiesDetail = () => {
         })
     }
 
-    console.log('121212',facilitiesInfo)
     const onClickSave = () => {
         api.put(`/api/v1/facilities/${facilitiesCode}`, facilitiesInfo)
             .then(res => {
@@ -156,8 +154,8 @@ const FacilitiesDetail = () => {
                                     <Col md="6">
                                         <FormGroup>
                                             <Label>type</Label>
-                                            <Input type="select" name='facilitiesClass' 
-                                            value={facilitiesInfo ? facilitiesInfo.facilitiesClass : ''} 
+                                            <Input type="select" name='facilitiesClass'
+                                            value={facilitiesInfo ? facilitiesInfo.facilitiesClass : ''}
                                             placeholder="12n" onChange={onChangeHandler} disabled={readOnly}>
                                                 <option name='편의시설'>편의시설</option>
                                                 <option name='이동수단'>이동수단</option>
@@ -204,7 +202,7 @@ const FacilitiesDetail = () => {
                                         <Col md="12">
                                             <FormGroup>
                                                 <Label>비고</Label>
-                                                <Input type="textarea" placeholder="특이사항을 입력하세요" value={facilitiesInfo?.note}  rows="6" name='note' readOnly={readOnly} onChange={onChangeHandler}/>
+                                                <Input type="textarea" placeholder="특이사항을 입력하세요"  rows="6" name='' readOnly={readOnly}/>
                                             </FormGroup>
                                         </Col>
                                     </Col>
