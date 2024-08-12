@@ -108,16 +108,13 @@ const Datatables = () => {
             headerStyle={{ width: '100%' }}
           >
             <TableHeaderColumn width="12.5%" dataField="airplaneCode" dataAlign="center" isKey>
-              Airplane Code
+              비행기 코드
             </TableHeaderColumn>
-            <TableHeaderColumn width="12.5%" dataField="airline" dataAlign="center">
-              Airline
+            <TableHeaderColumn width="15%" dataField="airline" dataAlign="center">
+              항공사
             </TableHeaderColumn>
             <TableHeaderColumn width="12.5%" dataField="airport" dataAlign="center">
-              Airport
-            </TableHeaderColumn>
-            <TableHeaderColumn width="12.5%" dataField="carousel" dataAlign="center">
-              수화물 수취대
+              도착지
             </TableHeaderColumn>
             <TableHeaderColumn width="12.5%" dataField="chkinrange" dataAlign="center">
               체크인 카운터
@@ -125,8 +122,8 @@ const Datatables = () => {
             <TableHeaderColumn width="12.5%" dataField="gatenumber" dataAlign="center">
               탑승구
             </TableHeaderColumn>
-            <TableHeaderColumn width="12.5%" dataField="scheduleDateTime" dataAlign="center">
-              Schedule DateTime
+            <TableHeaderColumn width="25%" dataField="scheduleDateTime" dataAlign="center">
+              도착 시간
             </TableHeaderColumn>
           </BootstrapTable>
         </CardBody>
