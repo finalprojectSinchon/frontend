@@ -209,7 +209,7 @@ const Header = () => {
               <ProfileDD />
               <div className="p-2 px-3">
                 <Button color="danger" size="sm" onClick={logoutHandler}>
-                  Logout
+                  로그아웃
                 </Button>
               </div>
             </DropdownMenu>

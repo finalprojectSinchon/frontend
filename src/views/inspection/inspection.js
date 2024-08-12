@@ -113,8 +113,6 @@ const Datatables = () => {
                         search
                         data={convertedInspectionList}
                         keyField='inspectionCode'
-                        insertRow
-                        deleteRow
                         selectRow={selectRowProp}
                         pagination
                         options={options}

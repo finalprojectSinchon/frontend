@@ -84,8 +84,6 @@ const Storage = () => {
                                 hover
                                 search
                                 data={storageData}
-                                insertRow
-                                deleteRow
                                 selectRow={selectRowProp}
                                 pagination
                                 options={options}
