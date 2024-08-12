@@ -28,6 +28,7 @@ const CreateQRDetails = () => {
         link.click();
     };
 
+    console.log(content)
     return (
         <Container className="my-5">
             <Row className="justify-content-center">

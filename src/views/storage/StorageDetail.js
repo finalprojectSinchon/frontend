@@ -20,6 +20,7 @@ import api from '../../store/apps/airplane/api';
 import ManagerDragAndDrop from "src/components/apps/managerDargAndDrop/ManagerDragAndDrop.js";
 import Location from "src/components/location/Location.js";
 import CustomModal  from "src/views/CustomModal.js";
+import {useSelector} from "react-redux";
 
 
 
@@ -41,6 +42,7 @@ const StorageDetail = () => {
     const [airportType, setAirportType] = useState()
     const [location, setLocation] = useState()
     const [isModify, setIsModify] = useState(false);
+    const [locationState, setLocationState] = useState("")
 
     const userInfo = useSelector((state) => state.userInfo);
 
@@ -68,7 +70,7 @@ const StorageDetail = () => {
 
 
     useEffect(() => {
-            api().get(`/api/v1/storage/${storageCode}`)
+            api.get(`/api/v1/storage/${storageCode}`)
             .then(res => res.data)
             .then(data => {
                 setstorageInfo(data.data)
@@ -85,9 +87,17 @@ const onChangeHandler = e => {
     })
 }
 
+console.log(storageInfo)
+
+    useEffect(() => {
+        setstorageInfo({
+            ...storageInfo,
+            location : locationState
+        })
+    }, [locationState]);
 // 수정
 const onClickSave = () => {
-    api().put(`/api/v1/storage/${storageCode}`, storageInfo)
+    api.put(`/api/v1/storage/${storageCode}`, storageInfo)
     .then(res => {
         setIsModify(true);
         setType('수정');
@@ -172,7 +182,7 @@ return (
                                     {readOnly ? <> <Label>위치</Label>
                                             <Input type="text" placeholder="창고 위치를 입력하세요" name='facilitiesName' onChange={onChangeHandler} readOnly={readOnly}
                                                    value={location ? location.region + " " + location.floor + " " + location.location : '위치 데이터가 없습니다.'  } /> </> :
-                                        <Location isModify={isModify} setIsModify={setIsModify} setReadOnly={setreadOnly} code={storageCode} type={airportType}/>
+                                        <Location setLocationState={setLocationState}/>
                                     }
                                 </Col>
                             </Row>
