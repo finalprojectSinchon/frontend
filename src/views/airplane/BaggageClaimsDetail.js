@@ -164,11 +164,9 @@ const BaggageClaimsDetail = () => {
                       <FormGroup>
                         <Label>Status</Label>
                         <Input type="select" name="status" value={baggageClaimInfo.status} onChange={onChangeHandler} disabled={readOnly}>
-
-                          <option>정상</option>
-                          <option>고장</option>
-                          <option>점검중</option>
-
+                          <option value="고장">고장</option>
+                          <option value="정상">정상</option>
+                          <option value="점검중">점검중</option>
                         </Input>
                       </FormGroup>
                     </Col>
