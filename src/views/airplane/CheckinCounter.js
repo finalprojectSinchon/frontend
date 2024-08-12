@@ -303,8 +303,6 @@ const Datatables = () => {
               airline: data.airline || '미정',
               scheduleDateTime: formatDateTime(data.scheduleDateTime)
             }))}
-            insertRow
-            deleteRow
             selectRow={selectRowProp}
             pagination
             options={options}
