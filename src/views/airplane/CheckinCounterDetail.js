@@ -179,8 +179,8 @@ const CheckinCounterDetail = () => {
                     <FormGroup>
                       <Label>상태</Label>
                       <Input type="select" name="status" value={checkinCounterInfo.status } onChange={onChangeHandler} disabled={readOnly}>
-                        <option>고장</option>
                         <option>정상</option>
+                        <option>고장</option>
                         <option>점검중</option>
                       </Input>
                     </FormGroup>
