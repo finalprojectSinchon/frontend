@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import {
     Card,
     CardBody,
@@ -16,6 +16,7 @@ import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { createFacilities } from '../../store/apps/facilities/facilitiesSlice';
 import CustomModal  from "src/views/CustomModal.js";
+import Location from "src/components/location/Location.js";
 
 
 const FacilitiesRegist = () => {
@@ -24,6 +25,7 @@ const FacilitiesRegist = () => {
     const toggleModal = () => setModal(!modal);
     const [type,setType] = useState('');
     const [content, setContent] = useState('');
+    const [locationState, setLocationState] = useState('')
 
     const dispatch = useDispatch();
     const navigate = useNavigate();
@@ -34,6 +36,15 @@ const FacilitiesRegist = () => {
         facilitiesLocation: '',
         facilitiesType: '',
     });
+
+    console.log(facilitiesInfo);
+
+    useEffect(() => {
+        setFacilitiesInfo({
+            ...facilitiesInfo,
+            facilitiesLocation : locationState
+        })
+    }, [locationState]);
 
     // readOnly 변수를 정의하고 초기화합니다.
     const readOnly = false;
@@ -49,6 +60,7 @@ const FacilitiesRegist = () => {
         setType('등록');
         setContent('편의시설 등록 승인을 요청했습니다.')
         toggleModal();
+        setIsModify(true);
         setTimeout(() => {
         dispatch(createFacilities({facilitiesInfo}));
         navigate('/facilities');
@@ -101,7 +113,8 @@ const FacilitiesRegist = () => {
                                 <Col md="6">
                                     <FormGroup>
                                         <Label>위치</Label>
-                                        <Input type="text" name="facilitiesLocation" value={facilitiesInfo.facilitiesLocation} onChange={onChangeHandler} />
+                                        {/*<Input type="text" name="facilitiesLocation" value={facilitiesInfo.facilitiesLocation} onChange={onChangeHandler} />*/}
+                                        <Location setLocationState={setLocationState} />
                                     </FormGroup>
                                 </Col>
                             </Row>

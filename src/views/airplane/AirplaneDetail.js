@@ -171,17 +171,14 @@ const AirplaneDetail = () => {
                   </Col>
                 </Row>
                 <Col className='d-flex justify-content-center'>
-                  <Button className="m-2" color="primary"  onClick={() => { handleEditClick();  }}>
+                  <Button className="m-2" color="primary" onClick={handleEditClick}>
                     {readOnly ? '수정' : '저장'}
                   </Button>
-
-                  <Button className="m-2 " color="danger"  onClick={() => { onClickHandler(); }} >
-
-                  {userInfo.userRole === "ROLE_ADMIN" ?<Button className="m-2 " color="danger" onClick={onClickHandler} >
-
-                    삭제
-                  </Button> : null }
-
+                  {userInfo.userRole === "ROLE_ADMIN" && (
+                      <Button className="m-2" color="danger" onClick={onClickHandler}>
+                        삭제
+                      </Button>
+                  )}
                 </Col>
               </Form>
             </CardBody>

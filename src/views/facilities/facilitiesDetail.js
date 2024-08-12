@@ -10,7 +10,7 @@ import {
     Label,
     Input,
     FormText,
-    Button,
+    Button, InputGroup,
 } from 'reactstrap';
 import BreadCrumbs from '../../layouts/breadcrumbs/BreadCrumbs';
 import { useNavigate, useParams } from 'react-router-dom';
@@ -41,6 +41,15 @@ const FacilitiesDetail = () => {
     const [isModify, setIsModify] = useState(false);
     const [location, setLocation] = useState()
     const userInfo = useSelector((state) => state.userInfo);
+    const [locationState, setLocationState] = useState("")
+    const [currentLocation, setCurrentLocation] = useState(false)
+
+    useEffect(() => {
+        setFacilitiesInfo({
+            ...facilitiesInfo,
+            location : locationState,
+        })
+    }, [locationState]);
 
     useEffect(() => {
         api.post('/api/v1/managers',{
@@ -159,11 +168,22 @@ const FacilitiesDetail = () => {
                                         </FormGroup>
                                     </Col>
                                     <Col md="6">
-                                        {readOnly ? <> <Label>위치</Label>
-                                            <Input type="text" placeholder="시설물 이름을 입력하세요" name='facilitiesName' onChange={onChangeHandler} readOnly={readOnly}
-                                                   value={location ? location.region + " " + location.floor + " " + location.location : '위치 데이터가 없습니다.'  } /> </> :
-                                            <Location isModify={isModify} setIsModify={setIsModify} setReadOnly={setReadOnly} code={facilitiesCode} type={airportType}/>
-                                        }
+                                        <Label>위치</Label>
+                                        {readOnly || currentLocation ? (
+                                            <Input
+                                                type="text"
+                                                placeholder="시설물 이름을 위치하세요"
+                                                name="facilitiesLocation"
+                                                onChange={onChangeHandler}
+                                                readOnly={readOnly}
+                                                value={location ? `${location.region} ${location.floor} ${location.location}` : '위치 데이터가 없습니다.'}
+                                            />
+                                        ) : (
+                                            <InputGroup>
+                                                <Location setLocationState={setLocationState} />
+                                                <Button color="primary" size="sm" onClick={() => setCurrentLocation(!currentLocation)}>기존 정보 가져오기</Button>
+                                            </InputGroup>
+                                        )}
                                     </Col>
                                 </Row>
                                 <Row>
