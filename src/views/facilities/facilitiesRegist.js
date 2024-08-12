@@ -13,7 +13,7 @@ import {
 } from 'reactstrap';
 import BreadCrumbs from '../../layouts/breadcrumbs/BreadCrumbs';
 import { useNavigate } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import { createFacilities } from '../../store/apps/facilities/facilitiesSlice';
 import CustomModal  from "src/views/CustomModal.js";
 
@@ -24,6 +24,7 @@ const FacilitiesRegist = () => {
     const toggleModal = () => setModal(!modal);
     const [type,setType] = useState('');
     const [content, setContent] = useState('');
+    const userInfo = useSelector((state) => state.userInfo);
 
     const dispatch = useDispatch();
     const navigate = useNavigate();
@@ -33,6 +34,7 @@ const FacilitiesRegist = () => {
         facilitiesClass: '',
         facilitiesLocation: '',
         facilitiesType: '',
+        approvalRequester:userInfo
     });
 
     // readOnly 변수를 정의하고 초기화합니다.

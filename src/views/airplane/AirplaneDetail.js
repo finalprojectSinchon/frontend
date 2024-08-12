@@ -84,12 +84,6 @@ const AirplaneDetail = () => {
   return (
     <div >
       <BreadCrumbs />
-    <div>
-      <Button color="dark" onClick={() => navigate('/inspection/inspectionRegist')}>
-                            안전 점검 등록
-                        </Button>
-                    
-                </div>
       <Row>
         <Col md="12">
           <Card>
@@ -170,19 +164,7 @@ const AirplaneDetail = () => {
                     </FormGroup>
                   </Col>
                 </Row>
-                <Col className='d-flex justify-content-center'>
-                  <Button className="m-2" color="primary"  onClick={() => { handleEditClick();  }}>
-                    {readOnly ? '수정' : '저장'}
-                  </Button>
 
-                  <Button className="m-2 " color="danger"  onClick={() => { onClickHandler(); }} >
-
-                  {userInfo.userRole === "ROLE_ADMIN" ?<Button className="m-2 " color="danger" onClick={onClickHandler} >
-
-                    삭제
-                  </Button> : null }
-
-                </Col>
               </Form>
             </CardBody>
           </Card>
@@ -192,5 +174,6 @@ const AirplaneDetail = () => {
     </div>
   );
 };
+
 
 export default AirplaneDetail;

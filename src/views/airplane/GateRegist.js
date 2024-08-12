@@ -36,6 +36,7 @@ const GateRegist = () => {
 
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const userInfo = useSelector((state) => state.userInfo);
 
   const [selectedAirline, setSelectedAirline] = useState('');
   const [selectedSchedule, setSelectedSchedule] = useState('');
@@ -51,7 +52,8 @@ const GateRegist = () => {
     manager: null,
     note: null,
     airplaneCode: null,
-    type:null
+    type:null,
+    approvalRequester:userInfo
   });
 
 

@@ -38,6 +38,7 @@ const BaggageClaimsRegist = () => {
 
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const userInfo = useSelector((state) => state.userInfo);
 
   const [selectedAirline, setSelectedAirline] = useState('');
   const [selectedSchedule, setSelectedSchedule] = useState('');
@@ -53,8 +54,11 @@ const BaggageClaimsRegist = () => {
     manager: null,
     note: null,
     airplaneCode: null,
-    type: null
+    type: null,
+    approvalRequester : userInfo
   });
+
+
 
   useEffect(() => {
     const fetchData = async () => {
@@ -125,6 +129,7 @@ const BaggageClaimsRegist = () => {
     }, 3000);
 
   };
+  console.log('baggageClaimInfo',baggageClaimInfo);
 
   const uniqueAirlines = [...new Set(airplanes.map(airplane => airplane.airline))];
   const uniqueTimes = [...new Set(arrivalTimes.map(time => time))];
@@ -207,11 +212,11 @@ const BaggageClaimsRegist = () => {
                   <Col md="6">
                     <FormGroup>
                       <Label>type</Label>
-                      <Input type="select" name="gateType">
-                        <option>A</option>
-                        <option>B</option>
-                        <option>C</option>
-                        <option>D</option>
+                      <Input type="select" name="type" onChange={ChangeHandler}>
+                        <option value="A">A</option>
+                        <option value="B">B</option>
+                        <option value="C">C</option>
+                        <option value="D">D</option>
                       </Input>
                     </FormGroup>
                   </Col>
