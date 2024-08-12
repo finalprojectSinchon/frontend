@@ -36,6 +36,15 @@
     z-index: 1000; /* 동그라미가 다른 요소보다 아래에 위치하도록 설정 */
 }
 
+.green-circle3 {
+    position: absolute;
+    border-radius: 50%;
+    background-color: rgb(62, 167, 62);
+    width: 15px;
+    height: 15px;
+    z-index: 1000; /* 동그라미가 다른 요소보다 아래에 위치하도록 설정 */
+}
+
 /* 카드 스타일 */
 .custom-card2 {
     max-width: 600px;
