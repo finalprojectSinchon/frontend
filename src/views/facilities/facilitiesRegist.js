@@ -65,13 +65,14 @@ const FacilitiesRegist = () => {
         setType('등록');
         setContent('편의시설 등록 승인을 요청했습니다.')
         toggleModal();
-        setIsModify(true);
+
         setTimeout(() => {
         dispatch(createFacilities({facilitiesInfo}));
         navigate('/facilities');
         window.location.reload();
         }, 3000);
     };
+
 
 
     return (
