@@ -49,6 +49,12 @@ const GateDetail = () => {
         });
   }, [gateInfo]);
 
+
+  const formatDateTime = (dateTime) => {
+    if (!dateTime || dateTime === '미정') return '미정';
+    const date = new Date(dateTime);
+    return date.toLocaleString();
+  };
   const onChangeHandler = e => {
     setGateInfo({
       ...gateInfo,
@@ -190,7 +196,7 @@ const GateDetail = () => {
                     <Col md="6">
                       <FormGroup>
                         <Label>도착예정시간</Label>
-                        <Input type="datetime" value={gateInfo?.scheduleDateTime} name='scheduleDateTime' disabled={readOnly} />
+                        <Input type="datetime" value={formatDateTime(gateInfo?.scheduleDateTime)} name='scheduleDateTime' disabled={readOnly} />
                       </FormGroup>
                     </Col>
                     <Col md="6">
@@ -204,7 +210,7 @@ const GateDetail = () => {
                     <Col md="6">
                       <FormGroup>
                         <Label>도착공항명</Label>
-                        <Input type="text" value={gateInfo.airplane?.airport} disabled />
+                        <Input type="text" value={gateInfo?.airport} disabled />
                       </FormGroup>
                     </Col>
                     <Col md="6">

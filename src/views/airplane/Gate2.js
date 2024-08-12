@@ -199,7 +199,7 @@ const Gate2 = () => {
                         if (!matchedGate) {
                             // 만약 매칭되는 항목이 없으면 기본 색상으로 설정
                             console.warn(`Gate with code ${area.label} not found.`);
-                            return 'red-circle2';
+                            return 'green-circle2';
                         }
 
                         return matchedGate.status === "사용가능" ? 'green-circle2' : 'red-circle2';
