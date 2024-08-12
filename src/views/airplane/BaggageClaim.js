@@ -329,10 +329,7 @@ const Datatables = () => {
             hover
             search 
             data={flatBaggageClaimList}
-            insertRow
-            deleteRow
             selectRow={selectRowProp}
-            // pagination
             options={options}
             tableHeaderClass="mb-10"
             exportCSV
