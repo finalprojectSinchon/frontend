@@ -239,7 +239,6 @@ const Datatables = () => {
                   <BootstrapTable
                       data={flatGateList}
                       pagination={true}
-                      deleteRow={true}
                       selectRow={selectRowProp}
                       options={options}
                       search={true}

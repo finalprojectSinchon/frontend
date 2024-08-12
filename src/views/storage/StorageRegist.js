@@ -24,6 +24,7 @@ const StorageRegist = () => {
     const toggleModal = () => setModal(!modal);
     const [type, setType] = useState('');
     const [content, setContent] = useState('');
+    const userInfo = useSelector((state) => state.userInfo);
 
     const dispatch = useDispatch();
     const navigate = useNavigate();
@@ -35,6 +36,7 @@ const StorageRegist = () => {
         manager: '',
         period: '',
         date: '',
+        approvalRequester:userInfo
     });
 
     const onChangeHandler = (e) => {

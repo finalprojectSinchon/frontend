@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { Container, Row, Col, FormGroup, Label, Input, Alert } from "reactstrap";
 import api from "src/store/apps/airplane/api.js";
 
-const Location = ({isModify, setIsModify, setReadOnly, code, type}) => {
+const Location = ({ setLocationState }) => {
 
 
     const [region, setRegion] = useState([]);
@@ -14,30 +14,8 @@ const Location = ({isModify, setIsModify, setReadOnly, code, type}) => {
     const [error, setError] = useState(null);
 
     useEffect(() => {
-
-        if (isModify) {
-            if (!floor || floor.length === 0) {
-                alert("층수를 등록해주세요");
-            } else {
-                api.post('/api/v1/location', {
-                    zoneType: type,
-                    airportCode : code,
-                    region: selectedRegion,
-                    floor: selectedFloor,
-                    location: selectedLocation,
-                })
-                    .then(res => res.data)
-                    .then(data => {
-                        setIsModify(false);
-                        setReadOnly(true);
-                    })
-                    .catch(error => {
-                        console.error("Error:", error);
-
-                    });
-            }
-        }
-    }, [isModify]);
+        setLocationState(selectedRegion + " " + selectedFloor + " " + selectedLocation)
+    }, [selectedRegion,selectedFloor,selectedLocation]);
 
     useEffect(() => {
         // 이상한 데이터가 너무 많음
@@ -53,7 +31,7 @@ const Location = ({isModify, setIsModify, setReadOnly, code, type}) => {
         //         setError("다시 시도해 주세요");
         //     });
         setRegion([{region :  '제1여객터미널'}
-           ,{region : '제2여객터미널'},
+            ,{region : '제2여객터미널'},
             {region : '탑승동'}
         ])
 

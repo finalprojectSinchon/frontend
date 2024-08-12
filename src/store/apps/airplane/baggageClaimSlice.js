@@ -12,6 +12,7 @@ export const fetchBaggageClaim = createAsyncThunk('baggageClaims/fetchBaggageCla
 });
 
 export const modifyBaggageClaim = createAsyncThunk('baggageClaims/modifyBaggageClaim', async ({ baggageClaimCode, baggageClaimInfo }) => {
+  console.log('1212',baggageClaimInfo)
   const response = await api.put(`/api/v1/airplane/baggage-claim/${baggageClaimCode}`, baggageClaimInfo);
   return response.data;
 });
