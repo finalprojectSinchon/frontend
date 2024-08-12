@@ -58,13 +58,13 @@ const AirplaneDetail = () => {
                   <Row>
                     <Col md="6">
                       <FormGroup>
-                        <Label>Airplane Code</Label>
+                        <Label>비행기 코드</Label>
                         <Input type="text" value={airplaneInfo.airplaneCode} name='airplaneCode' onChange={onChangeHandler} readOnly={readOnly} />
                       </FormGroup>
                     </Col>
                     <Col md="6">
                       <FormGroup>
-                        <Label>Airport</Label>
+                        <Label>도착지</Label>
                         <Input type="text" name="airport" value={airplaneInfo.airport} onChange={onChangeHandler} disabled={readOnly} />
                       </FormGroup>
                     </Col>

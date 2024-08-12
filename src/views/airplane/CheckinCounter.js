@@ -313,6 +313,9 @@ const Datatables = () => {
             <TableHeaderColumn width="5%" dataField="checkinCounterCode" dataAlign="center" isKey>
               번호
             </TableHeaderColumn>
+            <TableHeaderColumn width="20%" dataField="manager" dataAlign="center">
+              담당자
+            </TableHeaderColumn>
             <TableHeaderColumn width="20%" dataField="location" dataAlign="center">
               카운터
             </TableHeaderColumn>
@@ -321,9 +324,6 @@ const Datatables = () => {
             </TableHeaderColumn>
             <TableHeaderColumn width="25%" dataField="scheduleDateTime" dataAlign="center">
               출발시간
-            </TableHeaderColumn>
-            <TableHeaderColumn width="20%" dataField="manager" dataAlign="center">
-              담당자
             </TableHeaderColumn>
             <TableHeaderColumn width="20%" dataField="status" dataAlign="center" dataFormat={statusFormatter}>
               상태

@@ -20,24 +20,17 @@ const ProfileDD = () => {
       </div>
       <DropdownItem className="px-4 py-3" tag={Link} to="/profile">
         <User size={20} />
-        &nbsp; My Profile
+        &nbsp; 내 프로필
       </DropdownItem>
-      <DropdownItem className="px-4 py-3">
-        <FileText size={20} />
-        &nbsp; Edit Profile
-      </DropdownItem>
-      <DropdownItem className="px-4 py-3">
-        <Star size={20} />
-        &nbsp; My Balance
-      </DropdownItem>
+
       <DropdownItem className="px-4 py-3">
         <Droplet size={20} />
-        &nbsp; Customize
+        &nbsp; 사용자정의
       </DropdownItem>
       <DropdownItem divider />
       <DropdownItem className="px-4 py-3">
         <Settings size={20} />
-        &nbsp; Settings
+        &nbsp; 설정
       </DropdownItem>
       <DropdownItem divider />
     </div>

@@ -66,8 +66,6 @@ const Datatables = () => {
             hover
             search
             data={maintenanceList.data.maintenanceList}
-            insertRow
-            deleteRow
             selectRow={selectRowProp}
             pagination
             options={options}
