@@ -41,22 +41,22 @@ const ContactList = () => {
       approveList.forEach(approve => {
 
         if (approve.checkinCounter) {
-          newManagers.push({ manager: approve.checkinCounter.approvalRequester.userName, type: 'checkin_counter' });
+          newManagers.push({ manager: approve.checkinCounter.approvalRequester?.userName, type: 'checkin_counter' });
         }
         if (approve.baggageClaim) {
-          newManagers.push({ manager:approve.baggageClaim.approvalRequester.userName, type: 'baggage_claim' });
+          newManagers.push({ manager:approve.baggageClaim.approvalRequester?.userName, type: 'baggage_claim' });
         }
         if (approve.facilities) {
-          newManagers.push({ manager: approve.facilities.approvalRequester.userName, type: 'facilities' });
+          newManagers.push({ manager: approve.facilities.approvalRequester?.userName, type: 'facilities' });
         }
         if (approve.gate) {
-          newManagers.push({ manager: approve.gate.approvalRequester.userName, type: 'gate' });
+          newManagers.push({ manager: approve.gate.approvalRequester?.userName, type: 'gate' });
         }
         if (approve.storage) {
-          newManagers.push({ manager: approve.storage.approvalRequester.userName, type: 'storage' });
+          newManagers.push({ manager: approve.storage.approvalRequester?.userName, type: 'storage' });
         }
         if (approve.store) {
-          newManagers.push({ manager: approve.store.approvalRequester.userName, type: 'store' });
+          newManagers.push({ manager: approve.store.approvalRequester?.userName, type: 'store' });
         }
       });
       setManagers(newManagers);

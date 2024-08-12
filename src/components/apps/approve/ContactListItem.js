@@ -58,7 +58,7 @@ const ContactListItem = ({
         </div>
         <div className="mx-2 flex-grow-1">
           <h5 className="mb-0 text-truncate" style={{width: '140px'}}>
-            {checkinCounter?.approvalRequester.userName} {storage?.approvalRequester.userName} {facilities?.approvalRequester.userName} {baggageClaim?.approvalRequester.userName} {gate?.approvalRequester.userName} {store?.approvalRequester.userName}
+            {checkinCounter?.approvalRequester?.userName} {storage?.approvalRequester?.userName} {facilities?.approvalRequester?.userName} {baggageClaim?.approvalRequester?.userName} {gate?.approvalRequester?.userName} {store?.approvalRequester?.userName}
           </h5>
           <small>{type} </small>
         </div>
