@@ -28,7 +28,7 @@ const GateDetail = () => {
 
   const dispatch = useDispatch();
   const { gateCode } = useParams();
-  const gateDetail = useSelector((state) => state.gates.gateDetail);
+  const gateDetail = useSelector((state) => states.gates.gateDetail);
   const userInfo = useSelector((state) => state.userInfo);
   const [gateInfo, setGateInfo] = useState({});
   const [readOnly, setReadOnly] = useState(true);
@@ -58,6 +58,7 @@ const GateDetail = () => {
   const onChangeHandler = e => {
     setGateInfo({
       ...gateInfo,
+      approvalRequester : userInfo,
       [e.target.name]: e.target.value
     });
   };
@@ -85,10 +86,11 @@ const GateDetail = () => {
     if (gateDetail && gateDetail.data) {
       const gateData = gateDetail.data.gate;
 
-
+      console.log('gateCode',gateCode)
+      console.log('approve',approve)
       if (gateCode) {
         const gateApproval = approve.find(a => {
-          return a.gate && a.gate.gateCode === gateCode && a.checked === 'N';
+          return a.gate && a.gate.gateCode == gateCode && a.checked == 'N';
         });
 
 
@@ -127,11 +129,7 @@ const GateDetail = () => {
   return (
       <div>
         <BreadCrumbs />
-        <div>
-          <Button color="dark" onClick={() => navigate('/inspection/inspectionRegist')}>
-            안전 점검 등록
-          </Button>
-        </div>
+
         <Row>
           <Col md="12">
             <Card>

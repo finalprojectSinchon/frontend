@@ -35,6 +35,7 @@ const CheckinCounterRegist = () => {
   const ChkinCounterList = useSelector((state) => state.chkinCounters.chkinCounterList);
   const airplanes = AirplaneList?.data?.airplaneList || [];
   const chkincounters = ChkinCounterList?.data?.chkinCounterList;
+  const userInfo = useSelector((state) => state.userInfo);
 
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -53,7 +54,8 @@ const CheckinCounterRegist = () => {
     manager: null,
     note: null,
     airplaneCode: null,
-    type:null
+    type:null,
+    approvalRequester:userInfo
   });
 
 

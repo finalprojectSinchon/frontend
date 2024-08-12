@@ -5,8 +5,9 @@ import axios from 'axios';  // axios 추가
 import { fetchApprove } from '../../../store/apps/approve/ContactSlice';
 import api from '../../../store/apps/airplane/api';
 import CustomModal  from "src/views/CustomModal.js";
+import { Table } from 'reactstrap';
 
-
+//표형식으로 고쳐버리기 
 const ContactDetails = () => {
 
     const [modal, setModal] = useState(false);
@@ -62,321 +63,367 @@ const ContactDetails = () => {
   const renderDetails = () => {
     if (selectedFilter === 'checkin_counter' || (selectedFilter === 'show_all' && contactDetail.checkinCounter)) {
       return (
-        <>
-          <tr>
-            <td width="150"><h6>Approval Code</h6></td>
-            <td>: {contactDetail.approvalCode}</td>
-          </tr>
-          <tr>
-            <td><h6>Airplane Code</h6></td>
-            <td>: {contactDetail.checkinCounter.airplane?.airplaneCode || 'N/A'}</td>
-          </tr>
-          <tr>
-            <td><h6>Checkin Counter Code</h6></td>
-            <td>: {contactDetail.checkinCounter.checkinCounterCode || 'N/A'}</td>
-          </tr>
-          <tr>
-            <td><h6>Created Date</h6></td>
-            <td>: {contactDetail.checkinCounter.createdDate || 'N/A'}</td>
-          </tr>
-          <tr>
-            <td><h6>Last Inspection Date</h6></td>
-            <td>: {contactDetail.checkinCounter.lastInspectionDate || 'N/A'}</td>
-          </tr>
-          <tr>
-            <td><h6>Location</h6></td>
-            <td>: {contactDetail.checkinCounter.location || 'N/A'}</td>
-          </tr>
-          <tr>
-            <td><h6>Manager</h6></td>
-            <td>: {contactDetail.checkinCounter.manager || 'N/A'}</td>
-          </tr>
-          <tr>
-            <td><h6>Modified Date</h6></td>
-            <td>: {contactDetail.checkinCounter.modifiedDate || 'N/A'}</td>
-          </tr>
-          <tr>
-            <td><h6>Registration Date</h6></td>
-            <td>: {contactDetail.checkinCounter.registrationDate || 'N/A'}</td>
-          </tr>
-          <tr>
-            <td><h6>Status</h6></td>
-            <td>: {contactDetail.checkinCounter.status || 'N/A'}</td>
-          </tr>
-          <tr>
-            <td><h6>Type</h6></td>
-            <td>: {contactDetail.checkinCounter.type || 'N/A'}</td>
-          </tr>
-          <tr>
-            <td><h6>Note</h6></td>
-            <td>: {contactDetail.checkinCounter.note || 'N/A'}</td>
-          </tr>
-        </>
-      );
-    } else if (selectedFilter === 'baggage_claim' || (selectedFilter === 'show_all' && contactDetail.baggageClaim)) {
+        <Table bordered>
+          <tbody>
+            <tr>
+            <td width="250" style={{ textAlign: 'center' }}><h6>승인 코드</h6></td>
+              <td width="400"> {contactDetail.approvalCode}</td>
+            </tr>
+            <tr>
+              <td style={{ textAlign: 'center' }}><h6>비행기 코드</h6></td>
+              <td> {contactDetail.checkinCounter.airplane?.airplaneCode || 'N/A'}</td>
+            </tr>
+            <tr>
+              <td style={{ textAlign: 'center' }}><h6>체크인 카운터 코드</h6></td>
+              <td> {contactDetail.checkinCounter.checkinCounterCode || 'N/A'}</td>
+            </tr>
+            <tr>
+              <td style={{ textAlign: 'center' }}><h6>담당자</h6></td>
+              <td> {contactDetail.checkinCounter.manager || 'N/A'}</td>
+            </tr>
+            <tr>
+              <td style={{ textAlign: 'center' }}><h6>상태</h6></td>
+              <td> {contactDetail.checkinCounter.status || 'N/A'}</td>
+            </tr>
+            <tr>
+              <td style={{ textAlign: 'center' }}><h6>타입</h6></td>
+              <td> {contactDetail.checkinCounter.type || 'N/A'}</td>
+            </tr>
+            <tr>
+              <td style={{ textAlign: 'center' }}><h6>항공사</h6></td>
+              <td> {contactDetail.checkinCounter.airplane?.airline || 'N/A'}</td>
+            </tr>
+            <tr>
+              <td style={{ textAlign: 'center' }}><h6>편명</h6></td>
+              <td>{contactDetail.checkinCounter.airplane?.flightId || 'N/A'}</td>
+            </tr>
+            <tr>
+              <td style={{ textAlign: 'center' }}><h6>도착 공항명</h6></td>
+              <td>{contactDetail.checkinCounter.airplane?.airport || 'N/A'}</td>
+            </tr>
+            <tr>
+              <td style={{ textAlign: 'center' }}><h6>운항 상태</h6></td>
+              <td> {contactDetail.checkinCounter.airplane?.remark || 'N/A'}</td>
+            </tr>
+            <tr>
+              <td style={{ textAlign: 'center' }}><h6>위치</h6></td>
+              <td> {contactDetail.checkinCounter.location || 'N/A'}</td>
+            </tr>
+            <tr>
+              <td style={{ textAlign: 'center' }}><h6>지연시간</h6></td>
+              <td> {contactDetail.checkinCounter.airplane?.delayTime || 'N/A'}</td>
+            </tr>
+            <tr>
+              <td style={{ textAlign: 'center' }}><h6>등록 일자</h6></td>
+              <td> {contactDetail.checkinCounter.registrationDate || 'N/A'}</td>
+            </tr>
+            <tr>
+              <td style={{ textAlign: 'center' }}><h6>수정 일자</h6></td>
+              <td>{contactDetail.checkinCounter.modifiedDate || 'N/A'}</td>
+            </tr>
+            <tr>
+              <td style={{ textAlign: 'center' }}><h6>최근 점검 일자</h6></td>
+              <td> {contactDetail.checkinCounter.lastInspectionDate || 'N/A'}</td>
+            </tr>
+            <tr>
+              <td style={{ textAlign: 'center' }}><h6>승인 요청 일자</h6></td>
+              <td> {contactDetail.checkinCounter.createdDate || 'N/A'}</td>
+            </tr>
+            <tr>
+              <td style={{ textAlign: 'center' }}><h6>비고</h6></td>
+              <td> {contactDetail.checkinCounter.note || 'N/A'}</td>
+            </tr>
+          </tbody>
+        </Table>
+
+      )} else if (selectedFilter === 'baggage_claim' || (selectedFilter === 'show_all' && contactDetail.baggageClaim)) {
       return (
-        <>
+        <Table bordered>
+          <tbody>
           <tr>
-            <td width="150"><h6>Approval Code</h6></td>
-            <td>: {contactDetail.approvalCode}</td>
+            <td width="250" style={{ textAlign: 'center' }}><h6>승인 코드</h6></td>
+            <td width="400"> {contactDetail.approvalCode}</td>
           </tr>
           <tr>
-            <td><h6>Airplane Code</h6></td>
+            <td style={{ textAlign: 'center' }}><h6>비행기 코드</h6></td>
             <td>: {contactDetail.baggageClaim.airplane?.airplaneCode || 'N/A'}</td>
           </tr>
           <tr>
-            <td><h6>Baggage Claim Code</h6></td>
+            <td style={{ textAlign: 'center' }}><h6>수하물 수취대 코드</h6></td>
             <td>: {contactDetail.baggageClaim.baggageClaimCode || 'N/A'}</td>
           </tr>
           <tr>
-            <td><h6>Created Date</h6></td>
-            <td>: {contactDetail.baggageClaim.createdDate || 'N/A'}</td>
-          </tr>
-          <tr>
-            <td><h6>Last Inspection Date</h6></td>
-            <td>: {contactDetail.baggageClaim.lastInspectionDate || 'N/A'}</td>
-          </tr>
-          <tr>
-            <td><h6>Location</h6></td>
-            <td>: {contactDetail.baggageClaim.location || 'N/A'}</td>
-          </tr>
-          <tr>
-            <td><h6>Manager</h6></td>
+            <td style={{ textAlign: 'center' }}><h6>담당자</h6></td>
             <td>: {contactDetail.baggageClaim.manager || 'N/A'}</td>
           </tr>
           <tr>
-            <td><h6>Modified Date</h6></td>
-            <td>: {contactDetail.baggageClaim.modifiedDate || 'N/A'}</td>
-          </tr>
-          <tr>
-            <td><h6>Registration Date</h6></td>
-            <td>: {contactDetail.baggageClaim.registrationDate || 'N/A'}</td>
-          </tr>
-          <tr>
-            <td><h6>Status</h6></td>
+            <td style={{ textAlign: 'center' }}><h6>상태</h6></td>
             <td>: {contactDetail.baggageClaim.status || 'N/A'}</td>
           </tr>
           <tr>
-            <td><h6>Type</h6></td>
+            <td style={{ textAlign: 'center' }}><h6>타입</h6></td>
             <td>: {contactDetail.baggageClaim.type || 'N/A'}</td>
           </tr>
           <tr>
-            <td><h6>Note</h6></td>
+            <td style={{ textAlign: 'center' }}><h6>위치</h6></td>
+            <td>: {contactDetail.baggageClaim.location || 'N/A'}</td>
+          </tr>
+          <tr>
+            <td style={{ textAlign: 'center' }}><h6>항공사</h6></td>
+            <td>: {contactDetail.baggageClaim.airplane?.airline || 'N/A'}</td>
+          </tr>
+          <tr>
+            <td style={{ textAlign: 'center' }}><h6>편명</h6></td>
+            <td>: {contactDetail.baggageClaim.airplane?.flightId || 'N/A'}</td>
+          </tr>
+          <tr>
+            <td style={{ textAlign: 'center' }}><h6>도착공항명</h6></td>
+            <td>: {contactDetail.baggageClaim.airplane?.airport || 'N/A'}</td>
+          </tr>
+          <tr>
+            <td style={{ textAlign: 'center' }}><h6>지연 시간</h6></td>
+            <td>: {contactDetail.baggageClaim.airplane?.delayTime || 'N/A'}</td>
+          </tr>
+          <tr>
+            <td style={{ textAlign: 'center' }}><h6>등록 일자</h6></td>
+            <td>: {contactDetail.baggageClaim.registrationDate || 'N/A'}</td>
+          </tr>
+          <tr>
+            <td style={{ textAlign: 'center' }}><h6>수정 일자</h6></td>
+            <td>: {contactDetail.baggageClaim.modifiedDate || 'N/A'}</td>
+          </tr>
+          <tr>
+            <td style={{ textAlign: 'center' }}><h6>최근 점검일</h6></td>
+            <td>: {contactDetail.baggageClaim.lastInspectionDate || 'N/A'}</td>
+          </tr>
+          <tr>
+            <td style={{ textAlign: 'center' }}><h6>승인 요청 일자</h6></td>
+            <td>: {contactDetail.baggageClaim.createdDate || 'N/A'}</td>
+          </tr>
+          <tr>
+            <td style={{ textAlign: 'center' }}><h6>비고</h6></td>
             <td>: {contactDetail.baggageClaim.note || 'N/A'}</td>
           </tr>
-        </>
+          </tbody>
+          </Table>
       );
     } else if (selectedFilter === 'facilities' || (selectedFilter === 'show_all' && contactDetail.facilities)) {
       return (
-        <>
+        <Table bordered>
+          <tbody>
           <tr>
-            <td width="150"><h6>Approval Code</h6></td>
-            <td>: {contactDetail.approvalCode}</td>
+            <td width="250" style={{ textAlign: 'center' }}><h6>승인 코드</h6></td>
+            <td width="400">: {contactDetail.approvalCode}</td>
           </tr>
           <tr>
-            <td><h6>Facility Code</h6></td>
+            <td style={{ textAlign: 'center' }}><h6>편의시설 코드</h6></td>
             <td>: {contactDetail.facilities.facilitiesCode || 'N/A'}</td>
           </tr>
           <tr>
-            <td><h6>Created Date</h6></td>
-            <td>: {contactDetail.facilities.createdDate || 'N/A'}</td>
-          </tr>
-          <tr>
-            <td><h6>Facility Class</h6></td>
+            <td style={{ textAlign: 'center' }}><h6>타입</h6></td>
             <td>: {contactDetail.facilities.facilitiesClass || 'N/A'}</td>
           </tr>
           <tr>
-            <td><h6>Facility Name</h6></td>
+            <td style={{ textAlign: 'center' }}><h6>시설물 이름</h6></td>
             <td>: {contactDetail.facilities.facilitiesName || 'N/A'}</td>
           </tr>
           <tr>
-            <td><h6>Facilities Type</h6></td>
-            <td>: {contactDetail.facilities.facilitiesType || 'N/A'}</td>
+            <td style={{ textAlign: 'center' }}><h6>분류</h6></td>
+            <td>: {contactDetail.facilities.type || 'N/A'}</td>
           </tr>
           <tr>
-            <td><h6>Location</h6></td>
-            <td>: {contactDetail.facilities.location || 'N/A'}</td>
-          </tr>
-          <tr>
-            <td><h6>Manager</h6></td>
+            <td style={{ textAlign: 'center' }}><h6>담당자</h6></td>
             <td>: {contactDetail.facilities.manager || 'N/A'}</td>
           </tr>
           <tr>
-            <td><h6>Modified Date</h6></td>
-            <td>: {contactDetail.facilities.modifiedDate || 'N/A'}</td>
+            <td style={{ textAlign: 'center' }}><h6>위치</h6></td>
+            <td>: {contactDetail.facilities.location || 'N/A'}</td>
           </tr>
           <tr>
-            <td><h6>Status</h6></td>
+            <td style={{ textAlign: 'center' }}><h6>운행 상태</h6></td>
             <td>: {contactDetail.facilities.status || 'N/A'}</td>
           </tr>
           <tr>
-            <td><h6>Note</h6></td>
+            <td style={{ textAlign: 'center' }}><h6>비고</h6></td>
             <td>: {contactDetail.facilities.note || 'N/A'}</td>
           </tr>
-        </>
+          </tbody>
+          </Table>
       );
     } else if (selectedFilter === 'gate' || (selectedFilter === 'show_all' && contactDetail.gate)) {
       return (
-        <>
+         <Table bordered>
+          <tbody>
           <tr>
-            <td width="150"><h6>Approval Code</h6></td>
-            <td>: {contactDetail.approvalCode}</td>
+            <td width="250" style={{ textAlign: 'center' }}><h6>승인 코드</h6></td>
+            <td width="400"> {contactDetail.approvalCode}</td>
           </tr>
           <tr>
-            <td><h6>Airplane Code</h6></td>
-            <td>: {contactDetail.gate.airplane?.airplaneCode || 'N/A'}</td>
+            <td style={{ textAlign: 'center' }}><h6>비행기 코드</h6></td>
+            <td> {contactDetail.gate.airplane?.airplaneCode || 'N/A'}</td>
           </tr>
           <tr>
-            <td><h6>Gate Code</h6></td>
-            <td>: {contactDetail.gate.gateCode || 'N/A'}</td>
+            <td style={{ textAlign: 'center' }}><h6>게이트 코드</h6></td>
+            <td> {contactDetail.gate.gateCode || 'N/A'}</td>
           </tr>
           <tr>
-            <td><h6>Created Date</h6></td>
-            <td>: {contactDetail.gate.createdDate || 'N/A'}</td>
+            <td style={{ textAlign: 'center' }}><h6>담당자</h6></td>
+            <td> {contactDetail.gate.manager || 'N/A'}</td>
           </tr>
           <tr>
-            <td><h6>Last Inspection Date</h6></td>
-            <td>: {contactDetail.gate.lastInspectionDate || 'N/A'}</td>
+            <td style={{ textAlign: 'center' }}><h6>상태</h6></td>
+            <td> {contactDetail.gate.status || 'N/A'}</td>
           </tr>
           <tr>
-            <td><h6>Location</h6></td>
-            <td>: {contactDetail.gate.location || 'N/A'}</td>
+            <td style={{ textAlign: 'center' }}><h6>타입</h6></td>
+            <td> {contactDetail.gate.type || 'N/A'}</td>
           </tr>
           <tr>
-            <td><h6>Manager</h6></td>
-            <td>: {contactDetail.gate.manager || 'N/A'}</td>
+            <td style={{ textAlign: 'center' }}><h6>위치</h6></td>
+            <td> {contactDetail.gate.location || 'N/A'}</td>
           </tr>
           <tr>
-            <td><h6>Modified Date</h6></td>
-            <td>: {contactDetail.gate.modifiedDate || 'N/A'}</td>
+            <td style={{ textAlign: 'center' }}><h6>항공사</h6></td>
+            <td> {contactDetail.gate.airplane?.airline || 'N/A'}</td>
           </tr>
           <tr>
-            <td><h6>Registration Date</h6></td>
-            <td>: {contactDetail.gate.registrationDate || 'N/A'}</td>
+            <td style={{ textAlign: 'center' }}><h6>편명</h6></td>
+            <td> {contactDetail.gate.airplane?.flightid || 'N/A'}</td>
           </tr>
           <tr>
-            <td><h6>Status</h6></td>
-            <td>: {contactDetail.gate.status || 'N/A'}</td>
+            <td style={{ textAlign: 'center' }}><h6>도착공항명</h6></td>
+            <td> {contactDetail.gate.airplane?.airport || 'N/A'}</td>
           </tr>
           <tr>
-            <td><h6>Type</h6></td>
-            <td>: {contactDetail.gate.type || 'N/A'}</td>
+            <td style={{ textAlign: 'center' }}><h6>등록 일자</h6></td>
+            <td> {contactDetail.gate.registrationDate || 'N/A'}</td>
           </tr>
           <tr>
-            <td><h6>Note</h6></td>
-            <td>: {contactDetail.gate.note || 'N/A'}</td>
+            <td style={{ textAlign: 'center' }}><h6>수정 일자</h6></td>
+            <td> {contactDetail.gate.modifiedDate || 'N/A'}</td>
           </tr>
-        </>
+          <tr>
+            <td style={{ textAlign: 'center' }}><h6>최근 점검 일자</h6></td>
+            <td> {contactDetail.gate.lastInspectionDate || 'N/A'}</td>
+          </tr>
+          <tr>
+            <td style={{ textAlign: 'center' }}><h6>승인 요청 일자</h6></td>
+            <td> {contactDetail.gate.createdDate || 'N/A'}</td>
+          </tr>
+          <tr>
+            <td style={{ textAlign: 'center' }}><h6>비고</h6></td>
+            <td> {contactDetail.gate.note || 'N/A'}</td>
+          </tr>
+          </tbody>
+          </Table>
+
       );
     } else if (selectedFilter === 'storage' || (selectedFilter === 'show_all' && contactDetail.storage)) {
       return (
-        <>
+        <Table bordered>
+          <tbody>
           <tr>
-            <td width="150"><h6>Approval Code</h6></td>
-            <td>: {contactDetail.approvalCode}</td>
+            <td width="250" style={{ textAlign: 'center' }}><h6>승인 코드</h6></td>
+            <td width="400">: {contactDetail.approvalCode}</td>
           </tr>
           <tr>
-            <td><h6>Storage Code</h6></td>
+            <td style={{ textAlign: 'center' }}><h6>창고 코드</h6></td>
             <td>: {contactDetail.storage.storageCode || 'N/A'}</td>
           </tr>
           <tr>
-            <td><h6>Created Date</h6></td>
-            <td>: {contactDetail.storage.createdDate || 'N/A'}</td>
+            <td style={{ textAlign: 'center' }}><h6>대분류</h6></td>
+            <td>: {contactDetail.storage.category || 'N/A'}</td>
           </tr>
           <tr>
-            <td><h6>Date</h6></td>
-            <td>: {contactDetail.storage.date || 'N/A'}</td>
-          </tr>
-          <tr>
-            <td><h6>Department</h6></td>
+            <td style={{ textAlign: 'center' }}><h6>담당 부서</h6></td>
             <td>: {contactDetail.storage.department || 'N/A'}</td>
           </tr>
           <tr>
-            <td><h6>Location</h6></td>
-            <td>: {contactDetail.storage.location || 'N/A'}</td>
-          </tr>
-          <tr>
-            <td><h6>Manager</h6></td>
+            <td style={{ textAlign: 'center' }}><h6>담당자</h6></td>
             <td>: {contactDetail.storage.manager || 'N/A'}</td>
           </tr>
           <tr>
-            <td><h6>Modified Date</h6></td>
-            <td>: {contactDetail.storage.modifiedDate || 'N/A'}</td>
-          </tr>
-          <tr>
-            <td><h6>Period</h6></td>
+            <td style={{ textAlign: 'center' }}><h6>사용 기간</h6></td>
             <td>: {contactDetail.storage.period || 'N/A'}</td>
           </tr>
           <tr>
-            <td><h6>Status</h6></td>
+            <td style={{ textAlign: 'center' }}><h6>위치</h6></td>
+            <td>: {contactDetail.storage.location || 'N/A'}</td>
+          </tr>
+          <tr>
+            <td style={{ textAlign: 'center' }}><h6>상태</h6></td>
             <td>: {contactDetail.storage.status || 'N/A'}</td>
           </tr>
           <tr>
-            <td><h6>Type</h6></td>
+            <td style={{ textAlign: 'center' }}><h6>수정일자</h6></td>
+            <td>: {contactDetail.storage.modifiedDate || 'N/A'}</td>
+          </tr>
+          <tr>
+            <td style={{ textAlign: 'center' }}><h6>타입</h6></td>
             <td>: {contactDetail.storage.type || 'N/A'}</td>
           </tr>
           <tr>
-            <td><h6>Note</h6></td>
+            <td style={{ textAlign: 'center' }}><h6>비고</h6></td>
             <td>: {contactDetail.storage.note || 'N/A'}</td>
           </tr>
-        </>
+          </tbody>
+          </Table>
       );
     } else if (selectedFilter === 'store' || (selectedFilter === 'show_all' && contactDetail.store)) {
       return (
-        <>
+        <Table bordered>
+          <tbody>
           <tr>
-            <td width="150"><h6>Approval Code</h6></td>
-            <td>: {contactDetail.approvalCode}</td>
+            <td width="250" style={{ textAlign: 'center' }}><h6>승인 코드</h6></td>
+            <td width="400">: {contactDetail.approvalCode}</td>
           </tr>
           <tr>
-            <td><h6>Store Id</h6></td>
+            <td style={{ textAlign: 'center' }}><h6>점포 아이디</h6></td>
             <td>: {contactDetail.store.storeId || 'N/A'}</td>
           </tr>
           <tr>
-            <td><h6>Manager</h6></td>
-            <td>: {contactDetail.store.manager || 'N/A'}</td>
-          </tr>
-          <tr>
-            <td><h6>Status</h6></td>
-            <td>: {contactDetail.store.status || 'N/A'}</td>
-          </tr>
-          <tr>
-            <td><h6>Store Contact</h6></td>
-            <td>: {contactDetail.store.storeContact || 'N/A'}</td>
-          </tr>
-          <tr>
-            <td><h6>Store Extra</h6></td>
-            <td>: {contactDetail.store.storeExtra || 'N/A'}</td>
-          </tr>
-          <tr>
-            <td><h6>Store Items</h6></td>
-            <td>: {contactDetail.store.storeItems || 'N/A'}</td>
-          </tr>
-          <tr>
-            <td><h6>Store Name</h6></td>
-            <td>: {contactDetail.store.storeName || 'N/A'}</td>
-          </tr>
-          <tr>
-            <td><h6>Store Work</h6></td>
-            <td>: {contactDetail.store.storeWork || 'N/A'}</td>
-          </tr>
-          <tr>
-            <td><h6>Type</h6></td>
+            <td style={{ textAlign: 'center' }}><h6>타입</h6></td>
             <td>: {contactDetail.store.type || 'N/A'}</td>
           </tr>
           <tr>
-            <td><h6>Operating Time</h6></td>
+            <td style={{ textAlign: 'center' }}><h6>점포명</h6></td>
+            <td>: {contactDetail.store.storeName || 'N/A'}</td>
+          </tr>
+          <tr>
+            <td style={{ textAlign: 'center' }}><h6>담당자</h6></td>
+            <td>: {contactDetail.store.manager || 'N/A'}</td>
+          </tr>
+          <tr>
+            <td style={{ textAlign: 'center' }}><h6>상태</h6></td>
+            <td>: {contactDetail.store.status || 'N/A'}</td>
+          </tr>
+          <tr>
+            <td style={{ textAlign: 'center' }}><h6>연락처</h6></td>
+            <td>: {contactDetail.store.storeContact || 'N/A'}</td>
+          </tr>
+          <tr>
+            <td style={{ textAlign: 'center' }}><h6>운영시간</h6></td>
             <td>: {contactDetail.store.storeOperatingTime || 'N/A'}</td>
           </tr>
           <tr>
-            <td><h6>Created Date</h6></td>
+            <td style={{ textAlign: 'center' }}><h6>취급물품</h6></td>
+            <td>: {contactDetail.store.storeItems || 'N/A'}</td>
+          </tr>
+          
+          <tr>
+            <td style={{ textAlign: 'center' }}><h6>주요 업무</h6></td>
+            <td>: {contactDetail.store.storeWork || 'N/A'}</td>
+          </tr>
+          <tr>
+            <td><h6>승인 요청 일자</h6></td>
             <td>: {contactDetail.store.createdDate || 'N/A'}</td>
           </tr>
           <tr>
-            <td><h6>Note</h6></td>
-            <td>: {contactDetail.store.note || 'N/A'}</td>
+            <td style={{ textAlign: 'center' }}><h6>비고</h6></td>
+            <td>: {contactDetail.store.storeExtra || 'N/A'}</td>
           </tr>
-        </>
+          </tbody>
+          </Table>
       );
     }
     return null;

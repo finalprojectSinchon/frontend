@@ -67,6 +67,7 @@ const CheckinCounterDetail = () => {
   const onChangeHandler = e => {
     setCheckinCounterInfo({
       ...checkinCounterInfo,
+      approvalRequester : userInfo,
       [e.target.name]: e.target.value
     });
   };
@@ -108,7 +109,7 @@ const CheckinCounterDetail = () => {
 
       if (checkinCounterCode) {
         const checkinCounterApproval = approve.find(a => {
-          return a.checkinCounter && a.checkinCounter.checkinCounterCode === checkinCounterCode && a.checked === 'N';
+          return a.checkinCounter && a.checkinCounter.checkinCounterCode == checkinCounterCode && a.checked == 'N';
         });
 
 
@@ -152,12 +153,7 @@ const CheckinCounterDetail = () => {
   return (
     <div>
       <BreadCrumbs />
-      <div>
-            <Button color="dark" onClick={() => navigate('/inspection/inspectionRegist')}>
-            안전 점검 등록
-            </Button>
-                    
-            </div>
+
       <Row>
         <Col md="12">
           <Card>

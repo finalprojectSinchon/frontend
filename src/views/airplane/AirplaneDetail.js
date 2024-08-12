@@ -15,15 +15,12 @@ import BreadCrumbs from '../../layouts/breadcrumbs/BreadCrumbs';
 import { useParams,useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchAirplane, modifyAirplane, softdeleteAirplane } from '../../store/apps/airplane/airplaneSlice';
-import CustomModal  from "src/views/CustomModal.js";
+
 
 
 const AirplaneDetail = () => {
 
-  const [modal, setModal] = useState(false);
-  const toggleModal = () => setModal(!modal);
-  const [type,setType] = useState('');
-  const [content,setContent] = useState('');
+ 
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -35,24 +32,8 @@ const AirplaneDetail = () => {
   const [airplaneInfo, setAirplaneInfo] = useState({});
   const [readOnly, setReadOnly] = useState(true);
 
-  const onChangeHandler = e => {
-    setAirplaneInfo({
-      ...airplaneInfo,
-      [e.target.name]: e.target.value
-    });
-  };
 
-  const onClickHandler = () => {
-    setType('삭제');
-    setContent('비행기가 삭제되었습니다.');
-    toggleModal();
 
-    setTimeout(() => {
-      dispatch(softdeleteAirplane({ airplaneCode }));
-      navigate('/airplane');
-      window.location.reload();
-    }, 3000);
-  }
 
   useEffect(() => {
     dispatch(fetchAirplane({ airplaneCode }));
@@ -66,30 +47,10 @@ const AirplaneDetail = () => {
 
 
 
-  const handleEditClick = () => {
-    if (readOnly) {
-      setReadOnly(false);
-    } else {
-      setReadOnly(true);
-      dispatch(modifyAirplane({ airplaneCode, airplaneInfo }));
-      setType('수정');
-      setContent('비행기 수정 승인 요청되었습니다.')
-      toggleModal();
-    }
-  };
-
-
-
 
   return (
     <div >
       <BreadCrumbs />
-    <div>
-      <Button color="dark" onClick={() => navigate('/inspection/inspectionRegist')}>
-                            안전 점검 등록
-                        </Button>
-                    
-                </div>
       <Row>
         <Col md="12">
           <Card>
@@ -170,27 +131,16 @@ const AirplaneDetail = () => {
                     </FormGroup>
                   </Col>
                 </Row>
-                <Col className='d-flex justify-content-center'>
-                  <Button className="m-2" color="primary"  onClick={() => { handleEditClick();  }}>
-                    {readOnly ? '수정' : '저장'}
-                  </Button>
 
-                  <Button className="m-2 " color="danger"  onClick={() => { onClickHandler(); }} >
-
-                  {userInfo.userRole === "ROLE_ADMIN" ?<Button className="m-2 " color="danger" onClick={onClickHandler} >
-
-                    삭제
-                  </Button> : null }
-
-                </Col>
               </Form>
             </CardBody>
           </Card>
         </Col>
       </Row>
-      <CustomModal  isOpen={modal} toggle={toggleModal} type = {type} content={content}/>
+   
     </div>
   );
 };
+
 
 export default AirplaneDetail;

@@ -38,25 +38,37 @@ const ContactListItem = ({
       style={{ borderBottom: '1px solid #ccc' }} // 목록마다 줄 선 추가
     >
       <div
-        className="d-flex align-items-center p-3 mb-1"
-        onClick={() => dispatch(ToggleInnerRightPart())}
+          className="d-flex align-items-center p-3 mb-1"
+          onClick={() => dispatch(ToggleInnerRightPart())}
       >
         <div>
-          <img src={image} alt="user" className="rounded-circle" width="50" />
+          <img
+              src={
+                  checkinCounter?.approvalRequester?.userImg ||
+                  storage?.approvalRequester?.userImg ||
+                  facilities?.approvalRequester?.userImg ||
+                  baggageClaim?.approvalRequester?.userImg ||
+                  gate?.approvalRequester?.userImg ||
+                  store?.approvalRequester?.userImg
+              }
+              alt="user"
+              className="rounded-circle"
+              width="50"
+          />
         </div>
         <div className="mx-2 flex-grow-1">
-          <h5 className="mb-0 text-truncate" style={{ width: '140px' }}>
-            {checkinCounter?.manager}  {storage?.manager} {facilities?.manager} {baggageClaim?.manager} {gate?.manager} {store?.manager}
+          <h5 className="mb-0 text-truncate" style={{width: '140px'}}>
+            {checkinCounter?.approvalRequester.userName} {storage?.approvalRequester.userName} {facilities?.approvalRequester.userName} {baggageClaim?.approvalRequester.userName} {gate?.approvalRequester.userName} {store?.approvalRequester.userName}
           </h5>
           <small>{type} </small>
         </div>
         <div className="d-flex flex-shrink-0">
           <i
-            className="bi bi-star-fill mx-2"
-            onClick={onStarredClick}
-            style={{ color: starred ? '#FFC107' : '#495057' }}
+              className="bi bi-star-fill mx-2"
+              onClick={onStarredClick}
+              style={{color: starred ? '#FFC107' : '#495057'}}
           />
-          <i onClick={onDeleteClick} className="bi bi-trash" />
+          <i onClick={onDeleteClick} className="bi bi-trash"/>
         </div>
       </div>
     </NavItem>
