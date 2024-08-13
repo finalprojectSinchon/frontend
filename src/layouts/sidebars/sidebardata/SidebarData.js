@@ -63,7 +63,7 @@ const SidebarData = () => {
       title: '편의시설',
       href: '/facilities',
       icon: <MaterialIcon icon="store" />,
-      id: 10,
+      id:  7,
       collapisble: true,
     },
     // {
@@ -112,7 +112,7 @@ const SidebarData = () => {
       title: '비행기',
       href: '/airplane',
       icon: <MaterialIcon icon="airplanemode_active" />,
-      id: 7,
+      id:9,
       collapisble: false,
       children: [
         {
@@ -144,7 +144,7 @@ const SidebarData = () => {
       title: '점포',
       href: '/airport/store',
       icon: <MaterialIcon icon="storefront" />,
-      id: 8,
+      id: 10,
       collapisble: false,
     });
   }
@@ -154,7 +154,7 @@ const SidebarData = () => {
       title: '창고',
       href: '/storage',
       icon: <MaterialIcon icon="warehouse" />,
-      id: 9,
+      id: 7,
       collapisble: true,
       children: [
         {

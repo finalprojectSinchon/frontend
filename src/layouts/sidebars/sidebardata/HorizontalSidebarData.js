@@ -62,7 +62,7 @@ const SidebarData = [
     title: '비행기',
     href: '/airplane',
     icon: <MaterialIcon icon="confirmation_number" />,
-    id: 2.8,
+    id: 2.9,
     collapisble: false,
     children: [
       {
@@ -91,14 +91,14 @@ const SidebarData = [
     title: '점포',
     href: '/airport/store',
     icon: <MaterialIcon icon="account_tree" />,
-    id: 2.9,
+    id: 3,
     collapisble: false,
   },
   {
     title: '창고',
     href: '/storage',
     icon: <MaterialIcon icon="grid_view" />,
-    id: 3,
+    id: 3.1,
     collapisble: true,
 
   },
@@ -106,7 +106,7 @@ const SidebarData = [
     title: '편의시설',
     href: '/facilities',
     icon: <MaterialIcon icon="feed" />,
-    id: 3.1,
+    id: 2.8,
     collapisble: true,
   
   },
