@@ -4,6 +4,7 @@ import { updateOnlineStatus, removeUserStatus } from "src/store/apps/websocket/S
 import { doc, setDoc, Timestamp } from "firebase/firestore";
 import {db} from "src/firebase.js";
 import {useSelector} from "react-redux";
+import { v4 as uuidv4 } from 'uuid';
 
 let socket = null;
 
@@ -54,11 +55,12 @@ export const connectWebSocket = (userCode) => (dispatch) => {
 
         dispatch(setConnected(true));
         socket.send(JSON.stringify({ type: 'REQUEST_ALL_STATUSES' }));
+        let date = new Date();
 
         // Firestore에 로그인 로그 남기기
         try {
-            await setDoc(doc(db, "usersLogin", String(userCode)), {
-                lastLogin: new Date(),  // 현재 시간을 Date 객체로 설정
+            await setDoc(doc(db, "usersLogin", `${String(userCode)} ${date}`), {
+                lastLogin: date,  // 현재 시간을 Date 객체로 설정
                 status: "online",
                 userCode : String(userCode) // userCode를 문자열로 변환
             }, { merge: true });
