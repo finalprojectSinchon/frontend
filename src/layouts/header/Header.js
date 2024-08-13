@@ -27,6 +27,7 @@ import Player from "src/components/apps/audioPlayer/Player.js";
 import StatusProfileImg from "src/components/apps/liveStatus/StatusProfileImg.js";
 import SosIcon from '@mui/icons-material/Sos';
 import {sendSosAlert} from "src/store/apps/websocket/WebSocketSlice.js";
+import {Bell} from "react-feather";
 
 const Header = () => {
   const isDarkMode = useSelector((state) => state.customizer.isDark);
@@ -114,17 +115,13 @@ const Header = () => {
           {/******************************/}
           <UncontrolledDropdown className="mega-dropdown mx-1">
             <DropdownToggle className="bg-transparent border-0" color={topbarColor}>
-              <Icon.Grid size={18} />
+
             </DropdownToggle>
             <DropdownMenu>
-              <MegaDD />
+
             </DropdownMenu>
           </UncontrolledDropdown>
-          <NavItem className="d-md-block d-none">
-            <Link to="/about" className={`nav-link ${topbarColor === 'white' ? 'text-dark' : ''}`}>
-              About
-            </Link>
-          </NavItem>
+
         </Nav>
         <div className="d-flex align-items-center">
           <UncontrolledDropdown className="mx-0">
@@ -142,7 +139,7 @@ const Header = () => {
           {/******************************/}
           <UncontrolledDropdown className="mx-1">
             <DropdownToggle className="bg-transparent border-0" color={topbarColor}>
-              <Icon.MessageSquare size={18} />
+              <Icon.Bell size={18} />
             </DropdownToggle>
             <DropdownMenu className="ddWidth">
               <DropdownItem header>
