@@ -5,6 +5,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { fetchApprove, notiChecked } from 'src/store/apps/approve/ContactSlice.js';
 
 const NotificationDD = ({ clearNotifications }) => {
+
     const dispatch = useDispatch();
     const ApproveData = useSelector((state) => state.contacts.approveData);
     const approves = ApproveData?.data.approvalList || [];
@@ -16,9 +17,10 @@ const NotificationDD = ({ clearNotifications }) => {
         dispatch(fetchApprove());
     }, [dispatch]);
 
+
     useEffect(() => {
         const newApproveInfo = approves
-            .filter((approve) => approve.status === 'N' && approve.checked === 'N' && userInfo.userRole ==="ROLE_ADMIN" )
+            .filter((approve) => approve.status == 'N' && approve.noti == 'N' && userInfo.userRole == "ROLE_ADMIN" )
             .map((approve) => {
                 let structure = '';
                 let code = null;
@@ -42,17 +44,28 @@ const NotificationDD = ({ clearNotifications }) => {
                     code = approve.approvalCode;
                 }
 
+
+
+                    const date = new Date(approve.createdDate);
+
+                    const year = date.getFullYear();
+                    const month = String(date.getMonth() + 1).padStart(2, '0'); // 월은 0부터 시작하므로 +1
+                    const day = String(date.getDate()).padStart(2, '0');
+                    const hours = String(date.getHours()).padStart(2, '0');
+                    const minutes = String(date.getMinutes()).padStart(2, '0');
+
+
                 return {
                     id: `${code}`,
                     iconclass: <CheckCircle />,
                     iconbg: 'warning',
                     title: `${approve.type} 승인요청 `,
                     desc: `${structure}`,
-                    time: `${approve.createdDate[0]}. ${approve.createdDate[1]}. ${approve.createdDate[2]} ${approve.createdDate[3]}시 ${approve.createdDate[4]}분`,
+                    time: `${year}년 ${month}월 ${day}일 ${hours}시 ${minutes}분`,
                 };
             });
         const newApproInfo = approves
-            .filter((approve) => approve.status === 'Y' && approve.checked === 'N' && userInfo.userRole ==="ROLE_USER" )
+            .filter((approve) => approve.status == 'Y' && approve.noti == 'N' && userInfo.userRole =="ROLE_USER" )
             .map((approve) => {
                 let structure = '';
                 let code = null;
@@ -76,13 +89,21 @@ const NotificationDD = ({ clearNotifications }) => {
                     code = approve.approvalCode;
                 }
 
+                const date = new Date(approve.createdDate);
+
+                const year = date.getFullYear();
+                const month = String(date.getMonth() + 1).padStart(2, '0'); // 월은 0부터 시작하므로 +1
+                const day = String(date.getDate()).padStart(2, '0');
+                const hours = String(date.getHours()).padStart(2, '0');
+                const minutes = String(date.getMinutes()).padStart(2, '0');
+
                 return {
                     id: `${code}`,
                     iconclass: <CheckCircle />,
                     iconbg: 'warning',
                     title: `${approve.type}`,
                     desc: `${structure}`,
-                    time: `${approve.modifiedDate[0]}. ${approve.modifiedDate[1]}. ${approve.modifiedDate[2]} ${approve.modifiedDate[3]}시 ${approve.modifiedDate[4]}분`,
+                    time: `${year}년 ${month}월 ${day}일 ${hours}시 ${minutes}분`,
                 };
             });
         setMessage([...newApproveInfo,...newApproInfo]);
