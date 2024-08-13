@@ -42,8 +42,8 @@ const convertPercentToCoords = (percentCoords, imgWidth, imgHeight) => {
 
   return coordsArray.map((coord, index) => {
     return index % 2 === 0
-      ? Math.round((coord / 100) * imgWidth)
-      : Math.round((coord / 100) * imgHeight);
+        ? Math.round((coord / 100) * imgWidth)
+        : Math.round((coord / 100) * imgHeight);
   }).join(',');
 };
 
@@ -90,14 +90,15 @@ const Datatables = () => {
     { id: 3, coords: "22%,40%,25.5%,60%", href: "#section3", label: "L" },
     { id: 4, coords: "27%,33%,30%,49%", href: "#section4", label: "K" },
     { id: 5, coords: "33%,28%,36%,45%", href: "#section5", label: "J" },
-    { id: 6, coords: "39%,23%,42%,43%", href: "#section6", label: "H" },
-    { id: 7, coords: "51%,23%,54%,43%", href: "#section7", label: "G" },
-    { id: 8, coords: "57%,24%,60%,44%", href: "#section8", label: "F" },
-    { id: 9, coords: "62%,27%,65.5%,49%", href: "#section9", label: "E" },
-    { id: 10, coords: "68%,29%,71%,53%", href: "#section10", label: "D" },
-    { id: 11, coords: "73%,36%,77%,60%", href: "#section11", label: "C" },
-    { id: 12, coords: "79%,47%,82%,67%", href: "#section12", label: "B" },
-    { id: 13, coords: "83%,55%,87%,75%", href: "#section13", label: "A" }
+    { id: 6, coords: "38%,25%,41%,42%", href: "#section6", label: "I" },
+    { id: 7, coords: "45%,23%,48%,43%", href: "#section7", label: "H" },
+    { id: 8, coords: "51%,23%,54%,43%", href: "#section8", label: "G" },
+    { id: 9, coords: "57%,24%,60%,44%", href: "#section9", label: "F" },
+    { id: 10, coords: "62%,27%,65.5%,49%", href: "#section10", label: "E" },
+    { id: 11, coords: "68%,29%,71%,53%", href: "#section11", label: "D" },
+    { id: 12, coords: "73%,36%,77%,60%", href: "#section12", label: "C" },
+    { id: 13, coords: "79%,47%,82%,67%", href: "#section13", label: "B" },
+    { id: 14, coords: "83%,55%,87%,75%", href: "#section14", label: "A" }
   ];
 
   const [mapData, setMapData] = useState(initialMapData);
@@ -170,168 +171,168 @@ const Datatables = () => {
     navigate('/airplane/checkin-counter/'+checkinCounterCode);
   }
   return (
-    <div>
-      <div className="container">
-        <div style={{ position: 'relative' }}>
-          <img
-            src='/3.png'
-            useMap='#roadmap'
-            alt='Roadmap'
-            ref={imageRef}
-            style={{ width: '100%', height: 'auto' }}
-            onLoad={() => setImageLoaded(true)}
-          />
-          <map name='roadmap'>
-            {mapData.map(area => (
-              <area
-                key={area.id}
-                shape='rect'
-                coords={area.coords}
-                href={area.href}
-                alt={area.label}
-                id={`area-${area.id}`}
-                onMouseEnter={() => handleMouseEnter(area.id)}
-                ref={(el) => { popoverTargets.current[area.id] = el; }}
-              />
-            ))}
-          </map>
-          {mapData.map(area => {
-            const [x1, y1, x2, y2] = area.coords.split(',').map(Number);
-            const matchedCounter = flatChkinCounterList.find(chkincounter => chkincounter.location === area.label);
-            if (!matchedCounter) {
+      <div>
+        <div className="container">
+          <div style={{ position: 'relative' }}>
+            <img
+                src='/3.png'
+                useMap='#roadmap'
+                alt='Roadmap'
+                ref={imageRef}
+                style={{ width: '100%', height: 'auto' }}
+                onLoad={() => setImageLoaded(true)}
+            />
+            <map name='roadmap'>
+              {mapData.map(area => (
+                  <area
+                      key={area.id}
+                      shape='rect'
+                      coords={area.coords}
+                      href={area.href}
+                      alt={area.label}
+                      id={`area-${area.id}`}
+                      onMouseEnter={() => handleMouseEnter(area.id)}
+                      ref={(el) => { popoverTargets.current[area.id] = el; }}
+                  />
+              ))}
+            </map>
+            {mapData.map(area => {
+              const [x1, y1, x2, y2] = area.coords.split(',').map(Number);
+              const matchedCounter = flatChkinCounterList.find(chkincounter => chkincounter.location === area.label);
+              if (!matchedCounter) {
 
-            }
-            const circleClass = matchedCounter ? 'green-circle' : 'red-circle'; // 조건에 따른 동그라미 색상 red-circle  green-circle
+              }
+              const circleClass = matchedCounter ? 'green-circle' : 'red-circle'; // 조건에 따른 동그라미 색상 red-circle  green-circle
 
-            return (
-              <div
-                key={`circle-${area.id}`}
-                className={circleClass}
-                style={{
-                  left: `${x1+22}px`, // 동그라미의 중심 위치
-                  top: `${y1 + (y2 - y1) / 2}px`, // 동그라미의 중심 위치
-                  position: 'absolute'
-                }}
-              ></div>
-            );
-          })}
-          {mapData.map(area => {
-            const [x1, y1, x2, y2] = area.coords.split(',').map(Number);
-            const matchedCounter = flatChkinCounterList.find(chkincounter => chkincounter.location === area.label);
+              return (
+                  <div
+                      key={`circle-${area.id}`}
+                      className={circleClass}
+                      style={{
+                        left: `${x1+22}px`, // 동그라미의 중심 위치
+                        top: `${y1 + (y2 - y1) / 2}px`, // 동그라미의 중심 위치
+                        position: 'absolute'
+                      }}
+                  ></div>
+              );
+            })}
+            {mapData.map(area => {
+              const [x1, y1, x2, y2] = area.coords.split(',').map(Number);
+              const matchedCounter = flatChkinCounterList.find(chkincounter => chkincounter.location === area.label);
 
-            return (
-              <Popover
-                key={area.id}
-                placement='top'
-                isOpen={popoverOpen === area.id}
-                target={`area-${area.id}`}
-                toggle={handleMouseLeave}
-                className='custom-popover'
-                style={{
-                  position: 'absolute',
-                  left: `${x1}px`,
-                  top: `${y1}px`,
-                  transform: 'translate(-50%, -80%)', 
-                  width:'250px'
-                }}
-              >
-                <PopoverHeader className='custom-popover-header'>
-                  {area.label} 카운터
-                  <Button close onClick={handleMouseLeave} />
-                </PopoverHeader>
-                <PopoverBody className='custom-popover-body'>
-                  {matchedCounter ? (
-                    <Table className='custom-table'>
-                      <tbody>
-                        <tr>
-                          <td><strong>항공사:</strong></td>
-                          <td>{matchedCounter.airline}</td>
-                        </tr>
-                        <tr>
-                          <td><strong>출발/도착시간:</strong></td>
-                          <td>{formatDateTime(matchedCounter.scheduleDateTime)}</td>
-                        </tr>
-                        <tr>
-                          <td><strong>위치:</strong></td>
-                          <td>{matchedCounter.location} 탑승구</td>
-                        </tr>
-                      </tbody>
-                    </Table>
-                  ) : (
-                    <Table className='custom-table'>
-                      <tbody>
-                      <tr>
-                          <td><strong>항공사:</strong></td>
-                          <td>등록 필요</td>
-                        </tr>
-                        <tr>
-                          <td><strong>출발/도착시간:</strong></td>
-                          <td>등록 필요</td>
-                        </tr>
-                        <tr>
-                          <td><strong>위치:</strong></td>
-                          <td>{area.label} 탑승구</td>
-                        </tr>
-                      </tbody>
-                    </Table>
-                  )}
-                    <div className="custom-button-wrapper">
+              return (
+                  <Popover
+                      key={area.id}
+                      placement='top'
+                      isOpen={popoverOpen === area.id}
+                      target={`area-${area.id}`}
+                      toggle={handleMouseLeave}
+                      className='custom-popover'
+                      style={{
+                        position: 'absolute',
+                        left: `${x1}px`,
+                        top: `${y1}px`,
+                        transform: 'translate(-50%, -80%)',
+                        width:'250px'
+                      }}
+                  >
+                    <PopoverHeader className='custom-popover-header'>
+                      {area.label} 카운터
+                      <Button close onClick={handleMouseLeave} />
+                    </PopoverHeader>
+                    <PopoverBody className='custom-popover-body'>
                       {matchedCounter ? (
-                        <Button className='custom-button' onClick={onClickHandler(matchedCounter.checkinCounterCode)}>
-                          상세보기
-                        </Button>
+                          <Table className='custom-table'>
+                            <tbody>
+                            <tr>
+                              <td><strong>항공사:</strong></td>
+                              <td>{matchedCounter.airline}</td>
+                            </tr>
+                            <tr>
+                              <td><strong>출발/도착시간:</strong></td>
+                              <td>{formatDateTime(matchedCounter.scheduleDateTime)}</td>
+                            </tr>
+                            <tr>
+                              <td><strong>위치:</strong></td>
+                              <td>{matchedCounter.location} 탑승구</td>
+                            </tr>
+                            </tbody>
+                          </Table>
                       ) : (
-                        <Button className='custom-button' onClick={handlerRegist(area.label)}>
-                          등록
-                        </Button>
+                          <Table className='custom-table'>
+                            <tbody>
+                            <tr>
+                              <td><strong>항공사:</strong></td>
+                              <td>등록 필요</td>
+                            </tr>
+                            <tr>
+                              <td><strong>출발/도착시간:</strong></td>
+                              <td>등록 필요</td>
+                            </tr>
+                            <tr>
+                              <td><strong>위치:</strong></td>
+                              <td>{area.label} 탑승구</td>
+                            </tr>
+                            </tbody>
+                          </Table>
                       )}
-                    </div>
-                </PopoverBody>
-              </Popover>
-            );
-          })}
+                      <div className="custom-button-wrapper">
+                        {matchedCounter ? (
+                            <Button className='custom-button' onClick={onClickHandler(matchedCounter.checkinCounterCode)}>
+                              상세보기
+                            </Button>
+                        ) : (
+                            <Button className='custom-button' onClick={handlerRegist(area.label)}>
+                              등록
+                            </Button>
+                        )}
+                      </div>
+                    </PopoverBody>
+                  </Popover>
+              );
+            })}
+          </div>
         </div>
+        <Card>
+          <CardBody>
+            <BreadCrumbs />
+            <BootstrapTable
+                hover
+                search
+                data={flatChkinCounterList.map(data =>({
+                  ...data,
+                  airline: data.airline || '미정',
+                  scheduleDateTime: formatDateTime(data.scheduleDateTime)
+                }))}
+                selectRow={selectRowProp}
+                pagination
+                options={options}
+                tableHeaderClass="mb-10"
+                exportCSV
+                headerStyle={{ width: '100%' }}
+            >
+              <TableHeaderColumn width="7%" dataField="checkinCounterCode" dataAlign="center" isKey>
+                번호
+              </TableHeaderColumn>
+              <TableHeaderColumn width="20%" dataField="location" dataAlign="center">
+                카운터
+              </TableHeaderColumn>
+              <TableHeaderColumn width="20%" dataField="airport" dataAlign="center">
+                도착지
+              </TableHeaderColumn>
+              <TableHeaderColumn width="20%" dataField="airline" dataAlign="center">
+                항공사
+              </TableHeaderColumn>
+              <TableHeaderColumn width="25%" dataField="scheduleDateTime" dataAlign="center">
+                출발시간
+              </TableHeaderColumn>
+              <TableHeaderColumn width="20%" dataField="status" dataAlign="center" dataFormat={statusFormatter}>
+                상태
+              </TableHeaderColumn>
+            </BootstrapTable>
+          </CardBody>
+        </Card>
       </div>
-      <Card>
-        <CardBody>
-          <BreadCrumbs />
-          <BootstrapTable
-            hover
-            search
-            data={flatChkinCounterList.map(data =>({
-              ...data,
-              airline: data.airline || '미정',
-              scheduleDateTime: formatDateTime(data.scheduleDateTime)
-            }))}
-            selectRow={selectRowProp}
-            pagination
-            options={options}
-            tableHeaderClass="mb-10"
-            exportCSV
-            headerStyle={{ width: '100%' }}
-          >
-            <TableHeaderColumn width="7%" dataField="checkinCounterCode" dataAlign="center" isKey>
-              번호
-            </TableHeaderColumn>
-            <TableHeaderColumn width="20%" dataField="location" dataAlign="center">
-              카운터
-            </TableHeaderColumn>
-            <TableHeaderColumn width="20%" dataField="airport" dataAlign="center">
-              도착지
-            </TableHeaderColumn>
-            <TableHeaderColumn width="20%" dataField="airline" dataAlign="center">
-              항공사
-            </TableHeaderColumn>
-            <TableHeaderColumn width="25%" dataField="scheduleDateTime" dataAlign="center">
-              출발시간
-            </TableHeaderColumn>
-            <TableHeaderColumn width="20%" dataField="status" dataAlign="center" dataFormat={statusFormatter}>
-              상태
-            </TableHeaderColumn>
-          </BootstrapTable>
-        </CardBody>
-      </Card>
-    </div>
   );
 };
 
