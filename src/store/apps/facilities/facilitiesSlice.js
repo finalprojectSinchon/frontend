@@ -2,7 +2,7 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import api from  '../airplane/api';
 
 export const createFacilities = createAsyncThunk('facilities/createFacilities', async ({facilitiesInfo}) => {
-    console.log("222222222", facilitiesInfo)
+
     const response = await api.post('/api/v1/facilities', facilitiesInfo);
     return response.data;
 });

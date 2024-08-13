@@ -3,7 +3,7 @@ import api from '../airplane/api';
 import StorageDetail from '../../../views/storage/StorageDetail';
 
 export const createStorage = createAsyncThunk('storage/createStorage', async ({storageInfo}) => {
-    console.log(storageInfo, "12112122121122112")
+
     const response = await api.post('/api/v1/storage', storageInfo);
     return response.data;
 });

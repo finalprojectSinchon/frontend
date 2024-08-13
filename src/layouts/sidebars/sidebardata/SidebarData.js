@@ -20,13 +20,6 @@ const SidebarData = () => {
       collapisble: false,
     },
 
-    {
-      title: '캘린더',
-      href: '/calendar',
-      id: 15,
-      icon: <MaterialIcon icon="event" />,
-      collapisble: true,
-    },
 
       {
     title: '캘린더',

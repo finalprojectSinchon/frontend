@@ -144,7 +144,7 @@ const Datatables = () => {
       navigate(`/airplane/gate/${row.gateCode}`);
     },
   };
-  console.log('gateList',gateList)
+
 
   return (
       <div>

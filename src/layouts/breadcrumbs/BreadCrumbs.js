@@ -6,7 +6,7 @@ const BreadCrumbs = () => {
   const location = useLocation();
   const firstUrl = location.pathname.split('/')[1];
   const secondUrl = location.pathname.split('/')[2];
-  console.log(firstUrl, secondUrl);
+
   return (
     <>
       <h4 className="text-capitalize">{secondUrl ? `${secondUrl}` : `${firstUrl}`}</h4>

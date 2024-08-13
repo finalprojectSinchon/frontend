@@ -122,10 +122,10 @@ const ChatElements = ({ chatData, userInfo }) => {
 
 
     const handleMessageReceived = (event) => {
-        console.log("Received message:", event.data);
+
         try {
             const data = JSON.parse(event.data);
-            console.log("Parsed data:", data);
+
 
             if (data && data.message && data.timestamp) {
                 // `chatData`와 `userInfo`의 유효성 검사
@@ -149,7 +149,7 @@ const ChatElements = ({ chatData, userInfo }) => {
 
                 setMessages(prevMessages => {
                     const updatedMessages = [...prevMessages, newMessage];
-                    console.log("Updated messages:", updatedMessages);
+
                     return updatedMessages;
                 });
             } else {

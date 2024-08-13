@@ -69,7 +69,7 @@ const Datatables = () => {
     afterDeleteRow: onAfterDeleteRow,
     afterSearch,
     onRowClick: (row) => {
-      console.log('Row clicked: ', row);
+
       navigate(`/airplane/${row.airplaneCode}`);
     },
   };

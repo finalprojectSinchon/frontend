@@ -129,7 +129,7 @@ const BaggageClaimsRegist = () => {
     }, 3000);
 
   };
-  console.log('baggageClaimInfo',baggageClaimInfo);
+
 
   const uniqueAirlines = [...new Set(airplanes.map(airplane => airplane.airline))];
   const uniqueTimes = [...new Set(arrivalTimes.map(time => time))];

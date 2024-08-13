@@ -44,7 +44,7 @@ const StorageRegist = () => {
             ...storageInfo,
             [e.target.name]: e.target.value,
         });
-        console.log(storageInfo)
+
     };
 
     const handleRegistClick = () => {

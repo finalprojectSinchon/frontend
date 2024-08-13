@@ -42,7 +42,6 @@ const FacilitiesRegist = () => {
         approvalRequester:userInfo
     });
 
-    console.log(facilitiesInfo);
 
     useEffect(() => {
         setFacilitiesInfo({
