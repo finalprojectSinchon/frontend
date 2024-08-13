@@ -67,12 +67,8 @@ function ImgDialog(props) {
     const [loading, setLoading] = useState(false)
 
     const userInfo = useSelector((state) => state.userInfo)
-    const navigate = useNavigate()
+    const navigate = useNavigate();
 
-    const [modal, setModal] = useState(false);
-    const toggleModal = () => setModal(!modal);
-    const [type,setType] = useState('');
-    const [content, setContent] = useState('');
 
     useEffect(() => {
         setUserCode(userInfo.userCode)
@@ -103,10 +99,6 @@ function ImgDialog(props) {
                     userCode,
                     profileImageUrl: imageUrl,
                 })
-
-                setType('이미지');
-                setContent('이미지 저장되었습니다.');
-                toggleModal();
 
                 setTimeout(() => {
                     window.location.reload();
@@ -176,7 +168,7 @@ function ImgDialog(props) {
                 </div>
             </div>
         </Dialog>
-    <CustomModal  isOpen={modal} toggle={toggleModal} type = {type} content={content}/>
+
   </>
 
 )

@@ -109,7 +109,7 @@ const FacilitiesRegist = () => {
                             <Row>
                                 <Col md="6">
                                     <FormGroup>
-                                        <Label>이름</Label>
+                                        <Label>시설물 이름</Label>
                                         <Input type="text" name="facilitiesName" onChange={onChangeHandler} />
                                     </FormGroup>
                                 </Col>

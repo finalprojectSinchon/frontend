@@ -136,7 +136,7 @@ const FacilitiesDetail = () => {
                                 <Row>
                                     <Col md="6">
                                         <FormGroup>
-                                            <Label>이름</Label>
+                                            <Label>시설물 이름</Label>
                                             <Input type="text" placeholder="시설물 이름을 입력하세요" name='facilitiesName' onChange={onChangeHandler} readOnly={readOnly}
                                                    value={facilitiesInfo ? facilitiesInfo.facilitiesName : '로딩중...'  } />
                                         </FormGroup>
