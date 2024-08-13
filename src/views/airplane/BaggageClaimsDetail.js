@@ -212,30 +212,14 @@ const BaggageClaimsDetail = () => {
                       </FormGroup>
                     </Col>
                     <Col md="6">
-                      {readOnly ? (
-                          <>
-                            <Label>위치</Label>
-                            <Input
-                                type="text"
-                                placeholder="시설물 이름을 입력하세요"
-                                name='facilitiesName'
-                                onChange={onChangeHandler}
-                                readOnly={readOnly}
-                                value={location ? `${location.region} ${location.floor} ${location.location}` : '위치 데이터가 없습니다.'}
-                            />
-                          </>
-                      ) : (
-                          <Location isModify={isModify} setIsModify={setIsModify} setReadOnly={setReadOnly} code={baggageClaimCode} type={airportType} />
-                      )}
-                    </Col>
-                  </Row>
-                  <Row>
-                    <Col md="6">
                       <FormGroup>
                         <Label>도착공항명</Label>
                         <Input type="text" value={baggageClaimInfo?.airport} disabled />
                       </FormGroup>
                     </Col>
+                  </Row>
+                  <Row>
+
                   </Row>
                   <Row>
 
@@ -248,10 +232,10 @@ const BaggageClaimsDetail = () => {
                     <Col md="6">
                       <Row className="mb-3 mt-3">
                         <Col md="6" className="d-flex justify-content-start">
-                          <h2 className="ms-5 ps-4">전체 직원</h2>
+                          <h4 className="ms-5 ps-4">전체 직원</h4>
                         </Col>
                         <Col md="6" className="d-flex justify-content-end">
-                          <h2 className="me-5 pe-5">담당 직원</h2>
+                          <h4 className="me-5 pe-5">담당 직원</h4>
                         </Col>
                       </Row>
                       <div className='mb-4'>

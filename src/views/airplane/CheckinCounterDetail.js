@@ -230,19 +230,7 @@ const CheckinCounterDetail = () => {
                   </Col>
                 </Row>
                 <Row>
-                  <Col md="6">
-                    <FormGroup>
-                      <Label>도착공항명</Label>
-                      <Input type="text" value={checkinCounterInfo?.airport} disabled/>
-                    </FormGroup>
-                  </Col>
-                  <Col md="6">
-                    {readOnly ? <> <Label>위치</Label>
-                          <Input type="text" placeholder="시설물 이름을 입력하세요" name='facilitiesName' onChange={onChangeHandler} readOnly={readOnly}
-                                 value={location ? location.region + " " + location.floor + " " + location.location : '위치 데이터가 없습니다.'  } /> </> :
-                        <Location isModify={isModify} setIsModify={setIsModify} setReadOnly={setReadOnly} code={checkinCounterCode} type={airportType}/>
-                    }
-                  </Col>
+
                 </Row>
                 <Row>
 
