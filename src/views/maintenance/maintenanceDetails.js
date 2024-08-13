@@ -22,6 +22,8 @@ import {
 } from '../../store/apps/maintenance/maintenanceSlice';
 import EquipmentStock from "src/views/maintenance/EquipmentStock.js";
 import CustomModal  from "src/views/CustomModal.js";
+import ManagerDragAndDrop from "src/components/apps/managerDargAndDrop/ManagerDragAndDrop.js";
+import api from "src/store/apps/airplane/api.js";
 
 
 const MaintenanceDetails = () => {
@@ -40,6 +42,9 @@ const MaintenanceDetails = () => {
   const [equipmentRegistered, setEquipmentRegistered] = useState(false);
   const result = useSelector((state) => state.maintenances.result);
 
+  const [manager, setManager] = useState([]);
+  const [airportType, setAirportType] = useState()
+
 
   const userInfo = useSelector((state) => state.userInfo);
 
@@ -51,6 +56,17 @@ const MaintenanceDetails = () => {
       [e.target.name]: e.target.value,
     });
   };
+
+  useEffect(() => {
+    api.post('/api/v1/managers',{
+      airportType : "maintenance",
+      airportCode : maintenanceCode
+    })
+        .then(res => res.data)
+        .then(data => {
+          setManager(data.data)
+        })
+  }, [maintenanceDetails]);
 
   const navigate = useNavigate();
   const onClickHandler = () => {
@@ -67,6 +83,7 @@ const MaintenanceDetails = () => {
 
   useEffect(() => {
     dispatch(fetchMaintenance({ maintenanceCode }));
+    setAirportType("maintenance")
   }, [dispatch, maintenanceCode]);
 
   useEffect(() => {
@@ -141,15 +158,15 @@ const MaintenanceDetails = () => {
                   <Row>
                     <Col md="6">
                       <FormGroup>
-                        <Label>담당자</Label>
+                        <Label>비용</Label>
                         <Input
                             type="text"
-                            value={maintenanceInfo.manager}
-                            name="manager"
-                            onChange={onChangeHandler}
-                            readOnly={readOnly}
+                            name="price"
+                            value={maintenanceInfo.price}
+                            disabled
                         />
                       </FormGroup>
+
                     </Col>
                     <Col md="6">
                       <FormGroup>
@@ -195,7 +212,7 @@ const MaintenanceDetails = () => {
                     </Col>
                   </Row>
                   <Row>
-                    <Col md="12">
+                    <Col md="6">
                       <FormGroup>
                         <Label>상세 정보</Label>
                         <Input
@@ -208,19 +225,29 @@ const MaintenanceDetails = () => {
                         />
                       </FormGroup>
                     </Col>
+
+                    <Col>
+                      <FormGroup>
+                        <Row className="mb-3 mt-3">
+                          <Col md="6" className="d-flex justify-content-start">
+                            <h2 className="ms-5 ps-4">전체 직원</h2>
+                          </Col>
+                          <Col md="6" className="d-flex justify-content-end">
+                            <h2 className="me-5 pe-5">담당 직원</h2>
+                          </Col>
+                        </Row>
+                        <div className='mb-4'>
+                          {manager ? <ManagerDragAndDrop AllUser={manager.AllUser} Manager={manager.Manager} airportCode={maintenanceCode}
+                                                         airportType={airportType} isEditMode={readOnly}/>
+                              : <h3>loading</h3> }
+
+                        </div>
+                      </FormGroup>
+                    </Col>
                   </Row>
 
                   <Row>
                     <Col md="6">
-                      <FormGroup>
-                        <Label>비용</Label>
-                        <Input
-                            type="text"
-                            name="price"
-                            value={maintenanceInfo.price}
-                            disabled
-                        />
-                      </FormGroup>
                     </Col>
                   </Row>
                   <Col className="d-flex justify-content-center">
