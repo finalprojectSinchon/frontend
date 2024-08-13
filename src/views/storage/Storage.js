@@ -92,18 +92,15 @@ const Storage = () => {
                                 exportCSV
                                 headerStyle={{width: '100%'}}
                             >
-                                <TableHeaderColumn width="20%" dataField="type" dataAlign="center" isKey>
+                                <TableHeaderColumn width="25%" dataField="type" dataAlign="center" isKey>
                                     타입
                                 </TableHeaderColumn>
-                                <TableHeaderColumn width="20%" dataField="location" dataAlign="center">
+                                <TableHeaderColumn width="25%" dataField="location" dataAlign="center">
                                     위치
                                 </TableHeaderColumn>
-                                <TableHeaderColumn width="20%" dataField="status" dataAlign="center"
+                                <TableHeaderColumn width="25%" dataField="status" dataAlign="center"
                                                    dataFormat={statusFormatter}>
                                     상태
-                                </TableHeaderColumn>
-                                <TableHeaderColumn width="20%" dataField="manager" dataAlign="center">
-                                    담당자
                                 </TableHeaderColumn>
                             </BootstrapTable>
                 </CardBody>
