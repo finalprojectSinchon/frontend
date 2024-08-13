@@ -27,9 +27,10 @@ const CalendarApp = () => {
     useEffect(() => {
         const myMaintenance = maintenances.filter((maintenance) => {
             return (
-                (maintenance.manager === userInfo.userName)
+                (maintenance.manager == userInfo.userName)
             );
         });
+        console.log('maintenances',maintenances)
         setMaintenanceInfo(myMaintenance);
     }, [maintenanceList, userInfo]);
 
