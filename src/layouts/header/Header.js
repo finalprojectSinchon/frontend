@@ -60,6 +60,7 @@ const Header = () => {
   const handleInputClick = (e) => {
     e.stopPropagation(); // 이벤트 전파 중지
   };
+  const [notificationCount, setNotificationCount] = useState(0);
 
   return (
     <>
@@ -138,8 +139,14 @@ const Header = () => {
           {/**********Notification DD**********/}
           {/******************************/}
           <UncontrolledDropdown className="mx-1">
-            <DropdownToggle className="bg-transparent border-0" color={topbarColor}>
+            <DropdownToggle className="bg-transparent border-0 position-relative" color={topbarColor}>
               <Icon.Bell size={18} />
+              {notificationCount > 0 && (
+                  <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                        {notificationCount}
+                    <span className="visually-hidden">unread messages</span>
+                    </span>
+              )}
             </DropdownToggle>
             <DropdownMenu className="ddWidth">
               <DropdownItem header>
@@ -147,7 +154,10 @@ const Header = () => {
               </DropdownItem>
               <DropdownItem divider />
               <SimpleBar style={{ maxHeight: '350px' }}>
-                <NotificationDD clearNotifications={clearNotifications}  />
+                <NotificationDD
+                    clearNotifications={clearNotifications}
+                    onNotificationCountChange={setNotificationCount}
+                />
               </SimpleBar>
               <DropdownItem divider />
               <div className="p-2 px-3">
