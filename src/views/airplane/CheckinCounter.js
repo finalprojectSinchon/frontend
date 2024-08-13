@@ -310,14 +310,14 @@ const Datatables = () => {
             exportCSV
             headerStyle={{ width: '100%' }}
           >
-            <TableHeaderColumn width="5%" dataField="checkinCounterCode" dataAlign="center" isKey>
+            <TableHeaderColumn width="7%" dataField="checkinCounterCode" dataAlign="center" isKey>
               번호
-            </TableHeaderColumn>
-            <TableHeaderColumn width="20%" dataField="manager" dataAlign="center">
-              담당자
             </TableHeaderColumn>
             <TableHeaderColumn width="20%" dataField="location" dataAlign="center">
               카운터
+            </TableHeaderColumn>
+            <TableHeaderColumn width="20%" dataField="airport" dataAlign="center">
+              도착지
             </TableHeaderColumn>
             <TableHeaderColumn width="20%" dataField="airline" dataAlign="center">
               항공사
