@@ -24,16 +24,10 @@ const CalendarApp = () => {
     }, [dispatch]);
 
 
-
     useEffect(() => {
         const myMaintenance = maintenances.filter((maintenance) => {
             return (
-                (maintenance.baggageClaim?.manager === userInfo.userName) ||
-                (maintenance.checkinCounter?.manager === userInfo.userName) ||
-                (maintenance.facilities?.manager === userInfo.userName) ||
-                (maintenance.gate?.manager === userInfo.userName) ||
-                (maintenance.storage?.manager === userInfo.userName) ||
-                (maintenance.store?.manager === userInfo.userName)
+                (maintenance.manager === userInfo.userName)
             );
         });
         setMaintenanceInfo(myMaintenance);
