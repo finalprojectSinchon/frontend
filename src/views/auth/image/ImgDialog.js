@@ -14,6 +14,7 @@ import { addDoc, collection } from 'firebase/firestore'
 import { useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import api from 'src/store/apps/airplane/api.js'
+import CustomModal from "src/views/CustomModal.js";
 
 const styles = {
     appBar: {
@@ -68,6 +69,11 @@ function ImgDialog(props) {
     const userInfo = useSelector((state) => state.userInfo)
     const navigate = useNavigate()
 
+    const [modal, setModal] = useState(false);
+    const toggleModal = () => setModal(!modal);
+    const [type,setType] = useState('');
+    const [content, setContent] = useState('');
+
     useEffect(() => {
         setUserCode(userInfo.userCode)
     }, [userInfo.userCode])
@@ -98,7 +104,13 @@ function ImgDialog(props) {
                     profileImageUrl: imageUrl,
                 })
 
-                alert('프로필 사진 업로드 및 저장 완료!')
+                setType('이미지');
+                setContent('이미지 저장되었습니다.');
+                toggleModal();
+
+                setTimeout(() => {
+                    window.location.reload();
+                },1500)
             } catch (error) {
                 console.error('업로드 중 오류 발생:', error)
                 alert('업로드 중 오류가 발생했습니다.')
@@ -132,6 +144,7 @@ function ImgDialog(props) {
     }, [profileImageUrl, userCode, navigate]) // Execute this useEffect when profileImageUrl or userCode changes
 
     return (
+        <>
         <Dialog
             open={!!img}
             onClose={onClose}
@@ -163,7 +176,10 @@ function ImgDialog(props) {
                 </div>
             </div>
         </Dialog>
-    )
+    <CustomModal  isOpen={modal} toggle={toggleModal} type = {type} content={content}/>
+  </>
+
+)
 }
 
 export default withStyles(styles)(ImgDialog)

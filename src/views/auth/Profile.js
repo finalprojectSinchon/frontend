@@ -33,9 +33,10 @@ import ReactMarkdown from "react-markdown";
 import api from "src/store/apps/airplane/api.js";
 import rehypeRaw from "rehype-raw";
 import DaumPost from "src/components/apps/daumpost/DaumPost.js";
+import CustomModal from "src/views/CustomModal.js";
 
 const Profile = () => {
-  const [activeTab, setActiveTab] = useState('1');
+  const [activeTab, setActiveTab] = useState('2');
   const [passwordForm, setPasswordForm] = useState(false);
   const [currentPassword, setCurrentPassword] = useState('');
   const [newPassword, setNewPassword] = useState(null);
@@ -97,7 +98,10 @@ const Profile = () => {
     })
         .then(res => res.data)
         .then(data => {
-          alert(data.message);
+
+          setType('프로필');
+          setContent('프로필이 수정되었습니다.');
+          toggleModal();
           dispatch(modifyUser(changeInfo));
         })
         .catch(error => {
@@ -126,6 +130,11 @@ const Profile = () => {
     }
     return phoneNumber;
   };
+
+  const [modal, setModal] = useState(false);
+  const toggleModal = () => setModal(!modal);
+  const [type,setType] = useState('');
+  const [content, setContent] = useState('');
 
   const passwordCheckHandler = () => {
     let passwordCheckForm = {
@@ -422,6 +431,7 @@ const Profile = () => {
             </Card>
           </Col>
         </Row>
+        <CustomModal  isOpen={modal} toggle={toggleModal} type = {type} content={content}/>
       </>
   );
 };
