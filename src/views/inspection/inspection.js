@@ -98,16 +98,16 @@ const Datatables = () => {
             <Card>
                 <CardBody>
                     <div className="d-flex justify-content-between align-items-center">
-                <div>
-                <CardTitle tag="h5">안전 점검</CardTitle>
-                <CardSubtitle className="mb-2 text-muted" tag="h6">
-                안전 점검 전체 조회
-                </CardSubtitle>
-                </div>
-                <Button color="primary" onClick={() => navigate('/inspection/inspectionRegist')}>
-                등록
-                </Button>
-            </div>
+                        <div>
+                            <CardTitle tag="h5">안전 점검</CardTitle>
+                            <CardSubtitle className="mb-2 text-muted" tag="h6">
+                                안전 점검 전체 조회
+                            </CardSubtitle>
+                        </div>
+                        <Button color="primary" onClick={() => navigate('/inspection/inspectionRegist')}>
+                            등록
+                        </Button>
+                    </div>
                     <BootstrapTable
                         hover
                         search
@@ -121,6 +121,18 @@ const Datatables = () => {
                         exportCSV
                         headerStyle={{ width: '100%' }}
                     >
+                        <TableHeaderColumn
+                            width="20%"
+                            dataField="manager"
+                            dataAlign="center"
+                            dataFormat={(cell, row) => (
+                                <div onClick={() => navigate(`/inspection/${row.inspectionCode}`)}>
+                                    {cell}
+                                </div>
+                            )}
+                        >
+                            담당자
+                        </TableHeaderColumn>
                         <TableHeaderColumn
                             width="20%"
                             dataField="location"
@@ -170,18 +182,7 @@ const Datatables = () => {
                         >
                             등록날짜
                         </TableHeaderColumn>
-                        <TableHeaderColumn
-                            width="20%"
-                            dataField="manager"
-                            dataAlign="center"
-                            dataFormat={(cell, row) => (
-                                <div onClick={() => navigate(`/inspection/${row.inspectionCode}`)}>
-                                    {cell}
-                                </div>
-                            )}
-                        >
-                            담당자
-                        </TableHeaderColumn>
+
                     </BootstrapTable>
                 </CardBody>
             </Card>
