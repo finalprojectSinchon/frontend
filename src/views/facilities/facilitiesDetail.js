@@ -109,9 +109,10 @@ const FacilitiesDetail = () => {
                 setType('수정');
                 setContent('해당 편의시설 수정 승인을 요청했습니다.')
                 toggleModal();
-                setIsModify(true);
+                setTimeout(() => {
                 window.loaction.reload();
-                return res.data;
+                }, 2000);
+
             })
             .catch(error => {
                 console.error('에러 : ', error);
@@ -135,7 +136,7 @@ const FacilitiesDetail = () => {
                                 <Row>
                                     <Col md="6">
                                         <FormGroup>
-                                            <Label>시설물</Label>
+                                            <Label>이름</Label>
                                             <Input type="text" placeholder="시설물 이름을 입력하세요" name='facilitiesName' onChange={onChangeHandler} readOnly={readOnly}
                                                    value={facilitiesInfo ? facilitiesInfo.facilitiesName : '로딩중...'  } />
                                         </FormGroup>

@@ -15,7 +15,6 @@ import BreadCrumbs from '../../layouts/breadcrumbs/BreadCrumbs';
 import { useParams,useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchChkinCounter, modifyChkinCounter, softdeleteChkinCounter } from '../../store/apps/airplane/chkinCounterSlice';
-import Location from "src/components/location/Location.js";
 import api from "src/store/apps/airplane/api.js";
 import ManagerDragAndDrop from "src/components/apps/managerDargAndDrop/ManagerDragAndDrop.js";
 import CustomModal  from "src/views/CustomModal.js";
