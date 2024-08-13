@@ -88,7 +88,6 @@ const onChangeHandler = e => {
 }
 
 
-
     useEffect(() => {
         setstorageInfo({
             ...storageInfo,

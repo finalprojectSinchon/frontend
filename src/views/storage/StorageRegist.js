@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import {
     Card,
     CardBody,
@@ -16,6 +16,7 @@ import { useNavigate } from 'react-router-dom';
 import {useDispatch, useSelector} from 'react-redux';
 import { createStorage } from '../../store/apps/storage/storageSlice';
 import CustomModal from "src/views/CustomModal.js";
+import Location from "src/components/location/Location.js";
 
 
 const StorageRegist = () => {
@@ -25,7 +26,16 @@ const StorageRegist = () => {
     const [type, setType] = useState('');
     const [content, setContent] = useState('');
     const userInfo = useSelector((state) => state.userInfo);
+    const [locationState, setLocationState] = useState()
 
+    useEffect(() => {
+        setStorageInfo({
+            ...storageInfo,
+            location : locationState
+        })
+
+
+    }, [locationState]);
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const [storageInfo, setStorageInfo] = useState({
@@ -100,7 +110,7 @@ const StorageRegist = () => {
                                     <Col md="6">
                                         <FormGroup>
                                             <Label>창고위치</Label>
-                                            <Input type="text" name='location' value={storageInfo.location} onChange={onChangeHandler} />
+                                            <Location setLocationState={setLocationState}/>
                                         </FormGroup>
                                     </Col>
                                     <Col md="6">
@@ -117,14 +127,6 @@ const StorageRegist = () => {
                                             <Input type="date" name='period' value={storageInfo.period} onChange={onChangeHandler} />
                                         </FormGroup>
                                     </Col>
-                                    <Col md="6">
-                                        <FormGroup>
-                                            <Label>담당자</Label>
-                                            <Input type="text" name='manager' value={storageInfo.manager} onChange={onChangeHandler} />
-                                        </FormGroup>
-                                    </Col>
-                                </Row>
-                                <Row>
                                     <Col md="6">
                                         <FormGroup>
                                             <Label>마지막 점검날짜</Label>

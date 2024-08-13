@@ -39,7 +39,8 @@ const ProfileUploader = () => {
           profileImageUrl: imageUrl,
         });
 
-        alert("프로필 사진 업로드 및 저장 완료!");
+
+
       } catch (error) {
         console.error("업로드 중 오류 발생:", error);
         alert("업로드 중 오류가 발생했습니다.");
