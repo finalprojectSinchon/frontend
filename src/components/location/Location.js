@@ -39,7 +39,7 @@ const Location = ({ setLocationState }) => {
 
     const handleRegionChange = (e) => {
         const selected = e.target.value;
-        console.log(selected)
+
         setSelectedRegion(selected);
 
         if (selected) {
@@ -55,14 +55,14 @@ const Location = ({ setLocationState }) => {
 
     const handleFloorChange = (e) => {
         const selected = e.target.value;
-        console.log(selected)
+
         setSelectedFloor(selected);
         if(selected) {
             api.get(`/api/v1/location/floors/${selectedRegion}/${selected}/locations`)
                 .then(res => res.data)
                 .then(data => {
                     setLocation(data.data);
-                    console.log(data);
+
                 })
                 .catch(error => {
                     console.error(error);

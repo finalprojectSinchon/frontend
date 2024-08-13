@@ -10,7 +10,6 @@ const NavSubItem = ({ to, icon, title, items, suffix, activeBck, suffixColor, dd
   const Handletoggle = () => {
     setIsOpen(!isOpen);
   };
-
   return (
     <NavItem className={`collapsed && getActive ? 'activeParent' : '' ${ddType}`}>
       <NavLink to={to} className="gap-3 cursor-pointer" onClick={Handletoggle}>

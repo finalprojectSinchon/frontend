@@ -26,7 +26,7 @@ const ContactDetails = () => {
   if (!contactDetail) {
     return 'Please Select The contact';
   }
-  console.log('contactDetail', contactDetail)
+
   const handleApproveClick = () => {
     if (!contactDetail.approvalCode) {
         setType('승인');
@@ -482,7 +482,7 @@ const ContactDetails = () => {
         return 'Select a valid filter';
     }
   };
-console.log('contactDetail',contactDetail)
+
   return (
     <>
       <div>

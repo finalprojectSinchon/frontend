@@ -86,8 +86,7 @@ const GateDetail = () => {
     if (gateDetail && gateDetail.data) {
       const gateData = gateDetail.data.gate;
 
-      console.log('gateCode',gateCode)
-      console.log('approve',approve)
+
       if (gateCode) {
         const gateApproval = approve.find(a => {
           return a.gate && a.gate.gateCode == gateCode && a.checked == 'N';

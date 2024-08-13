@@ -27,7 +27,7 @@ import CustomModal  from "src/views/CustomModal.js";
 const MaintenanceDetails = () => {
 
   const [customModal, setCustomModal] = useState(false);
-  const toggleCustomModal = () => setModal(!modal);
+  const toggleCustomModal = () => setCustomModal(!customModal);  // 수정된 부분
   const [type,setType] = useState('');
   const [content, setContent] = useState('');
 
@@ -37,13 +37,11 @@ const MaintenanceDetails = () => {
   const [maintenanceInfo, setMaintenanceInfo] = useState({});
   const [readOnly, setReadOnly] = useState(true);
   const [modal, setModal] = useState(false);
-  const [equipmentRegistered, setEquipmentRegistered] = useState(false); // New state for equipment registration
+  const [equipmentRegistered, setEquipmentRegistered] = useState(false);
   const result = useSelector((state) => state.maintenances.result);
 
 
   const userInfo = useSelector((state) => state.userInfo);
-
-
 
   const toggleModal = () => setModal(!modal);
 
@@ -61,8 +59,8 @@ const MaintenanceDetails = () => {
     toggleCustomModal();
 
     setTimeout(() => {
-    dispatch(softdeleteMaintenance({ maintenanceCode }));
-    navigate('/maintenance');
+      dispatch(softdeleteMaintenance({ maintenanceCode }));
+      navigate('/maintenance');
       window.location.reload();
     }, 3000);
   };
@@ -76,7 +74,7 @@ const MaintenanceDetails = () => {
       setMaintenanceInfo(maintenanceDetails.data.maintenanceDTO);
     }
     dispatch(maintenance({maintenanceCode}));
-  }, [maintenanceDetails]);
+  }, [maintenanceDetails, dispatch, maintenanceCode]);
 
   const handleEditClick = () => {
     if (readOnly) {
@@ -247,7 +245,7 @@ const MaintenanceDetails = () => {
           </Col>
         </Row>
         <EquipmentStock isOpen={modal} toggle={toggleModal} maintenance={maintenanceInfo} onEquipmentRegistered={handleEquipmentRegistered} />
-        <CustomModal  isOpen={customModal} toggle={toggleCustomModal()} type = {type} content={content}/>
+        <CustomModal  isOpen={customModal} toggle={toggleCustomModal} type = {type} content={content}/> {/* 수정된 부분 */}
 
       </div>
   );

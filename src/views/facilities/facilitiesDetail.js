@@ -107,15 +107,17 @@ const FacilitiesDetail = () => {
         api.put(`/api/v1/facilities/${facilitiesCode}`, facilitiesInfo)
             .then(res => {
                 setType('수정');
-                setContent('해당 편의시설 수정 승인을 요청했습니다..')
+                setContent('해당 편의시설 수정 승인을 요청했습니다.')
                 toggleModal();
                 setIsModify(true);
+                window.loaction.reload();
                 return res.data;
             })
             .catch(error => {
                 console.error('에러 : ', error);
             })
     }
+
 
     return (
         <div>
@@ -202,7 +204,7 @@ const FacilitiesDetail = () => {
                                         <Col md="12">
                                             <FormGroup>
                                                 <Label>비고</Label>
-                                                <Input type="textarea" placeholder="특이사항을 입력하세요"  rows="6" name='' readOnly={readOnly}/>
+                                                <Input type="textarea" placeholder="특이사항을 입력하세요"  rows="6" name='note' value={facilitiesInfo?.note} onChange={onChangeHandler}  readOnly={readOnly}/>
                                             </FormGroup>
                                         </Col>
                                     </Col>
@@ -226,9 +228,7 @@ const FacilitiesDetail = () => {
 
                                 <Col className="d-flex justify-content-center align-items-center">
                                     <div className="d-flex">
-                                        {userInfo.userRole === "ROLE_ADMIN" ?      <Button className="me-2" color="danger" onClick={onClickDelete}>
-                                            삭제하기
-                                        </Button> : null}
+
 
                                         {readOnly ? (
                                             <Button className="btn" color="primary" onClick={() => setReadOnly(false)}>
@@ -239,6 +239,9 @@ const FacilitiesDetail = () => {
                                                 저장하기
                                             </Button>
                                         )}
+                                        {userInfo.userRole === "ROLE_ADMIN" ?      <Button className="me-2" color="danger" onClick={onClickDelete}>
+                                            삭제하기
+                                        </Button> : null}
                                     </div>
                                 </Col>
                             </Form>

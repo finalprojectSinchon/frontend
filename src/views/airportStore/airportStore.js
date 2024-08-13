@@ -83,7 +83,7 @@ const AirportStore = () => {
     afterDeleteRow: onAfterDeleteRow,
     afterSearch,
     onRowClick: (row) => {
-      console.log('Row clicked: ', row.storeId);
+
       navigate(`/airport/store/${row.storeId}`);
     },
   };
@@ -103,8 +103,6 @@ const AirportStore = () => {
                 hover
                 search
                 data={Storedata}
-                insertRow
-                deleteRow
                 selectRow={selectRowProp}
                 pagination
                 options={options}
