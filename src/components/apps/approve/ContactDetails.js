@@ -448,32 +448,32 @@ const ContactDetails = () => {
           <>
             {contactDetail.checkinCounter && (
               <div>
-                <h5> {contactDetail.checkinCounter.approvalRequester.userName || 'N/A'}</h5>
+                <h5> {contactDetail.checkinCounter?.approvalRequester?.userName || 'N/A'}</h5>
               </div>
             )}
             {contactDetail.baggageClaim && (
               <div>
-                <h5>{contactDetail.baggageClaim.approvalRequester.userName  || 'N/A'}</h5>
+                <h5>{contactDetail.baggageClaim?.approvalRequester?.userName  || 'N/A'}</h5>
               </div>
             )}
             {contactDetail.facilities && (
               <div>
-                <h5>{contactDetail.facilities.approvalRequester.userName  || 'N/A'}</h5>
+                <h5>{contactDetail.facilities?.approvalRequester?.userName  || 'N/A'}</h5>
               </div>
             )}
             {contactDetail.gate && (
               <div>
-                <h5>{contactDetail.gate.approvalRequester.userName  || 'N/A'}</h5>
+                <h5>{contactDetail.gate?.approvalRequester?.userName  || 'N/A'}</h5>
               </div>
             )}
             {contactDetail.storage && (
               <div>
-                <h5> {contactDetail.storage.approvalRequester.userName  || 'N/A'}</h5>
+                <h5> {contactDetail.storage?.approvalRequester?.userName  || 'N/A'}</h5>
               </div>
             )}
             {contactDetail.store && (
               <div>
-                <h5>{contactDetail.store.approvalRequester.userName  || 'N/A'}</h5>
+                <h5>{contactDetail.store?.approvalRequester?.userName  || 'N/A'}</h5>
               </div>
             )}
           </>

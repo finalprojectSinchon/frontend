@@ -125,16 +125,7 @@ const MaintenanceRegist = () => {
                   </Col>
                 </Row>
                 <Row>
-                  <Col md="6">
-                    <FormGroup>
-                      <Label>담당자</Label>
-                      <Input
-                        type="text"
-                        name="manager"
-                        onChange={onChangeHandler}
-                      />
-                    </FormGroup>
-                  </Col>
+
                   <Col md="6">
                     <FormGroup>
                       <Label>상태</Label>

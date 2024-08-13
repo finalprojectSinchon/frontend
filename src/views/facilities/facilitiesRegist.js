@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import {
     Card,
     CardBody,
@@ -13,9 +13,9 @@ import {
 } from 'reactstrap';
 import BreadCrumbs from '../../layouts/breadcrumbs/BreadCrumbs';
 import { useNavigate } from 'react-router-dom';
-import {useDispatch, useSelector} from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { createFacilities } from '../../store/apps/facilities/facilitiesSlice';
-import CustomModal  from "src/views/CustomModal.js";
+import CustomModal from "src/views/CustomModal.js";
 import Location from "src/components/location/Location.js";
 
 
@@ -23,13 +23,12 @@ const FacilitiesRegist = () => {
 
     const [modal, setModal] = useState(false);
     const toggleModal = () => setModal(!modal);
-    const [type,setType] = useState('');
+    const [type, setType] = useState('');
     const [content, setContent] = useState('');
 
     const userInfo = useSelector((state) => state.userInfo);
 
-    const [locationState, setLocationState] = useState('')
-
+    const [locationState, setLocationState] = useState('');
 
     const dispatch = useDispatch();
     const navigate = useNavigate();
@@ -37,21 +36,17 @@ const FacilitiesRegist = () => {
         facilitiesName: '',
         facilitiesStatus: '',
         facilitiesClass: '',
-        facilitiesLocation: '',
+        location: '',
         facilitiesType: '',
-        approvalRequester:userInfo
+        approvalRequester: userInfo,
     });
-
 
     useEffect(() => {
         setFacilitiesInfo({
             ...facilitiesInfo,
-            facilitiesLocation : locationState
+            location: locationState
         })
     }, [locationState]);
-
-    // readOnly 변수를 정의하고 초기화합니다.
-    const readOnly = false;
 
     const onChangeHandler = (e) => {
         setFacilitiesInfo({
@@ -62,24 +57,49 @@ const FacilitiesRegist = () => {
 
     const handleRegistClick = () => {
         setType('등록');
-        setContent('편의시설 등록 승인을 요청했습니다.')
+        setContent('편의시설 등록 승인을 요청했습니다.');
         toggleModal();
 
         setTimeout(() => {
-        dispatch(createFacilities({facilitiesInfo}));
-        navigate('/facilities');
-        window.location.reload();
+            dispatch(createFacilities({ facilitiesInfo }));
+            navigate('/facilities');
+            window.location.reload();
         }, 3000);
     };
 
 
+    const renderFacilitiesTypeOptions = () => {
+        if (facilitiesInfo.facilitiesClass === '편의시설') {
+            return (
+                <>
+                    <option value="">분류를 선택해주세요</option>
+                    <option value="락커">락커</option>
+                    <option value="흡연실">흡연실</option>
+                    <option value="샤워실">샤워실</option>
+                    <option value="남자화장실">남자화장실</option>
+                    <option value="여자화장실">여자화장실</option>
+                </>
+            );
+        } else if (facilitiesInfo.facilitiesClass === '이동수단') {
+            return (
+                <>
+                    <option value="">분류를 선택해주세요</option>
+                    <option value="엘리베이터">엘리베이터</option>
+                    <option value="에스컬레이터">에스컬레이터</option>
+                    <option value="무빙워크">무빙워크</option>
+                </>
+            );
+        } else {
+            return <option>취급품목을 입력하세요</option>;
+        }
+    };
 
     return (
         <div>
             <BreadCrumbs />
             <Row>
                 <Card>
-                    <CardBody >
+                    <CardBody>
                         <CardTitle tag="h4" className="mb-0">
                             편의시설 등록
                         </CardTitle>
@@ -107,9 +127,14 @@ const FacilitiesRegist = () => {
                             <Row>
                                 <Col md="6">
                                     <FormGroup>
-                                        <Label>type</Label>
-                                        <Input type="select" name="facilitiesClass" value={facilitiesInfo.facilitiesClass} onChange={onChangeHandler}>
-                                            <option>타입을 지정해주세요</option>
+                                        <Label>Type</Label>
+                                        <Input
+                                            type="select"
+                                            name="facilitiesClass"
+                                            value={facilitiesInfo.facilitiesClass}
+                                            onChange={onChangeHandler}
+                                        >
+                                            <option value="">타입을 지정해주세요</option>
                                             <option value="편의시설">편의시설</option>
                                             <option value="이동수단">이동수단</option>
                                         </Input>
@@ -118,38 +143,25 @@ const FacilitiesRegist = () => {
                                 <Col md="6">
                                     <FormGroup>
                                         <Label>분류</Label>
-                                        <Input type="select" name='facilitiesType'
-                                               onChange={onChangeHandler}
-                                               value={facilitiesInfo ? facilitiesInfo.facilitiesType : 'asd2'}>
-                                            <option>취급품목을 입력하세요</option>
-                                            <option name='엘리베이터'>엘리베이터</option>
-                                            <option name='에스컬레이터'>에스컬레이터</option>
-                                            <option name='무빙워크'>무빙워크</option>
-                                            <option name='락커'>락커</option>
-                                            <option name='흡연실'>흡연실</option>
-                                            <option name='샤워실'>샤워실</option>
-                                            <option name='남자화장실'>남자화장실</option>
-                                            <option name='여자화장실'>여자화장실</option>
+                                        <Input
+                                            type="select"
+                                            name="facilitiesType"
+                                            onChange={onChangeHandler}
+                                            value={facilitiesInfo.facilitiesType}
+                                        >
+                                            {renderFacilitiesTypeOptions()}
                                         </Input>
                                     </FormGroup>
                                 </Col>
                                 <Col md="6">
-                                   
-                                        {/*<Input type="text" name="facilitiesLocation" value={facilitiesInfo.facilitiesLocation} onChange={onChangeHandler} />*/}
-                                        <Location setLocationState={setLocationState} />
-
+                                    <Location setLocationState={setLocationState} />
                                 </Col>
                                 <Col md="6">
                                     <FormGroup>
                                         <Label>비고</Label>
-                                        <Input type="textarea" rows="6" name='' />
+                                        <Input type="textarea" rows="6" name="remark" />
                                     </FormGroup>
                                 </Col>
-
-                            </Row>
-                            <Row>
-
-
                             </Row>
                             <Col className="d-flex justify-content-center">
                                 <Button className="m-2" color="primary" onClick={handleRegistClick}>
@@ -160,8 +172,7 @@ const FacilitiesRegist = () => {
                     </CardBody>
                 </Card>
             </Row>
-            <CustomModal  isOpen={modal} toggle={toggleModal} type = {type} content={content}/>
-
+            <CustomModal isOpen={modal} toggle={toggleModal} type={type} content={content} />
         </div>
     );
 };
