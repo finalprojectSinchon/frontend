@@ -2,40 +2,55 @@ import React, { useState, useRef, useEffect } from 'react';
 import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
 import { Card, CardBody, Popover, PopoverHeader, PopoverBody, Table, Button } from 'reactstrap';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchBaggageClaims  } from '../../store/apps/airplane/baggageClaimSlice';
+import { fetchBaggageClaims } from '../../store/apps/airplane/baggageClaimSlice';
 import { useNavigate } from 'react-router-dom';
 import BreadCrumbs from '../../layouts/breadcrumbs/BreadCrumbs';
 import './img.css';
 import api from "src/store/apps/airplane/api.js";
 
+// 날짜 및 시간 포맷 함수
+const formatDateTime = (dateTime) => {
+  if (!dateTime || dateTime === '미정') return '미정';
+  const date = new Date(dateTime);
 
+  // 30분을 빼기
+  date.setMinutes(date.getMinutes() - 30);
 
+  // 날짜 및 시간 포맷 설정
+  const options = {
+    year: 'numeric',
+    month: 'numeric',
+    day: 'numeric',
+    hour: '2-digit',
+    minute: '2-digit',
+    second: '2-digit',
+    hour12: true
+  };
+
+  return date.toLocaleString('ko-KR', options); // 한국어 포맷 사용
+};
 
 function onAfterDeleteRow(rowKeys) {
   rowKeys.forEach(deleteRow);
-
 }
 
 const deleteRow = async (baggageClaimCode) => {
   api.put(`/api/v1/airplane/baggage-claim/${baggageClaimCode}/delete`)
       .then(res => {
-        alert("삭제 성공")
+        alert("삭제 성공");
       })
       .catch(err => {
-        alert("삭제 실패")
-        console.error('err',err)
-      })
+        alert("삭제 실패");
+        console.error('err', err);
+      });
 };
 
-
 function afterSearch(searchText, result) {
-
+  // 검색 후 처리 로직 (현재 빈 상태)
 }
-
 
 const selectRowProp = {
   mode: 'checkbox',
-
 };
 
 const cellEditProp = {
@@ -49,13 +64,12 @@ const convertPercentToCoords = (percentCoords, imgWidth, imgHeight) => {
 
   return coordsArray.map((coord, index) => {
     return index % 2 === 0
-      ? Math.round((coord / 100) * imgWidth)
-      : Math.round((coord / 100) * imgHeight);
+        ? Math.round((coord / 100) * imgWidth)
+        : Math.round((coord / 100) * imgHeight);
   }).join(',');
 };
 
 const statusFormatter = (cell, row) => {
-
   let styleClass;
   if (cell === '사용가능') {
     styleClass = 'bg-success2';
@@ -64,23 +78,17 @@ const statusFormatter = (cell, row) => {
   } else {
     styleClass = 'bg-success2';
   }
-  
+
   return (
-    <span className={`p-2 rounded-circle d-inline-block ${styleClass}`}></span>
+      <span className={`p-2 rounded-circle d-inline-block ${styleClass}`}></span>
   );
 };
 
-const formatDateTime = (dateTime) => {
-  if (!dateTime || dateTime === '미정') return '미정';
-  const date = new Date(dateTime);
-  return date.toLocaleString();
-};
 const Datatables = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const baggageClaimList = useSelector((state) => state.baggageClaims.baggageClaimList);
-
-  const userInfo = useSelector((state) => state.userInfo)
+  const userInfo = useSelector((state) => state.userInfo);
 
   useEffect(() => {
     if (userInfo && userInfo.userRole) {
@@ -140,23 +148,17 @@ const Datatables = () => {
     };
   }, [imageLoaded]);
 
-
   const options = {
-    afterDeleteRow: onAfterDeleteRow, 
-    afterSearch, 
+    afterDeleteRow: onAfterDeleteRow,
+    afterSearch,
     onRowClick: (row) => {
-
       navigate(`/airplane/baggage-claim/${row.baggageClaimCode}`);
-    
     },
   };
-
 
   useEffect(() => {
     dispatch(fetchBaggageClaims());
   }, [dispatch]);
-
-  
 
   if (!baggageClaimList || !baggageClaimList.data || !baggageClaimList.data.baggageClaimList) {
     return <div>Loading...</div>;
@@ -180,181 +182,169 @@ const Datatables = () => {
     navigate(`/airplane/baggage-claim/regist`, { state: { location: location } });
   };
 
-  const onClickHandler = (baggageClaimCode) =>() => {
-    navigate('/airplane/baggage-claim/'+baggageClaimCode);
-  }
-
+  const onClickHandler = (baggageClaimCode) => () => {
+    navigate('/airplane/baggage-claim/' + baggageClaimCode);
+  };
 
   return (
-    
-    <div>
-      <div className="container">
-        <div style={{ position: 'relative' }}>
-          <img
-            src='/1.png'
-            useMap='#roadmap'
-            alt='Roadmap'
-            ref={imageRef}
-            style={{ width: '100%', height: 'auto' }}
-            onLoad={() => setImageLoaded(true)}
-          />
-          <map name='roadmap'>
-            {mapData.map(area => (
-              <area
-                key={area.id}
-                shape='rect'
-                coords={area.coords}
-                href={area.href}
-                alt={area.label}
-                id={`area-${area.id}`}
-                onMouseEnter={() => handleMouseEnter(area.id)}
-                ref={(el) => { popoverTargets.current[area.id] = el; }}
-              />
-            ))}
-          </map>
-          {mapData.map(area => {
-            const [x1, y1, x2, y2] = area.coords.split(',').map(Number);
-            // const matchedCounter = flatBaggageClaimList.find(chkincounter => chkincounter.baggageClaimCode === area.id);
-            // const circleClass = matchedCounter ? 'red-circle' : 'green-circle'; // 조건에 따른 동그라미 색상
-            const circleClass = (() => {
-              const matchedCounter = flatBaggageClaimList.find(chkincounter => chkincounter.baggageClaimCode == area.id);
+      <div>
+        <div className="container">
+          <div style={{ position: 'relative' }}>
+            <img
+                src='/1.png'
+                useMap='#roadmap'
+                alt='Roadmap'
+                ref={imageRef}
+                style={{ width: '100%', height: 'auto' }}
+                onLoad={() => setImageLoaded(true)}
+            />
+            <map name='roadmap'>
+              {mapData.map(area => (
+                  <area
+                      key={area.id}
+                      shape='rect'
+                      coords={area.coords}
+                      href={area.href}
+                      alt={area.label}
+                      id={`area-${area.id}`}
+                      onMouseEnter={() => handleMouseEnter(area.id)}
+                      ref={(el) => { popoverTargets.current[area.id] = el; }}
+                  />
+              ))}
+            </map>
+            {mapData.map(area => {
+              const [x1, y1, x2, y2] = area.coords.split(',').map(Number);
+              const circleClass = (() => {
+                const matchedCounter = flatBaggageClaimList.find(chkincounter => chkincounter.baggageClaimCode == area.id);
 
-              if (!matchedCounter) {
-                // 만약 매칭되는 항목이 없으면 기본 색상으로 설정
-                console.warn(`Gate with code ${area.id} not found.`);
-                return 'red-circle';
-              }
+                if (!matchedCounter) {
+                  console.warn(`Gate with code ${area.id} not found.`);
+                  return 'red-circle';
+                }
 
+                return matchedCounter.status === "사용가능" ? 'green-circle' : 'red-circle';
+              })();
+              return (
+                  <div
+                      key={`circle-${area.id}`}
+                      className={circleClass}
+                      style={{
+                        left: `${x1 + 23}px`, // 동그라미의 중심 위치
+                        top: `${y1 + (y2 - y1) / 2}px`, // 동그라미의 중심 위치
+                        position: 'absolute'
+                      }}
+                  ></div>
+              );
+            })}
+            {mapData.map(area => {
+              const [x1, y1, x2, y2] = area.coords.split(',').map(Number);
+              const matchedCounter = flatBaggageClaimList.find(chkincounter => chkincounter.baggageClaimCode == area.label);
 
-              return matchedCounter.status === "사용가능" ? 'green-circle' : 'red-circle';
-            })();
-            return (
-              <div
-                key={`circle-${area.id}`}
-                className={circleClass}
-                style={{
-                  left: `${x1+23}px`, // 동그라미의 중심 위치
-                  top: `${y1 + (y2 - y1) / 2}px`, // 동그라미의 중심 위치
-                  position: 'absolute'
-                }}
-              ></div>
-            );
-          })}
-          {mapData.map(area => {
-            const [x1, y1, x2, y2] = area.coords.split(',').map(Number);
-            const matchedCounter = flatBaggageClaimList.find(chkincounter => chkincounter.baggageClaimCode == area.label);
-
-            return (
-              <Popover
-                key={area.id}
-                placement='top'
-                isOpen={popoverOpen === area.id}
-                target={`area-${area.id}`}
-                toggle={handleMouseLeave}
-                className='custom-popover'
-                style={{
-                  position: 'absolute',
-                  left: `${x1}px`,
-                  top: `${y1}px`,
-                  transform: 'translate(-50%, -80%)', 
-                  width:'260px'
-                }}
-              >
-                <PopoverHeader className='custom-popover-header'>
-                  {area.label} 카운터
-                  <Button close onClick={handleMouseLeave} />
-                </PopoverHeader>
-                <PopoverBody className='custom-popover-body'>
-                  {matchedCounter ? (
-                    <Table className='custom-table'>
-                      <tbody>
-                        <tr>
-                          <td><strong>항공사:</strong></td>
-                          <td>{matchedCounter?.airline}</td>
-                        </tr>
-                        <tr>
-                          <td><strong>출발/도착시간:</strong></td>
-                          <td>{matchedCounter?.scheduleDateTime}</td>
-                        </tr>
-                        <tr>
-                          <td><strong>위치:</strong></td>
-                          <td>{matchedCounter.location} 탑승구</td>
-                        </tr>
-                      </tbody>
-                    </Table>
-                  ) : (
-                    <Table className='custom-table'>
-                      <tbody>
-                      <tr>
-                          <td><strong>항공사:</strong></td>
-                          <td>등록 필요</td>
-                        </tr>
-                        <tr>
-                          <td><strong>출발/도착시간:</strong></td>
-                          <td>등록 필요</td>
-                        </tr>
-                        <tr>
-                          <td><strong>위치:</strong></td>
-                          <td>{area.label} 탑승구</td>
-                        </tr>
-                      </tbody>
-                    </Table>
-                  )}
-                   <div className="custom-button-wrapper">
+              return (
+                  <Popover
+                      key={area.id}
+                      placement='top'
+                      isOpen={popoverOpen === area.id}
+                      target={`area-${area.id}`}
+                      toggle={handleMouseLeave}
+                      className='custom-popover'
+                      style={{
+                        position: 'absolute',
+                        left: `${x1}px`,
+                        top: `${y1}px`,
+                        transform: 'translate(-50%, -80%)',
+                        width: '260px'
+                      }}
+                  >
+                    <PopoverHeader className='custom-popover-header'>
+                      {area.label} 번 수취대
+                      <Button close onClick={handleMouseLeave} />
+                    </PopoverHeader>
+                    <PopoverBody className='custom-popover-body'>
                       {matchedCounter ? (
-                        <Button className='custom-button' onClick={onClickHandler(matchedCounter.baggageClaimCode)}>
-                          상세보기
-                        </Button>
+                          <Table className='custom-table'>
+                            <tbody>
+                            <tr>
+                              <td><strong>항공사:</strong></td>
+                              <td>{matchedCounter?.airline}</td>
+                            </tr>
+                            <tr>
+                              <td><strong>출발/도착시간:</strong></td>
+                              <td>{matchedCounter?.scheduleDateTime}</td>
+                            </tr>
+                            <tr>
+                              <td><strong>위치:</strong></td>
+                              <td>{matchedCounter.location} 탑승구</td>
+                            </tr>
+                            </tbody>
+                          </Table>
                       ) : (
-                        <Button className='custom-button' onClick={handlerRegist(area.label)}>
-                          등록
-                        </Button>
+                          <Table className='custom-table'>
+                            <tbody>
+                            <tr>
+                              <td><strong>항공사:</strong></td>
+                              <td>등록 필요</td>
+                            </tr>
+                            <tr>
+                              <td><strong>출발/도착시간:</strong></td>
+                              <td>등록 필요</td>
+                            </tr>
+                            <tr>
+                              <td><strong>위치:</strong></td>
+                              <td>{area.label} 탑승구</td>
+                            </tr>
+                            </tbody>
+                          </Table>
                       )}
-                    </div>
-                </PopoverBody>
-              </Popover>
-            );
-          })}
+                      <div className="custom-button-wrapper">
+                        {matchedCounter ? (
+                            <Button className='custom-button' onClick={onClickHandler(matchedCounter.baggageClaimCode)}>
+                              상세보기
+                            </Button>
+                        ) : (
+                            <Button className='custom-button' onClick={handlerRegist(area.label)}>
+                              등록
+                            </Button>
+                        )}
+                      </div>
+                    </PopoverBody>
+                  </Popover>
+              );
+            })}
+          </div>
         </div>
+        <Card>
+          <CardBody>
+            <BreadCrumbs />
+            <BootstrapTable
+                hover
+                search
+                data={flatBaggageClaimList}
+                selectRow={selectRowProp}
+                options={options}
+                tableHeaderClass="mb-10"
+                exportCSV
+                headerStyle={{ width: '100%' }}
+            >
+              <TableHeaderColumn width="20.00%" dataField="baggageClaimCode" dataAlign="center" isKey>
+                수화물 수취대번호
+              </TableHeaderColumn>
+              <TableHeaderColumn width="20.00%" dataField="manager" dataAlign="center">
+                담당자
+              </TableHeaderColumn>
+              <TableHeaderColumn width="20.00%" dataField="airline" dataAlign="center">
+                항공사
+              </TableHeaderColumn>
+              <TableHeaderColumn width="20.00%" dataField="status" dataAlign="center" dataFormat={statusFormatter}>
+                상태
+              </TableHeaderColumn>
+              <TableHeaderColumn width="20.00%" dataField="scheduleDateTime" dataAlign="center">
+                수취대 시작시간
+              </TableHeaderColumn>
+            </BootstrapTable>
+          </CardBody>
+        </Card>
       </div>
-      <Card>
-        <CardBody>
-          {/* <CardTitle tag="h5">비행기</CardTitle>
-          <CardSubtitle className="mb-2 text-muted" tag="h6">
-            수화물 수취대  
-          </CardSubtitle> */}
-          <BreadCrumbs />
-        
-          <BootstrapTable
-            hover
-            search 
-            data={flatBaggageClaimList}
-            selectRow={selectRowProp}
-            options={options}
-            tableHeaderClass="mb-10"
-            exportCSV
-            headerStyle={{ width: '100%' }}
-          >
-            <TableHeaderColumn width="20.00%" dataField="baggageClaimCode" dataAlign="center" isKey>
-              수화물 수취대번호
-            </TableHeaderColumn>
-                 <TableHeaderColumn width="20.00%" dataField="manager" dataAlign="center">
-              담당자
-            </TableHeaderColumn>
-            <TableHeaderColumn width="20.00%" dataField="airline" dataAlign="center">
-              항공사
-            </TableHeaderColumn>
-            <TableHeaderColumn width="20.00%" dataField="status" dataAlign="center" dataFormat={statusFormatter}>
-              상태
-            </TableHeaderColumn>
-            <TableHeaderColumn width="20.00%" dataField="scheduleDateTime" dataAlign="center">
-              수취대 마감시간
-            </TableHeaderColumn>
-            
-          </BootstrapTable>
-        </CardBody>
-      </Card>
-    </div>
   );
 };
 
