@@ -132,7 +132,7 @@ const Datatables = () => {
                                 </div>
                             )}
                         >
-                            location
+                            시설물
                         </TableHeaderColumn>
                         <TableHeaderColumn
                             width="20%"
@@ -144,7 +144,7 @@ const Datatables = () => {
                                 </div>
                             )}
                         >
-                            type
+                            종류
                         </TableHeaderColumn>
                         <TableHeaderColumn
                             width="20%"
@@ -156,7 +156,7 @@ const Datatables = () => {
                                 </div>
                             )}
                         >
-                            Status
+                            상태
                         </TableHeaderColumn>
                         <TableHeaderColumn
                             width="20%"
@@ -168,7 +168,7 @@ const Datatables = () => {
                                 </div>
                             )}
                         >
-                            RegularInspectionDate
+                            등록날짜
                         </TableHeaderColumn>
                         <TableHeaderColumn
                             width="20%"
@@ -180,7 +180,7 @@ const Datatables = () => {
                                 </div>
                             )}
                         >
-                            Manager
+                            담당자
                         </TableHeaderColumn>
                     </BootstrapTable>
                 </CardBody>

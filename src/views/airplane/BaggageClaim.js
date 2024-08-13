@@ -348,7 +348,7 @@ const Datatables = () => {
               상태
             </TableHeaderColumn>
             <TableHeaderColumn width="20.00%" dataField="scheduleDateTime" dataAlign="center">
-              비행기 도착시간
+              수취대 마감시간
             </TableHeaderColumn>
             
           </BootstrapTable>
