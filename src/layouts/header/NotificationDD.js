@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { fetchApprove, notiChecked } from 'src/store/apps/approve/ContactSlice.js';
 
-const NotificationDD = ({ clearNotifications }) => {
+const NotificationDD = ({ clearNotifications, onNotificationCountChange }) => {
 
     const dispatch = useDispatch();
     const ApproveData = useSelector((state) => state.contacts.approveData);
@@ -12,15 +12,13 @@ const NotificationDD = ({ clearNotifications }) => {
     const [message, setMessage] = useState([]);
     const userInfo = useSelector((state) => state.userInfo);
 
-
     useEffect(() => {
         dispatch(fetchApprove());
     }, [dispatch]);
 
-
     useEffect(() => {
         const newApproveInfo = approves
-            .filter((approve) => approve.status == 'N' && approve.noti == 'N' && userInfo.userRole == "ROLE_ADMIN" )
+            .filter((approve) => approve.status === 'N' && approve.noti === 'N' && userInfo.userRole === "ROLE_ADMIN")
             .map((approve) => {
                 let structure = '';
                 let code = null;
@@ -44,16 +42,13 @@ const NotificationDD = ({ clearNotifications }) => {
                     code = approve.approvalCode;
                 }
 
+                const date = new Date(approve.createdDate);
 
-
-                    const date = new Date(approve.createdDate);
-
-                    const year = date.getFullYear();
-                    const month = String(date.getMonth() + 1).padStart(2, '0'); // 월은 0부터 시작하므로 +1
-                    const day = String(date.getDate()).padStart(2, '0');
-                    const hours = String(date.getHours()).padStart(2, '0');
-                    const minutes = String(date.getMinutes()).padStart(2, '0');
-
+                const year = date.getFullYear();
+                const month = String(date.getMonth() + 1).padStart(2, '0'); // 월은 0부터 시작하므로 +1
+                const day = String(date.getDate()).padStart(2, '0');
+                const hours = String(date.getHours()).padStart(2, '0');
+                const minutes = String(date.getMinutes()).padStart(2, '0');
 
                 return {
                     id: `${code}`,
@@ -64,8 +59,9 @@ const NotificationDD = ({ clearNotifications }) => {
                     time: `${year}년 ${month}월 ${day}일 ${hours}시 ${minutes}분`,
                 };
             });
+
         const newApproInfo = approves
-            .filter((approve) => approve.status == 'Y' && approve.noti == 'N' && userInfo.userRole =="ROLE_USER" )
+            .filter((approve) => approve.status === 'Y' && approve.noti === 'N' && userInfo.userRole === "ROLE_USER")
             .map((approve) => {
                 let structure = '';
                 let code = null;
@@ -106,17 +102,23 @@ const NotificationDD = ({ clearNotifications }) => {
                     time: `${year}년 ${month}월 ${day}일 ${hours}시 ${minutes}분`,
                 };
             });
-        setMessage([...newApproveInfo,...newApproInfo]);
-    }, [ApproveData]);
+
+        const combinedMessages = [...newApproveInfo, ...newApproInfo];
+        setMessage(combinedMessages);
+
+        // 알림 개수 전달
+        onNotificationCountChange(combinedMessages.length);
+
+    }, [ApproveData, userInfo, dispatch, onNotificationCountChange]);
 
     useEffect(() => {
         if (clearNotifications) {
             setMessage([]);
+            onNotificationCountChange(0); // 알림 개수를 0으로 리셋
         }
-    }, [clearNotifications]);
+    }, [clearNotifications, onNotificationCountChange]);
 
     const onClickHandler = (code) => {
-
         dispatch(notiChecked({ code }));
     };
 

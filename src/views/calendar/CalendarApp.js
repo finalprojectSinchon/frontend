@@ -7,6 +7,7 @@ import 'react-big-calendar/lib/css/react-big-calendar.css';
 import './calendar.scss';
 import { fetchMaintenances } from 'src/store/apps/maintenance/maintenanceSlice.js';
 import { useNavigate } from "react-router-dom";
+import api from "src/store/apps/airplane/api.js";
 
 moment.locale('ko');
 const localizer = momentLocalizer(moment);
@@ -16,56 +17,76 @@ const CalendarApp = () => {
     const maintenanceList = useSelector((state) => state.maintenances.maintenanceList);
     const maintenances = maintenanceList?.data?.maintenanceList || [];
     const userInfo = useSelector((state) => state.userInfo); // 유저 정보 가져오기
-    const [maintenanceInfo, setMaintenanceInfo] = useState([]);
     const [calenderData, setCalenderData] = useState([]);
+
+    const navigate = useNavigate();
 
     useEffect(() => {
         dispatch(fetchMaintenances());
     }, [dispatch]);
 
-
     useEffect(() => {
-        const myMaintenance = maintenances.filter((maintenance) => {
-            return (
-                (maintenance.manager == userInfo.userName)
-            );
-        });
-        console.log('maintenances',maintenances)
-        setMaintenanceInfo(myMaintenance);
-    }, [maintenanceList, userInfo]);
+        const fetchManagers = async (maintenanceCode) => {
+            try {
+                const response = await api.post('/api/v1/managers', {
+                    airportType: "maintenance",
+                    airportCode: maintenanceCode
+                });
+                return response.data.data;
+            } catch (error) {
+                console.error('Error fetching managers:', error);
+                return null;
+            }
+        };
 
+        const fetchMaintenanceInfo = async () => {
+            let myMaintenance = [];
 
+            for (let maintenance of maintenances) {
+                const managers = await fetchManagers(maintenance.maintenanceCode);
 
-    useEffect(() => {
-        const newCalendarData = maintenanceInfo.map(date => {
-            const maintenanceEndDate = new Date(date.maintenanceEndDate);
-            const maintenanceStartDate = new Date(date.maintenanceStartDate);
+                const managerList = Array.isArray(managers.Manager) ? managers.Manager : [managers.Manager];
+                console.log('managerList', managerList);
 
-            maintenanceEndDate.setDate(maintenanceEndDate.getDate() + 1);
+                if (managerList) {
+                    const userManagers = managerList.filter(manager => manager.username == userInfo.userName);
+                    console.log('userManagers', userManagers);
+                    if (userManagers.length > 0) {
+                        myMaintenance.push(maintenance);
+                    }
+                } else {
+                    console.error('No valid managers found:', managers);
+                }
+            }
 
-            return {
-                title: `${date.structure} 정비`,
-                start: maintenanceStartDate,
-                end: maintenanceEndDate,
-                allDay: true,
-                color: 'primary',
-                code: date.maintenanceCode
-            };
-        });
+            const newCalendarData = myMaintenance.map(maintenance => {
+                const maintenanceEndDate = new Date(maintenance.maintenanceEndDate);
+                const maintenanceStartDate = new Date(maintenance.maintenanceStartDate);
 
-        setCalenderData([...newCalendarData]);
-    }, [maintenanceInfo]);
+                maintenanceEndDate.setDate(maintenanceEndDate.getDate() + 1);
 
+                return {
+                    title: `${maintenance.structure} 정비`,
+                    start: maintenanceStartDate,
+                    end: maintenanceEndDate,
+                    allDay: true,
+                    color: 'primary',
+                    code: maintenance.maintenanceCode
+                };
+            });
 
+            setCalenderData(newCalendarData);
+        };
+
+        if (maintenances.length > 0) {
+            fetchMaintenanceInfo();
+        }
+    }, [maintenances, userInfo]);
 
     const eventColors = (event) => {
-        if (event.color) {
-            return { className: `event-${event.color}` };
-        }
-        return { className: `event-default` };
+        return { className: `event-${event.color || 'default'}` };
     };
 
-    const navigate = useNavigate();
     const onSelectEvent = (event) => {
         navigate(`/maintenance/${event.code}`);
     };
