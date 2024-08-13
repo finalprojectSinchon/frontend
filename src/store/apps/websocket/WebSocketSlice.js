@@ -1,6 +1,9 @@
 // websocketSlice.js
 import { createSlice } from '@reduxjs/toolkit';
 import { updateOnlineStatus, removeUserStatus } from "src/store/apps/websocket/StatusSlice.js";
+import { doc, setDoc, Timestamp } from "firebase/firestore";
+import {db} from "src/firebase.js";
+import {useSelector} from "react-redux";
 
 let socket = null;
 
@@ -39,17 +42,32 @@ const websocketSlice = createSlice({
 export const { setConnected, receiveMessage, clearMessages,  receiveSosAlert, clearSosAlert, toastMessage } = websocketSlice.actions;
 
 export const connectWebSocket = (userCode) => (dispatch) => {
+
+
     if (socket) {
         socket.close();
     }
 
     socket = new WebSocket(`ws://localhost:8080/ws?userCode=${userCode}`);
 
-    socket.onopen = () => {
+    socket.onopen = async () => {
 
         dispatch(setConnected(true));
         socket.send(JSON.stringify({ type: 'REQUEST_ALL_STATUSES' }));
+
+        // Firestore에 로그인 로그 남기기
+        try {
+            await setDoc(doc(db, "usersLogin", String(userCode)), {
+                lastLogin: new Date(),  // 현재 시간을 Date 객체로 설정
+                status: "online",
+                userCode : String(userCode) // userCode를 문자열로 변환
+            }, { merge: true });
+            // console.log("User login time recorded successfully.");
+        } catch (error) {
+            console.error("Error recording login time:", error);
+        }
     };
+
 
 
     socket.onmessage = (event) => {
