@@ -52,14 +52,15 @@ const StorageRegist = () => {
     const onChangeHandler = (e) => {
         setStorageInfo({
             ...storageInfo,
+            approvalRequester:userInfo,
             [e.target.name]: e.target.value,
         });
 
     };
-
+    console.log('storageInfo',storageInfo)
     const handleRegistClick = () => {
         setType('등록');
-        setContent('수하물 수취대 등록 승인을 요청했습니다.');
+        setContent('창고 등록 승인을 요청했습니다.');
         toggleModal();
         setTimeout(() => {
             dispatch(createStorage({ storageInfo }));
