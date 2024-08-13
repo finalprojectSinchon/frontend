@@ -103,8 +103,6 @@ const AirportStore = () => {
                 hover
                 search
                 data={Storedata}
-                insertRow
-                deleteRow
                 selectRow={selectRowProp}
                 pagination
                 options={options}

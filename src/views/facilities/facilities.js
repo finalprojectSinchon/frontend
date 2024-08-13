@@ -105,8 +105,6 @@ const Facilities = () => {
                         hover
                         search
                         data={FacilitiesData}
-                        insertRow
-                        deleteRow
                         selectRow={selectRowProp}
                         pagination
                         options={options}
