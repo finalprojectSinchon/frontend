@@ -72,8 +72,7 @@ const AuthCode = () => {
 
     const onSubmitHandler = (values, { setSubmitting }) => {
         setSubmitting(true);
-        // Add the logic for handling form submission
-        console.log(values);
+
         api
             .post('/api/v1/admin/auth/mail', values)
             .then((res) => res.data)

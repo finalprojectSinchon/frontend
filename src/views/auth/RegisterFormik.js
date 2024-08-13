@@ -53,7 +53,7 @@ const RegisterFormik = () => {
   });
 
   const submitHandler = (fields) => {
-    console.log(fields);
+
     api.post('/join', fields, {
       headers: {
          'Content-Type': 'application/json',

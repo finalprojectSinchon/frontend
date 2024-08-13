@@ -101,7 +101,7 @@ const ContactList = () => {
     if (a.status !== 'Y' && b.status === 'Y') return -1;
     return 0;
   });
-  console.log("999",sortedContacts)
+
 
   return (
     <Nav>

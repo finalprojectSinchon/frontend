@@ -10,12 +10,11 @@ const EquipmentListing = () => {
 
     const equipmentList = useSelector((state) => state.equipments.equipmentList);
     const equipments = equipmentList.data || [];
-    console.log('equipmentList',equipmentList);
+
     const dispatch = useDispatch();
     const currentFilter = useSelector(state => state.equipments.currentFilter);
     const sort = useSelector(state => state.equipments.sort);
 
-    console.log('sort',sort)
     useEffect(() => {
          dispatch(fetchEquipments());
      }, [dispatch]);
