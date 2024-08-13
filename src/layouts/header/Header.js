@@ -49,9 +49,9 @@ const Header = () => {
 
   const handleSosClick = () => {
     if(reason) {
-      dispatch(sendSosAlert('긴급 상황 발생! \n' + `\n 사유 : ${reason}`));
+      dispatch(sendSosAlert('긴급 상황 발생! \n 호출자 : ' + userInfo.userName + `\n 사유 : ${reason}`));
     } else {
-      dispatch(sendSosAlert('긴급 상황 발생!'));
+      dispatch(sendSosAlert('긴급 상황 발생! 호출자 : ' + userInfo.userName));
     }
     setReason('');
   }
