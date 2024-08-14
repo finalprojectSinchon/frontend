@@ -115,9 +115,6 @@ const Facilities = () => {
                         keyField = "facilitiesCode"
                     >
 
-                        <TableHeaderColumn width="15%" dataField="manager" dataAlign="center">
-                            담당자
-                        </TableHeaderColumn>
                         <TableHeaderColumn width="20%" dataField="location" dataAlign="center" >
                             위치
                         </TableHeaderColumn>

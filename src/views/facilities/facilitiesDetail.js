@@ -103,6 +103,7 @@ const FacilitiesDetail = () => {
         })
     }
 
+    console.log(facilitiesInfo)
     const onClickSave = () => {
         api.put(`/api/v1/facilities/${facilitiesCode}`, facilitiesInfo)
             .then(res => {
@@ -175,7 +176,7 @@ const FacilitiesDetail = () => {
                                                 name="facilitiesLocation"
                                                 onChange={onChangeHandler}
                                                 readOnly={readOnly}
-                                                value={location ? `${location.region} ${location.floor} ${location.location}` : '위치 데이터가 없습니다.'}
+                                                value={facilitiesInfo ? facilitiesInfo.location : '위치 데이터가 없습니다.'}
                                             />
                                         ) : (
                                             <InputGroup>
