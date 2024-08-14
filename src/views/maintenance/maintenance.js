@@ -60,6 +60,8 @@ const Datatables = () => {
     }
   };
 
+
+
   return (
       <div>
         <Card>
@@ -99,8 +101,8 @@ const Datatables = () => {
               <TableHeaderColumn width="20%" dataField="maintenanceEndDate" dataAlign="center">
                 정비일
               </TableHeaderColumn>
-              <TableHeaderColumn width="20%" dataField="file" dataAlign="center">
-                비용
+              <TableHeaderColumn width="20%" dataField="status" dataAlign="center">
+                상태
               </TableHeaderColumn>
             </BootstrapTable>
           </CardBody>
