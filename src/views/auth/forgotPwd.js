@@ -45,8 +45,12 @@ const ForgotPwd = () => {
     const handleSubmit = (fields) => {
         api.post('/account/search-id', fields)
             .then(response => {
-                localStorage.setItem('userId', response.data.data);
-                setModalData(`아이디는 '${response.data.data}' 입니다.`);
+                const userId = response.data.data;
+
+                // 아이디 마스킹 처리
+                const maskedUserId = maskUserId(userId);
+
+                setModalData(`아이디는 '${maskedUserId}' 입니다.`);
                 setModalType('success');
                 setModalOpen(true);
             })
@@ -55,7 +59,16 @@ const ForgotPwd = () => {
                 setModalType('error');
                 setModalOpen(true);
             });
+    };
 
+    // 아이디 마스킹 함수
+    const maskUserId = (userId) => {
+        if (userId.length <= 4) {
+            // 아이디가 4자리 이하일 경우, 앞 두 글자만 보여주고 나머지 모두 마스킹
+            return userId.substring(0, 2) + '**';
+        }
+        // 아이디가 4자리보다 클 경우, 앞 두 글자와 마지막 두 글자만 보여주고 중간 두 글자 마스킹
+        return userId.substring(0, 2) + '**' + userId.substring(4);
     };
 
     const handleCloseModal = () => {
@@ -129,10 +142,9 @@ const ForgotPwd = () => {
                 </Row>
             </Container>
 
-
             <Modal isOpen={modalOpen} toggle={handleCloseModal} centered={true}>
                 <ModalHeader toggle={handleCloseModal} className="text-center">
-                     {modalType === 'success' ? '아이디 찾기 성공' : '아이디 찾기 실패'}
+                    {modalType === 'success' ? '아이디 찾기 성공' : '아이디 찾기 실패'}
                 </ModalHeader>
                 <ModalBody>
                     <div>
@@ -153,5 +165,6 @@ const ForgotPwd = () => {
         </div>
     );
 };
+
 
 export default ForgotPwd;
