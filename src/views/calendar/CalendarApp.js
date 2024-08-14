@@ -63,7 +63,6 @@ const CalendarApp = () => {
                 const maintenanceEndDate = new Date(maintenance.maintenanceEndDate);
                 const maintenanceStartDate = new Date(maintenance.maintenanceStartDate);
 
-                maintenanceEndDate.setDate(maintenanceEndDate.getDate() + 1);
 
                 return {
                     title: `${maintenance.structure} 정비`,
